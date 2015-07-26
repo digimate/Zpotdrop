@@ -1,7 +1,7 @@
 <?php
 /*
 |--------------------------------------------------------------------------
-| ${FILE_NAME}
+| BaseModel.php
 |--------------------------------------------------------------------------
 | @Author     : John Nguyen
 | @Email      : pisun2@gmail.com
@@ -13,6 +13,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\BaseModel
+ *
+ */
 class BaseModel extends Model
 {
 }

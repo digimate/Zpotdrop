@@ -22,11 +22,11 @@
                         },
                         {
                             "paramType": "query",
-                            "name": "number",
+                            "name": "limit",
                             "type": "integer",
                             "required": true,
                             "allowMultiple": false,
-                            "description": "Number of items want to get"
+                            "description": "Maximum number of items want to get"
                         }
                     ],
                     "responseMessages": [

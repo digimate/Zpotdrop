@@ -7,8 +7,12 @@
             "description": "show/edit/destroy/feed/like/comment"
         },
         {
+            "path": "/Tables",
+            "description": "users/friends"
+        },
+        {
             "path": "/Users",
-            "description": "All related to users"
+            "description": "show/edit/update/follow/unfollow/feeds"
         }
     ]
 }

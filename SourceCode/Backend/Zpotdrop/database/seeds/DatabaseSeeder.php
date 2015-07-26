@@ -25,6 +25,14 @@ class DatabaseSeeder extends Seeder
 	    /*friend table*/
 	    factory('App\Models\Friend', 10)->create();
 
+	    /*post table*/
+	    factory('App\Models\Post', 10)->create();
+
+	    /*comments*/
+	    factory('App\Models\Comment', 100)->create();
+
+	    /*likes*/
+	    factory('App\Models\Like', 100)->create();
         Model::reguard();
     }
 }

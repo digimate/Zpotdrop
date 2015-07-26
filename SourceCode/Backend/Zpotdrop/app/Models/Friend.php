@@ -1,24 +1,40 @@
 <?php
+/*
+|--------------------------------------------------------------------------
+| BaseModel.php
+|--------------------------------------------------------------------------
+| @Author     : John Nguyen
+| @Email      : pisun2@gmail.com
+| @Copyright  : © 2015 LeapZone.
+| @Date       : 7/26/15 - 1:32 PM
+*/
 
 namespace App\Models;
 
-use App\Models\BaseModel;
-
 /**
- * App\Friend
+ * App\Models\Friend
  *
- * @property integer $id
+ * @SWG\Model (
+ *    id="Friend",
+ * 	@SWG\Property(name="id", type="integer", required=true),
+ * 	@SWG\Property(name="user_id", type="integer", required=true),
+ * 	@SWG\Property(name="friend_id", type="integer", required=true),
+ *  @SWG\Property(name="is_friend", type="integer", description="not friend: 0, friend: 1"),
+ *  @SWG\Property(name="created_at", type="string",format="datetime"),
+ *  @SWG\Property(name="updated_at", type="string",format="datetime"),
+ * )
  * @property integer $user_id
  * @property integer $friend_id
  * @property boolean $is_friend
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @method static \Illuminate\Database\Query\Builder|\App\Friend whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Friend whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Friend whereFriendId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Friend whereIsFriend($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Friend whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Friend whereUpdatedAt($value)
+ * @property-read \App\Models\User $user
+ * @property-read \App\Models\User $friend
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Friend whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Friend whereFriendId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Friend whereIsFriend($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Friend whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Friend whereUpdatedAt($value)
  */
 class Friend extends BaseModel
 {

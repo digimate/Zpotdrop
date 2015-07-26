@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
 	        $table->string('last_name', 50)->nullable();
 	        $table->string('phone_number', 20);
 	        $table->string('home_town');
-	        $table->tinyInteger('age', false)->nullable();
+	        $table->date('birthday')->nullable();
 	        $table->boolean('is_private')->default(false);
 	        $table->boolean('is_enable_all_zpot')->default(false);
 	        $table->float('lat')->nullable();
@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
 	        $table->tinyInteger('status')->default(1); //active
 	        $table->string('device_id', 100)->nullable();
 	        $table->string('device_name', 255)->nullable();
-	        $table->tinyInteger('device_type'); //0: ios 1: android 3: web
+	        $table->tinyInteger('device_type'); //0: ios 1: android 2: web
 	        $table->rememberToken();
 	        $table->timestamps();
         });

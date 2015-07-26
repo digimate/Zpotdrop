@@ -19,7 +19,7 @@ use Illuminate\Routing\Controller;
  * @SWG\Resource(
  *    apiVersion="1.0",
  *    resourcePath="Users",
- *    description="All related to users",
+ *    description="show/edit/update/follow/unfollow/feeds",
  *    produces="['application/json']"
  * )
  */
@@ -139,8 +139,8 @@ class UsersController extends Controller
 	 *      	type="integer"
 	 *      	),
 	 *      @SWG\Parameter(
-	 *			name="number",
-	 *			description="Number of items want to get",
+	 *			name="limit",
+	 *			description="Maximum number of items want to get",
 	 *			paramType="query",
 	 *      	required=true,
 	 *      	allowMultiple=false,

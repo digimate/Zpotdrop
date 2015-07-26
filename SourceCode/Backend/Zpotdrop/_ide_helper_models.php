@@ -1,12 +1,51 @@
 <?php
+/**
+ * An helper file for your Eloquent Models
+ * Copy the phpDocs from this file to the correct Model,
+ * And remove them from this file, to prevent double declarations.
+ *
+ * @author Barry vd. Heuvel <barryvdh@gmail.com>
+ */
 
-namespace App\Models;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+namespace App\Models{
+/**
+ * App\Models\BaseModel
+ *
+ */
+	class BaseModel {}
+}
 
+namespace App\Models{
+/**
+ * App\Models\Friend
+ *
+ * @SWG\Model (
+ *    id="Friend",
+ * 	@SWG\Property(name="id", type="integer", required=true),
+ * 	@SWG\Property(name="user_id", type="integer", required=true),
+ * 	@SWG\Property(name="friend_id", type="integer", required=true),
+ *  @SWG\Property(name="is_friend", type="integer", description="not friend: 0, friend: 1"),
+ *  @SWG\Property(name="created_at", type="string",format="datetime"),
+ *  @SWG\Property(name="updated_at", type="string",format="datetime"),
+ * )
+ * @property integer $user_id
+ * @property integer $friend_id
+ * @property boolean $is_friend
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \App\Models\User $user
+ * @property-read \App\Models\User $friend
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Friend whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Friend whereFriendId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Friend whereIsFriend($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Friend whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Friend whereUpdatedAt($value)
+ */
+	class Friend {}
+}
+
+namespace App\Models{
 /**
  * App\Models\User
  *
@@ -74,53 +113,6 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereUpdatedAt($value)
  */
-class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract
-{
-	use Authenticatable, CanResetPassword;
-
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'users';
-
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = [
-		'email',
-		'password',
-		'first_name',
-		'last_name',
-		'phone_number',
-		'home_town',
-		'age',
-		'is_private',
-		'is_enable_all_zpot',
-		'lat',
-		'long',
-		'status'
-	];
-
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = ['password', 'remember_token'];
-
-	/*
-	 * Status of user
-	 * @default: 1: active
-	 * 0: inactive
-	 */
-	const STATUS_ACTIVE     = 1;
-	const STATUS_INACTIVE   = 0;
-
-	/*
-	 * Repository
-	 */
+	class User {}
 }
+
