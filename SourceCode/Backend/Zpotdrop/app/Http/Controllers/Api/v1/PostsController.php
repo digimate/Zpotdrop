@@ -25,18 +25,10 @@ class PostsController extends ApiController
 {
 	/**
 	 * @SWG\Api(
-	 *    path="/posts/{id}/show",
+	 *    path="/posts/list",
 	 *      @SWG\Operation(
 	 *        method="GET",
-	 *        summary="Get detail post",
-	 *      @SWG\Parameter(
-	 *			name="id",
-	 *			description="ID of Post",
-	 *			paramType="query",
-	 *      	required=true,
-	 *      	allowMultiple=false,
-	 *      	type="integer"
-	 *      	),
+	 *        summary="Get post list",
 	 *      @SWG\Parameter(
 	 *			name="page",
 	 *			description="Page index: 1,2,3,4",
@@ -61,8 +53,7 @@ class PostsController extends ApiController
 	public function index()
 	{
 		$post = Post::with(['comments', 'likes', 'user', 'comments.user', 'likes.user'])->paginate(\Input::get
-		('limit', 15))
-			->items();
+		('limit', 15))->items();
 		return response($post, 200);
 	}
 

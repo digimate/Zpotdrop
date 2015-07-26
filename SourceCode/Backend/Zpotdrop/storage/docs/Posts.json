@@ -25,6 +25,44 @@
             ]
         },
         {
+            "path": "/posts/list",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Get post list",
+                    "nickname": "index",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "page",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Page index: 1,2,3,4"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "limit",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Number of post want to get"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Detail of post"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Bad request"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "path": "/posts/{id}/comment",
             "operations": [
                 {
