@@ -15,6 +15,15 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
 
         // $this->call(UserTableSeeder::class);
+	    /*Truncate table*/
+	    //DB::table('friends')->truncate();
+	    //DB::table('users')->truncate();
+
+	    /*user table*/
+	    factory('App\Models\User', 10)->create();
+
+	    /*friend table*/
+	    factory('App\Models\Friend', 10)->create();
 
         Model::reguard();
     }

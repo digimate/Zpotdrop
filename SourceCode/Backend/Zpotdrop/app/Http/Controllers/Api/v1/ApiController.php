@@ -9,12 +9,18 @@
 | @Date       : 7/26/15 - 11:46 AM
 */
 
-namespace app\Http\Controllers\Api;
-
+namespace App\Http\Controllers\Api\v1;
 
 use Illuminate\Routing\Controller as BaseController;
 
 class ApiController extends BaseController
 {
 
+	/**
+	 * ApiController constructor.
+	 */
+	public function __construct()
+	{
+		$this->middleware('auth.api');
+	}
 }

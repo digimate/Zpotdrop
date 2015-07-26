@@ -2,7 +2,7 @@
 
 /*
 |--------------------------------------------------------------------------
-| Application Routes
+| Api Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register all of the routes for an application.
@@ -11,8 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['prefix' => 'api/v1'], function(){
+	Route::group(['namespace'=>'Api\v1'], function(){
+		Route::resource('users', 'UsersController');
+		Route::resource('friends', 'FriendsController');
+	});
 });
-
-include 'Routes/Api.php';

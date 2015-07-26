@@ -153,7 +153,7 @@ return [
 	    /*
 	     * Use for developing only
 	     */
-	    \Illuminate\Routing\GeneratorServiceProvider::class,
+	    \Laracasts\Generators\GeneratorsServiceProvider::class,
 	    \Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 	    \Barryvdh\Debugbar\ServiceProvider::class
 

@@ -11,11 +11,25 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email,
-        'password' => bcrypt(str_random(10)),
-        'remember_token' => str_random(10),
+        'first_name'        => $faker->firstName,
+	    'last_name'         => $faker->lastName,
+        'email'             => $faker->email,
+	    'avatar'            => $faker->imageUrl(120, 120, 'people', true),
+        'password'          => bcrypt('123456'),
+	    'phone_number'      => $faker->phoneNumber,
+	    'home_town'         => $faker->address,
+	    'age'               => rand(20, 100),
+		'lat'               => $faker->latitude,
+	    'long'              => $faker->longitude,
+        'remember_token'    => str_random(10),
     ];
+});
+
+$factory->define(App\Models\Friend::class, function(Faker\Generator $faker){
+	return [
+		'user_id'           => rand(1, 4),
+		'friend_id'         => rand(5, 10),
+	];
 });

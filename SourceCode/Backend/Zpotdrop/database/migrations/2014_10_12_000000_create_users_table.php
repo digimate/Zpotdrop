@@ -14,11 +14,21 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
             $table->string('email')->unique();
             $table->string('password', 60);
-            $table->rememberToken();
-            $table->timestamps();
+	        $table->string('avatar', 255)->nullable();
+	        $table->string('first_name', 50);
+	        $table->string('last_name', 50)->nullable();
+	        $table->string('phone_number', 20);
+	        $table->string('home_town');
+	        $table->tinyInteger('age', false)->nullable();
+	        $table->boolean('is_private')->default(false);
+	        $table->boolean('is_enable_all_zpot')->default(false);
+	        $table->float('lat')->nullable();
+	        $table->float('long')->nullable();
+	        $table->tinyInteger('status')->default(1); //active
+	        $table->rememberToken();
+	        $table->timestamps();
         });
     }
 
