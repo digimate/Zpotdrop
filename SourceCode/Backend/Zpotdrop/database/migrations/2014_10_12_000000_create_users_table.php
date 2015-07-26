@@ -27,6 +27,9 @@ class CreateUsersTable extends Migration
 	        $table->float('lat')->nullable();
 	        $table->float('long')->nullable();
 	        $table->tinyInteger('status')->default(1); //active
+	        $table->string('device_id', 100)->nullable();
+	        $table->string('device_name', 255)->nullable();
+	        $table->tinyInteger('device_type'); //0: ios 1: android 3: web
 	        $table->rememberToken();
 	        $table->timestamps();
         });

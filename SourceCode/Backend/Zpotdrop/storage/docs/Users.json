@@ -1,0 +1,179 @@
+{
+    "basePath": "",
+    "swaggerVersion": "1.2",
+    "apiVersion": "1.0",
+    "resourcePath": "Users",
+    "apis": [
+        {
+            "path": "/users/feeds",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Get feeds",
+                    "nickname": "feeds",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "page",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Page index"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "number",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Number of items want to get"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Feeds list"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Bad request"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/users/friends/{friend_id}/follow",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Follow a friend",
+                    "nickname": "follow",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "friend_id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "ID of friend!"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Register successful"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Bad request"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/users/friends/{friend_id}/un-follow",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "unFollow a friend",
+                    "nickname": "unFollow",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "friend_id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "ID of friend!"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Register successful"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Bad request"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/users/profile/edit",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Show detail profile for edit",
+                    "nickname": "edit",
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Profile of current user"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Bad request"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/users/profile/update",
+            "operations": [
+                {
+                    "method": "PATCH",
+                    "summary": "Update profile of current user",
+                    "nickname": "update",
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Update profile successful"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Bad request"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/users/profile/{id}/show",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Get detail profile of ID",
+                    "nickname": "show",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "ID of user"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Profile of user"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Bad request"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "produces": [
+        "application/json"
+    ]
+}

@@ -1,0 +1,159 @@
+{
+    "basePath": "",
+    "swaggerVersion": "1.2",
+    "apiVersion": "1.0",
+    "resourcePath": "Posts",
+    "apis": [
+        {
+            "path": "/posts/edit",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Show detail post",
+                    "nickname": "edit",
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Post detail"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Bad request"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/posts/{id}/comment",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Comment a post",
+                    "nickname": "comment",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "ID of post!"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "message",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Message"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Successful"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Bad request"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/posts/{id}/destroy",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Delete a post",
+                    "nickname": "destroy",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "ID of post!"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Successful"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Bad request"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/posts/{id}/like",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Like a post",
+                    "nickname": "like",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "ID of post!"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Successful"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Bad request"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/posts/{id}/show",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Get detail post",
+                    "nickname": "show",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "ID of Post"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Detail of post"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Bad request"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "produces": [
+        "application/json"
+    ]
+}

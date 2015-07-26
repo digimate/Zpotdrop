@@ -1,0 +1,14 @@
+{
+    "apiVersion": "v1.0",
+    "swaggerVersion": "1.2",
+    "apis": [
+        {
+            "path": "/Posts",
+            "description": "show/edit/destroy/feed/like/comment"
+        },
+        {
+            "path": "/Users",
+            "description": "All related to users"
+        }
+    ]
+}

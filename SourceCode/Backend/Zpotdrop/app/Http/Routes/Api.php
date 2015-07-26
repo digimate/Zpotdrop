@@ -15,5 +15,6 @@ Route::group(['prefix' => 'api/v1'], function(){
 	Route::group(['namespace'=>'Api\v1'], function(){
 		Route::resource('users', 'UsersController');
 		Route::resource('friends', 'FriendsController');
+		Route:get('friends/{id}/delete', 'FriendsController@delete');
 	});
 });

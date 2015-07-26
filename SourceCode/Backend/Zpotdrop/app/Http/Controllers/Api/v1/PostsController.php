@@ -1,45 +1,41 @@
 <?php
 /*
 |--------------------------------------------------------------------------
-| UsersController.php
+| PostsController.php
 |--------------------------------------------------------------------------
 | @Author     : John Nguyen
 | @Email      : pisun2@gmail.com
 | @Copyright  : © 2015 LeapZone.
-| @Date       : 7/26/15 - 1:45 PM
+| @Date       : 7/26/15 - 6:27 PM
 */
 
-namespace App\Http\Controllers\Api\v1;
-
-
-use App\Models\User;
-use Illuminate\Routing\Controller;
+namespace app\Http\Controllers\Api\v1;
 
 /**
  * @SWG\Resource(
  *    apiVersion="1.0",
- *    resourcePath="Users",
- *    description="All related to users",
+ *    resourcePath="Posts",
+ *    description="show/edit/destroy/feed/like/comment",
  *    produces="['application/json']"
  * )
  */
-class UsersController extends Controller
+class PostsController extends ApiController
 {
 	/**
 	 * @SWG\Api(
-	 *    path="/users/profile/{id}/show",
+	 *    path="/posts/{id}/show",
 	 *      @SWG\Operation(
 	 *        method="GET",
-	 *        summary="Get detail profile of ID",
+	 *        summary="Get detail post",
 	 *     @SWG\Parameter(
 	 *			name="id",
-	 *			description="ID of user",
+	 *			description="ID of Post",
 	 *			paramType="query",
 	 *      	required=true,
 	 *      	allowMultiple=false,
 	 *      	type="integer"
 	 *      	),
-	 *		@SWG\ResponseMessage(code=200, message="Profile of user"),
+	 *		@SWG\ResponseMessage(code=200, message="Detail of post"),
 	 *      @SWG\ResponseMessage(code=400, message="Bad request")
 	 *    )
 	 * )
@@ -50,11 +46,11 @@ class UsersController extends Controller
 
 	/**
 	 * @SWG\Api(
-	 *    path="/users/profile/edit",
+	 *    path="/posts/edit",
 	 *      @SWG\Operation(
 	 *        method="GET",
-	 *        summary="Show detail profile for edit",
-	 *		@SWG\ResponseMessage(code=200, message="Profile of current user"),
+	 *        summary="Show detail post",
+	 *		@SWG\ResponseMessage(code=200, message="Post detail"),
 	 *      @SWG\ResponseMessage(code=400, message="Bad request")
 	 *    )
 	 * )
@@ -65,93 +61,78 @@ class UsersController extends Controller
 
 	/**
 	 * @SWG\Api(
-	 *    path="/users/profile/update",
-	 *      @SWG\Operation(
-	 *        method="PATCH",
-	 *        summary="Update profile of current user",
-	 *		@SWG\ResponseMessage(code=200, message="Update profile successful"),
-	 *      @SWG\ResponseMessage(code=400, message="Bad request")
-	 *    )
-	 * )
-	 */
-	public function update()
-	{
-	}
-
-	/**
-	 * @SWG\Api(
-	 *    path="/users/friends/{friend_id}/follow",
+	 *    path="/posts/{id}/destroy",
 	 *      @SWG\Operation(
 	 *        method="POST",
-	 *        summary="Follow a friend",
+	 *        summary="Delete a post",
 	 *      @SWG\Parameter(
-	 *			name="friend_id",
-	 *			description="ID of friend!",
+	 *			name="id",
+	 *			description="ID of post!",
 	 *			paramType="query",
 	 *      	required=true,
 	 *      	allowMultiple=false,
 	 *      	type="integer"
 	 *      	),
-	 *		@SWG\ResponseMessage(code=200, message="Register successful"),
+	 *		@SWG\ResponseMessage(code=200, message="Successful"),
 	 *      @SWG\ResponseMessage(code=400, message="Bad request")
 	 *    )
 	 * )
 	 */
-	public function follow($friend_id)
+	public function destroy($id)
 	{
 	}
 
 	/**
 	 * @SWG\Api(
-	 *    path="/users/friends/{friend_id}/un-follow",
+	 *    path="/posts/{id}/like",
 	 *      @SWG\Operation(
 	 *        method="POST",
-	 *        summary="unFollow a friend",
+	 *        summary="Like a post",
 	 *      @SWG\Parameter(
-	 *			name="friend_id",
-	 *			description="ID of friend!",
+	 *			name="id",
+	 *			description="ID of post!",
 	 *			paramType="query",
 	 *      	required=true,
 	 *      	allowMultiple=false,
 	 *      	type="integer"
 	 *      	),
-	 *		@SWG\ResponseMessage(code=200, message="Register successful"),
+	 *		@SWG\ResponseMessage(code=200, message="Successful"),
 	 *      @SWG\ResponseMessage(code=400, message="Bad request")
 	 *    )
 	 * )
 	 */
-	public function unFollow($friend_id)
+	public function like($id)
 	{
 	}
 
 	/**
 	 * @SWG\Api(
-	 *    path="/users/feeds",
+	 *    path="/posts/{id}/comment",
 	 *      @SWG\Operation(
-	 *        method="GET",
-	 *        summary="Get feeds",
+	 *        method="POST",
+	 *        summary="Comment a post",
 	 *      @SWG\Parameter(
-	 *			name="page",
-	 *			description="Page index",
+	 *			name="id",
+	 *			description="ID of post!",
 	 *			paramType="query",
 	 *      	required=true,
 	 *      	allowMultiple=false,
 	 *      	type="integer"
 	 *      	),
 	 *      @SWG\Parameter(
-	 *			name="number",
-	 *			description="Number of items want to get",
+	 *			name="message",
+	 *			description="Message",
 	 *			paramType="query",
 	 *      	required=true,
 	 *      	allowMultiple=false,
-	 *      	type="integer"
+	 *      	type="string"
 	 *      	),
-	 *		@SWG\ResponseMessage(code=200, message="Feeds list"),
+	 *		@SWG\ResponseMessage(code=200, message="Successful"),
 	 *      @SWG\ResponseMessage(code=400, message="Bad request")
 	 *    )
 	 * )
 	 */
-	public function feeds($friend_id)
+	public function comment($id)
 	{
 	}
 }
