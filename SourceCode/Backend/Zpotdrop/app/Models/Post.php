@@ -12,19 +12,23 @@
 namespace App\Models;
 
 /**
- * App\Models\Post
+ * Class Post
  *
+ * @package App\Models
  * @property integer $id 
  * @property string $status 
  * @property string $venue_name 
  * @property float $venue_lat 
  * @property float $venue_long 
  * @property integer $user_id 
- * @property integer $likes_count
- * @property integer $comments_count
+ * @property integer $likes_count 
+ * @property integer $comments_count 
  * @property string $deleted_at 
  * @property \Carbon\Carbon $created_at 
  * @property \Carbon\Carbon $updated_at 
+ * @property-read \App\Models\User $user 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments 
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Like[] $likes 
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereStatus($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereVenueName($value)
@@ -36,10 +40,21 @@ namespace App\Models;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereUpdatedAt($value)
- */
-/**
- * Class Post
- * @package App\Models
+ *
+ * @SWG\Model (
+ *    id="Post",
+ * 	@SWG\Property(name="id", type="integer", required=true),
+ * 	@SWG\Property(name="status", type="string", required=true),
+ * 	@SWG\Property(name="venue_name", type="string", required=true),
+ *  @SWG\Property(name="venue_lat", type="float"),
+ * 	@SWG\Property(name="venue_long", type="float"),
+ * 	@SWG\Property(name="user_id", type="integer"),
+ * 	@SWG\Property(name="likes_count", type="integer"),
+ * 	@SWG\Property(name="comments_count", type="integer"),
+ *  @SWG\Property(name="deleted_at", type="string",format="datetime"),
+ *  @SWG\Property(name="created_at", type="string",format="datetime"),
+ *  @SWG\Property(name="updated_at", type="string",format="datetime"),
+ * )
  */
 class Post extends BaseModel
 {

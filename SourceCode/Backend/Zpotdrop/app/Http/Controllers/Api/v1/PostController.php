@@ -21,7 +21,7 @@ use App\Models\Post;
  *    produces="['application/json']"
  * )
  */
-class PostsController extends ApiController
+class PostController extends ApiController
 {
 	/**
 	 * @SWG\Api(

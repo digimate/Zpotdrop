@@ -5,13 +5,46 @@
     "resourcePath": "Tables",
     "apis": [
         {
+            "path": "/tables/comments",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Comments table",
+                    "nickname": "comments",
+                    "type": "Comment"
+                }
+            ]
+        },
+        {
             "path": "/tables/friends",
             "operations": [
                 {
                     "method": "GET",
                     "summary": "Friends table",
                     "nickname": "friends",
-                    "type": "Friends"
+                    "type": "Friend"
+                }
+            ]
+        },
+        {
+            "path": "/tables/likes",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Likes table",
+                    "nickname": "likes",
+                    "type": "Like"
+                }
+            ]
+        },
+        {
+            "path": "/tables/posts",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Posts table",
+                    "nickname": "posts",
+                    "type": "Post"
                 }
             ]
         },
@@ -22,11 +55,228 @@
                     "method": "GET",
                     "summary": "Users table",
                     "nickname": "users",
-                    "type": "Users"
+                    "type": "User"
                 }
             ]
         }
     ],
+    "models": {
+        "User": {
+            "id": "User",
+            "description": "App\\Models\\User",
+            "required": [
+                "email",
+                "first_name",
+                "id",
+                "password"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "avatar": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "home_town": {
+                    "type": "string"
+                },
+                "birthday": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "is_private": {
+                    "type": "boolean"
+                },
+                "is_enable_all_zpot": {
+                    "type": "boolean"
+                },
+                "lat": {
+                    "type": "float"
+                },
+                "long": {
+                    "type": "float"
+                },
+                "status": {
+                    "description": "1: active, 0: inactive",
+                    "type": "integer"
+                },
+                "device_id": {
+                    "type": "string"
+                },
+                "device_name": {
+                    "type": "string"
+                },
+                "device_type": {
+                    "type": "integer"
+                },
+                "remember_token": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "datetime"
+                }
+            }
+        },
+        "Friend": {
+            "id": "Friend",
+            "description": "App\\Models\\Friend",
+            "required": [
+                "friend_id",
+                "id",
+                "user_id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "friend_id": {
+                    "type": "integer"
+                },
+                "is_friend": {
+                    "description": "not friend: 0, friend: 1",
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "datetime"
+                }
+            }
+        },
+        "Post": {
+            "id": "Post",
+            "description": "Class Post",
+            "required": [
+                "id",
+                "status",
+                "venue_name"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "venue_name": {
+                    "type": "string"
+                },
+                "venue_lat": {
+                    "type": "float"
+                },
+                "venue_long": {
+                    "type": "float"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "likes_count": {
+                    "type": "integer"
+                },
+                "comments_count": {
+                    "type": "integer"
+                },
+                "deleted_at": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "datetime"
+                }
+            }
+        },
+        "Like": {
+            "id": "Like",
+            "description": "App\\Models\\Like",
+            "required": [
+                "post_id",
+                "user_id"
+            ],
+            "properties": {
+                "user_id": {
+                    "type": "integer"
+                },
+                "post_id": {
+                    "type": "integer"
+                },
+                "deleted_at": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "datetime"
+                }
+            }
+        },
+        "Comment": {
+            "id": "Comment",
+            "description": "App\\Models\\Comment",
+            "required": [
+                "message",
+                "post_id",
+                "user_id"
+            ],
+            "properties": {
+                "user_id": {
+                    "type": "integer"
+                },
+                "post_id": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "deleted_at": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "datetime"
+                }
+            }
+        }
+    },
     "produces": [
         "application/json"
     ]

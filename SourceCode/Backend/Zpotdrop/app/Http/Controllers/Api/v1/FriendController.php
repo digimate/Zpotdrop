@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Models\Friend;
 use App\Models\User;
 
-class FriendsController extends ApiController
+class FriendController extends ApiController
 {
     public function index()
     {

@@ -23,7 +23,7 @@ use Illuminate\Routing\Controller;
  *    produces="['application/json']"
  * )
  */
-class UsersController extends Controller
+class UserController extends Controller
 {
 	/**
 	 * @SWG\Api(

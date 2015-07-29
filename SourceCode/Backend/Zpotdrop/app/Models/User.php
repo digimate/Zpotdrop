@@ -73,6 +73,8 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereRememberToken($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereUpdatedAt($value)
+ * @property string $birthday 
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereBirthday($value)
  */
 class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract
 {
@@ -97,6 +99,7 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 		'last_name',
 		'phone_number',
 		'home_town',
+		'birthday',
 		'age',
 		'is_private',
 		'is_enable_all_zpot',

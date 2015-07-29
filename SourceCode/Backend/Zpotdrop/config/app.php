@@ -149,6 +149,8 @@ return [
 	     */
 	    \Jlapp\Swaggervel\SwaggervelServiceProvider::class,
 	    \Intervention\Image\ImageServiceProvider::class,
+	    LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
+	    LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
 
 	    /*
 	     * Use for developing only
@@ -209,6 +211,7 @@ return [
 	     */
 		'Image'     => \Intervention\Image\Facades\Image::class,
 	    'SWG'       => Swagger\Annotations::class,
+	    'Authorizer'=> LucaDegasperi\OAuth2Server\Facades\Authorizer::class,
     ],
 
 ];

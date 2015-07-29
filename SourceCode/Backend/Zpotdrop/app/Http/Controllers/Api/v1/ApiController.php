@@ -12,15 +12,19 @@
 namespace App\Http\Controllers\Api\v1;
 
 use Illuminate\Routing\Controller as BaseController;
+use App\Acme\Restful\LZResponse;
 
 class ApiController extends BaseController
 {
-
+	/**
+	 * @var LZResponse
+	 */
+	protected $lzResponse;
 	/**
 	 * ApiController constructor.
 	 */
 	public function __construct()
 	{
-		$this->middleware('auth.api');
+		$this->lzResponse = new LZResponse();
 	}
 }

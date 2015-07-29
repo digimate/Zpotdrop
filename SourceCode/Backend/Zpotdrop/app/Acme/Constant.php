@@ -9,7 +9,7 @@
 | @Date       : 7/26/15 - 11:44 AM
 */
 
-namespace app\Zpotdrop;
+namespace App\Acme;
 
 
 class Constant

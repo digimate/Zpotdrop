@@ -19,9 +19,10 @@ class CreateUsersTable extends Migration
 	        $table->string('avatar', 255)->nullable();
 	        $table->string('first_name', 50);
 	        $table->string('last_name', 50)->nullable();
-	        $table->string('phone_number', 20);
+	        $table->date('date_of_birth')->nullable();
+	        $table->tinyInteger('gender')->nullable(); //0: male 1: female: 2: others
+	        $table->string('phone_number', 20)->unique();
 	        $table->string('home_town');
-	        $table->date('birthday')->nullable();
 	        $table->boolean('is_private')->default(false);
 	        $table->boolean('is_enable_all_zpot')->default(false);
 	        $table->float('lat')->nullable();
