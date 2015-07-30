@@ -12,6 +12,31 @@
 namespace App\Models;
 
 
+/**
+ * App\Models\Like
+ *
+ * @property integer $user_id 
+ * @property integer $post_id 
+ * @property string $deleted_at 
+ * @property \Carbon\Carbon $created_at 
+ * @property \Carbon\Carbon $updated_at 
+ * @property-read \App\Models\User $user 
+ * @property-read \App\Models\Post $post 
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Like whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Like wherePostId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Like whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Like whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Like whereUpdatedAt($value)
+ *
+ * @SWG\Model (
+ *    id="Like",
+ * 	@SWG\Property(name="user_id", type="integer", required=true),
+ * 	@SWG\Property(name="post_id", type="integer", required=true),
+ *  @SWG\Property(name="deleted_at", type="string",format="datetime"),
+ *  @SWG\Property(name="created_at", type="string",format="datetime"),
+ *  @SWG\Property(name="updated_at", type="string",format="datetime"),
+ * )
+ */
 class Like extends BaseModel
 {
 	/**

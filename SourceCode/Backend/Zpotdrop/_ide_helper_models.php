@@ -18,6 +18,36 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Comment
+ *
+ * @property integer $user_id
+ * @property integer $post_id
+ * @property string $message
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \App\Models\User $user
+ * @property-read \App\Models\Post $post
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Comment whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Comment wherePostId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Comment whereMessage($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Comment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Comment whereUpdatedAt($value)
+ * 
+ *  * @SWG\Model (
+ *    id="Comment",
+ * 	@SWG\Property(name="user_id", type="integer", required=true),
+ * 	@SWG\Property(name="post_id", type="integer", required=true),
+ * 	@SWG\Property(name="message", type="string", required=true),
+ *  @SWG\Property(name="deleted_at", type="string",format="datetime"),
+ *  @SWG\Property(name="created_at", type="string",format="datetime"),
+ *  @SWG\Property(name="updated_at", type="string",format="datetime"),
+ * )
+ */
+	class Comment {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Friend
  *
  * @SWG\Model (
@@ -43,6 +73,82 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Friend whereUpdatedAt($value)
  */
 	class Friend {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Like
+ *
+ * @property integer $user_id
+ * @property integer $post_id
+ * @property string $deleted_at
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \App\Models\User $user
+ * @property-read \App\Models\Post $post
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Like whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Like wherePostId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Like whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Like whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Like whereUpdatedAt($value)
+ * @SWG\Model (
+ *    id="Like",
+ * 	@SWG\Property(name="user_id", type="integer", required=true),
+ * 	@SWG\Property(name="post_id", type="integer", required=true),
+ *  @SWG\Property(name="deleted_at", type="string",format="datetime"),
+ *  @SWG\Property(name="created_at", type="string",format="datetime"),
+ *  @SWG\Property(name="updated_at", type="string",format="datetime"),
+ * )
+ */
+	class Like {}
+}
+
+namespace App\Models{
+/**
+ * Class Post
+ *
+ * @package App\Models
+ * @property integer $id
+ * @property string $status
+ * @property string $venue_name
+ * @property float $venue_lat
+ * @property float $venue_long
+ * @property integer $user_id
+ * @property integer $likes_count
+ * @property integer $comments_count
+ * @property string $deleted_at
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \App\Models\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Like[] $likes
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereStatus($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereVenueName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereVenueLat($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereVenueLong($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereLikesCount($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereCommentsCount($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereUpdatedAt($value)
+ * @SWG\Model (
+ *    id="Post",
+ * 	@SWG\Property(name="id", type="integer", required=true),
+ * 	@SWG\Property(name="status", type="string", required=true),
+ * 	@SWG\Property(name="venue_name", type="string", required=true),
+ *  @SWG\Property(name="venue_lat", type="float"),
+ * 	@SWG\Property(name="venue_long", type="float"),
+ * 	@SWG\Property(name="user_id", type="integer"),
+ * 	@SWG\Property(name="likes_count", type="integer"),
+ * 	@SWG\Property(name="comments_count", type="integer"),
+ *  @SWG\Property(name="deleted_at", type="string",format="datetime"),
+ *  @SWG\Property(name="created_at", type="string",format="datetime"),
+ *  @SWG\Property(name="updated_at", type="string",format="datetime"),
+ * )
+ */
+	class Post {}
 }
 
 namespace App\Models{
@@ -112,6 +218,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereRememberToken($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereUpdatedAt($value)
+ * @property string $birthday
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereBirthday($value)
  */
 	class User {}
 }

@@ -8,7 +8,7 @@
         },
         {
             "path": "/Tables",
-            "description": "users/friends"
+            "description": "Detail fields of each table"
         },
         {
             "path": "/Users",
