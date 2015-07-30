@@ -131,7 +131,17 @@
 
 -(IBAction)forgot:(id)sender
 {
-    
+    UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"Forgot password ?" message:@"Please enter your email" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Send", nil];
+    [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    [[alertView textFieldAtIndex:0] setKeyboardType:UIKeyboardTypeEmailAddress];
+    [[alertView textFieldAtIndex:0] setPlaceholder:@"example@example.com"];
+    [alertView showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        if (buttonIndex == 1)
+        {
+            
+        }
+    }];
+
 }
 
 -(IBAction)login:(id)sender
