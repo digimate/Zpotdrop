@@ -10,9 +10,14 @@
 #import "UIColor+HexColors.h"
 #import "UIAlertView+Blocks.h"
 #import "NSDate+Helper.h"
+#import "RuleService.h"
+#import "APIService.h"
 
 #define MAIN_COLOR @"b1cb89"
 
 @interface BaseViewController : UIViewController
-
+{
+    RuleService* _rule;
+    APIService* _api;
+}
 @end

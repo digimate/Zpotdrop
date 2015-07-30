@@ -18,6 +18,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupLayout];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(didHide:) name:UIKeyboardWillHideNotification object:nil];
+    [center addObserver:self selector:@selector(didShow:) name:UIKeyboardWillShowNotification object:nil];
+    
+}
+
+-(IBAction)didShow:(id)sender
+{
+    NSDictionary* keyboardInfo = [sender userInfo];
+    NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
+    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
+    [_mScrollView setContentSize:CGSizeMake(0, keyboardFrameBeginRect.size.height + _mScrollView.frame.size.height)];
+}
+
+-(IBAction)didHide:(id)sender
+{
+    [_mScrollView setContentSize:CGSizeMake(0, 0)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,6 +66,7 @@
     [_email addSubview:line];
     
     _password = [[UITextField alloc]initWithFrame:CGRectMake(_email.frame.origin.x, _email.frame.origin.y + _email.frame.size.height, _mScrollView.frame.size.width - 60, 40)];
+    [_password setSecureTextEntry:YES];
     [_password setPlaceholder:@"Password"];
     [_password setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_password setTextAlignment:NSTextAlignmentCenter];
@@ -60,6 +78,7 @@
     [_password addSubview:line1];
     
     _confirm = [[UITextField alloc]initWithFrame:CGRectMake(_password.frame.origin.x, _password.frame.origin.y + _password.frame.size.height, _mScrollView.frame.size.width - 60, 40)];
+    [_confirm setSecureTextEntry:YES];
     [_confirm setPlaceholder:@"Confirm again"];
     [_confirm setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_confirm setTextAlignment:NSTextAlignmentCenter];
@@ -84,11 +103,44 @@
     [_mScrollView setContentOffset:CGPointMake(0, textField.frame.origin.y - 100) animated:YES];
 }
 
-
 -(IBAction)next:(id)sender
 {
+    if (![_rule checkEmailStringIsCorrect:_email.text])
+    {
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"We're sorry" message:@"Your email doesn't incorrect format" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            [_email setText:@""];
+            [_email becomeFirstResponder];
+        }];
+        return;
+    }
+    if ([_password.text length] < 3)
+    {
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"We're sorry" message:@"Your password at least 3 characters" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            [_password setText:@""];
+            [_password becomeFirstResponder];
+        }];
+        return;
+    }
+    
+    if (![_confirm.text isEqualToString:_password.text])
+    {
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"We're sorry" message:@"Your password and confirm password doesn't match" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            [_confirm setText:@""];
+            [_confirm becomeFirstResponder];
+        }];
+        return;
+    }
     CompleteSignupViewController* vc = [[CompleteSignupViewController alloc]init];
+    vc.data = [NSMutableDictionary dictionaryWithObjects:@[_email.text, _password.text] forKeys:@[@"email", @"password"]];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "DateTextField.h"
 
 @interface CompleteSignupViewController : BaseViewController <UITextFieldDelegate>
 {
@@ -15,11 +16,15 @@
     
     UITextField* _firstName;
     UITextField* _lastName;
-    UITextField* _dob;
+    DateTextField* _dob;
     UIButton* _male;
     UIButton* _female;
     
     UIButton* _complete;
+    BOOL _gender; //YES: male, NO: female
+    NSDate* _dobData;
 }
+
+@property (nonatomic, retain) NSMutableDictionary* data;
 
 @end
