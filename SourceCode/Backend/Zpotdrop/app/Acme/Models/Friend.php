@@ -9,7 +9,7 @@
 | @Date       : 7/26/15 - 1:32 PM
 */
 
-namespace App\Models;
+namespace App\Acme\Models;
 
 /**
  * App\Models\Friend
@@ -65,10 +65,10 @@ class Friend extends BaseModel
 
 	/*Relations*/
 	public function user(){
-		return $this->belongsTo('App\Models\User', 'user_id');
+		return $this->belongsTo('App\Acme\Models\User', 'user_id');
 	}
 
 	public function friend(){
-		return $this->belongsTo('App\Models\User', 'friend_id');
+		return $this->belongsTo('App\Acme\Models\User', 'friend_id');
 	}
 }

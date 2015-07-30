@@ -148,16 +148,15 @@ return [
 	     * Custom Service Providers
 	     */
 	    \Jlapp\Swaggervel\SwaggervelServiceProvider::class,
-	    \Intervention\Image\ImageServiceProvider::class,
+	    Intervention\Image\ImageServiceProvider::class,
 	    LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
 	    LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
-
 	    /*
 	     * Use for developing only
 	     */
 	    \Laracasts\Generators\GeneratorsServiceProvider::class,
 	    \Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-	    \Barryvdh\Debugbar\ServiceProvider::class
+	    \Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 

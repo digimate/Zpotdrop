@@ -3,6 +3,10 @@
     "swaggerVersion": "1.2",
     "apis": [
         {
+            "path": "/Oauth",
+            "description": "oauth2.0"
+        },
+        {
             "path": "/Posts",
             "description": "show/edit/destroy/feed/like/comment"
         },

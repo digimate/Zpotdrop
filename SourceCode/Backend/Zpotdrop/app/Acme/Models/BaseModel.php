@@ -9,7 +9,7 @@
 | @Date       : 7/26/15 - 1:32 PM
 */
 
-namespace App\Models;
+namespace App\Acme\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

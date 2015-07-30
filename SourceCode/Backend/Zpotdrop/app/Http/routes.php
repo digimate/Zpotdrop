@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 include 'Routes/Api.php';
+include 'Routes/Common.php';

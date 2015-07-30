@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Acme\Models;
 
+use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -95,17 +96,20 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 	protected $fillable = [
 		'email',
 		'password',
+		'avatar',
 		'first_name',
 		'last_name',
 		'phone_number',
 		'home_town',
 		'birthday',
-		'age',
 		'is_private',
 		'is_enable_all_zpot',
 		'lat',
 		'long',
-		'status'
+		'status',
+		'device_id',
+		'device_name',
+		'device_type'
 	];
 
 	/**
@@ -122,6 +126,26 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 	 */
 	const STATUS_ACTIVE     = 1;
 	const STATUS_INACTIVE   = 0;
+
+	const GENDER_MALE       = 0;
+	const GENDER_FEMALE     = 1;
+	const GENDER_OTHERS     = 2;
+
+	const DEVICE_TYPE_IOS       = 0;
+	const DEVICE_TYPE_ANDROID   = 1;
+	const DEVICE_TYPE_WEB       = 2;
+
+	/**
+	 * Update the model in the database.
+	 *
+	 * @param  array $attributes
+	 * @return bool|int
+	 */
+	public function update(array $attributes = [])
+	{
+		$this->setAttribute('birthday', Carbon::createFromFormat('d-m-Y', $this->getAttribute('birthday')));
+		return parent::update($attributes);
+	}
 
 	/*
 	 * Repository

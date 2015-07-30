@@ -1,0 +1,243 @@
+{
+    "basePath": "",
+    "swaggerVersion": "1.2",
+    "apiVersion": "1.0",
+    "resourcePath": "/Oauth",
+    "apis": [
+        {
+            "path": "/oauth/login",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Login",
+                    "nickname": "login",
+                    "parameters": [
+                        {
+                            "paramType": "header",
+                            "name": "grant_type",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Grant type for Oauth2.0: password/refresh_token",
+                            "defaultValue": "password"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "client_id",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Client id: s6BhdRkqt3",
+                            "defaultValue": "s6BhdRkqt3"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "client_secret",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Client secret: 7Fjfp0ZBr1KtDRbnfVdmIw",
+                            "defaultValue": "7Fjfp0ZBr1KtDRbnfVdmIw"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "username",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Email",
+                            "defaultValue": "pisun2@gmail.com"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "password",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Plain password",
+                            "defaultValue": "123456"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Login successful"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Bad request"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/oauth/logout",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Logout",
+                    "nickname": "logout",
+                    "parameters": [
+                        {
+                            "paramType": "header",
+                            "name": "grant_type",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Grant type for Oauth2.0: password/refresh_token",
+                            "defaultValue": "password"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "client_id",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Client id: s6BhdRkqt3",
+                            "defaultValue": "s6BhdRkqt3"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "client_secret",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Client secret: 7Fjfp0ZBr1KtDRbnfVdmIw",
+                            "defaultValue": "7Fjfp0ZBr1KtDRbnfVdmIw"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "access_token",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Access token"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Logout successful"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/oauth/register",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Register new user",
+                    "nickname": "register",
+                    "parameters": [
+                        {
+                            "paramType": "header",
+                            "name": "grant_type",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Grant type for Oauth2.0: password/refresh_token",
+                            "defaultValue": "password"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "client_id",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Client id: s6BhdRkqt3",
+                            "defaultValue": "s6BhdRkqt3"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "client_secret",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Client secret: 7Fjfp0ZBr1KtDRbnfVdmIw",
+                            "defaultValue": "7Fjfp0ZBr1KtDRbnfVdmIw"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "username",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Email",
+                            "defaultValue": "pisun2@gmail.com"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "password",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Plain password",
+                            "defaultValue": "123456"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "email",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Email",
+                            "defaultValue": "pisun2@gmail.com"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "first_name",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "First Name",
+                            "defaultValue": "Phu"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "last_name",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Last name",
+                            "defaultValue": "Nguyen"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "birthday",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Birthday: dd-mm-YYYY",
+                            "defaultValue": "17-03-1988"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "gender",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Gender: 0 male, 1: female, 2: others",
+                            "defaultValue": "0"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Register successful"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Bad request"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "produces": [
+        "application/json"
+    ]
+}

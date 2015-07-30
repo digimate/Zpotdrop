@@ -9,7 +9,7 @@
 | @Date       : 7/26/15 - 9:37 PM
 */
 
-namespace App\Models;
+namespace App\Acme\Models;
 
 
 /**
@@ -78,10 +78,19 @@ class Like extends BaseModel
 
 	/*Relations*/
 	public function user(){
-		return $this->belongsTo('App\Models\User', 'user_id');
+		return $this->belongsTo('App\Acme\Models\User', 'user_id');
 	}
 
 	public function post(){
-		return $this->belongsTo('App\Models\Post', 'post_id');
+		return $this->belongsTo('App\Acme\Models\Post', 'post_id');
+	}
+	
+	/*Repository*/
+	public function exist($user_id, $post_id)
+	{
+		if(Like::wherePostId($post_id)->whereUserId($user_id)->first()){
+			return true;
+		}
+		return false;
 	}
 }

@@ -20,19 +20,19 @@ class DatabaseSeeder extends Seeder
 	    //DB::table('users')->truncate();
 
 	    /*user table*/
-	    factory('App\Models\User', 10)->create();
+	    factory('App\Acme\Models\User', 10)->create();
 
 	    /*friend table*/
-	    factory('App\Models\Friend', 10)->create();
+	    factory('App\Acme\Models\Friend', 10)->create();
 
 	    /*post table*/
-	    factory('App\Models\Post', 10)->create();
+	    factory('App\Acme\Models\Post', 10)->create();
 
 	    /*comments*/
-	    factory('App\Models\Comment', 100)->create();
+	    factory('App\Acme\Models\Comment', 100)->create();
 
 	    /*likes*/
-	    factory('App\Models\Like', 100)->create();
+	    factory('App\Acme\Models\Like', 100)->create();
         Model::reguard();
     }
 }

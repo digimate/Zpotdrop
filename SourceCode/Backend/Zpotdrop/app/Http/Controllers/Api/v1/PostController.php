@@ -10,8 +10,9 @@
 */
 
 namespace App\Http\Controllers\Api\v1;
-use App\Models\Like;
-use App\Models\Post;
+use App\Acme\Models\Like;
+use App\Acme\Models\Post;
+use App\Acme\Transformers\PostTransformer;
 
 /**
  * @SWG\Resource(
@@ -52,9 +53,11 @@ class PostController extends ApiController
 	 */
 	public function index()
 	{
-		$post = Post::with(['comments', 'likes', 'user', 'comments.user', 'likes.user'])->paginate(\Input::get
-		('limit', 15))->items();
-		return response($post, 200);
+//		$post = Post::with(['comments', 'likes', 'user', 'comments.user', 'likes.user'])->paginate(\Input::get
+//		('limit', 15))->items();
+		$posts = Post::with(['user'])->get()->all();
+
+		return $this->lzResponse->successTransformArrayModels($posts, new PostTransformer());
 	}
 
 	/**

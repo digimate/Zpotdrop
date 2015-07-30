@@ -11,31 +11,14 @@
 |
 */
 
-Route::group(['prefix' => 'api/v1'], function(){
-	Route::group(['namespace'=>'Api\v1', 'middleware' => 'oauth'], function(){
-		/*users*/
-
-		/*Friend*/
-		Route::group(['prefix'=>'friends'], function(){
-			Route::resource('friends', 'FriendController');
-			Route:get('friends/{id}/delete', 'FriendController@delete');
-		});
-
-		/*posts*/
-		Route::group(['prefix'=>'posts'], function(){
-			Route::get('/list', ['as' => 'api.posts.list', 'uses' => 'PostController@index']);
-			Route::get('{id}/show', ['as' => 'api.posts.show', 'uses' => 'PostController@show']);
-			Route::get('{id}/like', ['as' => 'api.posts.like', 'uses' => 'PostController@like']);
-		});
-	});
-});
-
-/*Authenticate Route*/
+/*
+|--------------------------------------------------------------------------
+| Dont need Oauth2
+|--------------------------------------------------------------------------
+*/
 Route::group(['prefix' => 'api/v1'], function(){
 	Route::group(['namespace'=>'Api\V1'], function(){
 		Route::post('oauth/register', ['as'=>'oauth.register', 'uses' => 'OAuthController@register']);
-		Route::get('oauth/logout', ['as'=>'oauth.logout', 'uses' => 'OAuthController@logout']);
-
 		Route::post('oauth/login', function() {
 			$lzResponse = new \App\Acme\Restful\LZResponse();
 			return $lzResponse->success(Authorizer::issueAccessToken());
@@ -43,7 +26,51 @@ Route::group(['prefix' => 'api/v1'], function(){
 	});
 });
 
-/*API table document*/
+/*
+|--------------------------------------------------------------------------
+| Need access_token - grant_type
+|--------------------------------------------------------------------------
+*/
+
+Route::group(['prefix' => 'api/v1', 'namespace'=>'Api\v1', 'middleware' => 'oauth'], function(){
+/*
+|--------------------------------------------------------------------------
+| Authenticate
+|--------------------------------------------------------------------------
+*/
+	Route::post('oauth/logout', ['as'=>'oauth.logout', 'uses' => 'OAuthController@logout']);
+
+/*
+|--------------------------------------------------------------------------
+| Users
+|--------------------------------------------------------------------------
+*/
+	Route::post('users/profile/edit', 'UserController@edit');
+	Route::post('users/profile/{id}/show', 'UserController@show');
+	Route::post('users/profile/update', 'UserController@update');
+
+/*
+|--------------------------------------------------------------------------
+| Friends
+|--------------------------------------------------------------------------
+*/
+	Route::post('friends/{id}/delete', 'FriendController@delete');
+
+/*
+|--------------------------------------------------------------------------
+| Posts
+|--------------------------------------------------------------------------
+*/
+	Route::post('posts/list', ['as' => 'api.posts.list', 'uses' => 'PostController@index']);
+	Route::post('posts/{id}/show', ['as' => 'api.posts.show', 'uses' => 'PostController@show']);
+	Route::post('posts/{id}/like', ['as' => 'api.posts.like', 'uses' => 'PostController@like']);
+});
+
+/*
+|--------------------------------------------------------------------------
+| API table document
+|--------------------------------------------------------------------------
+*/
 Route::group(['prefix' => 'api/v1'], function(){
 	Route::group(['namespace'=>'Api\v1'], function(){
 		Route::get('tables/users', 'TableController@users');
