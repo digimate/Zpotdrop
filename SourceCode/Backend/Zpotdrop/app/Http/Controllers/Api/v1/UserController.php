@@ -12,8 +12,13 @@
 namespace App\Http\Controllers\Api\v1;
 
 
-use App\Models\User;
+use App\Acme\Images\LZImage;
+use App\Acme\Models\User;
+use App\Acme\Transformers\UserTransformer;
+use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @SWG\Resource(
@@ -23,13 +28,13 @@ use Illuminate\Routing\Controller;
  *    produces="['application/json']"
  * )
  */
-class UserController extends Controller
+class UserController extends ApiController
 {
 	/**
 	 * @SWG\Api(
 	 *    path="/users/profile/{id}/show",
 	 *      @SWG\Operation(
-	 *        method="GET",
+	 *        method="POST",
 	 *        summary="Get detail profile of ID",
 	 *     @SWG\Parameter(
 	 *			name="id",
@@ -46,21 +51,27 @@ class UserController extends Controller
 	 */
 	public function show($id)
 	{
+		$user = User::find($id);
+		if($user)
+		{
+			return $this->lzResponse->successTransformModel($user, new UserTransformer());
+		}
+		return $this->lzResponse->badRequest();
 	}
 
 	/**
 	 * @SWG\Api(
 	 *    path="/users/profile/edit",
 	 *      @SWG\Operation(
-	 *        method="GET",
+	 *        method="POST",
 	 *        summary="Show detail profile for edit",
 	 *		@SWG\ResponseMessage(code=200, message="Profile of current user"),
-	 *      @SWG\ResponseMessage(code=400, message="Bad request")
 	 *    )
 	 * )
 	 */
 	public function edit()
 	{
+		return $this->lzResponse->successTransformModel(\Auth::user(), new UserTransformer());
 	}
 
 	/**
@@ -74,8 +85,24 @@ class UserController extends Controller
 	 *    )
 	 * )
 	 */
-	public function update()
+	public function update(UserUpdateRequest $request)
 	{
+		$user = new User();
+		$user = $user->find(\Auth::id());
+		$old_avatar = $user->avatar;
+		$user->fill($request->all());
+
+		/*Avatar come here*/
+		if($request->hasFile('avatar') && $request->file('avatar')->isValid()){
+			$user->avatar = LZImage::upload($request->file('avatar'), \Auth::id());
+			/*delete old avatar*/
+			LZImage::delete($old_avatar);
+		}
+		if($user->update()){
+			return $this->lzResponse->success($user);
+		}
+		LZImage::delete($user->avatar);
+		return $this->lzResponse->badRequest();
 	}
 
 	/**

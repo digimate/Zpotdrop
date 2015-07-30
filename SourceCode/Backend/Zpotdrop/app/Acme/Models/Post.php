@@ -9,7 +9,7 @@
 | @Date       : 7/26/15 - 8:56 PM
 */
 
-namespace App\Models;
+namespace App\Acme\Models;
 
 /**
  * Class Post
@@ -92,7 +92,7 @@ class Post extends BaseModel
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function user(){
-		return $this->belongsTo('App\Models\User');
+		return $this->belongsTo('App\Acme\Models\User');
 	}
 
 	/**
@@ -100,7 +100,7 @@ class Post extends BaseModel
 	 */
 	public function comments()
 	{
-		return $this->hasMany('App\Models\Comment', 'post_id');
+		return $this->hasMany('App\Acme\Models\Comment', 'post_id');
 	}
 
 	/**
@@ -108,7 +108,7 @@ class Post extends BaseModel
 	 */
 	public function likes()
 	{
-		return $this->hasMany('App\Models\Like', 'post_id');
+		return $this->hasMany('App\Acme\Models\Like', 'post_id');
 	}
 
 	/*Repository*/

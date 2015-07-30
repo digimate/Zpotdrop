@@ -11,6 +11,9 @@
 */
 namespace App\Acme\Restful;
 
+use App\Acme\Transformers\Transformer;
+use League\Fractal;
+
 class LZResponse{
 	const HTTP_CONTINUE = 100;
 	const HTTP_SWITCHING_PROTOCOLS = 101;
@@ -151,6 +154,7 @@ class LZResponse{
 	protected $data;
 	protected $message;
 	protected $code;
+	protected $fractal;
 
 	/**
 	 * LZResponse constructor.
@@ -161,6 +165,8 @@ class LZResponse{
 		$this->setMessage($message);
 		$this->setErrors($error);
 		$this->setData($data);
+		$this->fractal = new Fractal\Manager();
+		$this->fractal->setSerializer(new Fractal\Serializer\ArraySerializer());
 	}
 
 	/**
@@ -271,9 +277,24 @@ class LZResponse{
 	 * @param string $message
 	 * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
 	 */
-	public function success($data, $message = 'OK')
+	public function success($data=[], $message = 'OK')
 	{
 		$this->setData($data);
+		$this->setMessage($message);
+		return $this->json();
+	}
+
+	public function successTransformModel($model, Transformer $transformer, $message='OK'){
+		$resource = new Fractal\Resource\Item($model, $transformer);
+		$this->setData($this->fractal->createData($resource)->toArray());
+		$this->setMessage($message);
+		return $this->json();
+	}
+
+	public function successTransformArrayModels($array_model=[], Transformer $transformer, $message='OK'){
+		$resource = new Fractal\Resource\Collection($array_model, $transformer);
+		$result = $this->fractal->createData($resource)->toArray();
+		$this->setData($result['data']);
 		$this->setMessage($message);
 		return $this->json();
 	}

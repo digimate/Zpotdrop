@@ -11,7 +11,7 @@
 |
 */
 
-$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Acme\Models\User::class, function (Faker\Generator $faker) {
     return [
         'first_name'        => $faker->firstName,
 	    'last_name'         => $faker->lastName,
@@ -30,14 +30,14 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Models\Friend::class, function(Faker\Generator $faker){
+$factory->define(App\Acme\Models\Friend::class, function(Faker\Generator $faker){
 	return [
 		'user_id'           => rand(1, 4),
 		'friend_id'         => rand(5, 10),
 	];
 });
 
-$factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
+$factory->define(App\Acme\Models\Post::class, function (Faker\Generator $faker) {
 	return [
 		'status'            => $faker->sentence,
 		'venue_name'        => $faker->address,
@@ -47,7 +47,7 @@ $factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
 	];
 });
 
-$factory->define(App\Models\Comment::class, function(Faker\Generator $faker){
+$factory->define(App\Acme\Models\Comment::class, function(Faker\Generator $faker){
 	return [
 		'user_id'          => rand(1, 10),
 		'post_id'          => rand(1, 10),
@@ -55,7 +55,7 @@ $factory->define(App\Models\Comment::class, function(Faker\Generator $faker){
 	];
 });
 
-$factory->define(App\Models\Like::class, function(Faker\Generator $faker){
+$factory->define(App\Acme\Models\Like::class, function(Faker\Generator $faker){
 	return [
 		'user_id'          => rand(1, 10),
 		'post_id'          => rand(1, 10),

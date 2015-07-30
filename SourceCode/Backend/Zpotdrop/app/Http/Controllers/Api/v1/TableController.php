@@ -10,10 +10,10 @@
 */
 
 namespace App\Http\Controllers\Api\v1;
-use App\Models\Friend;
-use App\Models\Like;
-use App\Models\Post;
-use App\Models\User;
+use App\Acme\Models\Friend;
+use App\Acme\Models\Like;
+use App\Acme\Models\Post;
+use App\Acme\Models\User;
 
 /**
  * @SWG\Resource(

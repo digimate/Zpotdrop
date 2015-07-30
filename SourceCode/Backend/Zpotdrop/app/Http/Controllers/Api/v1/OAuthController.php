@@ -12,13 +12,12 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Acme\Restful\LZResponse;
-use Illuminate\Http\Request;
-use Validator;
+use App\Http\Requests\UserRequest;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-use App\Models\User;
+use App\Acme\Models\User;
 use Authorizer;
-
+use Illuminate\Http\Request;
 
 /**
  * Class OAuthController
@@ -27,8 +26,8 @@ use Authorizer;
 /**
  * @SWG\Resource(
  *    apiVersion="1.0",
- *    resourcePath="/oauth",
- *    description="OAuth",
+ *    resourcePath="/Oauth",
+ *    description="oauth2.0",
  *    produces="['application/json']"
  * )
  */
@@ -47,32 +46,12 @@ class OAuthController extends ApiController
 
 	use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
-	protected $lzResponse;
 	/**
 	 * OAuthController constructor.
 	 */
 	public function __construct()
 	{
-		$this->middleware('guest', ['except' => 'getLogout']);
-		$this->lzResponse = new LZResponse();
-	}
-
-	/**
-	 * Get a validator for an incoming registration request.
-	 *
-	 * @param  array  $data
-	 * @return \Illuminate\Contracts\Validation\Validator
-	 */
-	protected function validator(array $data)
-	{
-		return Validator::make($data, [
-            'first_name'    => 'required|max:255',
-            'last_name'     => 'required|max:255',
-            'birthday'      => 'required|date',
-            'gender'        => 'required|max:1',
-			'email'         => 'required|email|max:255|unique:users',
-			'password'      => 'required|min:6',
-		]);
+		parent::__construct();
 	}
 
 	/**
@@ -94,25 +73,54 @@ class OAuthController extends ApiController
 
 	/**
 	 * @SWG\Api(
-	 *    path="/users/login",
+	 *    path="/oauth/login",
 	 *      @SWG\Operation(
 	 *        method="POST",
 	 *        summary="Login",
 	 *      @SWG\Parameter(
-	 *			name="email",
-	 *			description="Email register",
-	 *			paramType="query",
+	 *			name="grant_type",
+	 *			description="Grant type for Oauth2.0: password/refresh_token",
+	 *			paramType="header",
 	 *      		required=true,
 	 *      		allowMultiple=false,
-	 *      		type="string"
+	 *      		type="string",
+	 * 	            defaultValue="password",
+	 *      	),
+	 *      @SWG\Parameter(
+	 *			name="client_id",
+	 *			description="Client id: s6BhdRkqt3",
+	 *			paramType="form",
+	 *      		required=true,
+	 *      		allowMultiple=false,
+	 *      		type="string",
+	 *              defaultValue="s6BhdRkqt3"
+	 *      	),
+	 *      @SWG\Parameter(
+	 *			name="client_secret",
+	 *			description="Client secret: 7Fjfp0ZBr1KtDRbnfVdmIw",
+	 *			paramType="form",
+	 *      		required=true,
+	 *      		allowMultiple=false,
+	 *      		type="string",
+	 *              defaultValue="7Fjfp0ZBr1KtDRbnfVdmIw"
+	 *      	),
+	 *      @SWG\Parameter(
+	 *			name="username",
+	 *			description="Email",
+	 *			paramType="form",
+	 *      		required=true,
+	 *      		allowMultiple=false,
+	 *      		type="string",
+	 *              defaultValue="pisun2@gmail.com"
 	 *      	),
 	 *      @SWG\Parameter(
 	 *			name="password",
 	 *			description="Plain password",
-	 *			paramType="query",
+	 *			paramType="form",
 	 *      		required=true,
 	 *      		allowMultiple=false,
-	 *      		type="string"
+	 *      		type="string",
+	 *              defaultValue="123456"
 	 *      	),
 	 *		@SWG\ResponseMessage(code=200, message="Login successful"),
 	 *      @SWG\ResponseMessage(code=400, message="Bad request")
@@ -121,19 +129,12 @@ class OAuthController extends ApiController
 	 */
 	public function login($username, $password)
 	{
-		if(empty(\Input::get('email')) || empty(\Input::get('password'))){
-
-			return $this->lzResponse->badRequest();
-		}
-
-		$credentials = [
+		if (\Auth::attempt([
 			'email'    => $username,
-			'password' => $password,
-		];
-		if (\Auth::attempt($credentials)) {
+			'password' => $password]))
+		{
 			return \Auth::id();
 		}
-		return false;
 	}
 
 	/**
@@ -143,69 +144,161 @@ class OAuthController extends ApiController
 	 *        method="POST",
 	 *        summary="Register new user",
 	 *      @SWG\Parameter(
-	 *			name="email",
-	 *			description="Email register",
-	 *			paramType="query",
+	 *			name="grant_type",
+	 *			description="Grant type for Oauth2.0: password/refresh_token",
+	 *			paramType="header",
 	 *      		required=true,
 	 *      		allowMultiple=false,
-	 *      		type="string"
+	 *      		type="string",
+	 * 	            defaultValue="password",
+	 *      	),
+	 *      @SWG\Parameter(
+	 *			name="client_id",
+	 *			description="Client id: s6BhdRkqt3",
+	 *			paramType="form",
+	 *      		required=true,
+	 *      		allowMultiple=false,
+	 *      		type="string",
+	 *              defaultValue="s6BhdRkqt3"
+	 *      	),
+	 *      @SWG\Parameter(
+	 *			name="client_secret",
+	 *			description="Client secret: 7Fjfp0ZBr1KtDRbnfVdmIw",
+	 *			paramType="form",
+	 *      		required=true,
+	 *      		allowMultiple=false,
+	 *      		type="string",
+	 *              defaultValue="7Fjfp0ZBr1KtDRbnfVdmIw"
+	 *      	),
+	 *      @SWG\Parameter(
+	 *			name="username",
+	 *			description="Email",
+	 *			paramType="form",
+	 *      		required=true,
+	 *      		allowMultiple=false,
+	 *      		type="string",
+	 *              defaultValue="pisun2@gmail.com"
 	 *      	),
 	 *      @SWG\Parameter(
 	 *			name="password",
 	 *			description="Plain password",
-	 *			paramType="query",
+	 *			paramType="form",
 	 *      		required=true,
 	 *      		allowMultiple=false,
-	 *      		type="string"
+	 *      		type="string",
+	 *              defaultValue="123456"
+	 *      	),
+	 * 	    @SWG\Parameter(
+	 *			name="email",
+	 *			description="Email",
+	 *			paramType="form",
+	 *      		required=true,
+	 *      		allowMultiple=false,
+	 *      		type="string",
+	 *              defaultValue="pisun2@gmail.com"
+	 *      	),
+	 * 	    @SWG\Parameter(
+	 *			name="first_name",
+	 *			description="First Name",
+	 *			paramType="form",
+	 *      		required=true,
+	 *      		allowMultiple=false,
+	 *      		type="string",
+	 *              defaultValue="Phu"
+	 *      	),
+	 * 	    @SWG\Parameter(
+	 *			name="last_name",
+	 *			description="Last name",
+	 *			paramType="form",
+	 *      		required=true,
+	 *      		allowMultiple=false,
+	 *      		type="string",
+	 *              defaultValue="Nguyen"
+	 *      	),
+	 * 	    @SWG\Parameter(
+	 *			name="birthday",
+	 *			description="Birthday: dd-mm-YYYY",
+	 *			paramType="form",
+	 *      		required=true,
+	 *      		allowMultiple=false,
+	 *      		type="string",
+	 *              defaultValue="17-03-1988"
+	 *      	),
+	 * 	    @SWG\Parameter(
+	 *			name="gender",
+	 *			description="Gender: 0 male, 1: female, 2: others",
+	 *			paramType="form",
+	 *      		required=true,
+	 *      		allowMultiple=false,
+	 *      		type="string",
+	 *              defaultValue="0"
 	 *      	),
 	 *		@SWG\ResponseMessage(code=200, message="Register successful"),
 	 *      @SWG\ResponseMessage(code=400, message="Bad request")
 	 *    )
 	 * )
 	 */
-	public function register(Request $request)
+	public function register(UserRequest $request)
 	{
-		if(\Auth::check()){
-			return $this->lzResponse->success([
-				'token' => Authorizer::issueAccessToken(),
-			]);
+		$user = $this->create($request->all());
+		if($user){
+			return $this->lzResponse->success(Authorizer::issueAccessToken());
 		}
-		$validate = $this->validator($request->all());
-		if(!$validate->fails()){
-			$user = $this->create($request->all());
-			if($user){
-				\Auth::login($user);
-				return $this->lzResponse->success([
-					'token' => Authorizer::issueAccessToken(),
-					'user'  => $user
-				]);
-			}
-		}
-		return $this->lzResponse->badRequest($validate->errors()->all());
 	}
-
 
 	/**
 	 * @SWG\Api(
-	 *    path="/users/logout",
+	 *    path="/oauth/logout",
 	 *      @SWG\Operation(
-	 *        method="GET",
+	 *        method="POST",
 	 *        summary="Logout",
 	 *      @SWG\Parameter(
-	 *			name="token",
-	 *			description="token of user after logged in",
-	 *			paramType="query",
+	 *			name="grant_type",
+	 *			description="Grant type for Oauth2.0: password/refresh_token",
+	 *			paramType="header",
+	 *      		required=true,
+	 *      		allowMultiple=false,
+	 *      		type="string",
+	 * 	            defaultValue="password",
+	 *      	),
+	 *      @SWG\Parameter(
+	 *			name="client_id",
+	 *			description="Client id: s6BhdRkqt3",
+	 *			paramType="form",
+	 *      		required=true,
+	 *      		allowMultiple=false,
+	 *      		type="string",
+	 *              defaultValue="s6BhdRkqt3"
+	 *      	),
+	 *      @SWG\Parameter(
+	 *			name="client_secret",
+	 *			description="Client secret: 7Fjfp0ZBr1KtDRbnfVdmIw",
+	 *			paramType="form",
+	 *      		required=true,
+	 *      		allowMultiple=false,
+	 *      		type="string",
+	 *              defaultValue="7Fjfp0ZBr1KtDRbnfVdmIw"
+	 *      	),
+	 *      @SWG\Parameter(
+	 *			name="access_token",
+	 *			description="Access token",
+	 *			paramType="form",
 	 *      		required=true,
 	 *      		allowMultiple=false,
 	 *      		type="string"
 	 *      	),
-	 *		@SWG\ResponseMessage(code=200, message="Logout successful"),
+	 * 	 *		@SWG\ResponseMessage(code=200, message="Logout successful"),
 	 *    )
 	 * )
 	 */
-	public function logout()
+	public function logout(Request $request)
 	{
 		\Auth::logout();
-		\Session::clear();
+		\Session::flush();
+		$delete = \DB::table('oauth_access_tokens')->where('id', '=', $request->get('access_token'))->delete();
+		if($delete){
+			return $this->lzResponse->success([], 'Access token is revoked!');
+		}
+		return $this->lzResponse->badRequest(['Check your access_token again!!']);
 	}
 }
