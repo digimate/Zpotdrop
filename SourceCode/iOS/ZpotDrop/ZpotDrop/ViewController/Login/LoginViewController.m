@@ -144,6 +144,11 @@
     [alertView showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
         if (buttonIndex == 1)
         {
+            if (![_rule checkEmailStringIsCorrect:[[alertView textFieldAtIndex:0] text]])
+            {
+                [[[UIAlertView alloc]initWithTitle:@"We're sorry" message:@"Your email is not correct format" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+                return;
+            }
             [_api forgotPasswordWithData:@{@"email": [[alertView textFieldAtIndex:0] text]} :^(id data, NSString *error) {
                 if (error)
                     [[[UIAlertView alloc]initWithTitle:@"We're sorry" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
