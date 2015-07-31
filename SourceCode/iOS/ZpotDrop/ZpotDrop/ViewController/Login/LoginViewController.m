@@ -110,7 +110,12 @@
     [_mScrollView addSubview:_welcome];
     
     _icon = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"icon.png"]];
-    [_icon setCenter:CGPointMake(_mScrollView.frame.size.width/2, 90 + _icon.frame.size.height/2)];
+    float delta = 0;
+    if (_mScrollView.frame.size.height < 500)
+    {
+        delta = 20;
+    }
+    [_icon setCenter:CGPointMake(_mScrollView.frame.size.width/2, 90*_mScrollView.frame.size.height/1136.f + _icon.frame.size.height/2 - delta)];
     [_mScrollView addSubview:_icon];
 }
 
