@@ -159,7 +159,6 @@
     [_male setBackgroundColor:[UIColor whiteColor]];
     [_male setTitleColor:[UIColor colorWithHexString:MAIN_COLOR] forState:UIControlStateNormal];
     _gender = NO;
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated

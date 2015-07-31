@@ -73,6 +73,7 @@
     [_mScrollView addSubview:_continue];
     
     _password = [[UITextField alloc]initWithFrame:CGRectMake(30, _continue.frame.origin.y - 40, _mScrollView.frame.size.width - 60, 40)];
+    [_password setSecureTextEntry:YES];
     [_password setPlaceholder:@"Password"];
     [_password setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_password setTextAlignment:NSTextAlignmentCenter];
@@ -138,7 +139,10 @@
     [alertView showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
         if (buttonIndex == 1)
         {
-            
+            [_api forgotPasswordWithData:@{@"email": [[alertView textFieldAtIndex:0] text]} :^(id data, NSString *error) {
+                if (error)
+                    [[[UIAlertView alloc]initWithTitle:@"We're sorry" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+            }];
         }
     }];
 
@@ -151,6 +155,11 @@
 
 -(IBAction)login:(id)sender
 {
-    
+    [_api loginWithData:@{@"email":_email.text, @"password":_password.text} :^(id data, NSString *error) {
+        if (error)
+        {
+            [[[UIAlertView alloc]initWithTitle:@"We're sorry" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+        }
+    }];
 }
 @end

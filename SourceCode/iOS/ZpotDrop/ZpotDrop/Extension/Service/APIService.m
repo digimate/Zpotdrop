@@ -23,25 +23,30 @@
 
 -(void)createAccountWithData:(NSDictionary *)data :(dataResponse)response
 {
-    PFObject* user = [PFObject objectWithClassName:@"User"];
-    user[@"email"] = [data objectForKey:@"email"];
-    user[@"password"] = [data objectForKey:@"password"];
+    PFUser* user = [PFUser user];
+    user.username = [data objectForKey:@"email"];
+    user.password = [data objectForKey:@"password"];
+    user.email = [data objectForKey:@"email"];
     user[@"firstName"] = [data objectForKey:@"firstName"];
     user[@"lastName"] = [data objectForKey:@"lastName"];
     user[@"gender"] = [data objectForKey:@"gender"];
     user[@"dob"] = [data objectForKey:@"dob"];
-    [user saveInBackgroundWithBlock:^(BOOL successed, NSError* error){
-        
+    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+        response(nil, error.localizedDescription);
     }];
 }
 
 -(void)loginWithData:(NSDictionary *)data :(dataResponse)response
 {
-    
+    [PFUser logInWithUsernameInBackground:[data objectForKey:@"email"] password:[data objectForKey:@"password"] block:^(PFUser *user, NSError *error){
+        response(user, error.localizedDescription);
+    }];
 }
 
 -(void)forgotPasswordWithData:(NSDictionary *)data :(dataResponse)response
 {
-    
+    [PFUser requestPasswordResetForEmailInBackground:[data objectForKey:@"email"] block:^(BOOL succeeded, NSError* error){
+        response(nil, error.localizedDescription);
+    }];
 }
 @end
