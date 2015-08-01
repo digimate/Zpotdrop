@@ -17,6 +17,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupLayout];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(didHide:) name:UIKeyboardWillHideNotification object:nil];
+    [center addObserver:self selector:@selector(didShow:) name:UIKeyboardWillShowNotification object:nil];
+}
+
+-(IBAction)didShow:(id)sender
+{
+    NSDictionary* keyboardInfo = [sender userInfo];
+    NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
+    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
+    [_mScrollView setContentSize:CGSizeMake(0, keyboardFrameBeginRect.size.height + _mScrollView.frame.size.height)];
+}
+
+-(IBAction)didHide:(id)sender
+{
+    [_mScrollView setContentSize:CGSizeMake(0, 0)];
 }
 
 -(void)setupLayout
@@ -54,7 +70,7 @@
     [line1 setBackgroundColor:[UIColor colorWithHexString:@"c9c9c9"]];
     [_lastName addSubview:line1];
     
-    _dob = [[UITextField alloc]initWithFrame:CGRectMake(_lastName.frame.origin.x, _lastName.frame.origin.y + _lastName.frame.size.height, _mScrollView.frame.size.width - 60, 40)];
+    _dob = [[DateTextField alloc]initWithFrame:CGRectMake(_lastName.frame.origin.x, _lastName.frame.origin.y + _lastName.frame.size.height, _mScrollView.frame.size.width - 60, 40) date:[NSDate date] andDisplayFormat:@"MMM dd yyyy"];
     [_dob setPlaceholder:@"Date of birth"];
     [_dob setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_dob setTextAlignment:NSTextAlignmentCenter];
@@ -74,6 +90,7 @@
     [_male addTarget:self action:@selector(malePressed:) forControlEvents:UIControlEventTouchUpInside];
     [_male.layer setBorderWidth:1.f];
     [_mScrollView addSubview:_male];
+    _gender = YES;
     
     _female = [UIButton buttonWithType:UIButtonTypeCustom];
     [_female setFrame:CGRectMake(_male.frame.origin.x + _male.frame.size.width, _male.frame.origin.y, _dob.frame.size.width/2, 27)];
@@ -91,7 +108,37 @@
     [_complete setTitle:@"Continue" forState:UIControlStateNormal];
     [_complete.titleLabel setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_complete setTitleColor:[UIColor colorWithHexString:@"b2cc8a"] forState:UIControlStateNormal];
+    [_complete addTarget:self action:@selector(completePressed:) forControlEvents:UIControlEventTouchUpInside];
     [_mScrollView addSubview:_complete];
+}
+
+-(IBAction)completePressed:(id)sender
+{
+    if ([[_firstName.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
+    {
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"We're sorry" message:@"First name is missing, please check again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            [_firstName becomeFirstResponder];
+        }];
+        return;
+    }
+    
+    if ([[_lastName.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
+    {
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"We're sorry" message:@"Last name is missing, please check again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            [_lastName becomeFirstResponder];
+        }];
+        return;
+    }
+    
+    [_data setObject:_firstName.text forKey:@"firstName"];
+    [_data setObject:_lastName.text forKey:@"lastName"];
+    [_data setObject:_dob.getDate forKey:@"dob"];
+    [_data setObject:[NSNumber numberWithBool:_gender] forKey:@"gender"];
+    [_api createAccountWithData:_data :^(id data, NSString *error) {
+        
+    }];
 }
 
 -(IBAction)malePressed:(id)sender
@@ -101,6 +148,7 @@
     
     [_female setBackgroundColor:[UIColor whiteColor]];
     [_female setTitleColor:[UIColor colorWithHexString:MAIN_COLOR] forState:UIControlStateNormal];
+    _gender = YES;
 }
 
 -(IBAction)femalePressed:(id)sender
@@ -110,7 +158,13 @@
     
     [_male setBackgroundColor:[UIColor whiteColor]];
     [_male setTitleColor:[UIColor colorWithHexString:MAIN_COLOR] forState:UIControlStateNormal];
-    
+    _gender = NO;
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {

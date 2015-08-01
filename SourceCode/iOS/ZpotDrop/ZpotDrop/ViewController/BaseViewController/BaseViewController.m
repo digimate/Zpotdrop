@@ -16,7 +16,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    _api = [APIService shareAPIService];
+    _rule = [RuleService shareRuleService];
+    
 }
 
 - (void)didReceiveMemoryWarning {

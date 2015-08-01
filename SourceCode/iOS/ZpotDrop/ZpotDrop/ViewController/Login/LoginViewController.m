@@ -73,6 +73,7 @@
     [_mScrollView addSubview:_continue];
     
     _password = [[UITextField alloc]initWithFrame:CGRectMake(30, _continue.frame.origin.y - 40, _mScrollView.frame.size.width - 60, 40)];
+    [_password setSecureTextEntry:YES];
     [_password setPlaceholder:@"Password"];
     [_password setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_password setTextAlignment:NSTextAlignmentCenter];
@@ -109,7 +110,12 @@
     [_mScrollView addSubview:_welcome];
     
     _icon = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"icon.png"]];
-    [_icon setCenter:CGPointMake(_mScrollView.frame.size.width/2, 90 + _icon.frame.size.height/2)];
+    float delta = 0;
+    if (_mScrollView.frame.size.height < 500)
+    {
+        delta = 20;
+    }
+    [_icon setCenter:CGPointMake(_mScrollView.frame.size.width/2, 90*_mScrollView.frame.size.height/1136.f + _icon.frame.size.height/2 - delta)];
     [_mScrollView addSubview:_icon];
 }
 
@@ -138,14 +144,32 @@
     [alertView showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
         if (buttonIndex == 1)
         {
-            
+            if (![_rule checkEmailStringIsCorrect:[[alertView textFieldAtIndex:0] text]])
+            {
+                [[[UIAlertView alloc]initWithTitle:@"We're sorry" message:@"Your email is not correct format" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+                return;
+            }
+            [_api forgotPasswordWithData:@{@"email": [[alertView textFieldAtIndex:0] text]} :^(id data, NSString *error) {
+                if (error)
+                    [[[UIAlertView alloc]initWithTitle:@"We're sorry" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+            }];
         }
     }];
 
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 -(IBAction)login:(id)sender
 {
-    
+    [_api loginWithData:@{@"email":_email.text, @"password":_password.text} :^(id data, NSString *error) {
+        if (error)
+        {
+            [[[UIAlertView alloc]initWithTitle:@"We're sorry" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+        }
+    }];
 }
 @end
