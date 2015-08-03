@@ -15,9 +15,19 @@
 
 #define MAIN_COLOR @"b1cb89"
 
-@interface BaseViewController : UIViewController
+@interface BaseViewController : UIViewController <UIScrollViewDelegate>
 {
     RuleService* _rule;
     APIService* _api;
+    
+    //Menu view
+    BOOL _menuOpening;
+    UIScrollView* _menuScrollBackground;
+    UITableView* _menuContentView;
+    UIView* _screenShot;
+    UIView* _blurMask;
 }
+
+-(void)openMenu;
+
 @end
