@@ -24,8 +24,15 @@
     BOOL _menuOpening;
     UIScrollView* _menuScrollBackground;
     UITableView* _menuContentView;
-    UIView* _screenShot;
-    UIView* _blurMask;
+    UIView* _menuScreenShot;
+    UIView* _menuBlurMask;
+    
+    //Notification view
+    BOOL _notificationOpening;
+    UIScrollView* _notificationScrollBackground;
+    UITableView* _notificationContentView;
+    UIView* _notificationScreenShot;
+    UIView* _notificationBlurMask;
 }
 
 -(void)openMenu;

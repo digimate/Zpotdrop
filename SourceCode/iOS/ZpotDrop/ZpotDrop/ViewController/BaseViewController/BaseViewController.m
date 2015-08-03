@@ -19,6 +19,7 @@
     _api = [APIService shareAPIService];
     _rule = [RuleService shareRuleService];
     
+    //====================== LEFT MENU =========================
     _menuScrollBackground = [[UIScrollView alloc]initWithFrame:self.navigationController.view.frame];
     [_menuScrollBackground setBackgroundColor:[UIColor colorWithHexString:@"000000"]];
     [_menuScrollBackground setDelegate:self];
@@ -33,18 +34,48 @@
     
     [_menuScrollBackground setContentSize:CGSizeMake(self.navigationController.view.frame.size.width + _menuContentView.frame.size.width, 0)];
     
-    _screenShot = [[UIView alloc]initWithFrame:CGRectMake(_menuContentView.frame.size.width, 0, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height)];
-    [_menuScrollBackground addSubview:_screenShot];
+    _menuScreenShot = [[UIView alloc]initWithFrame:CGRectMake(_menuContentView.frame.size.width, 0, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height)];
+    [_menuScrollBackground addSubview:_menuScreenShot];
     
-    _blurMask = [[UIView alloc]initWithFrame:_screenShot.frame];
-    [_blurMask setBackgroundColor:[UIColor redColor]];
+    _menuBlurMask = [[UIView alloc]initWithFrame:_menuScreenShot.frame];
+    [_menuBlurMask setBackgroundColor:[UIColor redColor]];
     
-    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeMenuTap:)];
-    [tap setNumberOfTapsRequired:1];
-    [tap setNumberOfTouchesRequired:1];
-    [_blurMask addGestureRecognizer:tap];
+    UITapGestureRecognizer* menuTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeMenuTap:)];
+    [menuTap setNumberOfTapsRequired:1];
+    [menuTap setNumberOfTouchesRequired:1];
+    [_menuBlurMask addGestureRecognizer:menuTap];
     
-    [_menuScrollBackground addSubview:_blurMask];
+    [_menuScrollBackground addSubview:_menuBlurMask];
+    [_menuScrollBackground setContentOffset:CGPointMake(_menuContentView.frame.size.width, 0)];
+    
+    
+    //====================== RIGHT NOTIFICATION =========================
+    _notificationScrollBackground = [[UIScrollView alloc]initWithFrame:self.navigationController.view.frame];
+    [_notificationScrollBackground setBackgroundColor:[UIColor colorWithHexString:@"000000"]];
+    [_notificationScrollBackground setDelegate:self];
+    [_notificationScrollBackground setShowsHorizontalScrollIndicator:NO];
+    [_notificationScrollBackground setPagingEnabled:YES];
+    
+    [self.navigationController.view addSubview:_notificationScrollBackground];
+    [self.navigationController.view sendSubviewToBack:_notificationScrollBackground];
+    
+    _notificationContentView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.view.frame.size.width - 40, self.view.frame.size.height) style:UITableViewStylePlain];
+    [_notificationScrollBackground addSubview:_notificationContentView];
+    
+    [_notificationScrollBackground setContentSize:CGSizeMake(self.navigationController.view.frame.size.width + _notificationScrollBackground.frame.size.width, 0)];
+    
+    _notificationScreenShot = [[UIView alloc]initWithFrame:CGRectMake(_notificationContentView.frame.size.width, 0, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height)];
+    [_notificationContentView addSubview:_notificationScreenShot];
+    
+    _menuBlurMask = [[UIView alloc]initWithFrame:_menuScreenShot.frame];
+    [_menuBlurMask setBackgroundColor:[UIColor redColor]];
+    
+    UITapGestureRecognizer* notificationTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeNotificationTap:)];
+    [notificationTap setNumberOfTapsRequired:1];
+    [notificationTap setNumberOfTouchesRequired:1];
+    [_menuBlurMask addGestureRecognizer:notificationTap];
+    
+    [_menuScrollBackground addSubview:_menuBlurMask];
     [_menuScrollBackground setContentOffset:CGPointMake(_menuContentView.frame.size.width, 0)];
 }
 
@@ -58,25 +89,52 @@
     [_menuScrollBackground setContentOffset:CGPointMake(_menuContentView.frame.size.width, 0) animated:YES];
 }
 
+-(IBAction)closeNotificationTap:(id)sender
+{
+    [_notificationScrollBackground setContentOffset:CGPointMake(0, 0) animated:YES];
+}
+
 -(void)openMenu
 {
     _menuOpening = !_menuOpening;
     if (_menuOpening)
     {
         UIView* tmp = [self screenshot];
-        [tmp setCenter:_screenShot.center];
+        [tmp setCenter:_menuScreenShot.center];
         [_menuScrollBackground addSubview:tmp];
-        [_screenShot removeFromSuperview];
-        _screenShot = tmp;
+        [_menuScreenShot removeFromSuperview];
+        _menuScreenShot = tmp;
         [self setNeedsStatusBarAppearanceUpdate];
         [self.navigationController.view bringSubviewToFront:_menuScrollBackground];
-        [_menuScrollBackground bringSubviewToFront:_blurMask];
+        [_menuScrollBackground bringSubviewToFront:_menuBlurMask];
         [_menuScrollBackground setContentOffset:CGPointMake(0, 0) animated:YES];
     }
     else
     {
         [self setNeedsStatusBarAppearanceUpdate];
         [self.navigationController.view sendSubviewToBack:_menuScrollBackground];
+    }
+}
+
+-(void)openNotification
+{
+    _notificationOpening = !_notificationOpening;
+    if (_notificationOpening)
+    {
+        UIView* tmp = [self screenshot];
+        [tmp setCenter:_notificationScreenShot.center];
+        [_notificationScrollBackground addSubview:tmp];
+        [_notificationScreenShot removeFromSuperview];
+        _notificationScreenShot = tmp;
+        [self setNeedsStatusBarAppearanceUpdate];
+        [self.navigationController.view bringSubviewToFront:_notificationScrollBackground];
+        [_notificationScrollBackground bringSubviewToFront:_notificationBlurMask];
+        [_notificationScrollBackground setContentOffset:CGPointMake(0, 0) animated:YES];
+    }
+    else
+    {
+        [self setNeedsStatusBarAppearanceUpdate];
+        [self.navigationController.view sendSubviewToBack:_notificationScrollBackground];
     }
 }
 
@@ -87,28 +145,42 @@
 
 -(BOOL)prefersStatusBarHidden
 {
-    return _menuOpening;
+    return (_menuOpening | _notificationOpening);
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    NSLog(@"%f", (1 - (scrollView.contentOffset.x/scrollView.frame.size.width)));
-    [_blurMask setBackgroundColor:[UIColor colorWithWhite:0.f alpha:(.7 - (scrollView.contentOffset.x/scrollView.frame.size.width))]];
+    if (_menuScrollBackground == scrollView)
+    {
+        [_menuBlurMask setBackgroundColor:[UIColor colorWithWhite:0.f alpha:(.7 - (scrollView.contentOffset.x/scrollView.frame.size.width))]];
+    }
+    else if (_notificationScrollBackground == scrollView)
+    {
+        [_notificationBlurMask setBackgroundColor:[UIColor colorWithWhite:0.f alpha:(.7 - (scrollView.contentOffset.x/scrollView.frame.size.width))]];
+    }
 }
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    if (scrollView.contentOffset.x > 0)
+    if (scrollView.contentOffset.x > 0 && scrollView == _menuScrollBackground)
     {
         [self openMenu];
+    }
+    else if (scrollView.contentOffset.x > 0 && scrollView == _notificationScrollBackground)
+    {
+        [self openNotification];
     }
 }
 
 -(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
-    if (scrollView.contentOffset.x > 0)
+    if (scrollView.contentOffset.x > 0 && scrollView == _menuScrollBackground)
     {
         [self openMenu];
+    }
+    else if (scrollView.contentOffset.x > 0 && scrollView == _notificationScrollBackground)
+    {
+        [self openNotification];
     }
 }
 
