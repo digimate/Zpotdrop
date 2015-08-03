@@ -36,5 +36,6 @@
 }
 
 -(void)openMenu;
+-(void)openNotification;
 
 @end

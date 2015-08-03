@@ -59,24 +59,25 @@
     [self.navigationController.view addSubview:_notificationScrollBackground];
     [self.navigationController.view sendSubviewToBack:_notificationScrollBackground];
     
-    _notificationContentView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.view.frame.size.width - 40, self.view.frame.size.height) style:UITableViewStylePlain];
-    [_notificationScrollBackground addSubview:_notificationContentView];
+    _notificationScreenShot = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height)];
+    [_notificationScrollBackground addSubview:_notificationScreenShot];
     
-    [_notificationScrollBackground setContentSize:CGSizeMake(self.navigationController.view.frame.size.width + _notificationScrollBackground.frame.size.width, 0)];
-    
-    _notificationScreenShot = [[UIView alloc]initWithFrame:CGRectMake(_notificationContentView.frame.size.width, 0, self.navigationController.view.frame.size.width, self.navigationController.view.frame.size.height)];
-    [_notificationContentView addSubview:_notificationScreenShot];
-    
-    _menuBlurMask = [[UIView alloc]initWithFrame:_menuScreenShot.frame];
-    [_menuBlurMask setBackgroundColor:[UIColor redColor]];
+    _notificationBlurMask = [[UIView alloc]initWithFrame:_notificationScreenShot.frame];
+    [_notificationBlurMask setBackgroundColor:[UIColor redColor]];
     
     UITapGestureRecognizer* notificationTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeNotificationTap:)];
     [notificationTap setNumberOfTapsRequired:1];
     [notificationTap setNumberOfTouchesRequired:1];
-    [_menuBlurMask addGestureRecognizer:notificationTap];
+    [_notificationBlurMask addGestureRecognizer:notificationTap];
     
-    [_menuScrollBackground addSubview:_menuBlurMask];
-    [_menuScrollBackground setContentOffset:CGPointMake(_menuContentView.frame.size.width, 0)];
+    [_notificationScrollBackground addSubview:_notificationBlurMask];
+    
+    _notificationContentView = [[UITableView alloc]initWithFrame:CGRectMake(_notificationScreenShot.frame.size.width, 0, self.navigationController.view.frame.size.width - 40, self.view.frame.size.height) style:UITableViewStylePlain];
+    [_notificationScrollBackground addSubview:_notificationContentView];
+    
+    [_notificationScrollBackground setContentSize:CGSizeMake(self.navigationController.view.frame.size.width + _notificationScrollBackground.frame.size.width, 0)];
+    
+    [_notificationScrollBackground setContentOffset:CGPointMake(_notificationContentView.frame.size.width, 0)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -129,7 +130,7 @@
         [self setNeedsStatusBarAppearanceUpdate];
         [self.navigationController.view bringSubviewToFront:_notificationScrollBackground];
         [_notificationScrollBackground bringSubviewToFront:_notificationBlurMask];
-        [_notificationScrollBackground setContentOffset:CGPointMake(0, 0) animated:YES];
+        [_notificationScrollBackground setContentOffset:CGPointMake(_notificationContentView.frame.size.width, 0) animated:YES];
     }
     else
     {
@@ -156,7 +157,7 @@
     }
     else if (_notificationScrollBackground == scrollView)
     {
-        [_notificationBlurMask setBackgroundColor:[UIColor colorWithWhite:0.f alpha:(.7 - (scrollView.contentOffset.x/scrollView.frame.size.width))]];
+        [_notificationBlurMask setBackgroundColor:[UIColor colorWithWhite:0.f alpha:(scrollView.contentOffset.x/scrollView.frame.size.width)]];
     }
 }
 
@@ -166,7 +167,7 @@
     {
         [self openMenu];
     }
-    else if (scrollView.contentOffset.x > 0 && scrollView == _notificationScrollBackground)
+    else if (scrollView.contentOffset.x == 0 && scrollView == _notificationScrollBackground)
     {
         [self openNotification];
     }
@@ -178,7 +179,7 @@
     {
         [self openMenu];
     }
-    else if (scrollView.contentOffset.x > 0 && scrollView == _notificationScrollBackground)
+    else if (scrollView.contentOffset.x == 0 && scrollView == _notificationScrollBackground)
     {
         [self openNotification];
     }
