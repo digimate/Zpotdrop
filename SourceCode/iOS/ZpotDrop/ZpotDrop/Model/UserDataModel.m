@@ -14,4 +14,10 @@
 @dynamic name;
 @dynamic avatar;
 
+-(void)awakeFromInsert{
+    [super awakeFromInsert];
+    self.name = @"";
+    self.avatar = @"";
+}
+
 @end

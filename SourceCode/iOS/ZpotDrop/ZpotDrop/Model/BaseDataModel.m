@@ -7,8 +7,19 @@
 //
 
 #import "BaseDataModel.h"
+#import "CoreDataService.h"
 
 @implementation BaseDataModel
 @dynamic mid;
 
+//fetch object with unique MID
+-(BaseDataModel*)fetchObjectWithID:(NSString*)mid{
+    BaseDataModel* object = (BaseDataModel*)[[CoreDataService instance] fetchFirstEntityForName:NSStringFromClass([self class]) predicate:[NSPredicate predicateWithFormat:@"mid == %@",mid] sortDescriptors:nil];
+    if (object == nil) {
+        object = (BaseDataModel*)[[CoreDataService instance]createEntityForName:NSStringFromClass([self class])];
+        [object setMid:mid];
+        [[CoreDataService instance]saveContext];
+    }
+    return object;
+}
 @end
