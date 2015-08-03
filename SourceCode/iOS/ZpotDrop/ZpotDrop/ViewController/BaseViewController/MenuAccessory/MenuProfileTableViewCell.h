@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UserModel.h"
+#import "UserDataModel.h"
 
 @interface MenuProfileTableViewCell : UITableViewCell
 
--(void)setupCellWithData:(UserModel*)data inSize:(CGSize)size;
+-(void)setupCellWithData:(UserDataModel*)data inSize:(CGSize)size;
 
 @end

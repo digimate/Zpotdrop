@@ -66,7 +66,6 @@
 		0ACD9E241B6A89D9004140EE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACD9E231B6A89D9004140EE /* StoreKit.framework */; };
 		0ACD9E261B6A89FD004140EE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACD9E251B6A89FD004140EE /* SystemConfiguration.framework */; };
 		0ACD9E281B6A8A05004140EE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACD9E271B6A8A05004140EE /* libz.dylib */; };
-		0ACD9E2A1B6A8A13004140EE /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACD9E291B6A8A13004140EE /* libsqlite3.dylib */; };
 		0ACD9E2D1B6A8B93004140EE /* APIService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD9E2C1B6A8B93004140EE /* APIService.m */; };
 		0ACD9E301B6A9374004140EE /* RuleService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD9E2F1B6A9374004140EE /* RuleService.m */; };
 		0ACD9E331B6A99C5004140EE /* DateTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD9E321B6A99C4004140EE /* DateTextField.m */; };
@@ -78,6 +77,12 @@
 		0ACD9E4E1B6F2067004140EE /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0ACD9E4C1B6F2067004140EE /* icon@2x.png */; };
 		0ACD9E4F1B6F2067004140EE /* name@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0ACD9E4D1B6F2067004140EE /* name@2x.png */; };
 		0ACD9E511B6F2617004140EE /* item_notification@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0ACD9E501B6F2617004140EE /* item_notification@2x.png */; };
+		BA0874A91B6FC07200FBFF74 /* CoreDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = BA0874A81B6FC07200FBFF74 /* CoreDataService.m */; };
+		BA0874AC1B6FC0C800FBFF74 /* zpotdrop.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BA0874AA1B6FC0C800FBFF74 /* zpotdrop.xcdatamodeld */; };
+		BA0874AF1B6FC10300FBFF74 /* BaseDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BA0874AE1B6FC10300FBFF74 /* BaseDataModel.m */; };
+		BA0874B21B6FC15200FBFF74 /* UserDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BA0874B11B6FC15200FBFF74 /* UserDataModel.m */; };
+		BA0874B41B6FC31300FBFF74 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0874B31B6FC31300FBFF74 /* CoreData.framework */; };
+		BA0874B61B6FC35000FBFF74 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0874B51B6FC35000FBFF74 /* libsqlite3.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -190,7 +195,6 @@
 		0ACD9E231B6A89D9004140EE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		0ACD9E251B6A89FD004140EE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0ACD9E271B6A8A05004140EE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		0ACD9E291B6A8A13004140EE /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		0ACD9E2B1B6A8B93004140EE /* APIService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIService.h; sourceTree = "<group>"; };
 		0ACD9E2C1B6A8B93004140EE /* APIService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIService.m; sourceTree = "<group>"; };
 		0ACD9E2E1B6A9374004140EE /* RuleService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RuleService.h; sourceTree = "<group>"; };
@@ -209,6 +213,15 @@
 		0ACD9E4C1B6F2067004140EE /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		0ACD9E4D1B6F2067004140EE /* name@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "name@2x.png"; sourceTree = "<group>"; };
 		0ACD9E501B6F2617004140EE /* item_notification@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "item_notification@2x.png"; sourceTree = "<group>"; };
+		BA0874A71B6FC07200FBFF74 /* CoreDataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataService.h; sourceTree = "<group>"; };
+		BA0874A81B6FC07200FBFF74 /* CoreDataService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataService.m; sourceTree = "<group>"; };
+		BA0874AB1B6FC0C800FBFF74 /* zpotdrop.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = zpotdrop.xcdatamodel; sourceTree = "<group>"; };
+		BA0874AD1B6FC10300FBFF74 /* BaseDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseDataModel.h; sourceTree = "<group>"; };
+		BA0874AE1B6FC10300FBFF74 /* BaseDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseDataModel.m; sourceTree = "<group>"; };
+		BA0874B01B6FC15200FBFF74 /* UserDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDataModel.h; sourceTree = "<group>"; };
+		BA0874B11B6FC15200FBFF74 /* UserDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDataModel.m; sourceTree = "<group>"; };
+		BA0874B31B6FC31300FBFF74 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		BA0874B51B6FC35000FBFF74 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,7 +229,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0ACD9E2A1B6A8A13004140EE /* libsqlite3.dylib in Frameworks */,
+				BA0874B61B6FC35000FBFF74 /* libsqlite3.dylib in Frameworks */,
+				BA0874B41B6FC31300FBFF74 /* CoreData.framework in Frameworks */,
 				0ACD9E281B6A8A05004140EE /* libz.dylib in Frameworks */,
 				0ACD9E261B6A89FD004140EE /* SystemConfiguration.framework in Frameworks */,
 				0ACD9E241B6A89D9004140EE /* StoreKit.framework in Frameworks */,
@@ -244,7 +258,8 @@
 		0ACD9D5A1B68B767004140EE = {
 			isa = PBXGroup;
 			children = (
-				0ACD9E291B6A8A13004140EE /* libsqlite3.dylib */,
+				BA0874B51B6FC35000FBFF74 /* libsqlite3.dylib */,
+				BA0874B31B6FC31300FBFF74 /* CoreData.framework */,
 				0ACD9E271B6A8A05004140EE /* libz.dylib */,
 				0ACD9E251B6A89FD004140EE /* SystemConfiguration.framework */,
 				0ACD9E231B6A89D9004140EE /* StoreKit.framework */,
@@ -402,6 +417,8 @@
 		0ACD9DE51B68D4A0004140EE /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				BA0874A71B6FC07200FBFF74 /* CoreDataService.h */,
+				BA0874A81B6FC07200FBFF74 /* CoreDataService.m */,
 				0ACD9E2B1B6A8B93004140EE /* APIService.h */,
 				0ACD9E2C1B6A8B93004140EE /* APIService.m */,
 				0ACD9E2E1B6A9374004140EE /* RuleService.h */,
@@ -493,6 +510,11 @@
 		0ACD9E451B6E5205004140EE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				BA0874B01B6FC15200FBFF74 /* UserDataModel.h */,
+				BA0874B11B6FC15200FBFF74 /* UserDataModel.m */,
+				BA0874AD1B6FC10300FBFF74 /* BaseDataModel.h */,
+				BA0874AE1B6FC10300FBFF74 /* BaseDataModel.m */,
+				BA0874AA1B6FC0C800FBFF74 /* zpotdrop.xcdatamodeld */,
 				0ACD9E461B6E71E4004140EE /* UserModel.h */,
 				0ACD9E471B6E71E4004140EE /* UserModel.m */,
 			);
@@ -638,6 +660,8 @@
 				0ACD9DD21B68D497004140EE /* NSDate+Helper.m in Sources */,
 				0ACD9E441B6E5068004140EE /* MenuZpotAllTableViewCell.m in Sources */,
 				0ACD9DEB1B6918D4004140EE /* BaseViewController.m in Sources */,
+				BA0874A91B6FC07200FBFF74 /* CoreDataService.m in Sources */,
+				BA0874AC1B6FC0C800FBFF74 /* zpotdrop.xcdatamodeld in Sources */,
 				0ACD9DD51B68D497004140EE /* SDImageCache.m in Sources */,
 				0ACD9DCD1B68D497004140EE /* AFSecurityPolicy.m in Sources */,
 				0ACD9E0F1B6A22A7004140EE /* CompleteSignupViewController.m in Sources */,
@@ -654,10 +678,12 @@
 				0ACD9DEE1B6918FC004140EE /* LoginViewController.m in Sources */,
 				0ACD9DE11B68D497004140EE /* UIImageView+WebCache.m in Sources */,
 				0ACD9DE01B68D497004140EE /* UIImageView+HighlightedWebCache.m in Sources */,
+				BA0874B21B6FC15200FBFF74 /* UserDataModel.m in Sources */,
 				0ACD9E301B6A9374004140EE /* RuleService.m in Sources */,
 				0ACD9DD31B68D497004140EE /* MKAnnotationView+WebCache.m in Sources */,
 				0ACD9DDD1B68D497004140EE /* UIImage+GIF.m in Sources */,
 				0ACD9D6C1B68B767004140EE /* AppDelegate.m in Sources */,
+				BA0874AF1B6FC10300FBFF74 /* BaseDataModel.m in Sources */,
 				0ACD9DDB1B68D497004140EE /* SDWebImagePrefetcher.m in Sources */,
 				0ACD9E411B6E5051004140EE /* MenuFeatureTableViewCell.m in Sources */,
 				0ACD9DDC1B68D497004140EE /* UIButton+WebCache.m in Sources */,
@@ -743,7 +769,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -780,7 +806,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -797,7 +823,9 @@
 					"$(PROJECT_DIR)/ZpotDrop/Extension/Parse",
 				);
 				INFOPLIST_FILE = ZpotDrop/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -812,7 +840,9 @@
 					"$(PROJECT_DIR)/ZpotDrop/Extension/Parse",
 				);
 				INFOPLIST_FILE = ZpotDrop/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -882,6 +912,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BA0874AA1B6FC0C800FBFF74 /* zpotdrop.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BA0874AB1B6FC0C800FBFF74 /* zpotdrop.xcdatamodel */,
+			);
+			currentVersion = BA0874AB1B6FC0C800FBFF74 /* zpotdrop.xcdatamodel */;
+			path = zpotdrop.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 0ACD9D5B1B68B767004140EE /* Project object */;
 }

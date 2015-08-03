@@ -20,7 +20,7 @@
     // Configure the view for the selected state
 }
 
--(void)setupCellWithData:(UserModel*)data inSize:(CGSize)size
+-(void)setupCellWithData:(UserDataModel*)data inSize:(CGSize)size
 {
     
 }
