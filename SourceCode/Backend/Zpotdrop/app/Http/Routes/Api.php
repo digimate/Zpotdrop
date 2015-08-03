@@ -17,12 +17,28 @@
 |--------------------------------------------------------------------------
 */
 Route::group(['prefix' => 'api/v1'], function(){
-	Route::group(['namespace'=>'Api\V1'], function(){
-		Route::post('oauth/register', ['as'=>'oauth.register', 'uses' => 'OAuthController@register']);
+	Route::group(['namespace'=>'Api\v1'], function(){
+		Route::post('oauth/register', [
+			'as' => 'oauth.register',
+			'uses' => 'OAuthController@register'
+		]);
 		Route::post('oauth/login', function() {
 			$lzResponse = new \App\Acme\Restful\LZResponse();
 			return $lzResponse->success(Authorizer::issueAccessToken());
 		});
+		Route::post('oauth/password/remind', 'PasswordController@remindPassword');
+		Route::get('oauth/password/reset/{token}', [
+			'as' => 'oauth.password.get.reset',
+			'uses' => 'PasswordController@getReset'
+		]);
+		Route::post('oauth/password/reset', [
+			'as' => 'oauth.password.post.reset',
+			'uses' => 'PasswordController@postReset'
+		]);
+		Route::post('oauth/password/change', [
+			'as' => 'oauth.password.post.change',
+			'uses' => 'PasswordController@postChangePassword'
+		]);
 	});
 });
 
@@ -32,13 +48,18 @@ Route::group(['prefix' => 'api/v1'], function(){
 |--------------------------------------------------------------------------
 */
 
-Route::group(['prefix' => 'api/v1', 'namespace'=>'Api\v1', 'middleware' => 'oauth'], function(){
+Route::group([
+	'prefix' => 'api/v1',
+	'namespace' => 'Api\v1',
+	'middleware' => 'oauth'], function(){
 /*
 |--------------------------------------------------------------------------
 | Authenticate
 |--------------------------------------------------------------------------
 */
-	Route::post('oauth/logout', ['as'=>'oauth.logout', 'uses' => 'OAuthController@logout']);
+	Route::post('oauth/logout', [
+		'as' => 'oauth.logout',
+		'uses' => 'OAuthController@logout']);
 
 /*
 |--------------------------------------------------------------------------
@@ -61,9 +82,18 @@ Route::group(['prefix' => 'api/v1', 'namespace'=>'Api\v1', 'middleware' => 'oaut
 | Posts
 |--------------------------------------------------------------------------
 */
-	Route::post('posts/list', ['as' => 'api.posts.list', 'uses' => 'PostController@index']);
-	Route::post('posts/{id}/show', ['as' => 'api.posts.show', 'uses' => 'PostController@show']);
-	Route::post('posts/{id}/like', ['as' => 'api.posts.like', 'uses' => 'PostController@like']);
+	Route::post('posts/list', [
+		'as' => 'api.posts.list',
+		'uses' => 'PostController@index'
+	]);
+	Route::post('posts/{id}/show', [
+		'as' => 'api.posts.show',
+		'uses' => 'PostController@show'
+	]);
+	Route::post('posts/{id}/like', [
+		'as' => 'api.posts.like',
+		'uses' => 'PostController@like'
+	]);
 });
 
 /*
@@ -72,7 +102,7 @@ Route::group(['prefix' => 'api/v1', 'namespace'=>'Api\v1', 'middleware' => 'oaut
 |--------------------------------------------------------------------------
 */
 Route::group(['prefix' => 'api/v1'], function(){
-	Route::group(['namespace'=>'Api\v1'], function(){
+	Route::group(['namespace' => 'Api\v1'], function(){
 		Route::get('tables/users', 'TableController@users');
 		Route::get('tables/friends', 'TableController@friends');
 		Route::get('tables/posts', 'TableController@posts');

@@ -11,7 +11,6 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Acme\Restful\LZResponse;
 use App\Http\Requests\UserRequest;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;

@@ -106,17 +106,13 @@
             "path": "/users/profile/edit",
             "operations": [
                 {
-                    "method": "GET",
+                    "method": "POST",
                     "summary": "Show detail profile for edit",
                     "nickname": "edit",
                     "responseMessages": [
                         {
                             "code": 200,
                             "message": "Profile of current user"
-                        },
-                        {
-                            "code": 400,
-                            "message": "Bad request"
                         }
                     ]
                 }
@@ -146,7 +142,7 @@
             "path": "/users/profile/{id}/show",
             "operations": [
                 {
-                    "method": "GET",
+                    "method": "POST",
                     "summary": "Get detail profile of ID",
                     "nickname": "show",
                     "parameters": [
