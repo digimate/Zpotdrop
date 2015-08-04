@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
+#import "CoreDataService.h"
 
 @interface AppDelegate ()
 
@@ -20,7 +21,7 @@
     [Parse enableLocalDatastore];
     [Parse setApplicationId:@"ppZUHCYYoJNe1V6ZpAdJfOzJ6vL6mWKKll3V8MM4" clientKey:@"sBpKO7QEP3jLS73hSoMAB8NyObATl7vlo4e0qLfC"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-    
+    [[CoreDataService instance] setDatabaseName:@"zpotdrop"];
     return YES;
 }
 

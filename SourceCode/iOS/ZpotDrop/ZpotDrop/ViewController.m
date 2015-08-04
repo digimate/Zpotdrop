@@ -8,7 +8,9 @@
 
 #import "ViewController.h"
 #import "LoginViewController.h"
-
+#import "AccountModel.h"
+#import "MainViewController.h"
+#import "BaseNavigationController.h"
 @interface ViewController ()
 
 @end
@@ -21,13 +23,13 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    LoginViewController* lg = [[LoginViewController alloc]init];
-    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:lg] animated:YES completion:nil];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    if (![AccountModel currentAccountModel].is_login) {
+        MainViewController* mainViewC = [[MainViewController alloc]init];
+        [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:mainViewC] animated:YES completion:nil];
+    }else{
+        LoginViewController* lg = [[LoginViewController alloc]init];
+        [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:lg] animated:YES completion:nil];
+    }
 }
 
 @end

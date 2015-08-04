@@ -12,7 +12,7 @@
 #import "NSDate+Helper.h"
 #import "RuleService.h"
 #import "APIService.h"
-
+#import "UINavigationBar+FixedHeightWhenStatusBarHidden.h"
 #define MAIN_COLOR @"b1cb89"
 
 @interface BaseViewController : UIViewController
@@ -20,4 +20,6 @@
     RuleService* _rule;
     APIService* _api;
 }
+
+
 @end
