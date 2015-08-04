@@ -9,7 +9,7 @@
 #import "PostZpotViewController.h"
 #import "Utils.h"
 
-@interface PostZpotViewController (){
+@interface PostZpotViewController ()<UITableViewDataSource>{
     UIScrollView* _scrollViewContent;
 }
 
@@ -70,6 +70,11 @@
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setAttributedPlaceholder:attributedPlaceholder];
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16]];
     [_scrollViewContent addSubview:searchLocationBar];
+    
+    UITableView* tableViewLocation = [[UITableView alloc]initWithFrame:CGRectMake(0, searchLocationBar.y + searchLocationBar.height, self.view.width, _scrollViewContent.height - searchLocationBar.y - searchLocationBar.height) style:UITableViewStylePlain];
+    tableViewLocation.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tableViewLocation.dataSource = self;
+    [_scrollViewContent addSubview:tableViewLocation];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -90,14 +95,29 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - UITableViewDataSource
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
 }
-*/
 
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 5;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString* str = @"cellLocation";
+    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:str];
+    if (!cell) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:str];
+        cell.detailTextLabel.textColor = [UIColor colorWithRed:159 green:159 blue:159];
+        cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+        cell.textLabel.font =   [UIFont fontWithName:@"HelveticaNeue-Bold" size:16];
+    };
+    
+    cell.textLabel.text = @"Text Title";
+    cell.detailTextLabel.text = @"Text Subtitle";
+    [cell addBorderWithFrame:CGRectMake(10, 44-1,tableView.frame.size.width -10, 1) color:COLOR_SEPEARATE_LINE];
+    
+    return cell;
+}
 @end
