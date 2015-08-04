@@ -111,6 +111,7 @@
 		BA6284261B71060500399368 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6284221B71060500399368 /* SVIndefiniteAnimatedView.m */; };
 		BA6284271B71060500399368 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BA6284231B71060500399368 /* SVProgressHUD.bundle */; };
 		BA6284281B71060500399368 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6284251B71060500399368 /* SVProgressHUD.m */; };
+		BA62842C1B710BE700399368 /* PostZpotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA62842B1B710BE700399368 /* PostZpotViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -293,6 +294,8 @@
 		BA6284231B71060500399368 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		BA6284241B71060500399368 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		BA6284251B71060500399368 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		BA62842A1B710BE700399368 /* PostZpotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostZpotViewController.h; sourceTree = "<group>"; };
+		BA62842B1B710BE700399368 /* PostZpotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostZpotViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -522,6 +525,7 @@
 		0ACD9DE61B68D4D7004140EE /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				BA6284291B710BD300399368 /* PostView */,
 				8C269C5A1B7079D200E6835E /* Menus */,
 				0ACD9DE71B68D4D7004140EE /* BaseViewController */,
 				0ACD9DE81B68D4D7004140EE /* Login */,
@@ -670,6 +674,15 @@
 				BA6284251B71060500399368 /* SVProgressHUD.m */,
 			);
 			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
+		BA6284291B710BD300399368 /* PostView */ = {
+			isa = PBXGroup;
+			children = (
+				BA62842A1B710BE700399368 /* PostZpotViewController.h */,
+				BA62842B1B710BE700399368 /* PostZpotViewController.m */,
+			);
+			path = PostView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -852,6 +865,7 @@
 				BA6284141B70F2BB00399368 /* UIView+Frame.m in Sources */,
 				BA0874AF1B6FC10300FBFF74 /* BaseDataModel.m in Sources */,
 				0ACD9DDB1B68D497004140EE /* SDWebImagePrefetcher.m in Sources */,
+				BA62842C1B710BE700399368 /* PostZpotViewController.m in Sources */,
 				0ACD9DDC1B68D497004140EE /* UIButton+WebCache.m in Sources */,
 				0ACD9DDE1B68D497004140EE /* UIImage+MultiFormat.m in Sources */,
 				0ACD9DD71B68D497004140EE /* SDWebImageDecoder.m in Sources */,

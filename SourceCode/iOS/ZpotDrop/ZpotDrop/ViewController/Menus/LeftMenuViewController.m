@@ -14,6 +14,7 @@
 #import "BaseTableViewCell.h"
 #import "Utils.h"
 #import "CircleProgressView.h"
+#import "PostZpotViewController.h"
 
 @interface LeftMenuViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -59,6 +60,7 @@
     [zpotdropAllView addSubview:zpotdropAllButton];
     
     _tableView.tableFooterView = zpotdropAllView;
+    currentSelectedRow = 1;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,6 +89,7 @@
     CGRect borderRect = CGRectZero;
     if (indexPath.row == 0) {
          borderRect = CGRectMake(15, [MenuProfileTableViewCell cellHeight]-0.5, tableView.width - 15, 0.5);
+        cell.userInteractionEnabled = NO;
     }else if (indexPath.row == 1) {
         param = @{@"title":@"post".localized.uppercaseString,@"icon":@"icon"};
         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-0.5, tableView.width - 15, 0.5);
@@ -106,6 +109,9 @@
     [cell setupCellWithData:nil andOptions:param];
     if (!CGRectEqualToRect(borderRect, CGRectZero)) {
         [cell addBorderWithFrame:borderRect color:COLOR_SEPEARATE_LINE];
+    }
+    if (currentSelectedRow == indexPath.row) {
+        [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     }
     return cell;
 }
@@ -140,6 +146,11 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (currentSelectedRow != indexPath.row) {
+        currentSelectedRow = indexPath.row;
+        if (currentSelectedRow == 1) {
+            [self.delegate leftmenuChangeViewToClass:NSStringFromClass([PostZpotViewController class])];
+        }
+    }
 }
 @end

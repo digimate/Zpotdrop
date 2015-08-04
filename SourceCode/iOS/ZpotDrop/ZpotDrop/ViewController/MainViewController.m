@@ -7,8 +7,9 @@
 //
 
 #import "MainViewController.h"
+#import "PostZpotViewController.h"
 
-@interface MainViewController ()
+@interface MainViewController ()<LeftMenuDelegate>
 
 @end
 
@@ -37,6 +38,7 @@
 
     //====================== LEFT MENU =========================
     _leftMenuViewController = [[LeftMenuViewController alloc]init];
+    _leftMenuViewController.delegate = self;
     _leftMenuViewController.view.frame = [UIScreen mainScreen].bounds;
     [self.navigationController.view addSubview:_leftMenuViewController.view];
     [self.navigationController.view sendSubviewToBack:_leftMenuViewController.view];
@@ -169,4 +171,10 @@
     [self openNotification];
 }
 
+#pragma mark - LeftMenuDelegate
+-(void)leftmenuChangeViewToClass:(NSString *)clsString{
+    if ([clsString isEqualToString:NSStringFromClass([PostZpotViewController class])]) {
+        
+    }
+}
 @end
