@@ -12,30 +12,14 @@
 #import "NSDate+Helper.h"
 #import "RuleService.h"
 #import "APIService.h"
-
+#import "UINavigationBar+FixedHeightWhenStatusBarHidden.h"
 #define MAIN_COLOR @"b1cb89"
 
-@interface BaseViewController : UIViewController <UIScrollViewDelegate>
+@interface BaseViewController : UIViewController
 {
     RuleService* _rule;
     APIService* _api;
-    
-    //Menu view
-    BOOL _menuOpening;
-    UIScrollView* _menuScrollBackground;
-    UITableView* _menuContentView;
-    UIView* _menuScreenShot;
-    UIView* _menuBlurMask;
-    
-    //Notification view
-    BOOL _notificationOpening;
-    UIScrollView* _notificationScrollBackground;
-    UITableView* _notificationContentView;
-    UIView* _notificationScreenShot;
-    UIView* _notificationBlurMask;
 }
 
--(void)openMenu;
--(void)openNotification;
 
 @end

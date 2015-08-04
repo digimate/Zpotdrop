@@ -11,5 +11,5 @@
 @interface BaseDataModel : NSManagedObject
 @property (nonatomic, retain) NSString * mid;
 
--(BaseDataModel*)fetchObjectWithID:(NSString*)mid;
++(BaseDataModel*)fetchObjectWithID:(NSString*)mid;
 @end

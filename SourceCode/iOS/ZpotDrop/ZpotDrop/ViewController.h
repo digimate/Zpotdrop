@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface ViewController : BaseViewController
+@interface ViewController : UIViewController
 
 @end
 

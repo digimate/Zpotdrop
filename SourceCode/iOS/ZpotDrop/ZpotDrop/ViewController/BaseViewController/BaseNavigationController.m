@@ -1,23 +1,22 @@
 //
-//  BaseViewController.m
+//  BaseNavigationController.m
 //  ZpotDrop
 //
-//  Created by Nguyenh on 7/29/15.
+//  Created by ME on 8/4/15.
 //  Copyright (c) 2015 zpotdrop. All rights reserved.
 //
 
-#import "BaseViewController.h"
-
-@interface BaseViewController ()
+#import "BaseNavigationController.h"
+#import "MainViewController.h"
+@interface BaseNavigationController ()
 
 @end
 
-@implementation BaseViewController
+@implementation BaseNavigationController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _api = [APIService shareAPIService];
-    _rule = [RuleService shareRuleService];
+    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
