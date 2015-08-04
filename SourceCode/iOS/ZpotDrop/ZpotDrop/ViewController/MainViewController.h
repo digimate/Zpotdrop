@@ -11,11 +11,12 @@
 #import "UIAlertView+Blocks.h"
 #import "NSDate+Helper.h"
 #import "BaseViewController.h"
+#import "LeftMenuViewController.h"
 @interface MainViewController : BaseViewController{
     //Menu view
     BOOL _menuOpening;
     UIView* _menuBackground;
-    UITableView* _menuContentView;
+    LeftMenuViewController* _menuContentView;
 
     
     //Notification view

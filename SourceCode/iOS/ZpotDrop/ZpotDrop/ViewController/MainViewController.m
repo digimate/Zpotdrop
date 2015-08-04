@@ -46,9 +46,10 @@
     [menuTap setNumberOfTouchesRequired:1];
     [_menuBackground addGestureRecognizer:menuTap];
     
-    _menuContentView = [[UITableView alloc]initWithFrame:CGRectMake(spacing - _menuBackground.frame.size.width, 0, _menuBackground.frame.size.width - spacing, _menuBackground.frame.size.height) style:UITableViewStylePlain];
-    [_menuBackground addSubview:_menuContentView];
-    
+    _menuContentView = [[LeftMenuViewController alloc]init];
+    [_menuBackground addSubview:_menuContentView.view];
+    _menuContentView.view.frame = CGRectMake(spacing - _menuBackground.frame.size.width, 0, _menuBackground.frame.size.width - spacing, _menuBackground.frame.size.height);
+
     //====================== RIGHT NOTIFICATION =========================
     CGRect frame = [UIScreen mainScreen].bounds;
     frame.origin.y = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height;
@@ -76,6 +77,12 @@
     [self.view addGestureRecognizer:swipeLeftGesture];
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    if (_menuContentView.parentViewController == nil) {
+        [self.navigationController addChildViewController:_menuContentView];
+    }
+}
+
 -(void)handleSwipeLeft{
     [self openNotification];
 }
@@ -95,20 +102,20 @@
         [self.navigationController.view bringSubviewToFront:_menuBackground];
         [[UIApplication sharedApplication]setStatusBarHidden:YES];
         [UIView animateWithDuration:0.3 animations:^{
-            CGRect frame = _menuContentView.frame;
+            CGRect frame = _menuContentView.view.frame;
             frame.origin.x = 0;
             _menuBackground.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.7];
-            _menuContentView.frame = frame;
+            _menuContentView.view.frame = frame;
         }];
     }
     else
     {
         [[UIApplication sharedApplication]setStatusBarHidden:NO];
         [UIView animateWithDuration:0.3 animations:^{
-            CGRect frame = _menuContentView.frame;
+            CGRect frame = _menuContentView.view.frame;
             frame.origin.x = -frame.size.width;
             _menuBackground.backgroundColor = [UIColor clearColor];
-            _menuContentView.frame = frame;
+            _menuContentView.view.frame = frame;
         } completion:^(BOOL finished) {
             [self.navigationController.view sendSubviewToBack:_menuBackground];
         }];
