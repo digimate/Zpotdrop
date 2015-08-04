@@ -8,6 +8,7 @@
 
 #import "SignupViewController.h"
 #import "CompleteSignupViewController.h"
+#import "Utils.h"
 
 @interface SignupViewController ()
 
@@ -67,7 +68,7 @@
     
     _password = [[UITextField alloc]initWithFrame:CGRectMake(_email.frame.origin.x, _email.frame.origin.y + _email.frame.size.height, _mScrollView.frame.size.width - 60, 40)];
     [_password setSecureTextEntry:YES];
-    [_password setPlaceholder:@"Password"];
+    [_password setPlaceholder:@"password".localized];
     [_password setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_password setTextAlignment:NSTextAlignmentCenter];
     [_password setDelegate:self];
@@ -79,7 +80,7 @@
     
     _confirm = [[UITextField alloc]initWithFrame:CGRectMake(_password.frame.origin.x, _password.frame.origin.y + _password.frame.size.height, _mScrollView.frame.size.width - 60, 40)];
     [_confirm setSecureTextEntry:YES];
-    [_confirm setPlaceholder:@"Confirm again"];
+    [_confirm setPlaceholder:@"confirm_password".localized];
     [_confirm setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_confirm setTextAlignment:NSTextAlignmentCenter];
     [_confirm setDelegate:self];
@@ -91,7 +92,7 @@
     
     _continue = [UIButton buttonWithType:UIButtonTypeCustom];
     [_continue setFrame:CGRectMake(0, _confirm.frame.origin.y + _confirm.frame.size.height, _mScrollView.frame.size.width, 60)];
-    [_continue setTitle:@"Continue" forState:UIControlStateNormal];
+    [_continue setTitle:@"continue".localized forState:UIControlStateNormal];
     [_continue.titleLabel setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_continue setTitleColor:[UIColor colorWithHexString:@"b2cc8a"] forState:UIControlStateNormal];
     [_continue addTarget:self action:@selector(next:) forControlEvents:UIControlEventTouchUpInside];
@@ -107,7 +108,7 @@
 {
     if (![_rule checkEmailStringIsCorrect:_email.text])
     {
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"We're sorry" message:@"Your email doesn't incorrect format" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"error_title".localized message:@"error_email_format".localized delegate:nil cancelButtonTitle:@"ok".localized otherButtonTitles: nil];
         [alert showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
             [_email setText:@""];
             [_email becomeFirstResponder];
@@ -116,7 +117,7 @@
     }
     if ([_password.text length] < 3)
     {
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"We're sorry" message:@"Your password at least 3 characters" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"error_title".localized message:@"error_password_length".localized delegate:nil cancelButtonTitle:@"ok".localized otherButtonTitles: nil];
         [alert showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
             [_password setText:@""];
             [_password becomeFirstResponder];
@@ -126,7 +127,7 @@
     
     if (![_confirm.text isEqualToString:_password.text])
     {
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"We're sorry" message:@"Your password and confirm password doesn't match" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"error_title".localized message:@"error_passwords_not_match".localized delegate:nil cancelButtonTitle:@"ok".localized otherButtonTitles: nil];
         [alert showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
             [_confirm setText:@""];
             [_confirm becomeFirstResponder];

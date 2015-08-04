@@ -5,14 +5,44 @@
   Created by Son Truong on 8/4/15.
   Copyright (c) 2015 zpotdrop. All rights reserved.
 */
-
+//MARK: - ***** A *****
+//MARK: - ***** B *****
+"birthday" = "Date of birth";
+//MARK: - ***** C *****
+"continue" = "Continue";
+"cancel" = "Cancel";
+"confirm_password" = "Confirm again";
+//MARK: - ***** E *****
+"error_title" = "We're sorry";
+"error_email_format" = "Your email is not correct format";
+"error_password_length" = "Your password at least 3 characters";
+"error_passwords_not_match" = "Your password and confirm password doesn't match";
+"error_first_name" = "First name is missing, please check again";
+"error_last_name" = "Last name is missing, please check again";
 //MARK: - ***** F *****
 "feed" = "Feed";
 "find" = "Find";
+"forget_password" = "Forgot password?";
+"first_name" = "First name";
+"female" = "Female";
+//MARK: - ***** L *****
+"last_name" = "Last name";
+//MARK: - ***** M *****
+"male" = "Male";
+//MARK: - ***** N *****
+"no_zpotdrop_account" = "Not yet on zpotdrop?";
+"notice_input_email" = "Please enter your email";
+//MARK: - ***** O *****
+"ok" = "OK";
 //MARK: - ***** P *****
 "post" = "Post";
+"password" = "Password";
+"place_holder_username" = "Email or phone number";
 //MARK: - ***** S *****
 "search" = "Search";
 "settings" = "Settings";
+"send" = "Send";
+//MARK: - ***** W *****
+"welcome" = "Welcome to";
 //MARK: - ***** Z *****
 "zpot_all" = "Zpot All";

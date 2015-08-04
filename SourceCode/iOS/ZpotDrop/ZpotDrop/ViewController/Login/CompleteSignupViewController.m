@@ -7,6 +7,7 @@
 //
 
 #import "CompleteSignupViewController.h"
+#import "Utils.h"
 
 @interface CompleteSignupViewController ()
 
@@ -49,7 +50,7 @@
     [_mScrollView addSubview:_icon];
     
     _firstName = [[UITextField alloc]initWithFrame:CGRectMake(30, _icon.frame.origin.y + _icon.frame.size.height + 50, _mScrollView.frame.size.width - 60, 40)];
-    [_firstName setPlaceholder:@"First name"];
+    [_firstName setPlaceholder:@"first_name".localized];
     [_firstName setTextAlignment:NSTextAlignmentCenter];
     [_firstName setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_firstName setDelegate:self];
@@ -60,7 +61,7 @@
     [_firstName addSubview:line];
     
     _lastName = [[UITextField alloc]initWithFrame:CGRectMake(_firstName.frame.origin.x, _firstName.frame.origin.y + _firstName.frame.size.height, _mScrollView.frame.size.width - 60, 40)];
-    [_lastName setPlaceholder:@"Last name"];
+    [_lastName setPlaceholder:@"last_name".localized];
     [_lastName setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_lastName setTextAlignment:NSTextAlignmentCenter];
     [_lastName setDelegate:self];
@@ -70,8 +71,8 @@
     [line1 setBackgroundColor:[UIColor colorWithHexString:@"c9c9c9"]];
     [_lastName addSubview:line1];
     
-    _dob = [[DateTextField alloc]initWithFrame:CGRectMake(_lastName.frame.origin.x, _lastName.frame.origin.y + _lastName.frame.size.height, _mScrollView.frame.size.width - 60, 40) date:[NSDate date] andDisplayFormat:@"MMM dd yyyy"];
-    [_dob setPlaceholder:@"Date of birth"];
+    _dob = [[DateTextField alloc]initWithFrame:CGRectMake(_lastName.frame.origin.x, _lastName.frame.origin.y + _lastName.frame.size.height, _mScrollView.frame.size.width - 60, 40) date:[NSDate date] andDisplayFormat:DATE_FORMAT_MONTH_IN_LETTER];
+    [_dob setPlaceholder:@"birthday".localized];
     [_dob setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_dob setTextAlignment:NSTextAlignmentCenter];
     [_dob setDelegate:self];
@@ -84,7 +85,7 @@
     _male = [UIButton buttonWithType:UIButtonTypeCustom];
     [_male setFrame:CGRectMake(_dob.frame.origin.x, _dob.frame.origin.y + _dob.frame.size.height + 20, _dob.frame.size.width/2, 27)];
     [_male setBackgroundColor:[UIColor colorWithHexString:MAIN_COLOR]];
-    [_male setTitle:@"Male" forState:UIControlStateNormal];
+    [_male setTitle:@"male".localized forState:UIControlStateNormal];
     [_male setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_male.layer setBorderColor:[UIColor colorWithHexString:@"c9c9c9"].CGColor];
     [_male addTarget:self action:@selector(malePressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -95,7 +96,7 @@
     _female = [UIButton buttonWithType:UIButtonTypeCustom];
     [_female setFrame:CGRectMake(_male.frame.origin.x + _male.frame.size.width, _male.frame.origin.y, _dob.frame.size.width/2, 27)];
     [_female setBackgroundColor:[UIColor whiteColor]];
-    [_female setTitle:@"Female" forState:UIControlStateNormal];
+    [_female setTitle:@"female".localized forState:UIControlStateNormal];
     [_female.layer setBorderColor:[UIColor colorWithHexString:@"c9c9c9"].CGColor];
     [_female addTarget:self action:@selector(femalePressed:) forControlEvents:UIControlEventTouchUpInside];
     [_female.layer setBorderWidth:1.f];
@@ -105,7 +106,7 @@
     
     _complete = [UIButton buttonWithType:UIButtonTypeCustom];
     [_complete setFrame:CGRectMake(0, _male.frame.origin.y + _male.frame.size.height, _mScrollView.frame.size.width, 60)];
-    [_complete setTitle:@"Continue" forState:UIControlStateNormal];
+    [_complete setTitle:@"continue".localized forState:UIControlStateNormal];
     [_complete.titleLabel setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_complete setTitleColor:[UIColor colorWithHexString:@"b2cc8a"] forState:UIControlStateNormal];
     [_complete addTarget:self action:@selector(completePressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -114,31 +115,35 @@
 
 -(IBAction)completePressed:(id)sender
 {
-    if ([[_firstName.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
-    {
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"We're sorry" message:@"First name is missing, please check again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
-            [_firstName becomeFirstResponder];
-        }];
-        return;
-    }
-    
-    if ([[_lastName.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
-    {
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"We're sorry" message:@"Last name is missing, please check again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
-            [_lastName becomeFirstResponder];
-        }];
-        return;
-    }
-    
-    [_data setObject:_firstName.text forKey:@"firstName"];
-    [_data setObject:_lastName.text forKey:@"lastName"];
-    [_data setObject:_dob.getDate forKey:@"dob"];
-    [_data setObject:[NSNumber numberWithBool:_gender] forKey:@"gender"];
-    [_api createAccountWithData:_data :^(id data, NSString *error) {
+    if (IS_DEBUG) {
+        [[NSNotificationCenter defaultCenter]postNotificationName:KEY_LOGIN_SUCCEED object:nil];
+    }else{
+        if ([[_firstName.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
+        {
+            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"error_title".localized message:@"error_first_name".localized delegate:nil cancelButtonTitle:@"ok".localized otherButtonTitles: nil];
+            [alert showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                [_firstName becomeFirstResponder];
+            }];
+            return;
+        }
         
-    }];
+        if ([[_lastName.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
+        {
+            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"error_title".localized message:@"error_last_name".localized delegate:nil cancelButtonTitle:@"ok".localized otherButtonTitles: nil];
+            [alert showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                [_lastName becomeFirstResponder];
+            }];
+            return;
+        }
+        
+        [_data setObject:_firstName.text forKey:@"firstName"];
+        [_data setObject:_lastName.text forKey:@"lastName"];
+        [_data setObject:_dob.getDate forKey:@"dob"];
+        [_data setObject:[NSNumber numberWithBool:_gender] forKey:@"gender"];
+        [_api createAccountWithData:_data :^(id data, NSString *error) {
+            [[NSNotificationCenter defaultCenter]postNotificationName:KEY_LOGIN_SUCCEED object:nil];
+        }];
+    }
 }
 
 -(IBAction)malePressed:(id)sender

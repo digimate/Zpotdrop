@@ -11,6 +11,8 @@
 #import "AccountModel.h"
 #import "MainViewController.h"
 #import "BaseNavigationController.h"
+#import "Utils.h"
+
 @interface ViewController ()
 
 @end
@@ -23,13 +25,21 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    if (![AccountModel currentAccountModel].is_login) {
+    if ([AccountModel currentAccountModel].is_login) {
+        [[NSNotificationCenter defaultCenter]removeObserver:self];
+        
         MainViewController* mainViewC = [[MainViewController alloc]init];
-        [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:mainViewC] animated:YES completion:nil];
+        [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:mainViewC] animated:NO completion:nil];
     }else{
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginSucceed) name:KEY_LOGIN_SUCCEED object:nil];
+        
         LoginViewController* lg = [[LoginViewController alloc]init];
-        [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:lg] animated:YES completion:nil];
+        [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:lg] animated:NO completion:nil];
     }
 }
 
+-(void)loginSucceed{
+    [AccountModel currentAccountModel].is_login = YES;
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 @end

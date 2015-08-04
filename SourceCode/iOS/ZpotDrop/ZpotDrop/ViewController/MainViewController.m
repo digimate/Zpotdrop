@@ -17,6 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [[UIApplication sharedApplication]setStatusBarHidden:NO];
     self.navigationController.navigationBar.fixedHeightWhenStatusBarHidden = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     

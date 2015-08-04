@@ -15,10 +15,20 @@
 #import "NSDate+Helper.h"
 #import "UIView+Borders.h"
 #import "UIView+Frame.h"
+#import "SVProgressHUD.h"
+
+#import "AccountModel.h"
+
+#define IS_DEBUG 1
+#define DATE_FORMAT_MONTH_IN_LETTER @"MMM dd yyyy"
+
+#define KEY_LOGIN_SUCCEED @"KEY_LOGIN_SUCCEED"
 
 #define COLOR_DARK_GREEN [UIColor colorWithRed:(172/255.0) green:(199/255.0) blue:(132/255.0) alpha:1.0]
 #define COLOR_SEPEARATE_LINE [UIColor colorWithRed:(250/255.0) green:(250/255.0) blue:(250/255.0) alpha:1.0]
 
 @interface Utils : NSObject
 + (Utils *) instance;
+-(void)showProgressWithMessage:(NSString*)msg;
+-(void)hideProgess;
 @end

@@ -108,6 +108,9 @@
 		BA62841A1B70FCB900399368 /* MenuSettingViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6284181B70FCB900399368 /* MenuSettingViewCell.m */; };
 		BA62841B1B70FCB900399368 /* MenuSettingViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA6284191B70FCB900399368 /* MenuSettingViewCell.xib */; };
 		BA62841F1B70FF9200399368 /* CircleProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA62841E1B70FF9200399368 /* CircleProgressView.m */; };
+		BA6284261B71060500399368 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6284221B71060500399368 /* SVIndefiniteAnimatedView.m */; };
+		BA6284271B71060500399368 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BA6284231B71060500399368 /* SVProgressHUD.bundle */; };
+		BA6284281B71060500399368 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6284251B71060500399368 /* SVProgressHUD.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -285,6 +288,11 @@
 		BA6284191B70FCB900399368 /* MenuSettingViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuSettingViewCell.xib; sourceTree = "<group>"; };
 		BA62841D1B70FF9200399368 /* CircleProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleProgressView.h; sourceTree = "<group>"; };
 		BA62841E1B70FF9200399368 /* CircleProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleProgressView.m; sourceTree = "<group>"; };
+		BA6284211B71060500399368 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
+		BA6284221B71060500399368 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
+		BA6284231B71060500399368 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		BA6284241B71060500399368 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		BA6284251B71060500399368 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -402,6 +410,7 @@
 		0ACD9D8C1B68D497004140EE /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				BA6284201B71060500399368 /* SVProgressHUD */,
 				BA62841C1B70FF9200399368 /* CircleView */,
 				BA6284121B70F2BB00399368 /* UIView+Frame.h */,
 				BA6284131B70F2BB00399368 /* UIView+Frame.m */,
@@ -651,6 +660,18 @@
 			path = CircleView;
 			sourceTree = "<group>";
 		};
+		BA6284201B71060500399368 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				BA6284211B71060500399368 /* SVIndefiniteAnimatedView.h */,
+				BA6284221B71060500399368 /* SVIndefiniteAnimatedView.m */,
+				BA6284231B71060500399368 /* SVProgressHUD.bundle */,
+				BA6284241B71060500399368 /* SVProgressHUD.h */,
+				BA6284251B71060500399368 /* SVProgressHUD.m */,
+			);
+			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -742,6 +763,7 @@
 				BA6284061B70EDA400399368 /* Default-568h@2x.png in Resources */,
 				8C269C511B70788800E6835E /* PTS56F.ttf in Resources */,
 				0ACD9D771B68B767004140EE /* LaunchScreen.xib in Resources */,
+				BA6284271B71060500399368 /* SVProgressHUD.bundle in Resources */,
 				8C269C4C1B70788800E6835E /* PTC55F.ttf in Resources */,
 				8C269C4F1B70788800E6835E /* PTN77F.ttf in Resources */,
 				8C269C5F1B707D0E00E6835E /* MenuZpotAllTableViewCell.xib in Resources */,
@@ -810,11 +832,13 @@
 				BA62841A1B70FCB900399368 /* MenuSettingViewCell.m in Sources */,
 				0ACD9DE41B68D497004140EE /* UIColor+HexColors.m in Sources */,
 				0ACD9DD81B68D497004140EE /* SDWebImageDownloader.m in Sources */,
+				BA6284261B71060500399368 /* SVIndefiniteAnimatedView.m in Sources */,
 				0ACD9E0C1B6A185D004140EE /* SignupViewController.m in Sources */,
 				0ACD9DEE1B6918FC004140EE /* LoginViewController.m in Sources */,
 				8C269C561B70791000E6835E /* Utils.m in Sources */,
 				BA6284111B70F12000399368 /* NSString+Ext.m in Sources */,
 				8C269C6B1B709B8000E6835E /* BaseTableViewCell.m in Sources */,
+				BA6284281B71060500399368 /* SVProgressHUD.m in Sources */,
 				0ACD9DE11B68D497004140EE /* UIImageView+WebCache.m in Sources */,
 				0ACD9DE01B68D497004140EE /* UIImageView+HighlightedWebCache.m in Sources */,
 				BA0874B21B6FC15200FBFF74 /* UserDataModel.m in Sources */,

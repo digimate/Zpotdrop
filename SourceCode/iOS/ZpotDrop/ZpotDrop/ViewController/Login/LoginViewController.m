@@ -8,7 +8,7 @@
 
 #import "LoginViewController.h"
 #import "SignupViewController.h"
-
+#import "Utils.h"
 @interface LoginViewController ()
 
 @end
@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupLayout];
-    
+    [[UIApplication sharedApplication]setStatusBarHidden:YES];
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(didHide:) name:UIKeyboardWillHideNotification object:nil];
     [center addObserver:self selector:@selector(didShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -50,7 +50,7 @@
     [_signup setFrame:CGRectMake(0, _mScrollView.frame.size.height - 30 - 15, self.view.frame.size.width/2, 15)];
     [_signup setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
     [_signup.titleLabel setFont:[UIFont fontWithName:@"PTSans-Regular" size:12.f]];
-    [_signup setTitle:@"Not yet on zpotdrop?" forState:UIControlStateNormal];
+    [_signup setTitle:@"no_zpotdrop_account".localized forState:UIControlStateNormal];
     [_signup setTitleColor:[UIColor colorWithHexString:@"d9d9d9"] forState:UIControlStateNormal];
     [_signup addTarget:self action:@selector(signup:) forControlEvents:UIControlEventTouchUpInside];
     [_mScrollView addSubview:_signup];
@@ -59,14 +59,14 @@
     [_forgot setFrame:CGRectMake(self.view.frame.size.width/2, _signup.frame.origin.y, self.view.frame.size.width/2, 15)];
     [_forgot setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
     [_forgot.titleLabel setFont:[UIFont fontWithName:@"PTSans-Regular" size:12.f]];
-    [_forgot setTitle:@"Forgot password?" forState:UIControlStateNormal];
+    [_forgot setTitle:@"forget_password".localized forState:UIControlStateNormal];
     [_forgot setTitleColor:[UIColor colorWithHexString:@"d9d9d9"] forState:UIControlStateNormal];
     [_forgot addTarget:self action:@selector(forgot:) forControlEvents:UIControlEventTouchUpInside];
     [_mScrollView addSubview:_forgot];
     
     _continue = [UIButton buttonWithType:UIButtonTypeCustom];
     [_continue setFrame:CGRectMake(0, _signup.frame.origin.y - 35 - 60, _mScrollView.frame.size.width, 60)];
-    [_continue setTitle:@"Continue" forState:UIControlStateNormal];
+    [_continue setTitle:@"continue".localized forState:UIControlStateNormal];
     [_continue.titleLabel setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_continue setTitleColor:[UIColor colorWithHexString:@"b2cc8a"] forState:UIControlStateNormal];
     [_continue addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
@@ -74,7 +74,7 @@
     
     _password = [[UITextField alloc]initWithFrame:CGRectMake(30, _continue.frame.origin.y - 40, _mScrollView.frame.size.width - 60, 40)];
     [_password setSecureTextEntry:YES];
-    [_password setPlaceholder:@"Password"];
+    [_password setPlaceholder:@"password".localized];
     [_password setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_password setTextAlignment:NSTextAlignmentCenter];
     [_password setDelegate:self];
@@ -85,7 +85,7 @@
     [_password addSubview:line];
     
     _email = [[UITextField alloc]initWithFrame:CGRectMake(_password.frame.origin.x, _password.frame.origin.y - _password.frame.size.height, _password.frame.size.width, _password.frame.size.height)];
-    [_email setPlaceholder:@"Email or phone number"];
+    [_email setPlaceholder:@"place_holder_username".localized];
     [_email setTextAlignment:NSTextAlignmentCenter];
     [_email setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_email setDelegate:self];
@@ -105,7 +105,7 @@
     _welcome = [[UILabel alloc]initWithFrame:CGRectMake(0, _name.frame.origin.y - 60, _mScrollView.frame.size.width, 60)];
     [_welcome setFont:[UIFont fontWithName:@"PTSans-Regular" size:35.f]];
     [_welcome setTextColor:[UIColor blackColor]];
-    [_welcome setText:@"Welcome to"];
+    [_welcome setText:@"welcome".localized];
     [_welcome setTextAlignment:NSTextAlignmentCenter];
     [_mScrollView addSubview:_welcome];
     
@@ -137,7 +137,7 @@
 
 -(IBAction)forgot:(id)sender
 {
-    UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"Forgot password ?" message:@"Please enter your email" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Send", nil];
+    UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:@"forget_password".localized message:@"notice_input_email".localized delegate:nil cancelButtonTitle:@"cancel".localized otherButtonTitles:@"send".localized, nil];
     [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
     [[alertView textFieldAtIndex:0] setKeyboardType:UIKeyboardTypeEmailAddress];
     [[alertView textFieldAtIndex:0] setPlaceholder:@"example@example.com"];
@@ -146,12 +146,12 @@
         {
             if (![_rule checkEmailStringIsCorrect:[[alertView textFieldAtIndex:0] text]])
             {
-                [[[UIAlertView alloc]initWithTitle:@"We're sorry" message:@"Your email is not correct format" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+                [[[UIAlertView alloc]initWithTitle:@"error_title".localized message:@"error_email_format".localized delegate:nil cancelButtonTitle:@"ok".localized otherButtonTitles: nil] show];
                 return;
             }
             [_api forgotPasswordWithData:@{@"email": [[alertView textFieldAtIndex:0] text]} :^(id data, NSString *error) {
                 if (error)
-                    [[[UIAlertView alloc]initWithTitle:@"We're sorry" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+                    [[[UIAlertView alloc]initWithTitle:@"error_title".localized message:error delegate:nil cancelButtonTitle:@"ok".localized otherButtonTitles: nil] show];
             }];
         }
     }];
@@ -165,12 +165,20 @@
 
 -(IBAction)login:(id)sender
 {
-    [_api loginWithData:@{@"email":_email.text, @"password":_password.text} :^(id data, NSString *error) {
-        if (error)
-        {
-            [[[UIAlertView alloc]initWithTitle:@"We're sorry" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
-        }
-    }];
+    if (IS_DEBUG) {
+        //login success
+        [[NSNotificationCenter defaultCenter]postNotificationName:KEY_LOGIN_SUCCEED object:nil];
+    }else{
+        [_api loginWithData:@{@"email":_email.text, @"password":_password.text} :^(id data, NSString *error) {
+            if (error)
+            {
+                [[[UIAlertView alloc]initWithTitle:@"error_title".localized message:error delegate:nil cancelButtonTitle:@"ok".localized otherButtonTitles: nil] show];
+            }else{
+                //login success
+                [[NSNotificationCenter defaultCenter]postNotificationName:KEY_LOGIN_SUCCEED object:nil];
+            }
+        }];
+    }
 }
 -(BOOL)prefersStatusBarHidden{
     return YES;
