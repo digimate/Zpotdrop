@@ -83,6 +83,9 @@
 		8C269C261B7064EB00E6835E /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C269C251B7064EB00E6835E /* MainViewController.m */; };
 		8C269C291B706D0E00E6835E /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C269C281B706D0E00E6835E /* BaseNavigationController.m */; };
 		8C269C2C1B706F6300E6835E /* UINavigationBar+FixedHeightWhenStatusBarHidden.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C269C2B1B706F6300E6835E /* UINavigationBar+FixedHeightWhenStatusBarHidden.m */; };
+		8C269C401B70774E00E6835E /* MenuFeatureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C269C3B1B70774E00E6835E /* MenuFeatureTableViewCell.m */; };
+		8C269C411B70774E00E6835E /* MenuProfileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C269C3D1B70774E00E6835E /* MenuProfileTableViewCell.m */; };
+		8C269C421B70774E00E6835E /* MenuZpotAllTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C269C3F1B70774E00E6835E /* MenuZpotAllTableViewCell.m */; };
 		BA0874A91B6FC07200FBFF74 /* CoreDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = BA0874A81B6FC07200FBFF74 /* CoreDataService.m */; };
 		BA0874AC1B6FC0C800FBFF74 /* zpotdrop.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BA0874AA1B6FC0C800FBFF74 /* zpotdrop.xcdatamodeld */; };
 		BA0874AF1B6FC10300FBFF74 /* BaseDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BA0874AE1B6FC10300FBFF74 /* BaseDataModel.m */; };
@@ -229,6 +232,12 @@
 		8C269C281B706D0E00E6835E /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
 		8C269C2A1B706F6300E6835E /* UINavigationBar+FixedHeightWhenStatusBarHidden.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+FixedHeightWhenStatusBarHidden.h"; sourceTree = "<group>"; };
 		8C269C2B1B706F6300E6835E /* UINavigationBar+FixedHeightWhenStatusBarHidden.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+FixedHeightWhenStatusBarHidden.m"; sourceTree = "<group>"; };
+		8C269C3A1B70774E00E6835E /* MenuFeatureTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuFeatureTableViewCell.h; sourceTree = "<group>"; };
+		8C269C3B1B70774E00E6835E /* MenuFeatureTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuFeatureTableViewCell.m; sourceTree = "<group>"; };
+		8C269C3C1B70774E00E6835E /* MenuProfileTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuProfileTableViewCell.h; sourceTree = "<group>"; };
+		8C269C3D1B70774E00E6835E /* MenuProfileTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuProfileTableViewCell.m; sourceTree = "<group>"; };
+		8C269C3E1B70774E00E6835E /* MenuZpotAllTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuZpotAllTableViewCell.h; sourceTree = "<group>"; };
+		8C269C3F1B70774E00E6835E /* MenuZpotAllTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuZpotAllTableViewCell.m; sourceTree = "<group>"; };
 		BA0874A71B6FC07200FBFF74 /* CoreDataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataService.h; sourceTree = "<group>"; };
 		BA0874A81B6FC07200FBFF74 /* CoreDataService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataService.m; sourceTree = "<group>"; };
 		BA0874AB1B6FC0C800FBFF74 /* zpotdrop.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = zpotdrop.xcdatamodel; sourceTree = "<group>"; };
@@ -307,6 +316,7 @@
 		0ACD9D651B68B767004140EE /* ZpotDrop */ = {
 			isa = PBXGroup;
 			children = (
+				8C269C381B70774E00E6835E /* View */,
 				0ACD9E491B6F137E004140EE /* Common Resource */,
 				0ACD9E451B6E5205004140EE /* Model */,
 				0ACD9DE51B68D4A0004140EE /* Service */,
@@ -560,6 +570,27 @@
 			path = "Common Resource";
 			sourceTree = "<group>";
 		};
+		8C269C381B70774E00E6835E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8C269C391B70774E00E6835E /* MenuAccessory */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8C269C391B70774E00E6835E /* MenuAccessory */ = {
+			isa = PBXGroup;
+			children = (
+				8C269C3A1B70774E00E6835E /* MenuFeatureTableViewCell.h */,
+				8C269C3B1B70774E00E6835E /* MenuFeatureTableViewCell.m */,
+				8C269C3C1B70774E00E6835E /* MenuProfileTableViewCell.h */,
+				8C269C3D1B70774E00E6835E /* MenuProfileTableViewCell.m */,
+				8C269C3E1B70774E00E6835E /* MenuZpotAllTableViewCell.h */,
+				8C269C3F1B70774E00E6835E /* MenuZpotAllTableViewCell.m */,
+			);
+			path = MenuAccessory;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -696,8 +727,10 @@
 				0ACD9DCD1B68D497004140EE /* AFSecurityPolicy.m in Sources */,
 				8C269C261B7064EB00E6835E /* MainViewController.m in Sources */,
 				0ACD9E0F1B6A22A7004140EE /* CompleteSignupViewController.m in Sources */,
+				8C269C411B70774E00E6835E /* MenuProfileTableViewCell.m in Sources */,
 				0ACD9DCB1B68D497004140EE /* AFHTTPSessionManager.m in Sources */,
 				0ACD9DCF1B68D497004140EE /* AFURLRequestSerialization.m in Sources */,
+				8C269C421B70774E00E6835E /* MenuZpotAllTableViewCell.m in Sources */,
 				0ACD9DD61B68D497004140EE /* SDWebImageCompat.m in Sources */,
 				0ACD9DD41B68D497004140EE /* NSData+ImageContentType.m in Sources */,
 				0ACD9DD11B68D497004140EE /* AFURLSessionManager.m in Sources */,
@@ -713,6 +746,7 @@
 				0ACD9E301B6A9374004140EE /* RuleService.m in Sources */,
 				8C269C2C1B706F6300E6835E /* UINavigationBar+FixedHeightWhenStatusBarHidden.m in Sources */,
 				0ACD9DD31B68D497004140EE /* MKAnnotationView+WebCache.m in Sources */,
+				8C269C401B70774E00E6835E /* MenuFeatureTableViewCell.m in Sources */,
 				0ACD9DDD1B68D497004140EE /* UIImage+GIF.m in Sources */,
 				0ACD9D6C1B68B767004140EE /* AppDelegate.m in Sources */,
 				BA0874AF1B6FC10300FBFF74 /* BaseDataModel.m in Sources */,
