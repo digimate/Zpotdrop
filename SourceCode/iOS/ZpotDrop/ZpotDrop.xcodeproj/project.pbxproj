@@ -107,6 +107,7 @@
 		BA6284161B70F6A100399368 /* ic_indicator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA6284151B70F6A100399368 /* ic_indicator@2x.png */; };
 		BA62841A1B70FCB900399368 /* MenuSettingViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6284181B70FCB900399368 /* MenuSettingViewCell.m */; };
 		BA62841B1B70FCB900399368 /* MenuSettingViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA6284191B70FCB900399368 /* MenuSettingViewCell.xib */; };
+		BA62841F1B70FF9200399368 /* CircleProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA62841E1B70FF9200399368 /* CircleProgressView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -282,6 +283,8 @@
 		BA6284171B70FCB900399368 /* MenuSettingViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuSettingViewCell.h; sourceTree = "<group>"; };
 		BA6284181B70FCB900399368 /* MenuSettingViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuSettingViewCell.m; sourceTree = "<group>"; };
 		BA6284191B70FCB900399368 /* MenuSettingViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuSettingViewCell.xib; sourceTree = "<group>"; };
+		BA62841D1B70FF9200399368 /* CircleProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleProgressView.h; sourceTree = "<group>"; };
+		BA62841E1B70FF9200399368 /* CircleProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleProgressView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -399,6 +402,7 @@
 		0ACD9D8C1B68D497004140EE /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				BA62841C1B70FF9200399368 /* CircleView */,
 				BA6284121B70F2BB00399368 /* UIView+Frame.h */,
 				BA6284131B70F2BB00399368 /* UIView+Frame.m */,
 				BA6284091B70EE8300399368 /* UIView+Borders.h */,
@@ -638,6 +642,15 @@
 			path = Menus;
 			sourceTree = "<group>";
 		};
+		BA62841C1B70FF9200399368 /* CircleView */ = {
+			isa = PBXGroup;
+			children = (
+				BA62841D1B70FF9200399368 /* CircleProgressView.h */,
+				BA62841E1B70FF9200399368 /* CircleProgressView.m */,
+			);
+			path = CircleView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -808,6 +821,7 @@
 				0ACD9E301B6A9374004140EE /* RuleService.m in Sources */,
 				8C269C2C1B706F6300E6835E /* UINavigationBar+FixedHeightWhenStatusBarHidden.m in Sources */,
 				0ACD9DD31B68D497004140EE /* MKAnnotationView+WebCache.m in Sources */,
+				BA62841F1B70FF9200399368 /* CircleProgressView.m in Sources */,
 				8C269C401B70774E00E6835E /* MenuFeatureTableViewCell.m in Sources */,
 				0ACD9DDD1B68D497004140EE /* UIImage+GIF.m in Sources */,
 				0ACD9D6C1B68B767004140EE /* AppDelegate.m in Sources */,

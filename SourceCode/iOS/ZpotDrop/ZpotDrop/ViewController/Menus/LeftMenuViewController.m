@@ -13,6 +13,8 @@
 #import "MenuSettingViewCell.h"
 #import "BaseTableViewCell.h"
 #import "Utils.h"
+#import "CircleProgressView.h"
+
 @interface LeftMenuViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @end
@@ -36,6 +38,27 @@
     [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([MenuFeatureTableViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([MenuFeatureTableViewCell class])];
     [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([MenuZpotAllTableViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([MenuZpotAllTableViewCell class])];
     [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([MenuSettingViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([MenuSettingViewCell class])];
+    
+    // ZPOT ALL VIEW
+    UIView* zpotdropAllView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _tableView.width, 150)];
+    zpotdropAllView.backgroundColor = [UIColor whiteColor];
+    CircleProgressView* progressView = [[CircleProgressView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
+    progressView.backgroundColor = [UIColor clearColor];
+    progressView.trackBackgroundColor = [UIColor colorWithRed:229 green:229 blue:229];
+    progressView.trackFillColor = COLOR_DARK_GREEN;
+    progressView.trackWidth = 4;
+    progressView.center = CGPointMake(zpotdropAllView.width/2, zpotdropAllView.height/2);
+    [zpotdropAllView addSubview:progressView];
+    
+    UIButton* zpotdropAllButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [zpotdropAllButton setFrame:progressView.frame];
+    [[zpotdropAllButton titleLabel]setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:12]];
+    [zpotdropAllButton setTitleColor:COLOR_DARK_GREEN forState:UIControlStateNormal];
+    [zpotdropAllButton setTitleColor:[UIColor colorWithRed:229 green:229 blue:229] forState:UIControlStateDisabled];
+    [zpotdropAllButton setTitle:@"zpot_all".localized.uppercaseString forState:UIControlStateNormal];
+    [zpotdropAllView addSubview:zpotdropAllButton];
+    
+    _tableView.tableFooterView = zpotdropAllView;
 }
 
 - (void)didReceiveMemoryWarning {
