@@ -8,7 +8,6 @@
 
 #import "SignupViewController.h"
 #import "CompleteSignupViewController.h"
-#import "Utils.h"
 
 @interface SignupViewController ()
 

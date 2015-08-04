@@ -12,7 +12,6 @@
 #import "MenuZpotAllTableViewCell.h"
 #import "MenuSettingViewCell.h"
 #import "BaseTableViewCell.h"
-#import "Utils.h"
 #import "CircleProgressView.h"
 #import "PostZpotViewController.h"
 

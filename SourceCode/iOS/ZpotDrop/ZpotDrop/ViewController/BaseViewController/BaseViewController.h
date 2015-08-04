@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UIColor+HexColors.h"
-#import "UIAlertView+Blocks.h"
-#import "NSDate+Helper.h"
 #import "RuleService.h"
 #import "APIService.h"
+#import "Utils.h"
 #import "UINavigationBar+FixedHeightWhenStatusBarHidden.h"
+
 #define MAIN_COLOR @"b1cb89"
 
 @interface BaseViewController : UIViewController
