@@ -12,8 +12,10 @@
 namespace App\Http\Controllers\Api\v1;
 use App\Acme\Models\Friend;
 use App\Acme\Models\Like;
+use App\Acme\Models\Notification;
 use App\Acme\Models\Post;
 use App\Acme\Models\User;
+use App\Acme\Models\Venue;
 
 /**
  * @SWG\Resource(
@@ -67,7 +69,7 @@ class TableController extends ApiController
 	 */
 	public function posts()
 	{
-		return $this->lzResponse->success(Post::first());
+		return $this->lzResponse->success(Post::with(['user', 'venue'])->first());
 	}
 
 	/**
@@ -100,5 +102,35 @@ class TableController extends ApiController
 	{
 		return $this->lzResponse->success(Like::with(['user', 'post'])->first());
 
+	}
+
+	/**
+	 * @SWG\Api(
+	 *    path="/tables/venues",
+	 *      @SWG\Operation(
+	 *        method="GET",
+	 *        summary="Venues table",
+	 *        type="Venue",
+	 *    )
+	 * )
+	 */
+	public function venues()
+	{
+		return $this->lzResponse->success(Venue::with(['user'])->first());
+	}
+
+	/**
+	 * @SWG\Api(
+	 *    path="/tables/notifications",
+	 *      @SWG\Operation(
+	 *        method="GET",
+	 *        summary="Notifications table",
+	 *        type="Notification",
+	 *    )
+	 * )
+	 */
+	public function notifications()
+	{
+		return $this->lzResponse->success(Notification::with(['user', 'post', 'friend'])->first());
 	}
 }

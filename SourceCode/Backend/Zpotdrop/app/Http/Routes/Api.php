@@ -114,5 +114,7 @@ Route::group(['prefix' => 'api/v1'], function(){
 		Route::get('tables/posts', 'TableController@posts');
 		Route::get('tables/likes', 'TableController@likes');
 		Route::get('tables/comments', 'TableController@comments');
+		Route::get('tables/venues', 'TableController@venues');
+		Route::get('tables/notifications', 'TableController@notifications');
 	});
 });

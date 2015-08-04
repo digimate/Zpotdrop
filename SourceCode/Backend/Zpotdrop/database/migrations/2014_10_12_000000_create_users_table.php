@@ -12,6 +12,10 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
+	    if (Schema::hasTable('users'))
+	    {
+		    Schema::drop('users');
+	    }
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('email')->unique();
@@ -22,12 +26,12 @@ class CreateUsersTable extends Migration
 	        $table->string('hash', 10);
 	        $table->date('birthday');
 	        $table->tinyInteger('gender'); //0: male 1: female: 2: others
-	        $table->string('phone_number', 20)->unique();
+	        $table->string('phone_number', 20);
 	        $table->string('home_town');
 	        $table->boolean('is_private')->default(false);
 	        $table->boolean('is_enable_all_zpot')->default(false);
-	        $table->float('lat')->default(0);
-	        $table->float('long')->default(0);
+	        $table->double('lat', 15, 6)->default(0);
+	        $table->double('long', 15, 6)->default(0);
 	        $table->tinyInteger('status')->default(1); //active
 	        $table->string('device_id', 100)->default('');
 	        $table->string('device_name');

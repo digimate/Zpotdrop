@@ -15,15 +15,20 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
 
         // $this->call(UserTableSeeder::class);
-	    /*Truncate table*/
-	    //DB::table('friends')->truncate();
-	    //DB::table('users')->truncate();
+		DB::table('oauth_clients')->insert([
+			'id'        => 's6BhdRkqt3',
+			'secret'    => '7Fjfp0ZBr1KtDRbnfVdmIw',
+			'name'      => 'mobile'
+		]);
 
 	    /*user table*/
 	    factory('App\Acme\Models\User', 10)->create();
 
 	    /*friend table*/
 	    factory('App\Acme\Models\Friend', 10)->create();
+
+	    /*venue table*/
+	    factory('App\Acme\Models\Venue', 10)->create();
 
 	    /*post table*/
 	    factory('App\Acme\Models\Post', 10)->create();

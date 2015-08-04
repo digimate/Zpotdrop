@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePostsTable extends Migration
+class CreateVenuesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,24 +12,22 @@ class CreatePostsTable extends Migration
      */
     public function up()
     {
-	    if (Schema::hasTable('posts'))
+	    if (Schema::hasTable('venues'))
 	    {
-			Schema::drop('posts');
+		    Schema::drop('venues');
 	    }
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('venues', function (Blueprint $table) {
             $table->increments('id');
-	        $table->string('status');
-	        $table->unsignedInteger('venue_id');
+	        $table->string('name');
 	        $table->unsignedInteger('user_id');
-	        $table->integer('likes_count')->default(0);
-	        $table->integer('comments_count')->default(0);
+	        $table->double('lat', 15, 6)->default(0);
+	        $table->double('long', 15, 6)->default(0);
 	        $table->softDeletes();
-	        $table->timestamps();
+            $table->timestamps();
         });
 
-	    Schema::table('posts', function($table)
+	    Schema::table('venues', function($table)
 	    {
-		    $table->foreign('venue_id')->references('id')->on('venues')->onDelete('cascade');
 		    $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 	    });
     }
@@ -41,6 +39,6 @@ class CreatePostsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('posts');
+        Schema::drop('venues');
     }
 }

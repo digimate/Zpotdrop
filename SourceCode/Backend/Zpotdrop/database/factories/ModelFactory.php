@@ -40,10 +40,17 @@ $factory->define(App\Acme\Models\Friend::class, function(Faker\Generator $faker)
 $factory->define(App\Acme\Models\Post::class, function (Faker\Generator $faker) {
 	return [
 		'status'            => $faker->sentence,
-		'venue_name'        => $faker->address,
-		'venue_lat'         => $faker->latitude,
-		'venue_long'        => $faker->longitude,
+		'venue_id'          => rand(0, 10),
 		'user_id'           => rand(1, 10),
+	];
+});
+
+$factory->define(App\Acme\Models\Venue::class, function (Faker\Generator $faker) {
+	return [
+		'name'              => $faker->address,
+		'user_id'           => rand(1, 5),
+		'lat'               => $faker->latitude,
+		'long'              => $faker->longitude,
 	];
 });
 

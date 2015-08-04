@@ -12,9 +12,13 @@ class CreateFriendsTable extends Migration
      */
     public function up()
     {
+	    if (Schema::hasTable('friends'))
+	    {
+		    Schema::drop('friends');
+	    }
         Schema::create('friends', function(Blueprint $table) {
-            $table->integer('user_id')->unsigned()->index();
-            $table->integer('friend_id')->unsigned()->index();
+            $table->unsignedInteger('user_id')->index();
+            $table->unsignedInteger('friend_id')->index();
             $table->boolean('is_friend')->default(false); //1: friend, 0: follow/following
             $table->timestamps();
         });

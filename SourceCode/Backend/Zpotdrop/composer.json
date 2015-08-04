@@ -20,7 +20,8 @@
         "pda/pheanstalk": "^3.0",
         "iron-io/iron_mq": "^2.0",
         "davibennun/laravel-push-notification": "dev-laravel5",
-        "vinkla/hashids": "^2.0"
+        "vinkla/hashids": "^2.0",
+        "codeception/codeception": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

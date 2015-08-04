@@ -77,8 +77,10 @@ use Vinkla\Hashids\HashidsServiceProvider;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereRememberToken($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereUpdatedAt($value)
- * @property string $birthday 
+ * @property string $birthday
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereBirthday($value)
+ * @property boolean $gender 
+ * @method static \Illuminate\Database\Query\Builder|\App\Acme\Models\User whereGender($value)
  */
 class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract
 {
