@@ -69,9 +69,6 @@
 		0ACD9E2D1B6A8B93004140EE /* APIService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD9E2C1B6A8B93004140EE /* APIService.m */; };
 		0ACD9E301B6A9374004140EE /* RuleService.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD9E2F1B6A9374004140EE /* RuleService.m */; };
 		0ACD9E331B6A99C5004140EE /* DateTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD9E321B6A99C4004140EE /* DateTextField.m */; };
-		0ACD9E3E1B6E5042004140EE /* MenuProfileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD9E3D1B6E5042004140EE /* MenuProfileTableViewCell.m */; };
-		0ACD9E411B6E5051004140EE /* MenuFeatureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD9E401B6E5051004140EE /* MenuFeatureTableViewCell.m */; };
-		0ACD9E441B6E5068004140EE /* MenuZpotAllTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD9E431B6E5068004140EE /* MenuZpotAllTableViewCell.m */; };
 		0ACD9E481B6E71E4004140EE /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD9E471B6E71E4004140EE /* UserModel.m */; };
 		0ACD9E4B1B6F138B004140EE /* item_menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0ACD9E4A1B6F138B004140EE /* item_menu@2x.png */; };
 		0ACD9E4E1B6F2067004140EE /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0ACD9E4C1B6F2067004140EE /* icon@2x.png */; };
@@ -210,12 +207,6 @@
 		0ACD9E2F1B6A9374004140EE /* RuleService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RuleService.m; sourceTree = "<group>"; };
 		0ACD9E311B6A99C4004140EE /* DateTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateTextField.h; sourceTree = "<group>"; };
 		0ACD9E321B6A99C4004140EE /* DateTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateTextField.m; sourceTree = "<group>"; };
-		0ACD9E3C1B6E5042004140EE /* MenuProfileTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuProfileTableViewCell.h; sourceTree = "<group>"; };
-		0ACD9E3D1B6E5042004140EE /* MenuProfileTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuProfileTableViewCell.m; sourceTree = "<group>"; };
-		0ACD9E3F1B6E5051004140EE /* MenuFeatureTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuFeatureTableViewCell.h; sourceTree = "<group>"; };
-		0ACD9E401B6E5051004140EE /* MenuFeatureTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuFeatureTableViewCell.m; sourceTree = "<group>"; };
-		0ACD9E421B6E5068004140EE /* MenuZpotAllTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuZpotAllTableViewCell.h; sourceTree = "<group>"; };
-		0ACD9E431B6E5068004140EE /* MenuZpotAllTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuZpotAllTableViewCell.m; sourceTree = "<group>"; };
 		0ACD9E461B6E71E4004140EE /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
 		0ACD9E471B6E71E4004140EE /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		0ACD9E4A1B6F138B004140EE /* item_menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "item_menu@2x.png"; sourceTree = "<group>"; };
@@ -475,7 +466,6 @@
 		0ACD9DE71B68D4D7004140EE /* BaseViewController */ = {
 			isa = PBXGroup;
 			children = (
-				0ACD9E3B1B6E5017004140EE /* MenuAccessory */,
 				0ACD9DE91B6918D4004140EE /* BaseViewController.h */,
 				0ACD9DEA1B6918D4004140EE /* BaseViewController.m */,
 				8C269C271B706D0E00E6835E /* BaseNavigationController.h */,
@@ -528,19 +518,6 @@
 				0ACD9E131B6A8918004140EE /* Parse.textClipping */,
 			);
 			path = Parse;
-			sourceTree = "<group>";
-		};
-		0ACD9E3B1B6E5017004140EE /* MenuAccessory */ = {
-			isa = PBXGroup;
-			children = (
-				0ACD9E3C1B6E5042004140EE /* MenuProfileTableViewCell.h */,
-				0ACD9E3D1B6E5042004140EE /* MenuProfileTableViewCell.m */,
-				0ACD9E3F1B6E5051004140EE /* MenuFeatureTableViewCell.h */,
-				0ACD9E401B6E5051004140EE /* MenuFeatureTableViewCell.m */,
-				0ACD9E421B6E5068004140EE /* MenuZpotAllTableViewCell.h */,
-				0ACD9E431B6E5068004140EE /* MenuZpotAllTableViewCell.m */,
-			);
-			path = MenuAccessory;
 			sourceTree = "<group>";
 		};
 		0ACD9E451B6E5205004140EE /* Model */ = {
@@ -717,9 +694,7 @@
 				0ACD9DD01B68D497004140EE /* AFURLResponseSerialization.m in Sources */,
 				0ACD9DCE1B68D497004140EE /* AFURLConnectionOperation.m in Sources */,
 				0ACD9DD91B68D497004140EE /* SDWebImageDownloaderOperation.m in Sources */,
-				0ACD9E3E1B6E5042004140EE /* MenuProfileTableViewCell.m in Sources */,
 				0ACD9DD21B68D497004140EE /* NSDate+Helper.m in Sources */,
-				0ACD9E441B6E5068004140EE /* MenuZpotAllTableViewCell.m in Sources */,
 				0ACD9DEB1B6918D4004140EE /* BaseViewController.m in Sources */,
 				BA0874A91B6FC07200FBFF74 /* CoreDataService.m in Sources */,
 				BA0874AC1B6FC0C800FBFF74 /* zpotdrop.xcdatamodeld in Sources */,
@@ -751,7 +726,6 @@
 				0ACD9D6C1B68B767004140EE /* AppDelegate.m in Sources */,
 				BA0874AF1B6FC10300FBFF74 /* BaseDataModel.m in Sources */,
 				0ACD9DDB1B68D497004140EE /* SDWebImagePrefetcher.m in Sources */,
-				0ACD9E411B6E5051004140EE /* MenuFeatureTableViewCell.m in Sources */,
 				0ACD9DDC1B68D497004140EE /* UIButton+WebCache.m in Sources */,
 				0ACD9DDE1B68D497004140EE /* UIImage+MultiFormat.m in Sources */,
 				0ACD9DD71B68D497004140EE /* SDWebImageDecoder.m in Sources */,
