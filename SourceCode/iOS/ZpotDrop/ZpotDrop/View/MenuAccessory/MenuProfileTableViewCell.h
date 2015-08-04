@@ -13,5 +13,4 @@
     IBOutlet UIImageView* _imgvAvatar;
     IBOutlet UILabel* _lblName;
 }
-+(CGFloat)cellHeight;
 @end

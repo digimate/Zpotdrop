@@ -15,8 +15,7 @@
 @interface MainViewController : BaseViewController{
     //Menu view
     BOOL _menuOpening;
-    UIView* _menuBackground;
-    LeftMenuViewController* _menuContentView;
+    LeftMenuViewController* _leftMenuViewController;
 
     
     //Notification view

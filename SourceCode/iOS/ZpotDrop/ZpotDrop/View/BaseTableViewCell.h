@@ -11,4 +11,5 @@
 @interface BaseTableViewCell : UITableViewCell
 @property(nonatomic,retain)BaseDataModel* dataModel;
 -(void)setupCellWithData:(BaseDataModel*)data andOptions:(NSDictionary*)param;
++(CGFloat)cellHeight;
 @end

@@ -12,5 +12,6 @@
 @interface LeftMenuViewController : BaseViewController{
     UITableView* _tableView;
 }
+@property(nonatomic,readonly)UITableView* tableView;
 
 @end

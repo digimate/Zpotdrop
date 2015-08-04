@@ -35,22 +35,23 @@
     self.navigationItem.rightBarButtonItem = notificationItem;
 
     //====================== LEFT MENU =========================
-    int spacing = 40;
-    _menuBackground = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    [_menuBackground setBackgroundColor:[UIColor clearColor]];
-    [self.navigationController.view addSubview:_menuBackground];
-    [self.navigationController.view sendSubviewToBack:_menuBackground];
+    _leftMenuViewController = [[LeftMenuViewController alloc]init];
+    _leftMenuViewController.view.frame = [UIScreen mainScreen].bounds;
+    [self.navigationController.view addSubview:_leftMenuViewController.view];
+    [self.navigationController.view sendSubviewToBack:_leftMenuViewController.view];
     
+    UIView* menuBackground = [[UIView alloc]initWithFrame:_leftMenuViewController.view.bounds];
+    menuBackground.backgroundColor = [UIColor clearColor];
+    [_leftMenuViewController.view addSubview:menuBackground];
+    [_leftMenuViewController.view sendSubviewToBack:menuBackground];
     UITapGestureRecognizer* menuTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(openMenu)];
+    menuTap.cancelsTouchesInView = NO;
     [menuTap setNumberOfTapsRequired:1];
     [menuTap setNumberOfTouchesRequired:1];
-    [_menuBackground addGestureRecognizer:menuTap];
-    
-    _menuContentView = [[LeftMenuViewController alloc]init];
-    [_menuBackground addSubview:_menuContentView.view];
-    _menuContentView.view.frame = CGRectMake(spacing - _menuBackground.frame.size.width, 0, _menuBackground.frame.size.width - spacing, _menuBackground.frame.size.height);
+    [menuBackground addGestureRecognizer:menuTap];
 
     //====================== RIGHT NOTIFICATION =========================
+    int spacing = 40;
     CGRect frame = [UIScreen mainScreen].bounds;
     frame.origin.y = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height;
     frame.size.height -= frame.origin.y;
@@ -78,8 +79,8 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    if (_menuContentView.parentViewController == nil) {
-        [self.navigationController addChildViewController:_menuContentView];
+    if (_leftMenuViewController.parentViewController == nil) {
+        [self.navigationController addChildViewController:_leftMenuViewController];
     }
 }
 
@@ -99,25 +100,27 @@
     _menuOpening = !_menuOpening;
     if (_menuOpening)
     {
-        [self.navigationController.view bringSubviewToFront:_menuBackground];
+        [self.navigationController.view bringSubviewToFront:_leftMenuViewController.view];
         [[UIApplication sharedApplication]setStatusBarHidden:YES];
+        [_leftMenuViewController viewWillAppear:YES];
         [UIView animateWithDuration:0.3 animations:^{
-            CGRect frame = _menuContentView.view.frame;
+            CGRect frame = _leftMenuViewController.tableView.frame;
             frame.origin.x = 0;
-            _menuBackground.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.7];
-            _menuContentView.view.frame = frame;
+            _leftMenuViewController.view.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.7];
+            _leftMenuViewController.tableView.frame = frame;
         }];
     }
     else
     {
         [[UIApplication sharedApplication]setStatusBarHidden:NO];
+        [_leftMenuViewController viewWillDisappear:YES];
         [UIView animateWithDuration:0.3 animations:^{
-            CGRect frame = _menuContentView.view.frame;
+            CGRect frame = _leftMenuViewController.tableView.frame;
             frame.origin.x = -frame.size.width;
-            _menuBackground.backgroundColor = [UIColor clearColor];
-            _menuContentView.view.frame = frame;
+            _leftMenuViewController.view.backgroundColor = [UIColor clearColor];
+            _leftMenuViewController.tableView.frame = frame;
         } completion:^(BOOL finished) {
-            [self.navigationController.view sendSubviewToBack:_menuBackground];
+            [self.navigationController.view sendSubviewToBack:_leftMenuViewController.view];
         }];
     }
 }

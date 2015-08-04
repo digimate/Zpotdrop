@@ -7,7 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSString+Ext.h"
+#import "UIColor+HexColors.h"
+#import "UIImageView+Ext.h"
+#import "DateTextField.h"
+#import "UIAlertView+Blocks.h"
+#import "NSDate+Helper.h"
+#import "UIView+Borders.h"
+#import "UIView+Frame.h"
+
 #define COLOR_DARK_GREEN [UIColor colorWithRed:(172/255.0) green:(199/255.0) blue:(132/255.0) alpha:1.0]
+#define COLOR_SEPEARATE_LINE [UIColor colorWithRed:(250/255.0) green:(250/255.0) blue:(250/255.0) alpha:1.0]
+
 @interface Utils : NSObject
 + (Utils *) instance;
 @end

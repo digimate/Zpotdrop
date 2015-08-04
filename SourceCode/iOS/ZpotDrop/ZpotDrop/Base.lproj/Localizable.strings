@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  ZpotDrop
+
+  Created by Son Truong on 8/4/15.
+  Copyright (c) 2015 zpotdrop. All rights reserved.
+*/
+
+//MARK: - ***** F *****
+"feed" = "Feed";
+"find" = "Find";
+//MARK: - ***** P *****
+"post" = "Post";
+//MARK: - ***** S *****
+"search" = "Search";
+"settings" = "Settings";

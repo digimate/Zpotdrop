@@ -7,6 +7,7 @@
 //
 
 #import "BaseTableViewCell.h"
+#import "Utils.h"
 
 @implementation BaseTableViewCell
 
@@ -24,4 +25,9 @@
 {
     
 }
+
++(CGFloat)cellHeight{
+    return 0;
+}
+
 @end
