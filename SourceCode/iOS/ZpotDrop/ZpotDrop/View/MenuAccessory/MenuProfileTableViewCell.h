@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "UserDataModel.h"
-
-@interface MenuProfileTableViewCell : UITableViewCell
-
--(void)setupCellWithData:(UserDataModel*)data inSize:(CGSize)size;
-
+#import "BaseTableViewCell.h"
+@interface MenuProfileTableViewCell : BaseTableViewCell{
+    IBOutlet UIImageView* _imgvAvatar;
+    IBOutlet UILabel* _lblName;
+}
++(CGFloat)cellHeight;
 @end

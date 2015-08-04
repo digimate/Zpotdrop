@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface MenuFeatureTableViewCell : UITableViewCell
+#import "BaseTableViewCell.h"
+@interface MenuFeatureTableViewCell : BaseTableViewCell
 
 @end
