@@ -7,7 +7,6 @@
 //
 
 #import "CompleteSignupViewController.h"
-#import "Utils.h"
 
 @interface CompleteSignupViewController ()
 
