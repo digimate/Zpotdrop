@@ -112,6 +112,7 @@
 		BA6284271B71060500399368 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BA6284231B71060500399368 /* SVProgressHUD.bundle */; };
 		BA6284281B71060500399368 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6284251B71060500399368 /* SVProgressHUD.m */; };
 		BA62842C1B710BE700399368 /* PostZpotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA62842B1B710BE700399368 /* PostZpotViewController.m */; };
+		BA62842E1B71153400399368 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA62842D1B71153400399368 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -296,6 +297,7 @@
 		BA6284251B71060500399368 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		BA62842A1B710BE700399368 /* PostZpotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostZpotViewController.h; sourceTree = "<group>"; };
 		BA62842B1B710BE700399368 /* PostZpotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostZpotViewController.m; sourceTree = "<group>"; };
+		BA62842D1B71153400399368 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -303,6 +305,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA62842E1B71153400399368 /* MapKit.framework in Frameworks */,
 				8C269C201B7060D800E6835E /* Accounts.framework in Frameworks */,
 				8C269C1E1B7060D200E6835E /* Social.framework in Frameworks */,
 				BA0874B61B6FC35000FBFF74 /* libsqlite3.dylib in Frameworks */,
@@ -334,6 +337,7 @@
 		0ACD9D5A1B68B767004140EE = {
 			isa = PBXGroup;
 			children = (
+				BA62842D1B71153400399368 /* MapKit.framework */,
 				8C269C1F1B7060D800E6835E /* Accounts.framework */,
 				8C269C1D1B7060D200E6835E /* Social.framework */,
 				BA0874B51B6FC35000FBFF74 /* libsqlite3.dylib */,

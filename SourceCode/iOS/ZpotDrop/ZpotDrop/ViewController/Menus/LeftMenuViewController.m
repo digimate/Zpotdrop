@@ -88,30 +88,27 @@
     NSDictionary* param = nil;
     CGRect borderRect = CGRectZero;
     if (indexPath.row == 0) {
-         borderRect = CGRectMake(15, [MenuProfileTableViewCell cellHeight]-0.5, tableView.width - 15, 0.5);
+         borderRect = CGRectMake(15, [MenuProfileTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
         cell.userInteractionEnabled = NO;
     }else if (indexPath.row == 1) {
         param = @{@"title":@"post".localized.uppercaseString,@"icon":@"icon"};
-        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-0.5, tableView.width - 15, 0.5);
+        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 2){
         param = @{@"title":@"feed".localized.uppercaseString,@"icon":@"ic_feed"};
-         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-0.5, tableView.width - 15, 0.5);
+         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 3){
         param = @{@"title":@"find".localized.uppercaseString,@"icon":@"ic_find"};
-         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-0.5, tableView.width - 15, 0.5);
+         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 4){
         param = @{@"title":@"search".localized.uppercaseString};
-        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-0.5, tableView.width - 15, 0.5);
+        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 5){
         param = @{@"title":@"settings".localized.uppercaseString};
-        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-0.5, tableView.width - 15, 0.5);
+        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
     }
     [cell setupCellWithData:nil andOptions:param];
     if (!CGRectEqualToRect(borderRect, CGRectZero)) {
         [cell addBorderWithFrame:borderRect color:COLOR_SEPEARATE_LINE];
-    }
-    if (currentSelectedRow == indexPath.row) {
-        [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     }
     return cell;
 }
@@ -146,6 +143,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (currentSelectedRow != indexPath.row) {
         currentSelectedRow = indexPath.row;
         if (currentSelectedRow == 1) {

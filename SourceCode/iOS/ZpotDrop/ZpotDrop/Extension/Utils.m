@@ -31,4 +31,12 @@
 -(void)hideProgess{
     [SVProgressHUD dismiss];
 }
+-(MKMapView *)mapView{
+    static MKMapView *_sharedInstance = nil;
+    static dispatch_once_t oncePredicate;
+    dispatch_once(&oncePredicate, ^{
+        _sharedInstance = [[MKMapView alloc] init];
+    });
+    return _sharedInstance;
+}
 @end

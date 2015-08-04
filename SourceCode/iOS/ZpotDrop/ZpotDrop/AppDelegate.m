@@ -22,6 +22,12 @@
     [Parse setApplicationId:@"ppZUHCYYoJNe1V6ZpAdJfOzJ6vL6mWKKll3V8MM4" clientKey:@"sBpKO7QEP3jLS73hSoMAB8NyObATl7vlo4e0qLfC"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     [[CoreDataService instance] setDatabaseName:@"zpotdrop"];
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:@{
+        NSForegroundColorAttributeName: [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
+        NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:0.0],
+                                                           }];
+    
     return YES;
 }
 

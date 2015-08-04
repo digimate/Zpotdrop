@@ -80,6 +80,12 @@
     UISwipeGestureRecognizer* swipeLeftGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeLeft)];
     swipeLeftGesture.direction = UISwipeGestureRecognizerDirectionLeft;
     [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] addGestureRecognizer:swipeLeftGesture];
+
+    ///add PostZpot as Intital View of MainView
+    PostZpotViewController* postViewController = [[PostZpotViewController alloc]init];
+    [self.navigationController pushViewController:postViewController animated:NO];
+    postViewController.navigationItem.leftBarButtonItem = self.navigationItem.leftBarButtonItem;
+    postViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
 }
 
 -(void)viewDidAppear:(BOOL)animated{

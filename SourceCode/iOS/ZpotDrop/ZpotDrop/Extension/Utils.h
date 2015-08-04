@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 #import "NSString+Ext.h"
 #import "UIColor+HexColors.h"
 #import "UIImageView+Ext.h"
@@ -31,4 +32,5 @@
 + (Utils *) instance;
 -(void)showProgressWithMessage:(NSString*)msg;
 -(void)hideProgess;
+-(MKMapView*)mapView;
 @end
