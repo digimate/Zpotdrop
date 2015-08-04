@@ -26,6 +26,11 @@ Route::group(['prefix' => 'api/v1'], function(){
 			$lzResponse = new \App\Acme\Restful\LZResponse();
 			return $lzResponse->success(Authorizer::issueAccessToken());
 		});
+/*
+|--------------------------------------------------------------------------
+| Password
+|--------------------------------------------------------------------------
+*/
 		Route::post('oauth/password/remind', 'PasswordController@remindPassword');
 		Route::get('oauth/password/reset/{token}', [
 			'as' => 'oauth.password.get.reset',
@@ -37,6 +42,7 @@ Route::group(['prefix' => 'api/v1'], function(){
 		]);
 		Route::post('oauth/password/change', [
 			'as' => 'oauth.password.post.change',
+			'middleware' => 'oauth',
 			'uses' => 'PasswordController@postChangePassword'
 		]);
 	});

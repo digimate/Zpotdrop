@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
 	        $table->string('avatar');
 	        $table->string('first_name', 50);
 	        $table->string('last_name', 50);
+	        $table->string('hash', 10);
 	        $table->date('birthday');
 	        $table->tinyInteger('gender'); //0: male 1: female: 2: others
 	        $table->string('phone_number', 20)->unique();

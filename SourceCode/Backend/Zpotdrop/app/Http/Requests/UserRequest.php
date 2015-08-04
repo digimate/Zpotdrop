@@ -29,7 +29,7 @@ class UserRequest extends Request
 	        'avatar'        => 'mimes:jpeg,png',
 	        'first_name'    => 'required|max:255',
 	        'last_name'     => 'required|max:255',
-	        'phone_number'  => 'max:20|min:6',
+	        'phone_number'  => 'max:20|min:6|unique:users',
 	        'is_private'    => 'integer|in:0,1',
 	        'is_enable_all_zpot'=> 'integer|in:0,1',
 	        'lat'           => 'float',

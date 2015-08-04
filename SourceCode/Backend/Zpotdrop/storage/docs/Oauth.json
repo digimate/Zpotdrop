@@ -125,6 +125,130 @@
             ]
         },
         {
+            "path": "/oauth/password/change",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Request change password",
+                    "nickname": "postChangePassword",
+                    "parameters": [
+                        {
+                            "paramType": "header",
+                            "name": "grant_type",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Grant type for Oauth2.0: password/refresh_token",
+                            "defaultValue": "password"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "client_id",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Client id: s6BhdRkqt3",
+                            "defaultValue": "s6BhdRkqt3"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "client_secret",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Client secret: 7Fjfp0ZBr1KtDRbnfVdmIw",
+                            "defaultValue": "7Fjfp0ZBr1KtDRbnfVdmIw"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "access_token",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Access token"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "password",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Password",
+                            "defaultValue": "1234567"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Password changed!"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Bad request"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/oauth/password/remind",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Remind password",
+                    "nickname": "remindPassword",
+                    "parameters": [
+                        {
+                            "paramType": "header",
+                            "name": "grant_type",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Grant type for Oauth2.0: password/refresh_token",
+                            "defaultValue": "password"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "client_id",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Client id: s6BhdRkqt3",
+                            "defaultValue": "s6BhdRkqt3"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "client_secret",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Client secret: 7Fjfp0ZBr1KtDRbnfVdmIw",
+                            "defaultValue": "7Fjfp0ZBr1KtDRbnfVdmIw"
+                        },
+                        {
+                            "paramType": "form",
+                            "name": "email",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "Email",
+                            "defaultValue": "pisun2@gmail.com"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 200,
+                            "message": "Message sent to your email!"
+                        },
+                        {
+                            "code": 400,
+                            "message": "Bad request"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "path": "/oauth/register",
             "operations": [
                 {

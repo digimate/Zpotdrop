@@ -15,8 +15,12 @@
         "doctrine/dbal": "^2.5",
         "barryvdh/laravel-debugbar": "^2.0",
         "league/fractal": "^0.12.0",
-      "lucadegasperi/oauth2-server-laravel": "5.0.*@dev",
-      "illuminate/html": "^5.0"
+        "lucadegasperi/oauth2-server-laravel": "5.0.*@dev",
+        "illuminate/html": "^5.0",
+        "pda/pheanstalk": "^3.0",
+        "iron-io/iron_mq": "^2.0",
+        "davibennun/laravel-push-notification": "dev-laravel5",
+        "vinkla/hashids": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

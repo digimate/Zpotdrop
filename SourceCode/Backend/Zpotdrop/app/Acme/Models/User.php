@@ -7,6 +7,8 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Hashids;
+use Vinkla\Hashids\HashidsServiceProvider;
 
 /**
  * App\Models\User
@@ -19,6 +21,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
  *  @SWG\Property(name="avatar", type="string"),
  * 	@SWG\Property(name="first_name", type="string", required=true),
  * 	@SWG\Property(name="last_name", type="string"),
+ * 	@SWG\Property(name="hash", type="string"),
  * 	@SWG\Property(name="phone_number", type="string"),
  * 	@SWG\Property(name="home_town", type="string"),
  *  @SWG\Property(name="birthday", type="string", format="date"),
@@ -40,9 +43,9 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
  * @property string $avatar
  * @property string $first_name
  * @property string $last_name
+ * @property string $hash
  * @property string $phone_number
  * @property string $home_town
- * @property boolean $age
  * @property boolean $is_private
  * @property boolean $is_enable_all_zpot
  * @property float $lat
@@ -60,9 +63,9 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereAvatar($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereFirstName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereLastName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereHash($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User wherePhoneNumber($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereHomeTown($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereAge($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereIsPrivate($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereIsEnableAllZpot($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereLat($value)
@@ -146,8 +149,4 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 		$this->setAttribute('birthday', Carbon::createFromFormat('d-m-Y', $this->getAttribute('birthday')));
 		return parent::update($attributes);
 	}
-
-	/*
-	 * Repository
-	 */
 }

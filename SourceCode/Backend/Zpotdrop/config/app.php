@@ -152,6 +152,8 @@ return [
 	    Intervention\Image\ImageServiceProvider::class,
 	    LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
 	    LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
+	    \Davibennun\LaravelPushNotification\LaravelPushNotificationServiceProvider::class,
+	    \Vinkla\Hashids\HashidsServiceProvider::class,
 	    /*
 	     * Use for developing only
 	     */
@@ -195,7 +197,7 @@ return [
         'Password'  => Illuminate\Support\Facades\Password::class,
         'Queue'     => Illuminate\Support\Facades\Queue::class,
         'Redirect'  => Illuminate\Support\Facades\Redirect::class,
-        'Redis'     => Illuminate\Support\Facades\Redis::class,
+        'LRedis'    => Illuminate\Support\Facades\Redis::class,
         'Request'   => Illuminate\Support\Facades\Request::class,
         'Response'  => Illuminate\Support\Facades\Response::class,
         'Route'     => Illuminate\Support\Facades\Route::class,
@@ -213,6 +215,8 @@ return [
 		'Image'     => \Intervention\Image\Facades\Image::class,
 	    'SWG'       => Swagger\Annotations::class,
 	    'Authorizer'=> LucaDegasperi\OAuth2Server\Facades\Authorizer::class,
+	    'PushNotification'=>\Davibennun\LaravelPushNotification\Facades\PushNotification::class,
+	    'Hashids'   => Vinkla\Hashids\Facades\Hashids::class
     ],
 
 ];

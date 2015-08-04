@@ -17,6 +17,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use App\Acme\Models\User;
 use Authorizer;
 use Illuminate\Http\Request;
+use Hashids;
 
 /**
  * Class OAuthController
@@ -128,6 +129,13 @@ class OAuthController extends ApiController
 	 */
 	public function login($username, $password)
 	{
+		$validator = \Validator::make([$username, $password],[
+			'username'=>'required',
+			'password'=>'required'
+		]);
+		if($validator->fails()){
+			return $this->lzResponse->badRequest($validator->errors()->all());
+		}
 		if (\Auth::attempt([
 			'email'    => $username,
 			'password' => $password]))
@@ -241,6 +249,11 @@ class OAuthController extends ApiController
 	{
 		$user = $this->create($request->all());
 		if($user){
+			$user->update(
+				[
+					'hash' => Hashids::encode($user->id)
+				]
+			);
 			return $this->lzResponse->success(Authorizer::issueAccessToken());
 		}
 	}

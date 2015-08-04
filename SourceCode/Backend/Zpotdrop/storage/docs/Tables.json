@@ -89,6 +89,9 @@
                 "last_name": {
                     "type": "string"
                 },
+                "hash": {
+                    "type": "string"
+                },
                 "phone_number": {
                     "type": "string"
                 },
