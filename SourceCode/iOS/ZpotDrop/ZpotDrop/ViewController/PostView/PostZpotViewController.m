@@ -9,8 +9,10 @@
 #import "PostZpotViewController.h"
 #import "Utils.h"
 
-@interface PostZpotViewController ()<UITableViewDataSource>{
+@interface PostZpotViewController ()<UITableViewDataSource,UITextFieldDelegate>{
     UIScrollView* _scrollViewContent;
+    UITextField* zpotTitleTextField;
+    UISearchBar* searchLocationBar;
 }
 
 @end
@@ -36,12 +38,14 @@
     [_scrollViewContent addSubview:zpotTitleView];
     [zpotTitleView addBorderWithFrame:CGRectMake(0, zpotTitleView.height - 1.0, zpotTitleView.width, 1) color:COLOR_SEPEARATE_LINE];
 
-    UITextField* zpotTitleTextField = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, zpotTitleView.frame.size.width - 75, zpotTitleView.height)];
+    zpotTitleTextField = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, zpotTitleView.frame.size.width - 75, zpotTitleView.height)];
     zpotTitleTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     zpotTitleTextField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
     zpotTitleTextField.textColor = [UIColor blackColor];
     zpotTitleTextField.placeholder = @"place_holder_zpot_drop_post".localized;
     [zpotTitleTextField setBorderStyle:UITextBorderStyleNone];
+    zpotTitleTextField.delegate = self;
+    zpotTitleTextField.returnKeyType = UIReturnKeyDone;
     [zpotTitleView addSubview:zpotTitleTextField];
     
     UIButton* btnPostZpot = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -53,7 +57,7 @@
     [btnPostZpot setTitle:@"post".localized.uppercaseString forState:UIControlStateNormal];
     [zpotTitleView addSubview:btnPostZpot];
     /*======================View Search Location=======================*/
-    UISearchBar* searchLocationBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, zpotTitleView.y + zpotTitleView.height, self.view.width, 40)];
+    searchLocationBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, zpotTitleView.y + zpotTitleView.height, self.view.width, 40)];
     searchLocationBar.backgroundColor = [UIColor clearColor];
     searchLocationBar.barTintColor = [UIColor clearColor];
     searchLocationBar.backgroundImage = [[UIImage alloc]init];
@@ -75,14 +79,29 @@
     tableViewLocation.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableViewLocation.dataSource = self;
     [_scrollViewContent addSubview:tableViewLocation];
+    
+    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeKeyboardIfNeed)];
+    tapGesture.numberOfTapsRequired = 1;
+    [_scrollViewContent addGestureRecognizer:tapGesture];
+}
+
+-(void)closeKeyboardIfNeed{
+    if (zpotTitleTextField.isFirstResponder) {
+        [zpotTitleTextField resignFirstResponder];
+    }else if (searchLocationBar.isFirstResponder){
+        [searchLocationBar resignFirstResponder];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self registerKeyboardNotification];
+    [self registerOpenLeftMenuNotification];
+    [self registerOpenRightMenuNotification];
     if (![[Utils instance].mapView.superview isEqual:self.view]) {
         [[Utils instance].mapView removeFromSuperview];
         [[Utils instance].mapView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 180)];
-        [self.view addSubview:[Utils instance].mapView];
+        [_scrollViewContent addSubview:[Utils instance].mapView];
         [Utils instance].mapView.userInteractionEnabled = NO;
     }
     if ([[Utils instance] isGPS] == NO) {
@@ -90,13 +109,16 @@
         }];
     }else{
         [[Utils instance].mapView setShowsUserLocation:YES];
-        [[Utils instance].mapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
+        [[Utils instance].mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    [self removeKeyboardNotification];
+    [self removeOpenLeftMenuNotification];
+    [self removeOpenRightMenuNotification];
     [[Utils instance].mapView setShowsUserLocation:NO];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
@@ -111,6 +133,12 @@
     [[Utils instance].mapView setShowsUserLocation:YES];
 }
 
+-(void)leftMenuOpened{
+    [self closeKeyboardIfNeed];
+}
+-(void)rightMenuOpened{
+    [self closeKeyboardIfNeed];
+}
 #pragma mark - UITableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -136,4 +164,28 @@
     
     return cell;
 }
+
+#pragma mark - UIKeyboard
+-(void)keyboardShow:(CGRect)frame{
+    CGRect rect;
+    if (zpotTitleTextField.isFirstResponder) {
+        rect =zpotTitleTextField.superview.frame;
+    }else{
+        rect = searchLocationBar.frame;
+    }
+    if (_scrollViewContent.height - rect.origin.y - rect.size.height < frame.size.height) {
+        [_scrollViewContent setContentOffset:CGPointMake(0, frame.size.height -(_scrollViewContent.height - rect.origin.y - rect.size.height) )];
+    }
+}
+-(void)keyboardHide:(CGRect)frame{
+    [_scrollViewContent setContentOffset:CGPointZero];
+}
+
+#pragma mark - UITextFieldDelegate
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
+}
+
+
 @end

@@ -110,6 +110,7 @@
     _menuOpening = !_menuOpening;
     if (_menuOpening)
     {
+        [[NSNotificationCenter defaultCenter]postNotificationName:KEY_OPEN_LEFT_MENU object:nil];
         [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] bringSubviewToFront:_leftMenuViewController.view];
         [[UIApplication sharedApplication]setStatusBarHidden:YES];
         [_leftMenuViewController viewWillAppear:YES];
@@ -143,6 +144,7 @@
     _notificationOpening = !_notificationOpening;
     if (_notificationOpening)
     {
+        [[NSNotificationCenter defaultCenter]postNotificationName:KEY_OPEN_RIGHT_MENU object:nil];
         [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] bringSubviewToFront:_notificationBackground];
         [UIView animateWithDuration:0.3 animations:^{
             CGRect frame = _notificationContentView.frame;

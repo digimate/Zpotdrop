@@ -20,5 +20,14 @@
     APIService* _api;
 }
 
-
+-(void)registerKeyboardNotification;
+-(void)removeKeyboardNotification;
+-(void)keyboardShow:(CGRect)frame;
+-(void)keyboardHide:(CGRect)frame;
+-(void)registerOpenLeftMenuNotification;
+-(void)removeOpenLeftMenuNotification;
+-(void)leftMenuOpened;
+-(void)registerOpenRightMenuNotification;
+-(void)removeOpenRightMenuNotification;
+-(void)rightMenuOpened;
 @end

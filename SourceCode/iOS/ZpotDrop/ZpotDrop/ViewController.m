@@ -29,17 +29,17 @@
         [[NSNotificationCenter defaultCenter]removeObserver:self];
         
         MainViewController* mainViewC = [[MainViewController alloc]init];
-        [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:mainViewC] animated:NO completion:nil];
+        [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:mainViewC] animated:YES completion:nil];
     }else{
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginSucceed) name:KEY_LOGIN_SUCCEED object:nil];
         
         LoginViewController* lg = [[LoginViewController alloc]init];
-        [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:lg] animated:NO completion:nil];
+        [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:lg] animated:YES completion:nil];
     }
 }
 
 -(void)loginSucceed{
     [AccountModel currentAccountModel].is_login = YES;
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 @end
