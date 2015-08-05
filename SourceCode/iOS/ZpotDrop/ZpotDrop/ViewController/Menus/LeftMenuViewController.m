@@ -14,6 +14,7 @@
 #import "BaseTableViewCell.h"
 #import "CircleProgressView.h"
 #import "PostZpotViewController.h"
+#import "FeedZpotViewController.h"
 
 @interface LeftMenuViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -47,17 +48,26 @@
     progressView.trackBackgroundColor = [UIColor colorWithRed:229 green:229 blue:229];
     progressView.trackFillColor = COLOR_DARK_GREEN;
     progressView.trackWidth = 4;
-    progressView.center = CGPointMake(zpotdropAllView.width/2, zpotdropAllView.height/2);
+    progressView.center = CGPointMake(zpotdropAllView.width/2, zpotdropAllView.height/2 - 10);
     [zpotdropAllView addSubview:progressView];
     
     UIButton* zpotdropAllButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [zpotdropAllButton setFrame:progressView.frame];
+    [zpotdropAllButton setFrame:CGRectMake(0, 0, 86, 86)];
+    zpotdropAllButton.center = progressView.center;
     [[zpotdropAllButton titleLabel]setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:12]];
-    [zpotdropAllButton setTitleColor:COLOR_DARK_GREEN forState:UIControlStateNormal];
+    [zpotdropAllButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [zpotdropAllButton setTitleColor:[UIColor colorWithRed:229 green:229 blue:229] forState:UIControlStateDisabled];
     [zpotdropAllButton setTitle:@"zpot_all".localized.uppercaseString forState:UIControlStateNormal];
+    zpotdropAllButton.enabled = NO;
+    zpotdropAllButton.layer.cornerRadius = zpotdropAllButton.width/2;
     [zpotdropAllView addSubview:zpotdropAllButton];
     
+    UILabel* lblZpotAll = [[UILabel alloc]initWithFrame:CGRectMake(0, progressView.y + progressView.height, zpotdropAllView.width, 16)];
+    lblZpotAll.textColor = COLOR_DARK_GREEN;
+    lblZpotAll.textAlignment = NSTextAlignmentCenter;
+    lblZpotAll.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:12];
+    lblZpotAll.text = @"zpot_all_usage".localized;
+    [zpotdropAllView addSubview:lblZpotAll];
     _tableView.tableFooterView = zpotdropAllView;
     currentSelectedRow = 1;
 }
@@ -147,7 +157,11 @@
         currentSelectedRow = indexPath.row;
         if (currentSelectedRow == 1) {
             [self.delegate leftmenuChangeViewToClass:NSStringFromClass([PostZpotViewController class])];
+        }else if (currentSelectedRow == 2) {
+            [self.delegate leftmenuChangeViewToClass:NSStringFromClass([FeedZpotViewController class])];
         }
+    }else{
+        [self.delegate leftmenuChangeViewToClass:nil];
     }
 }
 @end

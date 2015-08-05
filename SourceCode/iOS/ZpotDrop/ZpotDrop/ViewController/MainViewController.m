@@ -9,6 +9,7 @@
 #import "MainViewController.h"
 #import "PostZpotViewController.h"
 #import "AppDelegate.h"
+#import "FeedZpotViewController.h"
 
 @interface MainViewController ()<LeftMenuDelegate>
 
@@ -82,16 +83,29 @@
     [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] addGestureRecognizer:swipeLeftGesture];
 
     ///add PostZpot as Intital View of MainView
-    PostZpotViewController* postViewController = [[PostZpotViewController alloc]init];
-    [self.navigationController pushViewController:postViewController animated:NO];
-    postViewController.navigationItem.leftBarButtonItem = self.navigationItem.leftBarButtonItem;
-    postViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+    [self showPostView];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     if (_leftMenuViewController.parentViewController == nil) {
         [self.navigationController addChildViewController:_leftMenuViewController];
     }
+}
+
+-(void)showPostView{
+    [self.navigationController popToRootViewControllerAnimated:NO];
+    PostZpotViewController* postViewController = [[PostZpotViewController alloc]init];
+    [self.navigationController pushViewController:postViewController animated:NO];
+    postViewController.navigationItem.leftBarButtonItem = self.navigationItem.leftBarButtonItem;
+    postViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+}
+
+-(void)showFeedView{
+    [self.navigationController popToRootViewControllerAnimated:NO];
+    FeedZpotViewController* postViewController = [[FeedZpotViewController alloc]init];
+    [self.navigationController pushViewController:postViewController animated:NO];
+    postViewController.navigationItem.leftBarButtonItem = self.navigationItem.leftBarButtonItem;
+    postViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
 }
 
 -(void)handleSwipeLeft{
@@ -183,7 +197,10 @@
 #pragma mark - LeftMenuDelegate
 -(void)leftmenuChangeViewToClass:(NSString *)clsString{
     if ([clsString isEqualToString:NSStringFromClass([PostZpotViewController class])]) {
-        
+        [self showPostView];
+    }else if ([clsString isEqualToString:NSStringFromClass([FeedZpotViewController class])]){
+        [self showFeedView];
     }
+    [self openMenu];
 }
 @end
