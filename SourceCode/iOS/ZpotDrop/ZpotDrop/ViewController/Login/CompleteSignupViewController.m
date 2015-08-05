@@ -119,8 +119,7 @@
     }else{
         if ([[_firstName.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
         {
-            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"error_title".localized message:@"error_first_name".localized delegate:nil cancelButtonTitle:@"ok".localized otherButtonTitles: nil];
-            [alert showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_first_name".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
                 [_firstName becomeFirstResponder];
             }];
             return;
@@ -128,8 +127,7 @@
         
         if ([[_lastName.text stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
         {
-            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"error_title".localized message:@"error_last_name".localized delegate:nil cancelButtonTitle:@"ok".localized otherButtonTitles: nil];
-            [alert showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_last_name".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
                 [_lastName becomeFirstResponder];
             }];
             return;

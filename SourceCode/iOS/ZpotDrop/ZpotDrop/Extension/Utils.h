@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import "NSString+Ext.h"
 #import "UIColor+HexColors.h"
@@ -33,4 +34,6 @@
 -(void)showProgressWithMessage:(NSString*)msg;
 -(void)hideProgess;
 -(MKMapView*)mapView;
+-(BOOL)isGPS;
+-(void)showAlertWithTitle:(NSString*)title message:(NSString*)msg yesTitle:(NSString*)okStr noTitle:(NSString*)noStr handler:(UIAlertViewHandler)handler;
 @end

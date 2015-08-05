@@ -31,7 +31,7 @@
     frame.size.height -= 64;
     _scrollViewContent = [[UIScrollView alloc]initWithFrame:frame];
     [self.view addSubview:_scrollViewContent];
-    
+    /*======================View Input Location's Title=======================*/
     UIView* zpotTitleView = [[UIView alloc]initWithFrame:CGRectMake(0, 180, self.view.frame.size.width, 44)];
     [_scrollViewContent addSubview:zpotTitleView];
     [zpotTitleView addBorderWithFrame:CGRectMake(0, zpotTitleView.height - 1.0, zpotTitleView.width, 1) color:COLOR_SEPEARATE_LINE];
@@ -52,7 +52,7 @@
     [btnPostZpot setFrame:CGRectMake(zpotTitleView.frame.size.width-60, 0, 60, zpotTitleView.height)];
     [btnPostZpot setTitle:@"post".localized.uppercaseString forState:UIControlStateNormal];
     [zpotTitleView addSubview:btnPostZpot];
-    
+    /*======================View Search Location=======================*/
     UISearchBar* searchLocationBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, zpotTitleView.y + zpotTitleView.height, self.view.width, 40)];
     searchLocationBar.backgroundColor = [UIColor clearColor];
     searchLocationBar.barTintColor = [UIColor clearColor];
@@ -70,7 +70,7 @@
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setAttributedPlaceholder:attributedPlaceholder];
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16]];
     [_scrollViewContent addSubview:searchLocationBar];
-    
+    /*======================Locations Result Table=======================*/
     UITableView* tableViewLocation = [[UITableView alloc]initWithFrame:CGRectMake(0, searchLocationBar.y + searchLocationBar.height, self.view.width, _scrollViewContent.height - searchLocationBar.y - searchLocationBar.height) style:UITableViewStylePlain];
     tableViewLocation.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableViewLocation.dataSource = self;
@@ -83,16 +83,32 @@
         [[Utils instance].mapView removeFromSuperview];
         [[Utils instance].mapView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 180)];
         [self.view addSubview:[Utils instance].mapView];
+        [Utils instance].mapView.userInteractionEnabled = NO;
     }
+    if ([[Utils instance] isGPS] == NO) {
+        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_no_gps".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        }];
+    }else{
+        [[Utils instance].mapView setShowsUserLocation:YES];
+        [[Utils instance].mapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
+    }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
--(void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[Utils instance].mapView setShowsUserLocation:NO];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)appBecomeActive{
+    //force MKMapView to update Location whether GSP is turn on
+    [[Utils instance].mapView setShowsUserLocation:YES];
 }
 
 #pragma mark - UITableViewDataSource

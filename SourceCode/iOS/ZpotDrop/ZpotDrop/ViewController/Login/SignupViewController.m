@@ -107,8 +107,7 @@
 {
     if (![_rule checkEmailStringIsCorrect:_email.text])
     {
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"error_title".localized message:@"error_email_format".localized delegate:nil cancelButtonTitle:@"ok".localized otherButtonTitles: nil];
-        [alert showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_email_format".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
             [_email setText:@""];
             [_email becomeFirstResponder];
         }];
@@ -116,8 +115,7 @@
     }
     if ([_password.text length] < 3)
     {
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"error_title".localized message:@"error_password_length".localized delegate:nil cancelButtonTitle:@"ok".localized otherButtonTitles: nil];
-        [alert showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_password_length".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
             [_password setText:@""];
             [_password becomeFirstResponder];
         }];
@@ -126,8 +124,7 @@
     
     if (![_confirm.text isEqualToString:_password.text])
     {
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"error_title".localized message:@"error_passwords_not_match".localized delegate:nil cancelButtonTitle:@"ok".localized otherButtonTitles: nil];
-        [alert showWithHandler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_passwords_not_match".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
             [_confirm setText:@""];
             [_confirm becomeFirstResponder];
         }];

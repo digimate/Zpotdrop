@@ -19,6 +19,7 @@
 "error_passwords_not_match" = "Your password and confirm password doesn't match";
 "error_first_name" = "First name is missing, please check again";
 "error_last_name" = "Last name is missing, please check again";
+"error_no_gps" = "GPS isn't available for using.Please turn it on.";
 //MARK: - ***** F *****
 "feed" = "Feed";
 "find" = "Find";

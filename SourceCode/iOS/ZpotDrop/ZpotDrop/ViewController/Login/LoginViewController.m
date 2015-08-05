@@ -146,12 +146,16 @@
         {
             if (![_rule checkEmailStringIsCorrect:[[alertView textFieldAtIndex:0] text]])
             {
-                [[[UIAlertView alloc]initWithTitle:@"error_title".localized message:@"error_email_format".localized delegate:nil cancelButtonTitle:@"ok".localized otherButtonTitles: nil] show];
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_email_format".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    
+                }];
                 return;
             }
             [_api forgotPasswordWithData:@{@"email": [[alertView textFieldAtIndex:0] text]} :^(id data, NSString *error) {
                 if (error)
-                    [[[UIAlertView alloc]initWithTitle:@"error_title".localized message:error delegate:nil cancelButtonTitle:@"ok".localized otherButtonTitles: nil] show];
+                    [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                        
+                    }];
             }];
         }
     }];
@@ -172,7 +176,9 @@
         [_api loginWithData:@{@"email":_email.text, @"password":_password.text} :^(id data, NSString *error) {
             if (error)
             {
-                [[[UIAlertView alloc]initWithTitle:@"error_title".localized message:error delegate:nil cancelButtonTitle:@"ok".localized otherButtonTitles: nil] show];
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    
+                }];
             }else{
                 //login success
                 [[NSNotificationCenter defaultCenter]postNotificationName:KEY_LOGIN_SUCCEED object:nil];
