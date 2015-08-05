@@ -18,7 +18,7 @@
     _imgvAvatar.layer.masksToBounds = YES;
     
     [_lblName setText:@""];
-    [_lblName setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:18]];
+    [_lblName setFont:[UIFont fontWithName:@"PTSans-Bold" size:18]];
     _lblName.textColor = COLOR_DARK_GREEN;
     
 }

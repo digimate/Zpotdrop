@@ -15,7 +15,7 @@
     // Initialization code
     [super awakeFromNib];
     _lblTitle.textColor = COLOR_DARK_GREEN;
-    _lblTitle.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:18];
+    _lblTitle.font = [UIFont fontWithName:@"PTSans-Bold" size:18];
     UIImageView *checkmark = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_indicator"]];
     self.accessoryView = checkmark;
 }

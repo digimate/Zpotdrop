@@ -47,13 +47,11 @@
     if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted) {
         return NO;
     }
-    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
-        [self manager];
-    }
+    [self locationManager];
     return YES;
 }
 
--(CLLocationManager*)manager{
+-(CLLocationManager*)locationManager{
     static CLLocationManager *_sharedInstance = nil;
     static dispatch_once_t oncePredicate;
     dispatch_once(&oncePredicate, ^{

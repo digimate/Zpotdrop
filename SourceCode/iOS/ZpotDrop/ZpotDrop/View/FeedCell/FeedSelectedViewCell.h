@@ -9,6 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "BaseTableViewCell.h"
 
-@interface FeedSelectedViewCell : BaseTableViewCell
+@interface FeedSelectedViewCell : BaseTableViewCell{
+    IBOutlet UIImageView* _imgvAvatar;
+    IBOutlet UILabel* _lblName;
+    IBOutlet UILabel* _lblZpotName;
+    IBOutlet UILabel* _lblZpotAddress;
+    IBOutlet UILabel* _lblZpotInfo;
+    IBOutlet UIView* _viewForMap;
+    IBOutlet UITableView* _tableViewComments;
+    IBOutlet UIButton* _btnComming;
+}
 
 @end

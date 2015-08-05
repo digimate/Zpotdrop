@@ -24,6 +24,10 @@
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationUsageDescription</key>
+	<string>ZpotDrop would like to use your location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>ZpotDrop would like to use your location</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>PTS76F.ttf</string>

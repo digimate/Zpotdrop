@@ -8,6 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseTableViewCell.h"
-@interface FeedNormalViewCell : BaseTableViewCell
+@interface FeedNormalViewCell : BaseTableViewCell{
+    IBOutlet UIImageView* _imgvAvatar;
+    IBOutlet UILabel* _lblName;
+    IBOutlet UILabel* _lblZpotAddress;
+    IBOutlet UILabel* _lblZpotName;
+    IBOutlet UILabel* _lblZpotTime;
+    IBOutlet UILabel* _lblSpotDistance;
+    IBOutlet UILabel* _lblNumberLikes;
+    IBOutlet UILabel* _lblNumberComments;
+    IBOutlet UIButton* _btnLike;
+    IBOutlet UIButton* _btnComment;
+    IBOutlet NSLayoutConstraint* _lblNumberLikesWidth;
+    IBOutlet NSLayoutConstraint* _lblNumberCommentsWidth;
+}
 
 @end

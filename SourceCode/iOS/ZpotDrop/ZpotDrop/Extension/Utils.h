@@ -18,7 +18,7 @@
 #import "UIView+Borders.h"
 #import "UIView+Frame.h"
 #import "SVProgressHUD.h"
-
+#import "TableViewInsertDataHandler.h"
 #import "AccountModel.h"
 
 #define IS_DEBUG 1
@@ -36,6 +36,7 @@
 -(void)showProgressWithMessage:(NSString*)msg;
 -(void)hideProgess;
 -(MKMapView*)mapView;
+-(CLLocationManager*)locationManager;
 -(BOOL)isGPS;
 -(void)showAlertWithTitle:(NSString*)title message:(NSString*)msg yesTitle:(NSString*)okStr noTitle:(NSString*)noStr handler:(UIAlertViewHandler)handler;
 @end

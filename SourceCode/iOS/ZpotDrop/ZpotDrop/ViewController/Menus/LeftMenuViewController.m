@@ -54,7 +54,7 @@
     UIButton* zpotdropAllButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [zpotdropAllButton setFrame:CGRectMake(0, 0, 86, 86)];
     zpotdropAllButton.center = progressView.center;
-    [[zpotdropAllButton titleLabel]setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:12]];
+    [[zpotdropAllButton titleLabel]setFont:[UIFont fontWithName:@"PTSans-Bold" size:12]];
     [zpotdropAllButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [zpotdropAllButton setTitleColor:[UIColor colorWithRed:229 green:229 blue:229] forState:UIControlStateDisabled];
     [zpotdropAllButton setTitle:@"zpot_all".localized.uppercaseString forState:UIControlStateNormal];
@@ -65,7 +65,7 @@
     UILabel* lblZpotAll = [[UILabel alloc]initWithFrame:CGRectMake(0, progressView.y + progressView.height, zpotdropAllView.width, 16)];
     lblZpotAll.textColor = COLOR_DARK_GREEN;
     lblZpotAll.textAlignment = NSTextAlignmentCenter;
-    lblZpotAll.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:12];
+    lblZpotAll.font = [UIFont fontWithName:@"PTSans-Regular" size:12];
     lblZpotAll.text = @"zpot_all_usage".localized;
     [zpotdropAllView addSubview:lblZpotAll];
     _tableView.tableFooterView = zpotdropAllView;

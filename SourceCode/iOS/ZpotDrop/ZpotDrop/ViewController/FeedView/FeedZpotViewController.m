@@ -7,10 +7,15 @@
 //
 
 #import "FeedZpotViewController.h"
+#import "FeedNormalViewCell.h"
+#import "FeedSelectedViewCell.h"
 
-@interface FeedZpotViewController (){
+@interface FeedZpotViewController ()<UITableViewDataSource,UITableViewDelegate>{
     UITableView* _feedTableView;
     UIView* _commentPostView;
+    NSMutableArray* _feedData;
+    id selectedData;
+    TableViewInsertDataHandler* insertDataHandler;
 }
 
 @end
@@ -27,12 +32,19 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
+    /*============Feed TableView============*/
+    _feedData = [NSMutableArray arrayWithArray:@[@"1",@"2",@"3"]];
     _feedTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
     _feedTableView.translatesAutoresizingMaskIntoConstraints = NO;
     _feedTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _feedTableView.dataSource = self;
+    _feedTableView.delegate = self;
     [self.view addSubview:_feedTableView];
     
+    [_feedTableView registerNib:[UINib nibWithNibName:NSStringFromClass([FeedNormalViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([FeedNormalViewCell class])];
+    [_feedTableView registerNib:[UINib nibWithNibName:NSStringFromClass([FeedSelectedViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([FeedSelectedViewCell class])];
+    
+    /*============Comment Input View============*/
     _commentPostView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.width, 40)];
     [_commentPostView addTopBorderWithHeight:1.0 andColor:COLOR_SEPEARATE_LINE];
     _commentPostView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -47,21 +59,65 @@
     [self.view addConstraints:commentPostW];
     [self.view addConstraints:feedTableW];
     [self.view addConstraints:combineH];
+    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (!insertDataHandler) {
+        insertDataHandler = [[TableViewInsertDataHandler alloc]init];
+        [insertDataHandler handleInsertData:_feedData ofTableView:_feedTableView];
+    }
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)insertNewFeedInTable:(id)data{
+    [insertDataHandler insertData:data];
 }
-*/
+#pragma mark - UITableViewDelegate & UITableViewDatasource
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
 
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return _feedData.count;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    id data = [_feedData objectAtIndex:indexPath.row];
+    if (data == selectedData) {
+        return [FeedSelectedViewCell cellHeight];
+    }
+    return [FeedNormalViewCell cellHeight];
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    BaseTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:[self cellIdentiferForIndexPath:indexPath]];
+    [cell setupCellWithData:nil andOptions:nil];
+    return cell;
+}
+
+-(NSString*)cellIdentiferForIndexPath:(NSIndexPath*)indexPath{
+    id data = [_feedData objectAtIndex:indexPath.row];
+    if (data == selectedData) {
+        return NSStringFromClass([FeedSelectedViewCell class]);
+    }
+    return NSStringFromClass([FeedNormalViewCell class]);
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    id data = [_feedData objectAtIndex:indexPath.row];
+    NSMutableArray* reloadIndexPaths = [NSMutableArray arrayWithObject:indexPath];
+    if (data == selectedData) {
+        selectedData = nil;
+    }else{
+        if (selectedData != nil && [_feedData containsObject:selectedData]) {
+            NSInteger row = [_feedData indexOfObject:selectedData];
+            [reloadIndexPaths addObject:[NSIndexPath indexPathForRow:row inSection:0]];
+        }
+        selectedData = data;
+    }
+   
+    [tableView reloadRowsAtIndexPaths:reloadIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+}
 @end

@@ -12,6 +12,7 @@
 "continue" = "Continue";
 "cancel" = "Cancel";
 "confirm_password" = "Confirm again";
+"comming" = "C'Min";
 //MARK: - ***** E *****
 "error_title" = "We're sorry";
 "error_email_format" = "Your email is not correct format";
@@ -50,3 +51,4 @@
 //MARK: - ***** Z *****
 "zpot_all" = "Zpot All";
 "zpot_all_usage" = "Now,click to zpot all your friends";
+"zpot_distance_format" = "%@   Walk: %@   Car: %@";
