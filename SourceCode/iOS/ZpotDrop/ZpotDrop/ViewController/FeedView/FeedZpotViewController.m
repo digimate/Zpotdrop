@@ -64,7 +64,7 @@
     [[_btnSendComment titleLabel]setFont:[UIFont fontWithName:@"PTSans-Regular" size:16.f]];
     [_btnSendComment setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_btnSendComment setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
-    [_btnSendComment setTitle:@"Send" forState:UIControlStateNormal];
+    [_btnSendComment setTitle:@"post".localized forState:UIControlStateNormal];
     [_btnSendComment addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
     
     _tvComment = [[UITextView alloc]init];
@@ -100,7 +100,7 @@
     lblHolder = [[UILabel alloc]init];
     lblHolder.font = [UIFont fontWithName:@"PTSans-Italic" size:16.f];
     lblHolder.textColor = [UIColor lightGrayColor];
-    lblHolder.text = @"New Message";
+    lblHolder.text = @"place_holder_feed_comment".localized;
     lblHolder.translatesAutoresizingMaskIntoConstraints = NO;
     lblHolder.backgroundColor = [UIColor clearColor];
     [_tvComment addSubview:lblHolder];

@@ -12,7 +12,7 @@
     IBOutlet UIImageView* _imgvAvatar;
     IBOutlet UILabel* _lblName;
     IBOutlet UILabel* _lblZpotAddress;
-    IBOutlet UILabel* _lblZpotName;
+    IBOutlet UILabel* _lblZpotTitle;
     IBOutlet UILabel* _lblZpotTime;
     IBOutlet UILabel* _lblSpotDistance;
     IBOutlet UILabel* _lblNumberLikes;

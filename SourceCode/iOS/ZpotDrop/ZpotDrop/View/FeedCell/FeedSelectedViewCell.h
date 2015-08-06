@@ -10,10 +10,10 @@
 #import "BaseTableViewCell.h"
 #import <MapKit/MapKit.h>
 
-@interface FeedSelectedViewCell : BaseTableViewCell<MKMapViewDelegate>{
+@interface FeedSelectedViewCell : BaseTableViewCell<MKMapViewDelegate,UITableViewDataSource,UITableViewDelegate>{
     IBOutlet UIImageView* _imgvAvatar;
     IBOutlet UILabel* _lblName;
-    IBOutlet UILabel* _lblZpotName;
+    IBOutlet UILabel* _lblZpotTitle;
     IBOutlet UILabel* _lblZpotAddress;
     IBOutlet UILabel* _lblZpotInfo;
     IBOutlet UIView* _viewForMap;

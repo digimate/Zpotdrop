@@ -24,7 +24,7 @@
     _lblNumberLikes.text = nil;
     _lblSpotDistance.text = nil;
     _lblZpotAddress.text = nil;
-    _lblZpotName.text = nil;
+    _lblZpotTitle.text = nil;
     _lblZpotTime.text = nil;
 }
 
@@ -38,7 +38,7 @@
     _lblName.text = @"Alex Stone";
     _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
     _lblZpotAddress.text = @"Villandry - StJames's";
-    _lblZpotName.text = @"Brunch with mom.";
+    _lblZpotTitle.text = @"Brunch with mom.";
     _lblZpotTime.text = @"10 min ago";
     _lblSpotDistance.text = @"234 m";
     _lblNumberComments.text = @"0";
