@@ -32,7 +32,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"feed".localized.uppercaseString;
-    // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {

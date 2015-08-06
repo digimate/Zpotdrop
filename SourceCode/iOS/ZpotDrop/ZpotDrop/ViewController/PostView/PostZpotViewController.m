@@ -9,7 +9,7 @@
 #import "PostZpotViewController.h"
 #import "Utils.h"
 
-@interface PostZpotViewController ()<UITableViewDataSource,UITextFieldDelegate,CLLocationManagerDelegate>{
+@interface PostZpotViewController ()<UITableViewDataSource,UITextFieldDelegate,CLLocationManagerDelegate,MKMapViewDelegate>{
     UIScrollView* _scrollViewContent;
     UITextField* zpotTitleTextField;
     UISearchBar* searchLocationBar;
@@ -66,6 +66,7 @@
     searchLocationBar.backgroundColor = [UIColor clearColor];
     searchLocationBar.barTintColor = [UIColor clearColor];
     searchLocationBar.backgroundImage = [[UIImage alloc]init];
+    [searchLocationBar setImage:[UIImage imageNamed:@"ic_search"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     [searchLocationBar addBorderWithFrame:CGRectMake(0, searchLocationBar.height - 1.0, searchLocationBar.width, 1) color:COLOR_SEPEARATE_LINE];
     searchLocationBar.placeholder = @"place_holder_search_location".localized;
     NSDictionary *placeholderAttributes = @{
@@ -111,6 +112,7 @@
         [[[Utils instance] mapView] removeAnnotations:[[Utils instance] mapView].annotations];
         [_scrollViewContent addSubview:[Utils instance].mapView];
         [Utils instance].mapView.userInteractionEnabled = NO;
+        [[Utils instance] mapView].delegate = self;
     }
     if ([[Utils instance] isGPS] == NO) {
         [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_no_gps".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
@@ -131,6 +133,7 @@
     [self removeKeyboardNotification];
     [self removeOpenLeftMenuNotification];
     [self removeOpenRightMenuNotification];
+    [[Utils instance] mapView].delegate = nil;
     [[Utils instance].mapView setShowsUserLocation:NO];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
@@ -199,6 +202,16 @@
     [textField resignFirstResponder];
     return YES;
 }
-
-
+#pragma mark - MKMapViewDelegate
+-(void)changeUserLocationColor{
+    MKAnnotationView* annotationView = [[Utils instance].mapView viewForAnnotation:[Utils instance].mapView .userLocation];
+    if (annotationView) {
+        annotationView.tintColor = COLOR_DARK_GREEN;
+    }else{
+        [self performSelector:@selector(changeUserLocationColor) withObject:nil afterDelay:0.3];
+    }
+}
+-(void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views{
+    [self changeUserLocationColor];
+}
 @end

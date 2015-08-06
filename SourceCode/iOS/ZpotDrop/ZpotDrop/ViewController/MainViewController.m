@@ -10,6 +10,7 @@
 #import "PostZpotViewController.h"
 #import "AppDelegate.h"
 #import "FeedZpotViewController.h"
+#import "FindZpotViewController.h"
 
 @interface MainViewController ()<LeftMenuDelegate>
 
@@ -108,6 +109,14 @@
     postViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
 }
 
+-(void)showFindView{
+    [self.navigationController popToRootViewControllerAnimated:NO];
+    FindZpotViewController* postViewController = [[FindZpotViewController alloc]init];
+    [self.navigationController pushViewController:postViewController animated:NO];
+    postViewController.navigationItem.leftBarButtonItem = self.navigationItem.leftBarButtonItem;
+    postViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+}
+
 -(void)handleSwipeLeft{
     [self openNotification];
 }
@@ -200,6 +209,8 @@
         [self showPostView];
     }else if ([clsString isEqualToString:NSStringFromClass([FeedZpotViewController class])]){
         [self showFeedView];
+    }else if ([clsString isEqualToString:NSStringFromClass([FindZpotViewController class])]){
+        [self showFindView];
     }
     [self openMenu];
 }

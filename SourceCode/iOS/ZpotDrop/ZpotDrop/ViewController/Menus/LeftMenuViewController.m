@@ -15,6 +15,7 @@
 #import "CircleProgressView.h"
 #import "PostZpotViewController.h"
 #import "FeedZpotViewController.h"
+#import "FindZpotViewController.h"
 
 @interface LeftMenuViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -159,6 +160,8 @@
             [self.delegate leftmenuChangeViewToClass:NSStringFromClass([PostZpotViewController class])];
         }else if (currentSelectedRow == 2) {
             [self.delegate leftmenuChangeViewToClass:NSStringFromClass([FeedZpotViewController class])];
+        }else if (currentSelectedRow == 3) {
+            [self.delegate leftmenuChangeViewToClass:NSStringFromClass([FindZpotViewController class])];
         }
     }else{
         [self.delegate leftmenuChangeViewToClass:nil];

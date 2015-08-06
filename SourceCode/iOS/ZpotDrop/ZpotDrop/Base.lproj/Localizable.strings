@@ -44,7 +44,8 @@
 "place_holder_username" = "Email or phone number";
 "place_holder_zpot_drop_post" = "Zpot's title";
 "place_holder_search_location" = "Find or create your current location";
-"place_holder_feed_comment" = "New comment";
+"place_holder_feed_comment" = "Enter your comment...";
+"place_holder_search_zpot" = "Search for friends to request zpot";
 //MARK: - ***** S *****
 "search" = "Search";
 "settings" = "Settings";
