@@ -67,7 +67,7 @@
     _btnComment.selected = !_lblNumberComments.hidden;
 }
 
-+(CGFloat)cellHeight{
++(CGFloat)cellHeightWithData:(BaseDataModel *)data{
     return 80;
 }
 @end

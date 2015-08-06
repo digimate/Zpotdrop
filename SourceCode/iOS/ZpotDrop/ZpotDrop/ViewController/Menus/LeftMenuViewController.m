@@ -97,23 +97,23 @@
     NSDictionary* param = nil;
     CGRect borderRect = CGRectZero;
     if (indexPath.row == 0) {
-         borderRect = CGRectMake(15, [MenuProfileTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
+         borderRect = CGRectMake(15, [MenuProfileTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
         cell.userInteractionEnabled = NO;
     }else if (indexPath.row == 1) {
         param = @{@"title":@"post".localized.uppercaseString,@"icon":@"icon"};
-        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
+        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 2){
         param = @{@"title":@"feed".localized.uppercaseString,@"icon":@"ic_feed"};
-         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
+         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 3){
         param = @{@"title":@"find".localized.uppercaseString,@"icon":@"ic_find"};
-         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
+         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 4){
         param = @{@"title":@"search".localized.uppercaseString};
-        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
+        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 5){
         param = @{@"title":@"settings".localized.uppercaseString};
-        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
+        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
     }
     [cell setupCellWithData:nil andOptions:param];
     if (!CGRectEqualToRect(borderRect, CGRectZero)) {
@@ -136,11 +136,11 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0){
-        return [MenuProfileTableViewCell cellHeight];
+        return [MenuProfileTableViewCell cellHeightWithData:nil];
     }else if (indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3){
-        return [MenuFeatureTableViewCell cellHeight];
+        return [MenuFeatureTableViewCell cellHeightWithData:nil];
     }else if (indexPath.row == 4 || indexPath.row == 5){
-        return [MenuSettingViewCell cellHeight];
+        return [MenuSettingViewCell cellHeightWithData:nil];
     }
     return 0;
 }

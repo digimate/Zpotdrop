@@ -13,6 +13,7 @@
     self = [super init];
     waitingData = [NSMutableArray array];
     canInsert = YES;
+    self.addOnTop = YES;
     return self;
 }
 -(void)handleInsertData:(NSMutableArray *)array ofTableView:(UITableView *)tableView{
@@ -22,8 +23,14 @@
 
 -(void)insertData:(id)data{
     if (canInsert) {
-        [self.tableData insertObject:data atIndex:0];
-        [self beginReloadData:[NSMutableArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]];
+        if (self.addOnTop) {
+            [self.tableData insertObject:data atIndex:0];
+            [self beginReloadData:[NSMutableArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]];
+        }else{
+            [self.tableData addObject:data];
+            [self beginReloadData:[NSMutableArray arrayWithObject:[NSIndexPath indexPathForRow:self.tableData.count-1 inSection:0]]];
+        }
+        
     }else{
         @synchronized(waitingData)
         {
@@ -33,7 +40,11 @@
 }
 -(void)beginReloadData:(NSMutableArray*)indexPaths{
     canInsert = NO;
-    [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+    if (self.addOnTop) {
+        [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+    }else{
+        [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
+    }
     [self performSelector:@selector(resetFlag) withObject:nil afterDelay:0.3];
 }
 
@@ -45,9 +56,15 @@
             NSMutableArray* indexPaths = [NSMutableArray array];
             for (int i = 0; i < waitingData.count; i++) {
                 id data = [waitingData objectAtIndex:i];
-                [self.tableData insertObject:data atIndex:0];
-                NSIndexPath* indexPath = [NSIndexPath indexPathForRow:waitingData.count - i -1 inSection:0];
-                [indexPaths addObject:indexPath];
+                if (self.addOnTop) {
+                    [self.tableData insertObject:data atIndex:0];
+                    NSIndexPath* indexPath = [NSIndexPath indexPathForRow:waitingData.count - i -1 inSection:0];
+                    [indexPaths addObject:indexPath];
+                }else{
+                    [self.tableData addObject:data];
+                    NSIndexPath* indexPath = [NSIndexPath indexPathForRow:self.tableData.count-1 inSection:0];
+                    [indexPaths addObject:indexPath];
+                }
             }
             [waitingData removeAllObjects];
             [self beginReloadData:indexPaths];

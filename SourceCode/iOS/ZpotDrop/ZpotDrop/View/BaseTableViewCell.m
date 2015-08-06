@@ -27,8 +27,10 @@
     
 }
 
-+(CGFloat)cellHeight{
++(CGFloat)cellHeightWithData:(BaseDataModel*)data{
     return 0;
 }
-
++(id)instance{
+    return nil;
+}
 @end

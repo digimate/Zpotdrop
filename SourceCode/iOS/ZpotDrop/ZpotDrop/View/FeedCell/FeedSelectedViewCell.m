@@ -8,6 +8,8 @@
 
 #import "FeedSelectedViewCell.h"
 #import "Utils.h"
+#import "FeedCommentCell.h"
+#import "FeedCommentNotifyCell.h"
 
 @implementation FeedSelectedViewCell
 
@@ -23,11 +25,18 @@
     _lblName.textColor = _btnComming.backgroundColor =  COLOR_DARK_GREEN;
     _lblZpotInfo.backgroundColor = [COLOR_DARK_GREEN colorWithAlphaComponent:0.5];
     _lblName.text = _lblZpotAddress.text = _lblZpotInfo.text = _lblZpotTitle.text = nil;
+    
     UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]init];
     tapGesture.numberOfTapsRequired = 1;
     [_viewForMap addGestureRecognizer:tapGesture];
+    
+    _commentsData = [NSMutableArray array];
+    [_tableViewComments registerNib:[UINib nibWithNibName:NSStringFromClass([FeedCommentCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([FeedCommentCell class])];
+    [_tableViewComments registerNib:[UINib nibWithNibName:NSStringFromClass([FeedCommentNotifyCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([FeedCommentNotifyCell class])];
     _tableViewComments.delegate = self;
     _tableViewComments.dataSource = self;
+    
+    insertHandler = [[TableViewInsertDataHandler alloc]init];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -60,11 +69,32 @@
     [annotationPoint setCoordinate:startCoord];
     [annotationPoint setTitle:_lblZpotTitle.text];
     [[[Utils instance] mapView] addAnnotation:annotationPoint];
+    
+    [_commentsData removeAllObjects];
+    [_commentsData addObjectsFromArray:@[@"2",@"1",@"1"]];
+    [insertHandler handleInsertData:_commentsData ofTableView:_tableViewComments];
     [_tableViewComments reloadData];
+    
+    //headerView
+    _tableViewComments.tableHeaderView = nil;
+    UIView* viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _tableViewComments.width, 28)];
+    UILabel* lblHeader = [[UILabel alloc]initWithFrame:CGRectMake(10, 0,viewHeader.width-10, viewHeader.height-2)];
+    lblHeader.textColor = [COLOR_DARK_GREEN colorWithAlphaComponent:0.7];
+    lblHeader.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
+    lblHeader.text = @"You, Alex and 5 others like this";
+    [viewHeader addSubview:lblHeader];
+    _tableViewComments.tableHeaderView = viewHeader;
 }
 
-+(CGFloat)cellHeight{
++(CGFloat)cellHeightWithData:(BaseDataModel *)data{
     return 390;
+}
+-(void)addComment:(BaseDataModel*)data{
+    [insertHandler insertData:@"2"];
+    [self performSelector:@selector(scrollToTop) withObject:nil afterDelay:0.3];
+}
+-(void)scrollToTop{
+    [_tableViewComments setContentOffset:CGPointZero];
 }
 #pragma mark - MKMapViewDelegate
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
@@ -84,26 +114,28 @@
     return 1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 0;
+    return _commentsData.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    id data = [_commentsData objectAtIndex:indexPath.row];
     BaseTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:[self cellIdentifierForIndexPath:indexPath]];
+    [cell setupCellWithData:data andOptions:nil];
     return cell;
 }
 -(NSString*)cellIdentifierForIndexPath:(NSIndexPath*)indexPath{
-    return @"";
+    id data = [_commentsData objectAtIndex:indexPath.row];
+    if ([data isEqualToString:@"1"]) {
+        return NSStringFromClass([FeedCommentNotifyCell class]);
+    }
+    return NSStringFromClass([FeedCommentCell class]);
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 28;
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    id data = [_commentsData objectAtIndex:indexPath.row];
+    if ([data isEqualToString:@"1"]) {
+        return [FeedCommentNotifyCell cellHeightWithData:data];
+    }
+    return [FeedCommentCell cellHeightWithData:data];
 }
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, tableView.width, 28)];
-    UILabel* lblHeader = [[UILabel alloc]initWithFrame:CGRectMake(10, 0,view.width-10, view.height-2)];
-    lblHeader.textColor = [COLOR_DARK_GREEN colorWithAlphaComponent:0.7];
-    lblHeader.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
-    lblHeader.text = @"You, Alex and 5 others like this";
-    [view addSubview:lblHeader];
-    return view;
-}
+
 @end

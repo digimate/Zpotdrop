@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "BaseTableViewCell.h"
 
-@interface FeedCommentNotifyCell : BaseTableViewCell
+@interface FeedCommentNotifyCell : BaseTableViewCell{
+    IBOutlet UILabel* _lblTitle;
+    IBOutlet UILabel* _lblTime;
+}
 
 @end

@@ -35,7 +35,7 @@
     }
 }
 
-+(CGFloat)cellHeight{
++(CGFloat)cellHeightWithData:(BaseDataModel *)data{
     return 44;
 }
 @end

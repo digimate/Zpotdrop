@@ -24,7 +24,7 @@
     // Configure the view for the selected state
 }
 
-+(CGFloat)cellHeight{
++(CGFloat)cellHeightWithData:(BaseDataModel *)data{
     return 44;
 }
 

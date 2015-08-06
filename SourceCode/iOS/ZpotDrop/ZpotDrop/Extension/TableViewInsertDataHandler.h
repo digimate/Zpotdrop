@@ -15,7 +15,7 @@
 }
 @property(atomic,weak)NSMutableArray* tableData;
 @property(atomic,weak)UITableView* tableView;
-
+@property(nonatomic, assign)BOOL addOnTop;
 -(void)handleInsertData:(NSMutableArray*)array ofTableView:(UITableView*)tableView;
 -(void)insertData:(id)data;
 @end

@@ -10,7 +10,7 @@
 #import "Utils.h"
 
 @implementation FeedCommentCell
-
+@synthesize lblName = _lblName;
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
@@ -18,6 +18,8 @@
     _imgvAvatar.layer.cornerRadius = _imgvAvatar.width/2;
     _imgvAvatar.layer.masksToBounds = YES;
     _lblName.textColor = COLOR_DARK_GREEN;
+    _lblName.text = _lblMessage.text = _lblTime.text = nil;
+    _lblName.numberOfLines = 0;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -27,10 +29,26 @@
 }
 
 -(void)setupCellWithData:(BaseDataModel *)data andOptions:(NSDictionary *)param{
-
+    _lblMessage.text = @"Happy birthday Alex!!! Happy birthday Alex!!!";
+    _lblTime.text = @"3 min ago";
+    _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
+    _lblName.text = @"Sonny Truong";
 }
 
-+(CGFloat)cellHeight{
-    return 0;
++(CGFloat)cellHeightWithData:(BaseDataModel *)data{
+
+    FeedCommentCell* cell = [FeedCommentCell instance];
+    cell.lblName.text = @"Happy birthday Alex!!! Happy birthday Alex!!!";
+    CGSize s = [cell.lblName sizeThatFits:CGSizeMake(cell.lblName.width, MAXFLOAT)];
+    return 57 + (s.height - cell.lblName.height);
+}
+
++(id)instance{
+    static FeedCommentCell *_sharedInstance = nil;
+    static dispatch_once_t oncePredicate;
+    dispatch_once(&oncePredicate, ^{
+        _sharedInstance = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil] firstObject];
+    });
+    return _sharedInstance;
 }
 @end

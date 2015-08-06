@@ -27,6 +27,8 @@
 "forget_password" = "Forgot password?";
 "first_name" = "First name";
 "female" = "Female";
+//MARK: - ***** I *****
+"is_comming" = "is comming";
 //MARK: - ***** L *****
 "last_name" = "Last name";
 //MARK: - ***** M *****

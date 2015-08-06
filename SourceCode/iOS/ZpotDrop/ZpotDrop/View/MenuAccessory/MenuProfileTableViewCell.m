@@ -35,7 +35,7 @@
     _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
 }
 
-+(CGFloat)cellHeight{
++(CGFloat)cellHeightWithData:(BaseDataModel *)data{
     return 150;
 }
 

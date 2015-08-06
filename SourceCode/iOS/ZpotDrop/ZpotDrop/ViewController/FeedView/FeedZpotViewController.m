@@ -10,7 +10,7 @@
 #import "FeedNormalViewCell.h"
 #import "FeedSelectedViewCell.h"
 
-@interface FeedZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate>{
+@interface FeedZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UITextViewDelegate,UIScrollViewDelegate>{
     UITableView* _feedTableView;
     UIView* _commentPostView;
     UITextView* _tvComment;
@@ -21,6 +21,7 @@
     TableViewInsertDataHandler* insertDataHandler;
     NSLayoutConstraint* mLayoutComposeHeight;
     NSLayoutConstraint* mLayoutBottom;
+    FeedSelectedViewCell* feedSelectedCell;
 }
 
 @end
@@ -65,7 +66,7 @@
     [_btnSendComment setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_btnSendComment setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
     [_btnSendComment setTitle:@"post".localized forState:UIControlStateNormal];
-    [_btnSendComment addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+    [_btnSendComment addTarget:self action:@selector(addComment:) forControlEvents:UIControlEventTouchUpInside];
     
     _tvComment = [[UITextView alloc]init];
     _tvComment.autoresizesSubviews = YES;
@@ -152,6 +153,13 @@
 -(void)rightMenuOpened{
     [self closeKeyboard];
 }
+-(void)addComment:(UIButton*)sender{
+    [_tvComment setText:@""];
+    [self textViewDidChange:_tvComment];
+    if (feedSelectedCell != nil) {
+        [feedSelectedCell addComment:nil];
+    }
+}
 #pragma mark - UITableViewDelegate & UITableViewDatasource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -164,14 +172,22 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     id data = [_feedData objectAtIndex:indexPath.row];
     if (data == selectedData) {
-        return [FeedSelectedViewCell cellHeight];
+        return [FeedSelectedViewCell cellHeightWithData:data];
     }
-    return [FeedNormalViewCell cellHeight];
+    return [FeedNormalViewCell cellHeightWithData:data];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    BaseTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:[self cellIdentiferForIndexPath:indexPath]];
+    NSString* identifier = [self cellIdentiferForIndexPath:indexPath];
+    BaseTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     [cell setupCellWithData:nil andOptions:nil];
+    if (selectedData) {
+        if ([identifier isEqualToString:NSStringFromClass([FeedSelectedViewCell class])]) {
+            feedSelectedCell = (FeedSelectedViewCell*)cell;
+        }
+    }else{
+        feedSelectedCell = nil;
+    }
     return cell;
 }
 
@@ -193,6 +209,7 @@
         [_tvComment setText:@""];
         [_tvComment resignFirstResponder];
         lblHolder.hidden = false;
+        [self textViewDidChange:_tvComment];
     }else{
         if (selectedData != nil && [_feedData containsObject:selectedData]) {
             NSInteger row = [_feedData indexOfObject:selectedData];
@@ -217,10 +234,10 @@
 }
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-    if ([text isEqualToString:@"\n"]) {
-        [self closeKeyboard];
-        return NO;
-    }
+//    if ([text isEqualToString:@"\n"]) {
+//        [self closeKeyboard];
+//        return NO;
+//    }
     return YES;
 }
 
@@ -253,5 +270,9 @@
     [UIView animateWithDuration:0.3 animations:^{
         [self.view layoutIfNeeded];
     }];
+}
+#pragma mark - UIScrollViewDelegate
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    [self closeKeyboard];
 }
 @end

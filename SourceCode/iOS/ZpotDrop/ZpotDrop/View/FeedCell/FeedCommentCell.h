@@ -14,5 +14,5 @@
     IBOutlet UILabel* _lblMessage;
     IBOutlet UILabel* _lblTime;
 }
-
+@property(nonatomic, readonly)UILabel * lblName;
 @end
