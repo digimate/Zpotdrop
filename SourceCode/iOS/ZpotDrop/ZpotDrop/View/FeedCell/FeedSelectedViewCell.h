@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseTableViewCell.h"
+#import <MapKit/MapKit.h>
 
-@interface FeedSelectedViewCell : BaseTableViewCell{
+@interface FeedSelectedViewCell : BaseTableViewCell<MKMapViewDelegate>{
     IBOutlet UIImageView* _imgvAvatar;
     IBOutlet UILabel* _lblName;
     IBOutlet UILabel* _lblZpotName;

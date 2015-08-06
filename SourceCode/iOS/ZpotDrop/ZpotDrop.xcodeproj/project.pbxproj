@@ -96,6 +96,8 @@
 		8C2ABFF41B71F7C800047D74 /* FeedNormalViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C2ABFF21B71F7C800047D74 /* FeedNormalViewCell.xib */; };
 		8C2ABFF81B71F7FA00047D74 /* FeedSelectedViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C2ABFF61B71F7FA00047D74 /* FeedSelectedViewCell.m */; };
 		8C2ABFF91B71F7FA00047D74 /* FeedSelectedViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C2ABFF71B71F7FA00047D74 /* FeedSelectedViewCell.xib */; };
+		8C50F7781B73195800997C06 /* ZpotAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C50F7771B73195800997C06 /* ZpotAnnotationView.m */; };
+		8C50F77C1B731F6200997C06 /* ZpotAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C50F77B1B731F6200997C06 /* ZpotAnnotation.m */; };
 		BA0874A91B6FC07200FBFF74 /* CoreDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = BA0874A81B6FC07200FBFF74 /* CoreDataService.m */; };
 		BA0874AC1B6FC0C800FBFF74 /* zpotdrop.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BA0874AA1B6FC0C800FBFF74 /* zpotdrop.xcdatamodeld */; };
 		BA0874AF1B6FC10300FBFF74 /* BaseDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BA0874AE1B6FC10300FBFF74 /* BaseDataModel.m */; };
@@ -285,6 +287,10 @@
 		8C2ABFF51B71F7FA00047D74 /* FeedSelectedViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedSelectedViewCell.h; sourceTree = "<group>"; };
 		8C2ABFF61B71F7FA00047D74 /* FeedSelectedViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedSelectedViewCell.m; sourceTree = "<group>"; };
 		8C2ABFF71B71F7FA00047D74 /* FeedSelectedViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedSelectedViewCell.xib; sourceTree = "<group>"; };
+		8C50F7761B73195800997C06 /* ZpotAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZpotAnnotationView.h; sourceTree = "<group>"; };
+		8C50F7771B73195800997C06 /* ZpotAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZpotAnnotationView.m; sourceTree = "<group>"; };
+		8C50F77A1B731F6200997C06 /* ZpotAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZpotAnnotation.h; sourceTree = "<group>"; };
+		8C50F77B1B731F6200997C06 /* ZpotAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZpotAnnotation.m; sourceTree = "<group>"; };
 		BA0874A71B6FC07200FBFF74 /* CoreDataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataService.h; sourceTree = "<group>"; };
 		BA0874A81B6FC07200FBFF74 /* CoreDataService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataService.m; sourceTree = "<group>"; };
 		BA0874AB1B6FC0C800FBFF74 /* zpotdrop.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = zpotdrop.xcdatamodel; sourceTree = "<group>"; };
@@ -397,6 +403,7 @@
 		0ACD9D651B68B767004140EE /* ZpotDrop */ = {
 			isa = PBXGroup;
 			children = (
+				8C50F7791B731F4800997C06 /* Objects */,
 				0ACD9E491B6F137E004140EE /* Common Resource */,
 				0ACD9E451B6E5205004140EE /* Model */,
 				0ACD9DE51B68D4A0004140EE /* Service */,
@@ -650,6 +657,8 @@
 				8C269C391B70774E00E6835E /* MenuAccessory */,
 				8C269C691B709B8000E6835E /* BaseTableViewCell.h */,
 				8C269C6A1B709B8000E6835E /* BaseTableViewCell.m */,
+				8C50F7761B73195800997C06 /* ZpotAnnotationView.h */,
+				8C50F7771B73195800997C06 /* ZpotAnnotationView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -717,6 +726,15 @@
 				8C2ABFF71B71F7FA00047D74 /* FeedSelectedViewCell.xib */,
 			);
 			path = FeedCell;
+			sourceTree = "<group>";
+		};
+		8C50F7791B731F4800997C06 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				8C50F77A1B731F6200997C06 /* ZpotAnnotation.h */,
+				8C50F77B1B731F6200997C06 /* ZpotAnnotation.m */,
+			);
+			path = Objects;
 			sourceTree = "<group>";
 		};
 		BA62841C1B70FF9200399368 /* CircleView */ = {
@@ -929,6 +947,7 @@
 				BA6284281B71060500399368 /* SVProgressHUD.m in Sources */,
 				0ACD9DE11B68D497004140EE /* UIImageView+WebCache.m in Sources */,
 				8C2ABFEE1B71F2C300047D74 /* FeedZpotViewController.m in Sources */,
+				8C50F77C1B731F6200997C06 /* ZpotAnnotation.m in Sources */,
 				0ACD9DE01B68D497004140EE /* UIImageView+HighlightedWebCache.m in Sources */,
 				BA0874B21B6FC15200FBFF74 /* UserDataModel.m in Sources */,
 				0ACD9E301B6A9374004140EE /* RuleService.m in Sources */,
@@ -946,6 +965,7 @@
 				0ACD9DDE1B68D497004140EE /* UIImage+MultiFormat.m in Sources */,
 				0ACD9DD71B68D497004140EE /* SDWebImageDecoder.m in Sources */,
 				0ACD9DE31B68D497004140EE /* UIAlertView+Blocks.m in Sources */,
+				8C50F7781B73195800997C06 /* ZpotAnnotationView.m in Sources */,
 				0ACD9DE21B68D497004140EE /* UIView+WebCacheOperation.m in Sources */,
 				0ACD9D691B68B767004140EE /* main.m in Sources */,
 			);

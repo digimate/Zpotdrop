@@ -14,6 +14,7 @@
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
+    self.selectionStyle = UITableViewCellSeparatorStyleNone;
     [self setWidth:[UIScreen mainScreen].bounds.size.width];
     _imgvAvatar.layer.cornerRadius = _imgvAvatar.width/2;
     _imgvAvatar.layer.masksToBounds = YES;

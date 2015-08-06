@@ -108,6 +108,7 @@
     if (![[Utils instance].mapView.superview isEqual:self.view]) {
         [[Utils instance].mapView removeFromSuperview];
         [[Utils instance].mapView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 180)];
+        [[[Utils instance] mapView] removeAnnotations:[[Utils instance] mapView].annotations];
         [_scrollViewContent addSubview:[Utils instance].mapView];
         [Utils instance].mapView.userInteractionEnabled = NO;
     }

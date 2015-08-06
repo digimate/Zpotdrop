@@ -30,4 +30,5 @@
 -(void)registerOpenRightMenuNotification;
 -(void)removeOpenRightMenuNotification;
 -(void)rightMenuOpened;
+- (NSLayoutConstraint *)constraintForAttribute:(NSLayoutAttribute)attribute firstItem:(id)first secondItem:(id)second;
 @end

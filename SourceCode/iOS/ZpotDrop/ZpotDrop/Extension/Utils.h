@@ -20,6 +20,8 @@
 #import "SVProgressHUD.h"
 #import "TableViewInsertDataHandler.h"
 #import "AccountModel.h"
+#import "ZpotAnnotation.h"
+#import "ZpotAnnotationView.h"
 
 #define IS_DEBUG 1
 #define DATE_FORMAT_MONTH_IN_LETTER @"MMM dd yyyy"
