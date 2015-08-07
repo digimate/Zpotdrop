@@ -8,8 +8,11 @@
 
 #import "FindZpotViewController.h"
 
-@interface FindZpotViewController (){
+@interface FindZpotViewController ()<MKMapViewDelegate>{
     UISearchBar* searchZpotBar;
+    UICollectionView* usersCollectionView;
+    NSMutableArray* usersSearchData;
+    BOOL shoudMoveToUserLocation;
 }
 
 @end
@@ -19,6 +22,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    usersSearchData = [NSMutableArray array];
+    shoudMoveToUserLocation = YES;
+    
     self.title = @"find".localized.uppercaseString;
     self.view.backgroundColor = [UIColor whiteColor];
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
@@ -55,21 +61,74 @@
     [btnScan setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     [btnScan.titleLabel setFont:[UIFont fontWithName:@"PTSans-Bold" size:20]];
     [self.view addSubview:btnScan];
+    
+    /*======================Users Collection=======================*/
+    UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
+    [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+    usersCollectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(0, btnScan.y - 60, frame.size.width, 60) collectionViewLayout:layout];
+    //[usersCollectionView setDataSource:self];
+    //[usersCollectionView setDelegate:self];
+    //[usersCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cellIdentifier"];
+    
+    [self.view addSubview:usersCollectionView];
+
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)leftMenuOpened{
+    [self closeKeyboard];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)rightMenuOpened{
+    [self closeKeyboard];
 }
-*/
 
+-(void)closeKeyboard{
+    [searchZpotBar resignFirstResponder];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self registerOpenLeftMenuNotification];
+    [self registerOpenRightMenuNotification];
+    if ([Utils instance].mapView.superview == nil || ![[Utils instance].mapView.superview isEqual:self.view]) {
+        [[Utils instance] clearMapViewBeforeUsing];
+        [Utils instance].mapView.frame = CGRectMake(0, searchZpotBar.height, [UIScreen mainScreen].bounds.size.width, usersCollectionView.y - searchZpotBar.height);
+        [Utils instance].mapView.delegate = self;
+        [self.view addSubview:[Utils instance].mapView];
+    }
+    [Utils instance].mapView.showsUserLocation = YES;
+
+    if ([Utils instance].mapView.annotations.count == 0 && usersSearchData.count > 0) {
+        //add
+    }
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self removeOpenLeftMenuNotification];
+    [self removeOpenRightMenuNotification];
+    [Utils instance].mapView.showsUserLocation = NO;
+}
+
+#pragma mark - MKMapViewDelegate
+-(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
+    if (shoudMoveToUserLocation) {
+        shoudMoveToUserLocation = NO;
+        CLLocationCoordinate2D startCoord = userLocation.coordinate;
+        MKCoordinateRegion adjustedRegion = [[[Utils instance] mapView] regionThatFits:MKCoordinateRegionMakeWithDistance(startCoord, 600, 600)];
+        [[[Utils instance] mapView] setRegion:adjustedRegion animated:NO];
+    }
+}
+-(void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views{
+    [self changeUserLocationColor];
+}
+
+-(void)changeUserLocationColor{
+    MKAnnotationView* annotationView = [[Utils instance].mapView viewForAnnotation:[Utils instance].mapView .userLocation];
+    if (annotationView) {
+        annotationView.tintColor = COLOR_DARK_GREEN;
+    }else{
+        [self performSelector:@selector(changeUserLocationColor) withObject:nil afterDelay:0.3];
+    }
+}
 @end

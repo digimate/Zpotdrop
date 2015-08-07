@@ -52,7 +52,7 @@
     _lblZpotTitle.text = @"Brunch with mom.";
     [_btnComming setTitle:@"comming".localized forState:UIControlStateNormal];
     _lblZpotInfo.text = [NSString stringWithFormat:@"zpot_distance_format".localized,@"234 m",@"3 min",@"1 min"];
-    [[Utils instance].mapView removeFromSuperview];
+    [[Utils instance] clearMapViewBeforeUsing];
     [[[Utils instance]mapView] setFrame:_viewForMap.bounds];
     [_viewForMap addSubview:[[Utils instance] mapView]];
     [_viewForMap sendSubviewToBack:[[Utils instance] mapView]];

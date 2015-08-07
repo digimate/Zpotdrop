@@ -31,6 +31,16 @@
 -(void)hideProgess{
     [SVProgressHUD dismiss];
 }
+
+-(void)clearMapViewBeforeUsing{
+    [[self mapView] removeFromSuperview];
+    [[self mapView] removeAnnotations:[[Utils instance] mapView].annotations];
+    [self mapView].userInteractionEnabled = YES;
+    [self mapView].showsUserLocation = NO;
+    [self mapView].zoomEnabled = YES;
+    [self mapView].scrollEnabled = YES;
+    [self mapView].delegate = nil;
+}
 -(MKMapView *)mapView{
     static MKMapView *_sharedInstance = nil;
     static dispatch_once_t oncePredicate;

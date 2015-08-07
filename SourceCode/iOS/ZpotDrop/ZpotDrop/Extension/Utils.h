@@ -43,4 +43,5 @@
 -(CLLocationManager*)locationManager;
 -(BOOL)isGPS;
 -(void)showAlertWithTitle:(NSString*)title message:(NSString*)msg yesTitle:(NSString*)okStr noTitle:(NSString*)noStr handler:(UIAlertViewHandler)handler;
+-(void)clearMapViewBeforeUsing;
 @end
