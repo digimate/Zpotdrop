@@ -13,6 +13,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    [self setWidth:[UIScreen mainScreen].bounds.size.width];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -26,8 +27,10 @@
     
 }
 
-+(CGFloat)cellHeight{
++(CGFloat)cellHeightWithData:(BaseDataModel*)data{
     return 0;
 }
-
++(id)instance{
+    return nil;
+}
 @end

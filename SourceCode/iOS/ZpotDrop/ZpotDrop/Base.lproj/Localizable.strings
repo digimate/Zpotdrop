@@ -12,6 +12,7 @@
 "continue" = "Continue";
 "cancel" = "Cancel";
 "confirm_password" = "Confirm again";
+"comming" = "C'Min";
 //MARK: - ***** E *****
 "error_title" = "We're sorry";
 "error_email_format" = "Your email is not correct format";
@@ -19,12 +20,15 @@
 "error_passwords_not_match" = "Your password and confirm password doesn't match";
 "error_first_name" = "First name is missing, please check again";
 "error_last_name" = "Last name is missing, please check again";
+"error_no_gps" = "GPS isn't available for using.Please turn it on.";
 //MARK: - ***** F *****
 "feed" = "Feed";
 "find" = "Find";
 "forget_password" = "Forgot password?";
 "first_name" = "First name";
 "female" = "Female";
+//MARK: - ***** I *****
+"is_comming" = "is comming";
 //MARK: - ***** L *****
 "last_name" = "Last name";
 //MARK: - ***** M *****
@@ -40,6 +44,8 @@
 "place_holder_username" = "Email or phone number";
 "place_holder_zpot_drop_post" = "Zpot's title";
 "place_holder_search_location" = "Find or create your current location";
+"place_holder_feed_comment" = "Enter your comment...";
+"place_holder_search_zpot" = "Search for friends to request zpot";
 //MARK: - ***** S *****
 "search" = "Search";
 "settings" = "Settings";
@@ -48,3 +54,5 @@
 "welcome" = "Welcome to";
 //MARK: - ***** Z *****
 "zpot_all" = "Zpot All";
+"zpot_all_usage" = "Now,click to zpot all your friends";
+"zpot_distance_format" = "%@   Walk: %@   Car: %@";

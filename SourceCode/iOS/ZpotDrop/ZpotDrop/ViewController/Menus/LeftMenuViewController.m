@@ -14,6 +14,8 @@
 #import "BaseTableViewCell.h"
 #import "CircleProgressView.h"
 #import "PostZpotViewController.h"
+#import "FeedZpotViewController.h"
+#import "FindZpotViewController.h"
 
 @interface LeftMenuViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -47,17 +49,26 @@
     progressView.trackBackgroundColor = [UIColor colorWithRed:229 green:229 blue:229];
     progressView.trackFillColor = COLOR_DARK_GREEN;
     progressView.trackWidth = 4;
-    progressView.center = CGPointMake(zpotdropAllView.width/2, zpotdropAllView.height/2);
+    progressView.center = CGPointMake(zpotdropAllView.width/2, zpotdropAllView.height/2 - 10);
     [zpotdropAllView addSubview:progressView];
     
     UIButton* zpotdropAllButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [zpotdropAllButton setFrame:progressView.frame];
-    [[zpotdropAllButton titleLabel]setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:12]];
-    [zpotdropAllButton setTitleColor:COLOR_DARK_GREEN forState:UIControlStateNormal];
+    [zpotdropAllButton setFrame:CGRectMake(0, 0, 86, 86)];
+    zpotdropAllButton.center = progressView.center;
+    [[zpotdropAllButton titleLabel]setFont:[UIFont fontWithName:@"PTSans-Bold" size:12]];
+    [zpotdropAllButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [zpotdropAllButton setTitleColor:[UIColor colorWithRed:229 green:229 blue:229] forState:UIControlStateDisabled];
     [zpotdropAllButton setTitle:@"zpot_all".localized.uppercaseString forState:UIControlStateNormal];
+    zpotdropAllButton.enabled = NO;
+    zpotdropAllButton.layer.cornerRadius = zpotdropAllButton.width/2;
     [zpotdropAllView addSubview:zpotdropAllButton];
     
+    UILabel* lblZpotAll = [[UILabel alloc]initWithFrame:CGRectMake(0, progressView.y + progressView.height, zpotdropAllView.width, 16)];
+    lblZpotAll.textColor = COLOR_DARK_GREEN;
+    lblZpotAll.textAlignment = NSTextAlignmentCenter;
+    lblZpotAll.font = [UIFont fontWithName:@"PTSans-Regular" size:12];
+    lblZpotAll.text = @"zpot_all_usage".localized;
+    [zpotdropAllView addSubview:lblZpotAll];
     _tableView.tableFooterView = zpotdropAllView;
     currentSelectedRow = 1;
     
@@ -98,23 +109,23 @@
     NSDictionary* param = nil;
     CGRect borderRect = CGRectZero;
     if (indexPath.row == 0) {
-         borderRect = CGRectMake(15, [MenuProfileTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
+         borderRect = CGRectMake(15, [MenuProfileTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
         cell.userInteractionEnabled = NO;
     }else if (indexPath.row == 1) {
         param = @{@"title":@"post".localized.uppercaseString,@"icon":@"icon"};
-        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
+        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 2){
         param = @{@"title":@"feed".localized.uppercaseString,@"icon":@"ic_feed"};
-         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
+         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 3){
         param = @{@"title":@"find".localized.uppercaseString,@"icon":@"ic_find"};
-         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
+         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 4){
         param = @{@"title":@"search".localized.uppercaseString};
-        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
+        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 5){
         param = @{@"title":@"settings".localized.uppercaseString};
-        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeight]-1.0, tableView.width - 15, 1.0);
+        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
     }
     [cell setupCellWithData:nil andOptions:param];
     if (!CGRectEqualToRect(borderRect, CGRectZero)) {
@@ -137,11 +148,11 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0){
-        return [MenuProfileTableViewCell cellHeight];
+        return [MenuProfileTableViewCell cellHeightWithData:nil];
     }else if (indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3){
-        return [MenuFeatureTableViewCell cellHeight];
+        return [MenuFeatureTableViewCell cellHeightWithData:nil];
     }else if (indexPath.row == 4 || indexPath.row == 5){
-        return [MenuSettingViewCell cellHeight];
+        return [MenuSettingViewCell cellHeightWithData:nil];
     }
     return 0;
 }
@@ -158,7 +169,13 @@
         currentSelectedRow = indexPath.row;
         if (currentSelectedRow == 1) {
             [self.delegate leftmenuChangeViewToClass:NSStringFromClass([PostZpotViewController class])];
+        }else if (currentSelectedRow == 2) {
+            [self.delegate leftmenuChangeViewToClass:NSStringFromClass([FeedZpotViewController class])];
+        }else if (currentSelectedRow == 3) {
+            [self.delegate leftmenuChangeViewToClass:NSStringFromClass([FindZpotViewController class])];
         }
+    }else{
+        [self.delegate leftmenuChangeViewToClass:nil];
     }
 }
 @end

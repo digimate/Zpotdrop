@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
 #import "CoreDataService.h"
+#import "Utils.h"
 
 @interface AppDelegate ()
 
@@ -25,7 +26,7 @@
     
     [[UINavigationBar appearance] setTitleTextAttributes:@{
         NSForegroundColorAttributeName: [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
-        NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:0.0],
+        NSFontAttributeName: [UIFont fontWithName:@"PTSans-Regular" size:0.0],
                                                            }];
     
     return YES;
@@ -39,6 +40,8 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [Utils instance].mapView.showsUserLocation = NO;
+    [[Utils instance].locationManager stopUpdatingLocation];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {

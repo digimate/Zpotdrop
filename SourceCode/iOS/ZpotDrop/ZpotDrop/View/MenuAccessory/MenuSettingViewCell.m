@@ -14,7 +14,7 @@
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
-    _lblTitle.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:14];
+    _lblTitle.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
     _lblTitle.textColor = [UIColor colorWithRed:184 green:184 blue:184];
 }
 
@@ -24,7 +24,7 @@
     // Configure the view for the selected state
 }
 
-+(CGFloat)cellHeight{
++(CGFloat)cellHeightWithData:(BaseDataModel *)data{
     return 44;
 }
 

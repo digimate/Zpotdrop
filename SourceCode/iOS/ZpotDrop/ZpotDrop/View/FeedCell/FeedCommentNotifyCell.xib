@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14B17" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="PTS56F.ttf">
+            <string>PTSans-Italic</string>
+            <string>PTSans-Italic</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeedCommentNotifyCell" rowHeight="26" id="KGk-i7-Jjw" customClass="FeedCommentNotifyCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="26"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w55-PZ-5Av">
+                        <rect key="frame" x="10" y="2" width="219" height="21"/>
+                        <fontDescription key="fontDescription" name="PTSans-Italic" family="PT Sans" pointSize="16"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10 min ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KeX-fh-rpP">
+                        <rect key="frame" x="237" y="6" width="75" height="14"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="75" id="BOM-DL-vMg"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="PTSans-Italic" family="PT Sans" pointSize="12"/>
+                        <color key="textColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.66274509800000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="KeX-fh-rpP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="PRQ-Y9-tMI"/>
+                    <constraint firstAttribute="trailing" secondItem="KeX-fh-rpP" secondAttribute="trailing" constant="8" id="PY2-ol-mey"/>
+                    <constraint firstItem="w55-PZ-5Av" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="YmH-Ct-hFG"/>
+                    <constraint firstAttribute="bottom" secondItem="KeX-fh-rpP" secondAttribute="bottom" constant="5" id="dbq-NR-77n"/>
+                    <constraint firstItem="KeX-fh-rpP" firstAttribute="leading" secondItem="w55-PZ-5Av" secondAttribute="trailing" constant="8" id="nXb-5h-Ne9"/>
+                    <constraint firstAttribute="bottom" secondItem="w55-PZ-5Av" secondAttribute="bottom" constant="2" id="ojT-WA-I5n"/>
+                    <constraint firstItem="w55-PZ-5Av" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="2" id="v9N-gw-NpX"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="_lblTime" destination="KeX-fh-rpP" id="zM6-R9-4na"/>
+                <outlet property="_lblTitle" destination="w55-PZ-5Av" id="VgE-KH-qKZ"/>
+            </connections>
+            <point key="canvasLocation" x="272" y="317"/>
+        </tableViewCell>
+    </objects>
+</document>
