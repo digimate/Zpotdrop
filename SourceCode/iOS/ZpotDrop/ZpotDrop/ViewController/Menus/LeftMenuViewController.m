@@ -16,6 +16,7 @@
 #import "PostZpotViewController.h"
 #import "FeedZpotViewController.h"
 #import "FindZpotViewController.h"
+#import "UserProfileViewController.h"
 
 @interface LeftMenuViewController ()<UITableViewDataSource,UITableViewDelegate>
 

@@ -46,6 +46,7 @@
 "place_holder_search_location" = "Find or create your current location";
 "place_holder_feed_comment" = "Enter your comment...";
 "place_holder_search_zpot" = "Search for friends to request zpot";
+"profile" = "Profile";
 //MARK: - ***** S *****
 "search" = "Search";
 "settings" = "Settings";

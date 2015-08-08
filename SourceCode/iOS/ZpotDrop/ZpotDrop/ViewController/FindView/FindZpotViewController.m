@@ -186,7 +186,9 @@
     [self closeKeyboard];
 }
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view{
-    
+    if ([view isKindOfClass:[ZpotAnnotationView class]]) {
+        [[Utils instance]showUserProfile:nil fromViewController:self];
+    }
 }
 #pragma mark - UICollectionView
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{

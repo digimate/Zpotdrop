@@ -54,4 +54,5 @@ typedef enum {
 -(BOOL)isGPS;
 -(void)showAlertWithTitle:(NSString*)title message:(NSString*)msg yesTitle:(NSString*)okStr noTitle:(NSString*)noStr handler:(UIAlertViewHandler)handler;
 -(void)clearMapViewBeforeUsing;
+-(void)showUserProfile:(id)userDataModel fromViewController:(UIViewController*)viewController;
 @end

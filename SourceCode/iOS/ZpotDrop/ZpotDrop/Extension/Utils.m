@@ -7,6 +7,7 @@
 //
 
 #import "Utils.h"
+#import "UserProfileViewController.h"
 
 @implementation Utils
 + (Utils *) instance {
@@ -78,5 +79,14 @@
 -(void)showAlertWithTitle:(NSString*)title message:(NSString*)msg yesTitle:(NSString*)okStr noTitle:(NSString*)noStr handler:(UIAlertViewHandler)handler{
     UIAlertView* alertView = [[UIAlertView alloc]initWithTitle:title message:msg delegate:nil cancelButtonTitle:noStr otherButtonTitles:okStr,nil];
     [alertView showWithHandler:handler];
+}
+
+-(void)showUserProfile:(id)userDataModel fromViewController:(UIViewController *)viewController{
+    if (viewController.navigationController) {
+        UserProfileViewController* userProfileVC = [[UserProfileViewController alloc]init];
+        [viewController.navigationController pushViewController:userProfileVC animated:YES];
+        userProfileVC.navigationItem.leftBarButtonItem = viewController.navigationItem.leftBarButtonItem;
+        userProfileVC.navigationItem.rightBarButtonItem = viewController.navigationItem.rightBarButtonItem;
+    }
 }
 @end

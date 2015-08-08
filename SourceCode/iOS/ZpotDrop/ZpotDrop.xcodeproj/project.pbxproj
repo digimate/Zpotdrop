@@ -110,6 +110,12 @@
 		BA0874B21B6FC15200FBFF74 /* UserDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BA0874B11B6FC15200FBFF74 /* UserDataModel.m */; };
 		BA0874B41B6FC31300FBFF74 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0874B31B6FC31300FBFF74 /* CoreData.framework */; };
 		BA0874B61B6FC35000FBFF74 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0874B51B6FC35000FBFF74 /* libsqlite3.dylib */; };
+		BA5099621B76486400B9092A /* UserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA5099611B76486400B9092A /* UserProfileViewController.m */; };
+		BA5099681B764A5B00B9092A /* NotificationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BA5099651B764A5B00B9092A /* NotificationTableViewCell.m */; };
+		BA5099691B764A5B00B9092A /* RightNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA5099671B764A5B00B9092A /* RightNotificationViewController.m */; };
+		BA50996C1B764D8200B9092A /* UIView+Circle.m in Sources */ = {isa = PBXBuildFile; fileRef = BA50996B1B764D8200B9092A /* UIView+Circle.m */; };
+		BA50996F1B76517000B9092A /* notification_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA50996D1B76517000B9092A /* notification_add@2x.png */; };
+		BA5099701B76517000B9092A /* notification_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA50996E1B76517000B9092A /* notification_location@2x.png */; };
 		BA6284061B70EDA400399368 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA6284031B70EDA400399368 /* Default-568h@2x.png */; };
 		BA6284071B70EDA400399368 /* ic_feed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA6284041B70EDA400399368 /* ic_feed@2x.png */; };
 		BA6284081B70EDA400399368 /* ic_find@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA6284051B70EDA400399368 /* ic_find@2x.png */; };
@@ -323,6 +329,16 @@
 		BA0874B11B6FC15200FBFF74 /* UserDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDataModel.m; sourceTree = "<group>"; };
 		BA0874B31B6FC31300FBFF74 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		BA0874B51B6FC35000FBFF74 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		BA5099601B76486400B9092A /* UserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfileViewController.h; sourceTree = "<group>"; };
+		BA5099611B76486400B9092A /* UserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProfileViewController.m; sourceTree = "<group>"; };
+		BA5099641B764A5B00B9092A /* NotificationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationTableViewCell.h; sourceTree = "<group>"; };
+		BA5099651B764A5B00B9092A /* NotificationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationTableViewCell.m; sourceTree = "<group>"; };
+		BA5099661B764A5B00B9092A /* RightNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightNotificationViewController.h; sourceTree = "<group>"; };
+		BA5099671B764A5B00B9092A /* RightNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightNotificationViewController.m; sourceTree = "<group>"; };
+		BA50996A1B764D8200B9092A /* UIView+Circle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Circle.h"; sourceTree = "<group>"; };
+		BA50996B1B764D8200B9092A /* UIView+Circle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Circle.m"; sourceTree = "<group>"; };
+		BA50996D1B76517000B9092A /* notification_add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notification_add@2x.png"; sourceTree = "<group>"; };
+		BA50996E1B76517000B9092A /* notification_location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notification_location@2x.png"; sourceTree = "<group>"; };
 		BA6284031B70EDA400399368 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		BA6284041B70EDA400399368 /* ic_feed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_feed@2x.png"; sourceTree = "<group>"; };
 		BA6284051B70EDA400399368 /* ic_find@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_find@2x.png"; sourceTree = "<group>"; };
@@ -487,6 +503,8 @@
 		0ACD9D8C1B68D497004140EE /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				BA50996A1B764D8200B9092A /* UIView+Circle.h */,
+				BA50996B1B764D8200B9092A /* UIView+Circle.m */,
 				BA6284201B71060500399368 /* SVProgressHUD */,
 				BA62841C1B70FF9200399368 /* CircleView */,
 				BA6284121B70F2BB00399368 /* UIView+Frame.h */,
@@ -601,6 +619,7 @@
 		0ACD9DE61B68D4D7004140EE /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				BA50995F1B76480500B9092A /* Profile */,
 				BAF167181B73BD990033D3D9 /* FindView */,
 				8C2ABFEB1B71F2B300047D74 /* FeedView */,
 				BA6284291B710BD300399368 /* PostView */,
@@ -670,6 +689,8 @@
 		0ACD9E491B6F137E004140EE /* Common Resource */ = {
 			isa = PBXGroup;
 			children = (
+				BA50996D1B76517000B9092A /* notification_add@2x.png */,
+				BA50996E1B76517000B9092A /* notification_location@2x.png */,
 				BAF1671C1B73C4580033D3D9 /* ic_search@2x.png */,
 				BAE481F61B7255CF0071BCF3 /* ic_annotation@2x.png */,
 				BAE481F71B7255CF0071BCF3 /* ic_comment_s@2x.png */,
@@ -743,6 +764,9 @@
 		8C269C5A1B7079D200E6835E /* Menus */ = {
 			isa = PBXGroup;
 			children = (
+				BA5099631B764A5B00B9092A /* NotificationAccessory */,
+				BA5099661B764A5B00B9092A /* RightNotificationViewController.h */,
+				BA5099671B764A5B00B9092A /* RightNotificationViewController.m */,
 				8C269C5B1B7079DE00E6835E /* LeftMenuViewController.h */,
 				8C269C5C1B7079DE00E6835E /* LeftMenuViewController.m */,
 			);
@@ -786,6 +810,24 @@
 				BAAFD0861B75F6AF009779FF /* ScannedUserAnnotation.m */,
 			);
 			path = Objects;
+			sourceTree = "<group>";
+		};
+		BA50995F1B76480500B9092A /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				BA5099601B76486400B9092A /* UserProfileViewController.h */,
+				BA5099611B76486400B9092A /* UserProfileViewController.m */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		BA5099631B764A5B00B9092A /* NotificationAccessory */ = {
+			isa = PBXGroup;
+			children = (
+				BA5099641B764A5B00B9092A /* NotificationTableViewCell.h */,
+				BA5099651B764A5B00B9092A /* NotificationTableViewCell.m */,
+			);
+			path = NotificationAccessory;
 			sourceTree = "<group>";
 		};
 		BA62841C1B70FF9200399368 /* CircleView */ = {
@@ -940,6 +982,7 @@
 				BAED10CE1B75D3F200C96E01 /* ScannedUserCell.xib in Resources */,
 				8C269C631B707D4600E6835E /* MenuFeatureTableViewCell.xib in Resources */,
 				BA6284061B70EDA400399368 /* Default-568h@2x.png in Resources */,
+				BA50996F1B76517000B9092A /* notification_add@2x.png in Resources */,
 				8C269C511B70788800E6835E /* PTS56F.ttf in Resources */,
 				0ACD9D771B68B767004140EE /* LaunchScreen.xib in Resources */,
 				BA6284271B71060500399368 /* SVProgressHUD.bundle in Resources */,
@@ -953,6 +996,7 @@
 				BA62840E1B70F0B300399368 /* Localizable.strings in Resources */,
 				BAE481FF1B7255CF0071BCF3 /* ic_heart_s@2x.png in Resources */,
 				0ACD9E161B6A8918004140EE /* Parse.textClipping in Resources */,
+				BA5099701B76517000B9092A /* notification_location@2x.png in Resources */,
 				8C50F78A1B735D4800997C06 /* FeedCommentCell.xib in Resources */,
 				0ACD9E4B1B6F138B004140EE /* item_menu@2x.png in Resources */,
 				8C269C521B70788800E6835E /* PTS75F.ttf in Resources */,
@@ -1049,7 +1093,10 @@
 				8C269C401B70774E00E6835E /* MenuFeatureTableViewCell.m in Sources */,
 				0ACD9DDD1B68D497004140EE /* UIImage+GIF.m in Sources */,
 				0ACD9D6C1B68B767004140EE /* AppDelegate.m in Sources */,
+				BA5099691B764A5B00B9092A /* RightNotificationViewController.m in Sources */,
 				BA6284141B70F2BB00399368 /* UIView+Frame.m in Sources */,
+				BA5099681B764A5B00B9092A /* NotificationTableViewCell.m in Sources */,
+				BA50996C1B764D8200B9092A /* UIView+Circle.m in Sources */,
 				BA0874AF1B6FC10300FBFF74 /* BaseDataModel.m in Sources */,
 				0ACD9DDB1B68D497004140EE /* SDWebImagePrefetcher.m in Sources */,
 				BA62842C1B710BE700399368 /* PostZpotViewController.m in Sources */,
@@ -1060,6 +1107,7 @@
 				8C50F7781B73195800997C06 /* ZpotAnnotationView.m in Sources */,
 				8C50F7821B7359B400997C06 /* FeedCommentDataModel.m in Sources */,
 				0ACD9DE21B68D497004140EE /* UIView+WebCacheOperation.m in Sources */,
+				BA5099621B76486400B9092A /* UserProfileViewController.m in Sources */,
 				BAED10D11B75DC5800C96E01 /* BaseCollectionViewCell.m in Sources */,
 				0ACD9D691B68B767004140EE /* main.m in Sources */,
 			);
