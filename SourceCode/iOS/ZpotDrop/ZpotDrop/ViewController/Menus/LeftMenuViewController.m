@@ -60,6 +60,17 @@
     
     _tableView.tableFooterView = zpotdropAllView;
     currentSelectedRow = 1;
+    
+    //Add swipe left gesture to close menu
+    UISwipeGestureRecognizer* closeSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(closeAction:)];
+    [closeSwipe setNumberOfTouchesRequired:1];
+    [closeSwipe setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [self.view addGestureRecognizer:closeSwipe];
+}
+
+-(IBAction)closeAction:(id)sender
+{
+    [_delegate closeLeftMenu];
 }
 
 - (void)didReceiveMemoryWarning {

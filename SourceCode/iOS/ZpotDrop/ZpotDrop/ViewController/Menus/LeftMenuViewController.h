@@ -12,6 +12,7 @@
 @protocol LeftMenuDelegate <NSObject>
 
 -(void)leftmenuChangeViewToClass:(NSString*)clsString;
+-(void)closeLeftMenu;
 
 @end
 @interface LeftMenuViewController : BaseViewController{

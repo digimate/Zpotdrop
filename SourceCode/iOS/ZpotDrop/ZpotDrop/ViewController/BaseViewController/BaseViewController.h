@@ -12,8 +12,6 @@
 #import "Utils.h"
 #import "UINavigationBar+FixedHeightWhenStatusBarHidden.h"
 
-#define MAIN_COLOR @"b1cb89"
-
 @interface BaseViewController : UIViewController
 {
     RuleService* _rule;

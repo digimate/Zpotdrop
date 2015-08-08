@@ -25,17 +25,20 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    if ([AccountModel currentAccountModel].is_login) {
-        [[NSNotificationCenter defaultCenter]removeObserver:self];
-        
-        MainViewController* mainViewC = [[MainViewController alloc]init];
-        [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:mainViewC] animated:NO completion:nil];
-    }else{
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginSucceed) name:KEY_LOGIN_SUCCEED object:nil];
-        
-        LoginViewController* lg = [[LoginViewController alloc]init];
-        [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:lg] animated:NO completion:nil];
-    }
+    MainViewController* mainViewC = [[MainViewController alloc]init];
+    [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:mainViewC] animated:NO completion:nil];
+
+//    if ([AccountModel currentAccountModel].is_login) {
+//        [[NSNotificationCenter defaultCenter]removeObserver:self];
+//        
+//        MainViewController* mainViewC = [[MainViewController alloc]init];
+//        [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:mainViewC] animated:NO completion:nil];
+//    }else{
+//        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginSucceed) name:KEY_LOGIN_SUCCEED object:nil];
+//        
+//        LoginViewController* lg = [[LoginViewController alloc]init];
+//        [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:lg] animated:NO completion:nil];
+//    }
 }
 
 -(void)loginSucceed{

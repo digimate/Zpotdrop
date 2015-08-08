@@ -10,7 +10,7 @@
 #import "PostZpotViewController.h"
 #import "AppDelegate.h"
 
-@interface MainViewController ()<LeftMenuDelegate>
+@interface MainViewController ()<LeftMenuDelegate,rightNotificationDelegate>
 
 @end
 
@@ -55,22 +55,21 @@
     [menuBackground addGestureRecognizer:menuTap];
 
     //====================== RIGHT NOTIFICATION =========================
-    int spacing = 40;
-    CGRect frame = [UIScreen mainScreen].bounds;
-    frame.origin.y = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height;
-    frame.size.height -= frame.origin.y;
-    _notificationBackground = [[UIView alloc]initWithFrame:frame];
-    [_notificationBackground setBackgroundColor:[UIColor clearColor]];
-    [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] addSubview:_notificationBackground];
-    [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] sendSubviewToBack:_notificationBackground];
+    _rightMenuViewController = [[RightNotificationViewController alloc]init];
+    _rightMenuViewController.delegate = self;
+    _rightMenuViewController.view.frame = [UIScreen mainScreen].bounds;
+    [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] addSubview:_rightMenuViewController.view];
+    [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] sendSubviewToBack:_rightMenuViewController.view];
     
-    _notificationContentView = [[UITableView alloc]initWithFrame:CGRectMake(_notificationBackground.frame.size.width, 0, _notificationBackground.frame.size.width - spacing, _notificationBackground.frame.size.height) style:UITableViewStylePlain];
-    [_notificationBackground addSubview:_notificationContentView];
-
+    UIView* notificationBackground = [[UIView alloc]initWithFrame:_rightMenuViewController.view.bounds];
+    notificationBackground.backgroundColor = [UIColor clearColor];
+    [_rightMenuViewController.view addSubview:notificationBackground];
+    [_rightMenuViewController.view sendSubviewToBack:notificationBackground];
     UITapGestureRecognizer* notificationTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(openNotification)];
+    notificationTap.cancelsTouchesInView = NO;
     [notificationTap setNumberOfTapsRequired:1];
     [notificationTap setNumberOfTouchesRequired:1];
-    [_notificationBackground addGestureRecognizer:notificationTap];
+    [notificationBackground addGestureRecognizer:notificationTap];
     
     
     UISwipeGestureRecognizer* swipeRightGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeRight)];
@@ -143,23 +142,27 @@
     _notificationOpening = !_notificationOpening;
     if (_notificationOpening)
     {
-        [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] bringSubviewToFront:_notificationBackground];
+        [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] bringSubviewToFront:_rightMenuViewController.view];
+        [[UIApplication sharedApplication]setStatusBarHidden:YES];
+        [_rightMenuViewController viewWillAppear:YES];
         [UIView animateWithDuration:0.3 animations:^{
-            CGRect frame = _notificationContentView.frame;
-            frame.origin.x = _notificationBackground.frame.size.width - frame.size.width;
-            _notificationBackground.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.7];
-            _notificationContentView.frame = frame;
+            CGRect frame = _rightMenuViewController.tableView.frame;
+            frame.origin.x = 0;
+            _rightMenuViewController.view.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.7];
+            _rightMenuViewController.tableView.frame = frame;
         }];
     }
     else
     {
+        [[UIApplication sharedApplication]setStatusBarHidden:NO];
+        [_rightMenuViewController viewWillDisappear:YES];
         [UIView animateWithDuration:0.3 animations:^{
-            CGRect frame = _notificationContentView.frame;
-            frame.origin.x = _notificationBackground.frame.size.width;
-            _notificationBackground.backgroundColor = [UIColor clearColor];
-            _notificationContentView.frame = frame;
-        }completion:^(BOOL finished) {
-            [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] sendSubviewToBack:_notificationBackground];
+            CGRect frame = _rightMenuViewController.tableView.frame;
+            frame.origin.x = -frame.size.width;
+            _rightMenuViewController.view.backgroundColor = [UIColor clearColor];
+            _rightMenuViewController.tableView.frame = frame;
+        } completion:^(BOOL finished) {
+            [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] sendSubviewToBack:_rightMenuViewController.view];
         }];
     }
 }
@@ -183,5 +186,10 @@
     if ([clsString isEqualToString:NSStringFromClass([PostZpotViewController class])]) {
         
     }
+}
+
+-(void)closeLeftMenu
+{
+    [self openMenu];
 }
 @end

@@ -20,6 +20,8 @@
 
 #import "AccountModel.h"
 
+#define MAIN_COLOR @"b1cb89"
+
 #define IS_DEBUG 1
 #define DATE_FORMAT_MONTH_IN_LETTER @"MMM dd yyyy"
 
@@ -27,6 +29,14 @@
 
 #define COLOR_DARK_GREEN [UIColor colorWithRed:(172/255.0) green:(199/255.0) blue:(132/255.0) alpha:1.0]
 #define COLOR_SEPEARATE_LINE [UIColor colorWithRed:(250/255.0) green:(250/255.0) blue:(250/255.0) alpha:1.0]
+
+typedef enum {
+    NOTIFICATION_COMMING = 0,
+    NOTIFICATION_FOLLOW,
+    NOTIFICATION_COMMENT,
+    NOTIFICATION_LIKE,
+    NOTIFICATION_UNKNOWN
+}NOTIFICATION_ACTION;
 
 @interface Utils : NSObject
 + (Utils *) instance;

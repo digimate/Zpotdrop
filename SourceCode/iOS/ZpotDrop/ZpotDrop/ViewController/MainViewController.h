@@ -12,16 +12,16 @@
 #import "NSDate+Helper.h"
 #import "BaseViewController.h"
 #import "LeftMenuViewController.h"
+#import "RightNotificationViewController.h"
+
 @interface MainViewController : BaseViewController{
     //Menu view
     BOOL _menuOpening;
     LeftMenuViewController* _leftMenuViewController;
-
     
     //Notification view
     BOOL _notificationOpening;
-    UIView* _notificationBackground;
-    UITableView* _notificationContentView;
+    RightNotificationViewController* _rightMenuViewController;
 }
 
 -(void)openMenu;
