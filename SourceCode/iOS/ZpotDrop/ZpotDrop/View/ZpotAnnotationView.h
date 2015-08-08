@@ -11,5 +11,5 @@
 
 @interface ZpotAnnotationView : MKAnnotationView
 - (id)initWithAnnotation:(ZpotAnnotation*)annotation reuseIdentifier:(NSString *)reuseIdentifier;
-
+-(void)setupUIWithAnnotation:(ZpotAnnotation*)annotation;
 @end

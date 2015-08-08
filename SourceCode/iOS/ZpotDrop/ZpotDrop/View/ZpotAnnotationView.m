@@ -22,14 +22,23 @@
         [self setImage:blipImage];
         
         //avatar
-        UIImageView* avatarView = [[UIImageView alloc]initWithFrame:CGRectMake([blipImage size].width/4 - 1, [blipImage size].width/4 - 1, [blipImage size].width/2 + 2, [blipImage size].width/2 + 2)];
-        avatarView.layer.cornerRadius = avatarView.frame.size.width/2;
-        avatarView.layer.masksToBounds = YES;
+        UIImageView* avatarView = (UIImageView*)[self viewWithTag:121];
+        if (!avatarView) {
+            avatarView = [[UIImageView alloc]initWithFrame:CGRectMake([blipImage size].width/4 - 1, [blipImage size].width/4 - 1, [blipImage size].width/2 + 2, [blipImage size].width/2 + 2)];
+            avatarView.tag = 121;
+            avatarView.layer.cornerRadius = avatarView.frame.size.width/2;
+            avatarView.layer.masksToBounds = YES;
+            [self addSubview:avatarView];
+            [self sendSubviewToBack:avatarView];
+        }
+        
         avatarView.image = [UIImage imageNamed:@"avatar"];
-        [self addSubview:avatarView];
-        [self sendSubviewToBack:avatarView];
+
     }
     return self;
 }
-
+-(void)setupUIWithAnnotation:(ZpotAnnotation *)annotation{
+    UIImageView* avatar = (UIImageView*)[self viewWithTag:121];
+    avatar.image = [UIImage imageNamed:@"avatar"];
+}
 @end

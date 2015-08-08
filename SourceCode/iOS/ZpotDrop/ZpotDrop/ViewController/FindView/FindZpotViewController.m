@@ -7,12 +7,16 @@
 //
 
 #import "FindZpotViewController.h"
+#import "ScannedUserCell.h"
+#import "ScannedUserAnnoView.h"
+#import "ZpotAnnotationView.h"
 
-@interface FindZpotViewController ()<MKMapViewDelegate>{
+@interface FindZpotViewController ()<MKMapViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>{
     UISearchBar* searchZpotBar;
     UICollectionView* usersCollectionView;
-    NSMutableArray* usersSearchData;
     BOOL shoudMoveToUserLocation;
+    NSMutableArray* scannedUsersData;
+    id selectedScannedUser;
 }
 
 @end
@@ -22,9 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    usersSearchData = [NSMutableArray array];
-    shoudMoveToUserLocation = YES;
-    
+    scannedUsersData = [NSMutableArray arrayWithArray:@[@"1",@"2",@"3",@"4"]];
     self.title = @"find".localized.uppercaseString;
     self.view.backgroundColor = [UIColor whiteColor];
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
@@ -66,9 +68,10 @@
     UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
     [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
     usersCollectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(0, btnScan.y - 60, frame.size.width, 60) collectionViewLayout:layout];
-    //[usersCollectionView setDataSource:self];
-    //[usersCollectionView setDelegate:self];
-    //[usersCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cellIdentifier"];
+    [usersCollectionView setBackgroundColor:[UIColor whiteColor]];
+    [usersCollectionView setDataSource:self];
+    [usersCollectionView setDelegate:self];
+    [usersCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([ScannedUserCell class]) bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([ScannedUserCell class])];
     
     [self.view addSubview:usersCollectionView];
 
@@ -97,10 +100,6 @@
         [self.view addSubview:[Utils instance].mapView];
     }
     [Utils instance].mapView.showsUserLocation = YES;
-
-    if ([Utils instance].mapView.annotations.count == 0 && usersSearchData.count > 0) {
-        //add
-    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -110,6 +109,34 @@
     [Utils instance].mapView.showsUserLocation = NO;
 }
 
+#define ARC4RANDOM_MAX      0x100000000
+-(void)addAnnotationScannedUsers{
+    if ([Utils instance].mapView.annotations.count <= 1 && scannedUsersData.count > 0) {
+        //add
+        NSMutableArray* annotationArray = [NSMutableArray array];
+        for (int i = 0; i < scannedUsersData.count; i++) {
+            id data = [scannedUsersData objectAtIndex:i];
+            //val is a double between 0 and 1
+            double xOffset = ((double)arc4random() / ARC4RANDOM_MAX);
+            double yOffset = ((double)arc4random() / ARC4RANDOM_MAX);
+            
+            CLLocationCoordinate2D randomCoordinate = [Utils instance].mapView.userLocation.coordinate;
+            randomCoordinate.latitude += (xOffset/200.0);
+            randomCoordinate.longitude += (yOffset/200.0);
+            if ([data isEqual:selectedScannedUser]) {
+                ZpotAnnotation* annotation = [[ZpotAnnotation alloc]init];
+                annotation.coordinate = randomCoordinate;
+                [annotationArray addObject:annotation];
+            }else{
+                ScannedUserAnnotation* annotation = [[ScannedUserAnnotation alloc]init];
+                annotation.coordinate = randomCoordinate;
+                [annotationArray addObject:annotation];
+            }
+            
+        }
+        [[Utils instance].mapView addAnnotations:annotationArray];
+    }
+}
 #pragma mark - MKMapViewDelegate
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     if (shoudMoveToUserLocation) {
@@ -118,6 +145,7 @@
         MKCoordinateRegion adjustedRegion = [[[Utils instance] mapView] regionThatFits:MKCoordinateRegionMakeWithDistance(startCoord, 600, 600)];
         [[[Utils instance] mapView] setRegion:adjustedRegion animated:NO];
     }
+    [self performSelector:@selector(addAnnotationScannedUsers) withObject:nil afterDelay:3.0];
 }
 -(void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views{
     [self changeUserLocationColor];
@@ -130,5 +158,78 @@
     }else{
         [self performSelector:@selector(changeUserLocationColor) withObject:nil afterDelay:0.3];
     }
+}
+-(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+        return nil;
+    }
+    if ([annotation isKindOfClass:[ZpotAnnotation class]]) {
+        ZpotAnnotationView* annoView = (ZpotAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([ZpotAnnotationView class])];
+        if (!annoView) {
+            annoView = [[ZpotAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([ZpotAnnotationView class])];
+        }else{
+            [annoView setupUIWithAnnotation:annotation];
+        }
+        return annoView;
+    }else{
+        ScannedUserAnnoView* annoView = (ScannedUserAnnoView*)[mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([ScannedUserAnnoView class])];
+        if (!annoView) {
+            annoView = [[ScannedUserAnnoView alloc]initWithAnnotation:annotation reuseIdentifier:NSStringFromClass([ScannedUserAnnoView class])];
+        }else{
+            [annoView setupUIWithAnnotation:annotation];
+        }
+        return annoView;
+    }
+    
+}
+-(void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated{
+    [self closeKeyboard];
+}
+-(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view{
+    
+}
+#pragma mark - UICollectionView
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return scannedUsersData.count;
+}
+-(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
+    return 0;
+}
+-(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
+    return 0;
+}
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
+    return UIEdgeInsetsZero;
+}
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    return CGSizeMake(usersCollectionView.height, usersCollectionView.height);
+}
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    id data = [scannedUsersData objectAtIndex:indexPath.row];
+    ScannedUserCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ScannedUserCell class]) forIndexPath:indexPath];
+    [cell setSize:CGSizeMake(60, 60)];
+    if ([data isEqual:selectedScannedUser]) {
+        [cell setupCellWithData:nil andOptions:@{@"isSelected":[NSNumber numberWithBool:YES]}];
+    }else{
+        [cell setupCellWithData:nil andOptions:@{@"isSelected":[NSNumber numberWithBool:NO]}];
+    }
+    return cell;
+}
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    if (selectedScannedUser) {
+        NSIndexPath * oldIndex = [NSIndexPath indexPathForItem:[scannedUsersData indexOfObject:selectedScannedUser] inSection:0];
+        ScannedUserCell* oldCell = (ScannedUserCell*)[collectionView cellForItemAtIndexPath:oldIndex];
+        [oldCell setSelectedUser:NO withAnimated:YES];
+    }
+    selectedScannedUser = [scannedUsersData objectAtIndex:indexPath.row];
+    ScannedUserCell* newCell = (ScannedUserCell*)[collectionView cellForItemAtIndexPath:indexPath];
+    [newCell setSelectedUser:YES withAnimated:YES];
+    
+    //reload MapView
+    [[Utils instance].mapView removeAnnotations:[Utils instance].mapView.annotations];
+    [self addAnnotationScannedUsers];
 }
 @end
