@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A9F5ACA1B77AA3B00C9E0FD /* NotificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9F5AC91B77AA3B00C9E0FD /* NotificationModel.m */; };
 		0ACD9D691B68B767004140EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD9D681B68B767004140EE /* main.m */; };
 		0ACD9D6C1B68B767004140EE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD9D6B1B68B767004140EE /* AppDelegate.m */; };
 		0ACD9D6F1B68B767004140EE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD9D6E1B68B767004140EE /* ViewController.m */; };
@@ -159,6 +160,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A9F5AC81B77AA3B00C9E0FD /* NotificationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationModel.h; sourceTree = "<group>"; };
+		0A9F5AC91B77AA3B00C9E0FD /* NotificationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationModel.m; sourceTree = "<group>"; };
 		0ACD9D631B68B767004140EE /* ZpotDrop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZpotDrop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ACD9D671B68B767004140EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0ACD9D681B68B767004140EE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -682,6 +685,8 @@
 				BA0874AA1B6FC0C800FBFF74 /* zpotdrop.xcdatamodeld */,
 				0ACD9E461B6E71E4004140EE /* UserModel.h */,
 				0ACD9E471B6E71E4004140EE /* UserModel.m */,
+				0A9F5AC81B77AA3B00C9E0FD /* NotificationModel.h */,
+				0A9F5AC91B77AA3B00C9E0FD /* NotificationModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1053,6 +1058,7 @@
 				0ACD9DD51B68D497004140EE /* SDImageCache.m in Sources */,
 				0ACD9DCD1B68D497004140EE /* AFSecurityPolicy.m in Sources */,
 				8C269C261B7064EB00E6835E /* MainViewController.m in Sources */,
+				0A9F5ACA1B77AA3B00C9E0FD /* NotificationModel.m in Sources */,
 				0ACD9E0F1B6A22A7004140EE /* CompleteSignupViewController.m in Sources */,
 				8C269C411B70774E00E6835E /* MenuProfileTableViewCell.m in Sources */,
 				0ACD9DCB1B68D497004140EE /* AFHTTPSessionManager.m in Sources */,

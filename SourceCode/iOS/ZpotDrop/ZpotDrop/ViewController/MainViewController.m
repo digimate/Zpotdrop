@@ -74,11 +74,11 @@
     [notificationBackground addGestureRecognizer:notificationTap];
     
     
-    UISwipeGestureRecognizer* swipeRightGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeRight)];
+    swipeRightGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeRight)];
     swipeRightGesture.direction = UISwipeGestureRecognizerDirectionRight;
     [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] addGestureRecognizer:swipeRightGesture];
     
-    UISwipeGestureRecognizer* swipeLeftGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeLeft)];
+    swipeLeftGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeLeft)];
     swipeLeftGesture.direction = UISwipeGestureRecognizerDirectionLeft;
     [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] addGestureRecognizer:swipeLeftGesture];
 
@@ -166,10 +166,13 @@
     _notificationOpening = !_notificationOpening;
     if (_notificationOpening)
     {
+        
         [[NSNotificationCenter defaultCenter]postNotificationName:KEY_OPEN_RIGHT_MENU object:nil];
         [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] bringSubviewToFront:_rightMenuViewController.view];
         [[UIApplication sharedApplication]setStatusBarHidden:YES];
         [_rightMenuViewController viewWillAppear:YES];
+        
+        [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] removeGestureRecognizer:swipeLeftGesture];
 
         [UIView animateWithDuration:0.3 animations:^{
             CGRect frame = _rightMenuViewController.tableView.frame;
@@ -182,6 +185,8 @@
     {
         [[UIApplication sharedApplication]setStatusBarHidden:NO];
         [_rightMenuViewController viewWillDisappear:YES];
+        
+        [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] addGestureRecognizer:swipeLeftGesture];
 
         [UIView animateWithDuration:0.3 animations:^{
             CGRect frame = _rightMenuViewController.tableView.frame;

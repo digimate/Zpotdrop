@@ -22,6 +22,9 @@
     //Notification view
     BOOL _notificationOpening;
     RightNotificationViewController* _rightMenuViewController;
+    
+    UISwipeGestureRecognizer* swipeRightGesture;
+    UISwipeGestureRecognizer* swipeLeftGesture;
 }
 
 -(void)openMenu;

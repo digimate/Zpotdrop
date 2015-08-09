@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Utils.h"
+#import "NotificationModel.h"
 
 typedef void(^notifiactionCellHandler)(id data, NOTIFICATION_ACTION action);
 
-@interface NotificationTableViewCell : UITableViewCell
+@interface NotificationTableViewCell : UITableViewCell <UIScrollViewDelegate>
 {
     UIScrollView* _mScrollView;
     UIImageView* _avatarImage;
@@ -25,7 +25,7 @@ typedef void(^notifiactionCellHandler)(id data, NOTIFICATION_ACTION action);
     notifiactionCellHandler _handler;
 }
 
--(void)setupCellWithData:(id)data inSize:(CGSize)size andHandler:(notifiactionCellHandler)handler;
+-(void)setupCellWithData:(NotificationModel*)data inSize:(CGSize)size andHandler:(notifiactionCellHandler)handler;
 -(void)scrollBack;
 
 @end

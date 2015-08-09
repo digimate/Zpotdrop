@@ -8,6 +8,7 @@
 
 #import "RightNotificationViewController.h"
 #import "NotificationTableViewCell.h"
+#import "NotificationModel.h"
 
 @interface RightNotificationViewController ()
 
@@ -37,6 +38,29 @@
     [closeSwipe setNumberOfTouchesRequired:1];
     [closeSwipe setDirection:UISwipeGestureRecognizerDirectionRight];
     [self.view addGestureRecognizer:closeSwipe];
+    
+    _notificationData = [NSMutableArray array];
+    for(int i = 0; i < 50 ; ++i)
+    {
+        NotificationModel* model = [[NotificationModel alloc]init];
+        model.time = [NSDate date];
+        model.notificationType = [NSNumber numberWithInt:(i%4)];
+        switch (i%4) {
+            case NOTIFICATION_COMMENT:
+                model.notificationContent = @"comment on your Zpotdrop: <<Have fun!>>";
+                break;
+            case NOTIFICATION_COMMING:
+                model.notificationContent = @"is comming to your zpotdrop";
+                break;
+            case NOTIFICATION_FOLLOW:
+                model.notificationContent = @"Started following you";
+                break;
+            default:
+                model.notificationContent = @"Liked your Zpotdrop";
+                break;
+        }
+        [_notificationData addObject:model];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,15 +105,17 @@
     [header setTextColor:[UIColor colorWithHexString:MAIN_COLOR]];
     [header setFont:[UIFont fontWithName:@"" size:20.f]];
     [header setTextAlignment:NSTextAlignmentCenter];
+    [header setBackgroundColor:[UIColor whiteColor]];
     return header;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NotificationTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"notificationCell" forIndexPath:indexPath];
-    [cell setupCellWithData:nil inSize:CGSizeMake(tableView.frame.size.width, 50.f) andHandler:^(id data, NOTIFICATION_ACTION action) {
+    [cell setupCellWithData:_notificationData[indexPath.row] inSize:CGSizeMake(tableView.frame.size.width, 50.f) andHandler:^(id data, NOTIFICATION_ACTION action) {
         
     }];
+    [cell scrollBack];
     return cell;
 }
 
