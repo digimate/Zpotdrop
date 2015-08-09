@@ -85,8 +85,36 @@
     if (viewController.navigationController) {
         UserProfileViewController* userProfileVC = [[UserProfileViewController alloc]init];
         [viewController.navigationController pushViewController:userProfileVC animated:YES];
-        userProfileVC.navigationItem.leftBarButtonItem = viewController.navigationItem.leftBarButtonItem;
-        userProfileVC.navigationItem.rightBarButtonItem = viewController.navigationItem.rightBarButtonItem;
     }
+}
+
+#pragma mark - UIImagePicker
+-(void)showImagePickerWithCompletion:(void(^)(UIImage* image))completion fromViewController:(UIViewController*)controller isCrop:(BOOL)isDrop isCamera:(BOOL)isCamera{
+    imageCompletion = completion;
+    UIImagePickerController* imagePicker = [[UIImagePickerController alloc]init];
+    imagePicker.allowsEditing = isDrop;
+    if (isCamera) {
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    }else{
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    }
+    imagePicker.delegate = self;
+    [controller presentViewController:imagePicker animated:YES completion:nil];
+}
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [picker dismissViewControllerAnimated:YES completion:^{
+        imageCompletion(nil);
+    }];
+}
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    UIImage* image ;
+    if (picker.allowsEditing) {
+        image = [info objectForKey:UIImagePickerControllerEditedImage];
+    }else{
+        image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    }
+    [picker dismissViewControllerAnimated:YES completion:^{
+        imageCompletion(image);
+    }];
 }
 @end
