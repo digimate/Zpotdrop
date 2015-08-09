@@ -85,4 +85,5 @@
 -(void)addViewBackedLeftBorderWithWidth: (CGFloat)width color:(UIColor*)color leftOffset:(CGFloat)leftOffset topOffset:(CGFloat)topOffset andBottomOffset:(CGFloat)bottomOffset;
 
 -(void)addBorderWithFrame:(CGRect)frame color:(UIColor*)color;
+-(void)removeBorder;
 @end

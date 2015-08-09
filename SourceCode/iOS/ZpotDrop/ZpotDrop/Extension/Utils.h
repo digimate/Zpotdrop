@@ -24,6 +24,7 @@
 #import "ZpotAnnotationView.h"
 #import "FeedCommentDataModel.h"
 #import "FeedDataModel.h"
+#import "UINavigationController+Block.h"
 
 #define MAIN_COLOR @"b1cb89"
 
@@ -45,7 +46,9 @@ typedef enum {
     NOTIFICATION_UNKNOWN
 }NOTIFICATION_ACTION;
 
-@interface Utils : NSObject
+@interface Utils : NSObject<UINavigationControllerDelegate,UIImagePickerControllerDelegate>{
+    void (^imageCompletion)(UIImage* image);
+}
 + (Utils *) instance;
 -(void)showProgressWithMessage:(NSString*)msg;
 -(void)hideProgess;
@@ -55,4 +58,5 @@ typedef enum {
 -(void)showAlertWithTitle:(NSString*)title message:(NSString*)msg yesTitle:(NSString*)okStr noTitle:(NSString*)noStr handler:(UIAlertViewHandler)handler;
 -(void)clearMapViewBeforeUsing;
 -(void)showUserProfile:(id)userDataModel fromViewController:(UIViewController*)viewController;
+-(void)showImagePickerWithCompletion:(void(^)(UIImage* image))completion fromViewController:(UIViewController*)controller isCrop:(BOOL)isDrop isCamera:(BOOL)isCamera;
 @end

@@ -10,13 +10,15 @@
 #import "ScannedUserCell.h"
 #import "ScannedUserAnnoView.h"
 #import "ZpotAnnotationView.h"
+#import "FriendRequestZpotCell.h"
 
-@interface FindZpotViewController ()<MKMapViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>{
+@interface FindZpotViewController ()<MKMapViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate>{
     UISearchBar* searchZpotBar;
     UICollectionView* usersCollectionView;
     BOOL shoudMoveToUserLocation;
     NSMutableArray* scannedUsersData;
     id selectedScannedUser;
+    UITableView* friendsSearchTableView;
 }
 
 @end
@@ -40,6 +42,9 @@
     searchZpotBar.backgroundColor = [UIColor clearColor];
     searchZpotBar.barTintColor = [UIColor clearColor];
     searchZpotBar.backgroundImage = [[UIImage alloc]init];
+    searchZpotBar.returnKeyType = UIReturnKeyDone;
+    searchZpotBar.enablesReturnKeyAutomatically = NO;
+    searchZpotBar.delegate = self;
     searchZpotBar.placeholder = @"place_holder_search_zpot".localized;
     [searchZpotBar setImage:[UIImage imageNamed:@"ic_search"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     [searchZpotBar addBorderWithFrame:CGRectMake(0, searchZpotBar.height - 1.0, searchZpotBar.width, 1) color:COLOR_SEPEARATE_LINE];
@@ -72,9 +77,15 @@
     [usersCollectionView setDataSource:self];
     [usersCollectionView setDelegate:self];
     [usersCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([ScannedUserCell class]) bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([ScannedUserCell class])];
-    
     [self.view addSubview:usersCollectionView];
-
+    
+    /*======================Friends Search Result=======================*/
+    friendsSearchTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, searchZpotBar.height, self.view.width, self.view.height - 64 - searchZpotBar.height) style:UITableViewStylePlain];
+    friendsSearchTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [friendsSearchTableView registerNib:[UINib nibWithNibName:NSStringFromClass([FriendRequestZpotCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([FriendRequestZpotCell class])];
+    friendsSearchTableView.dataSource = self;
+    friendsSearchTableView.delegate = self;
+    friendsSearchTableView.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.5];
 }
 
 -(void)leftMenuOpened{
@@ -186,6 +197,7 @@
     [self closeKeyboard];
 }
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view{
+    [mapView deselectAnnotation:view.annotation animated:NO];
     if ([view isKindOfClass:[ZpotAnnotationView class]]) {
         [[Utils instance]showUserProfile:nil fromViewController:self];
     }
@@ -233,5 +245,34 @@
     //reload MapView
     [[Utils instance].mapView removeAnnotations:[Utils instance].mapView.annotations];
     [self addAnnotationScannedUsers];
+}
+#pragma mark - UISearchBarDelegate
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    [searchZpotBar resignFirstResponder];
+}
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    if (searchBar.text.length == 0) {
+        [friendsSearchTableView removeFromSuperview];
+    }else{
+        if (!friendsSearchTableView.superview) {
+            [self.view addSubview:friendsSearchTableView];
+        }
+    }
+}
+
+#pragma mark - UITableViewDatasource
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 1;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return [FriendRequestZpotCell cellHeightWithData:nil];
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    BaseTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([FriendRequestZpotCell class]) forIndexPath:indexPath];
+    [cell setupCellWithData:nil andOptions:nil];
+    return cell;
 }
 @end

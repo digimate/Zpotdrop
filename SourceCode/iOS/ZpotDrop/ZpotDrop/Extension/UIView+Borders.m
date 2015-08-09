@@ -210,14 +210,16 @@
 }
 
 -(void)addBorderWithFrame:(CGRect)frame color:(UIColor*)color{
+    [self removeBorder];
+    [self addOneSidedBorderWithFrame:frame andColor:color];
+}
+-(void)removeBorder{
     for (CALayer* subLayer in self.layer.sublayers) {
         if ([subLayer.name isEqualToString:@"border"]) {
             [subLayer removeFromSuperlayer];
         }
     }
-    [self addOneSidedBorderWithFrame:frame andColor:color];
 }
-
 //////////
 // Private: Our methods call these to add their borders.
 //////////

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14B17" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="PTS55F.ttf">
+            <string>PTSans-Regular</string>
+        </mutableArray>
+        <mutableArray key="PTS56F.ttf">
+            <string>PTSans-Italic</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingSwitchCell" rowHeight="81" id="KGk-i7-Jjw" customClass="SettingSwitchCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="81"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YUr-0O-xC5">
+                        <rect key="frame" x="10" y="12" width="206" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="4k5-lu-O7v"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="15"/>
+                        <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TBC-qn-iRn">
+                        <rect key="frame" x="261" y="6" width="51" height="31"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="31" id="mno-JC-cXA"/>
+                            <constraint firstAttribute="width" constant="49" id="wrg-Jb-fWB"/>
+                        </constraints>
+                    </switch>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BMf-sX-2q1">
+                        <rect key="frame" x="10" y="36" width="231" height="40"/>
+                        <fontDescription key="fontDescription" name="PTSans-Italic" family="PT Sans" pointSize="14"/>
+                        <color key="textColor" red="0.75686274509803919" green="0.75686274509803919" blue="0.75686274509803919" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="YUr-0O-xC5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="2" id="Hin-AA-qDf"/>
+                    <constraint firstAttribute="trailing" secondItem="BMf-sX-2q1" secondAttribute="trailing" constant="79" id="NtD-Kj-f33"/>
+                    <constraint firstItem="BMf-sX-2q1" firstAttribute="top" secondItem="YUr-0O-xC5" secondAttribute="bottom" constant="4" id="YWf-kh-vcK"/>
+                    <constraint firstItem="YUr-0O-xC5" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="4" id="dpL-bv-yt9"/>
+                    <constraint firstItem="TBC-qn-iRn" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="fGU-AB-ut2"/>
+                    <constraint firstItem="BMf-sX-2q1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="hWM-lN-syE"/>
+                    <constraint firstAttribute="trailing" secondItem="TBC-qn-iRn" secondAttribute="trailing" constant="10" id="jjU-VL-1aB"/>
+                    <constraint firstItem="TBC-qn-iRn" firstAttribute="leading" secondItem="YUr-0O-xC5" secondAttribute="trailing" constant="45" id="oSa-Vk-VTs"/>
+                    <constraint firstAttribute="bottom" secondItem="BMf-sX-2q1" secondAttribute="bottom" constant="4" id="oTz-Zr-Oxp"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="lblSubtitle" destination="BMf-sX-2q1" id="0F7-bB-EfL"/>
+                <outlet property="lblTitle" destination="YUr-0O-xC5" id="TiG-Wb-gh0"/>
+                <outlet property="switchControl" destination="TBC-qn-iRn" id="x7y-ud-Hkx"/>
+            </connections>
+            <point key="canvasLocation" x="272" y="344.5"/>
+        </tableViewCell>
+    </objects>
+</document>
