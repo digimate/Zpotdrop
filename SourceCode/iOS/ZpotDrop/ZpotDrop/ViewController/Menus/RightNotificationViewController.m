@@ -22,7 +22,7 @@
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
     //======================UITableView=========================//
     int spacing = 40;
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(spacing - self.view.frame.size.width, 0, self.view.frame.size.width - spacing, self.view.frame.size.height) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(spacing, 0, self.view.frame.size.width - spacing, self.view.frame.size.height) style:UITableViewStylePlain];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -33,12 +33,20 @@
     [_refresh addTarget:self action:@selector(refreshAction:) forControlEvents:UIControlEventValueChanged];
     [_tableView addSubview:_refresh];
     
-    // Do any additional setup after loading the view.
+    UISwipeGestureRecognizer* closeSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(closeAction:)];
+    [closeSwipe setNumberOfTouchesRequired:1];
+    [closeSwipe setDirection:UISwipeGestureRecognizerDirectionRight];
+    [self.view addGestureRecognizer:closeSwipe];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(IBAction)closeAction:(id)sender
+{
+    [_delegate closeRightNotification];
 }
 
 -(IBAction)refreshAction:(id)sender
@@ -88,6 +96,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [_delegate didPressedOnNotificationWithAction:NOTIFICATION_LIKE andData:nil];
 }
 
 @end

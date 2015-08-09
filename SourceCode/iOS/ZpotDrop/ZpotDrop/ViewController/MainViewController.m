@@ -182,10 +182,9 @@
 
         [UIView animateWithDuration:0.3 animations:^{
             CGRect frame = _rightMenuViewController.tableView.frame;
-            frame.origin.x = 0;
+            frame.origin.x = 40;
             _rightMenuViewController.view.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.7];
             _rightMenuViewController.tableView.frame = frame;
-
         }];
     }
     else
@@ -195,10 +194,9 @@
 
         [UIView animateWithDuration:0.3 animations:^{
             CGRect frame = _rightMenuViewController.tableView.frame;
-            frame.origin.x = -frame.size.width;
+            frame.origin.x = frame.size.width;
             _rightMenuViewController.view.backgroundColor = [UIColor clearColor];
             _rightMenuViewController.tableView.frame = frame;
-
         }completion:^(BOOL finished) {
             [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] sendSubviewToBack:_rightMenuViewController.view];
         }];
@@ -239,11 +237,13 @@
     [self openMenu];
 }
 
+-(void)closeRightNotification
+{
+    [self openNotification];
+}
+
 -(void)didPressedOnNotificationWithAction:(NOTIFICATION_ACTION)command andData:(id)data{
     
 }
 
--(void)closeRightNotification{
-    [self openNotification];
-}
 @end
