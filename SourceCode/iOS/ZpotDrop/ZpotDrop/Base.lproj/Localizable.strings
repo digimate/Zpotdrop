@@ -6,6 +6,7 @@
   Copyright (c) 2015 zpotdrop. All rights reserved.
 */
 //MARK: - ***** A *****
+"add" = "Add";
 //MARK: - ***** B *****
 "birthday" = "Date of birth";
 //MARK: - ***** C *****
@@ -69,6 +70,7 @@
 "search" = "Search";
 "settings" = "Settings";
 "send" = "Send";
+"search_for_people" = "Search for people";
 //MARK: - ***** T *****
 "terms_of_use" = "Temp of Use";
 //MARK: - ***** W *****

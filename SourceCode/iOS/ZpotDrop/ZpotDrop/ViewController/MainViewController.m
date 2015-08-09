@@ -13,6 +13,7 @@
 #import "FindZpotViewController.h"
 #import "UserProfileViewController.h"
 #import "UserSettingViewController.h"
+#import "SearchViewController.h"
 
 @interface MainViewController ()<LeftMenuDelegate,rightNotificationDelegate>
 
@@ -115,6 +116,15 @@
     [self.navigationController pushViewController:postViewController animated:NO];
     postViewController.navigationItem.leftBarButtonItem = self.navigationItem.leftBarButtonItem;
     postViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+}
+
+-(void)showSearchView
+{
+    [self.navigationController popToRootViewControllerAnimated:NO];
+    SearchViewController* searchViewController = [[SearchViewController alloc]init];
+    [self.navigationController pushViewController:searchViewController animated:NO];
+    searchViewController.navigationItem.leftBarButtonItem = self.navigationItem.leftBarButtonItem;
+    searchViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
 }
 
 -(void)showSettingView{
@@ -231,6 +241,8 @@
         [self showFeedView];
     }else if ([clsString isEqualToString:NSStringFromClass([FindZpotViewController class])]){
         [self showFindView];
+    }else if ([clsString isEqualToString:NSStringFromClass([SearchViewController class])]){
+        [self showSearchView];
     }else if ([clsString isEqualToString:NSStringFromClass([UserSettingViewController class])]){
         [self showSettingView];
     }

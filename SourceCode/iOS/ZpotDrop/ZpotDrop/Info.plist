@@ -30,6 +30,7 @@
 	<string>ZpotDrop would like to use your location</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>OpenSans-Light.ttf</string>
 		<string>PTS76F.ttf</string>
 		<string>PTS75F.ttf</string>
 		<string>PTS56F.ttf</string>

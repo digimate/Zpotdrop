@@ -17,6 +17,7 @@
 #import "FeedZpotViewController.h"
 #import "FindZpotViewController.h"
 #import "UserProfileViewController.h"
+#import "SearchViewController.h"
 #import "UserSettingViewController.h"
 
 @interface LeftMenuViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -175,6 +176,8 @@
             [self.delegate leftmenuChangeViewToClass:NSStringFromClass([FeedZpotViewController class])];
         }else if (currentSelectedRow == 3) {
             [self.delegate leftmenuChangeViewToClass:NSStringFromClass([FindZpotViewController class])];
+        }else if (currentSelectedRow == 4) {
+            [self.delegate leftmenuChangeViewToClass:NSStringFromClass([SearchViewController class])];
         }else if (currentSelectedRow == 5) {
             [self.delegate leftmenuChangeViewToClass:NSStringFromClass([UserSettingViewController class])];
         }
