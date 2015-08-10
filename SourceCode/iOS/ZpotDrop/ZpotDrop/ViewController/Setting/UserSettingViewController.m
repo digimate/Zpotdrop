@@ -12,6 +12,7 @@
 #import "UserProfileCell.h"
 #import "SettingDisclosureViewCell.h"
 #import "SettingSwitchCell.h"
+#import "ChangePasswordViewController.h"
 
 @interface UserSettingViewController ()<UITableViewDelegate,UITableViewDataSource>{
     UITableView* settingTableView;
@@ -25,13 +26,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"setting".localized.uppercaseString;
-    self.view.backgroundColor = [UIColor whiteColor];
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     
     settingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height - 64) style:UITableViewStylePlain];
+    settingTableView.backgroundColor = [UIColor colorWithRed:242 green:242 blue:242];
     [settingTableView registerNib:[UINib nibWithNibName:NSStringFromClass([UserProfileCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([UserProfileCell class])];
     [settingTableView registerNib:[UINib nibWithNibName:NSStringFromClass([SettingDisclosureViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([SettingDisclosureViewCell class])];
     [settingTableView registerNib:[UINib nibWithNibName:NSStringFromClass([SettingSwitchCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([SettingSwitchCell class])];
@@ -169,5 +170,14 @@
     UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.width, 10)];
     view.backgroundColor = [UIColor colorWithRed:242 green:242 blue:242];
     return view;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0) {
+        if (indexPath.row == 1) {
+            ChangePasswordViewController* vc = [[ChangePasswordViewController alloc]init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
 }
 @end

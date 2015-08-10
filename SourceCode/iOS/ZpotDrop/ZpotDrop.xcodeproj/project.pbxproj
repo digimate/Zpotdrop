@@ -154,6 +154,9 @@
 		BAAE49AB1B779358003BE114 /* SettingSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAAE49A91B779358003BE114 /* SettingSwitchCell.xib */; };
 		BAAFD0841B75F67F009779FF /* ScannedUserAnnoView.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAFD0831B75F67F009779FF /* ScannedUserAnnoView.m */; };
 		BAAFD0871B75F6AF009779FF /* ScannedUserAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAFD0861B75F6AF009779FF /* ScannedUserAnnotation.m */; };
+		BAE410741B78DFA400B96F59 /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE410731B78DFA400B96F59 /* ChangePasswordViewController.m */; };
+		BAE410781B78E00E00B96F59 /* ChangePasswordViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE410761B78E00E00B96F59 /* ChangePasswordViewCell.m */; };
+		BAE410791B78E00E00B96F59 /* ChangePasswordViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAE410771B78E00E00B96F59 /* ChangePasswordViewCell.xib */; };
 		BAE481FC1B7255CF0071BCF3 /* ic_annotation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAE481F61B7255CF0071BCF3 /* ic_annotation@2x.png */; };
 		BAE481FD1B7255CF0071BCF3 /* ic_comment_s@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAE481F71B7255CF0071BCF3 /* ic_comment_s@2x.png */; };
 		BAE481FE1B7255CF0071BCF3 /* ic_comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAE481F81B7255CF0071BCF3 /* ic_comment@2x.png */; };
@@ -419,6 +422,11 @@
 		BAAFD0831B75F67F009779FF /* ScannedUserAnnoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannedUserAnnoView.m; sourceTree = "<group>"; };
 		BAAFD0851B75F6AF009779FF /* ScannedUserAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScannedUserAnnotation.h; sourceTree = "<group>"; };
 		BAAFD0861B75F6AF009779FF /* ScannedUserAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannedUserAnnotation.m; sourceTree = "<group>"; };
+		BAE410721B78DFA400B96F59 /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
+		BAE410731B78DFA400B96F59 /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
+		BAE410751B78E00E00B96F59 /* ChangePasswordViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewCell.h; sourceTree = "<group>"; };
+		BAE410761B78E00E00B96F59 /* ChangePasswordViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewCell.m; sourceTree = "<group>"; };
+		BAE410771B78E00E00B96F59 /* ChangePasswordViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePasswordViewCell.xib; sourceTree = "<group>"; };
 		BAE481F61B7255CF0071BCF3 /* ic_annotation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_annotation@2x.png"; sourceTree = "<group>"; };
 		BAE481F71B7255CF0071BCF3 /* ic_comment_s@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_comment_s@2x.png"; sourceTree = "<group>"; };
 		BAE481F81B7255CF0071BCF3 /* ic_comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_comment@2x.png"; sourceTree = "<group>"; };
@@ -964,6 +972,8 @@
 			children = (
 				BAAE49991B7782EA003BE114 /* UserSettingViewController.h */,
 				BAAE499A1B7782EA003BE114 /* UserSettingViewController.m */,
+				BAE410721B78DFA400B96F59 /* ChangePasswordViewController.h */,
+				BAE410731B78DFA400B96F59 /* ChangePasswordViewController.m */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -980,6 +990,9 @@
 				BAAE49A71B779358003BE114 /* SettingSwitchCell.h */,
 				BAAE49A81B779358003BE114 /* SettingSwitchCell.m */,
 				BAAE49A91B779358003BE114 /* SettingSwitchCell.xib */,
+				BAE410751B78E00E00B96F59 /* ChangePasswordViewCell.h */,
+				BAE410761B78E00E00B96F59 /* ChangePasswordViewCell.m */,
+				BAE410771B78E00E00B96F59 /* ChangePasswordViewCell.xib */,
 			);
 			path = SettingCells;
 			sourceTree = "<group>";
@@ -1115,6 +1128,7 @@
 				BA6284271B71060500399368 /* SVProgressHUD.bundle in Resources */,
 				0A9F5AE21B77C94E00C9E0FD /* ic_follow@2x.png in Resources */,
 				BAE481FE1B7255CF0071BCF3 /* ic_comment@2x.png in Resources */,
+				BAE410791B78E00E00B96F59 /* ChangePasswordViewCell.xib in Resources */,
 				8C269C4C1B70788800E6835E /* PTC55F.ttf in Resources */,
 				8C269C4F1B70788800E6835E /* PTN77F.ttf in Resources */,
 				BAAE49A11B778607003BE114 /* UserProfileCell.xib in Resources */,
@@ -1163,7 +1177,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0ACD9DC91B68D497004140EE /* AFHTTPRequestOperation.m in Sources */,
+				BAE410741B78DFA400B96F59 /* ChangePasswordViewController.m in Sources */,
 				0ACD9E331B6A99C5004140EE /* DateTextField.m in Sources */,
+				BAE410781B78E00E00B96F59 /* ChangePasswordViewCell.m in Sources */,
 				8C50F7911B735D7400997C06 /* FeedCommentNotifyCell.m in Sources */,
 				0ACD9E481B6E71E4004140EE /* UserModel.m in Sources */,
 				0ACD9DDF1B68D497004140EE /* UIImage+WebP.m in Sources */,

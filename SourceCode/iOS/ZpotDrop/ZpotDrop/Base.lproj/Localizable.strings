@@ -37,6 +37,8 @@
 "female" = "Female";
 "followers" = "Followers";
 "following" = "Following";
+"follow" = "Follow";
+"followed" = "Followed";
 //MARK: - ***** H *****
 "hometown" = "Hometown";
 //MARK: - ***** I *****
@@ -49,6 +51,8 @@
 //MARK: - ***** N *****
 "no_zpotdrop_account" = "Not yet on zpotdrop?";
 "notice_input_email" = "Please enter your email";
+"new_password" = "New Password";
+"new_password_again" = "New Password again";
 //MARK: - ***** O *****
 "ok" = "OK";
 //MARK: - ***** P *****
@@ -71,6 +75,7 @@
 "settings" = "Settings";
 "send" = "Send";
 "search_for_people" = "Search for people";
+"save" = "Save";
 //MARK: - ***** T *****
 "terms_of_use" = "Temp of Use";
 //MARK: - ***** W *****

@@ -37,7 +37,21 @@
     imgvAvatar.layer.masksToBounds = YES;
     imgvAvatar.image = [UIImage imageNamed:@"avatar"];
     [viewHeader addSubview:imgvAvatar];
- 
+    
+    UIButton* btnFollow = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnFollow.frame = CGRectMake(0, imgvAvatar.y + imgvAvatar.height+ 10, 80, 26);
+    btnFollow.backgroundColor = [UIColor whiteColor];
+    btnFollow.layer.borderWidth = 1.0;
+    btnFollow.layer.borderColor = COLOR_DARK_GREEN.CGColor;
+    [[btnFollow titleLabel]setFont:[UIFont fontWithName:@"PTSans-Regular" size:16]];
+    [btnFollow setTitleColor:COLOR_DARK_GREEN forState:UIControlStateNormal];
+    [btnFollow setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [btnFollow setTitle:[NSString stringWithFormat:@"+ %@",@"follow".localized] forState:UIControlStateNormal];
+    [btnFollow setTitle:[NSString stringWithFormat:@"%@",@"followed".localized] forState:UIControlStateSelected];
+    btnFollow.centerX = imgvAvatar.centerX;
+    [btnFollow addTarget:self action:@selector(followUser:) forControlEvents:UIControlEventTouchUpInside];
+    [viewHeader addSubview:btnFollow];
+
     UILabel* lblName = [[UILabel alloc]initWithFrame:CGRectMake(140, 20, self.view.width - 160, 20)];
     lblName.font = [UIFont fontWithName:@"PTSans-Bold" size:18];
     lblName.textColor = [UIColor colorWithRed:163 green:163 blue:163];
@@ -127,6 +141,15 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)followUser:(UIButton*)sender{
+    sender.selected = !sender.isSelected;
+    if (sender.isSelected) {
+        sender.backgroundColor = COLOR_DARK_GREEN;
+    }else{
+        sender.backgroundColor = [UIColor whiteColor];
+    }
 }
 
 #pragma mark - UITableViewDatasource & UITableViewDelegate
