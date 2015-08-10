@@ -12,12 +12,13 @@
 namespace App\Http\Controllers\Api\v1;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Acme\Restful\LZResponse;
 
 class ApiController extends BaseController
 {
-	use DispatchesJobs;
+	use DispatchesJobs, ValidatesRequests;
 	/**
 	 * @var LZResponse
 	 */

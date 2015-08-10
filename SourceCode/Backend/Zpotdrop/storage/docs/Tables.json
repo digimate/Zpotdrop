@@ -60,6 +60,17 @@
             ]
         },
         {
+            "path": "/tables/request-zpots",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "RequestZpot table",
+                    "nickname": "requestzpots",
+                    "type": "RequestZpot"
+                }
+            ]
+        },
+        {
             "path": "/tables/users",
             "operations": [
                 {
@@ -328,6 +339,30 @@
                 "deleted_at": {
                     "type": "string",
                     "format": "datetime"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "datetime"
+                }
+            }
+        },
+        "RequestZpot": {
+            "id": "RequestZpot",
+            "description": "App\\Models\\Friend",
+            "required": [
+                "friend_id",
+                "user_id"
+            ],
+            "properties": {
+                "user_id": {
+                    "type": "integer"
+                },
+                "friend_id": {
+                    "type": "integer"
                 },
                 "created_at": {
                     "type": "string",

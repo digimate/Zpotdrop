@@ -22,7 +22,7 @@ class CreateNotificationsTable extends Migration
 	        $table->unsignedInteger('friend_id');
 	        $table->string('message')->default('');
 	        $table->unsignedInteger('post_id');
-	        $table->tinyInteger('action_type')->default(0);//0:coming, 1: comment, 2: like, 3: follow
+	        $table->tinyInteger('action_type')->default(0);//0:coming, 1: comment, 2: like, 3: follow, 4: request zpot
 	        $table->boolean('is_read')->default(0);//0: read 1: unread
             $table->timestamps();
         });

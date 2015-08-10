@@ -57,7 +57,7 @@ class Friend extends BaseModel
 	 *
 	 * @var array
 	 */
-	protected $hidden = [];
+	protected $hidden = ['user_id', 'friend_id'];
 
 	/*Friend Flag*/
 	const FRIEND_YES    = 1;

@@ -116,5 +116,6 @@ Route::group(['prefix' => 'api/v1'], function(){
 		Route::get('tables/comments', 'TableController@comments');
 		Route::get('tables/venues', 'TableController@venues');
 		Route::get('tables/notifications', 'TableController@notifications');
+		Route::get('tables/request-zpots', 'TableController@requestzpots');
 	});
 });

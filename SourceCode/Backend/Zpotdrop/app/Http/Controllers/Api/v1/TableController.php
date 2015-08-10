@@ -14,6 +14,7 @@ use App\Acme\Models\Friend;
 use App\Acme\Models\Like;
 use App\Acme\Models\Notification;
 use App\Acme\Models\Post;
+use App\Acme\Models\RequestZpot;
 use App\Acme\Models\User;
 use App\Acme\Models\Venue;
 
@@ -132,5 +133,20 @@ class TableController extends ApiController
 	public function notifications()
 	{
 		return $this->lzResponse->success(Notification::with(['user', 'post', 'friend'])->first());
+	}
+
+	/**
+	 * @SWG\Api(
+	 *    path="/tables/request-zpots",
+	 *      @SWG\Operation(
+	 *        method="GET",
+	 *        summary="RequestZpot table",
+	 *        type="RequestZpot",
+	 *    )
+	 * )
+	 */
+	public function requestzpots()
+	{
+		return $this->lzResponse->success(RequestZpot::with(['user', 'friend'])->first());
 	}
 }
