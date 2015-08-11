@@ -214,10 +214,9 @@
     [self addOneSidedBorderWithFrame:frame andColor:color];
 }
 -(void)removeBorder{
-    for (CALayer* subLayer in self.layer.sublayers) {
-        if ([subLayer.name isEqualToString:@"border"]) {
-            [subLayer removeFromSuperlayer];
-        }
+    NSArray* dels = [self.layer.sublayers filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"name == %@",@"border"]];
+    for (CALayer* subLayer in dels) {
+        [subLayer removeFromSuperlayer];
     }
 }
 //////////

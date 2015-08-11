@@ -9,7 +9,9 @@
 #import "SignupViewController.h"
 #import "CompleteSignupViewController.h"
 
-@interface SignupViewController ()
+@interface SignupViewController (){
+    UITextField* currentTextField;
+}
 
 @end
 
@@ -22,6 +24,10 @@
     [center addObserver:self selector:@selector(didHide:) name:UIKeyboardWillHideNotification object:nil];
     [center addObserver:self selector:@selector(didShow:) name:UIKeyboardWillShowNotification object:nil];
     
+}
+
+-(void)closeKeyboard{
+    [currentTextField resignFirstResponder];
 }
 
 -(IBAction)didShow:(id)sender
@@ -100,11 +106,13 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
+    currentTextField = textField;
     [_mScrollView setContentOffset:CGPointMake(0, textField.frame.origin.y - 100) animated:YES];
 }
 
 -(IBAction)next:(id)sender
 {
+    [self closeKeyboard];
     if (![_rule checkEmailStringIsCorrect:_email.text])
     {
         [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_email_format".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
@@ -130,9 +138,19 @@
         }];
         return;
     }
-    CompleteSignupViewController* vc = [[CompleteSignupViewController alloc]init];
-    vc.data = [NSMutableDictionary dictionaryWithObjects:@[_email.text, _password.text] forKeys:@[@"email", @"password"]];
-    [self.navigationController pushViewController:vc animated:YES];
+    [[Utils instance] showProgressWithMessage:nil];
+    [[APIService shareAPIService] checkIsExistUsername:_email.text completion:^(BOOL isExist) {
+        [[Utils instance]hideProgess];
+        if (isExist) {
+            [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_exist_email".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            }];
+        }else{
+            CompleteSignupViewController* vc = [[CompleteSignupViewController alloc]init];
+            vc.data = [NSMutableDictionary dictionaryWithObjects:@[_email.text, _password.text] forKeys:@[@"email", @"password"]];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }];
+  
 }
 
 -(void)viewWillDisappear:(BOOL)animated

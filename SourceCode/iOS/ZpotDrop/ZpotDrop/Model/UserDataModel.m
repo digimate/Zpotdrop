@@ -11,13 +11,18 @@
 
 @implementation UserDataModel
 
-@dynamic name;
-@dynamic avatar;
+@dynamic username,first_name,last_name;
+@dynamic avatar,gender,birthday,email;
 
 -(void)awakeFromInsert{
     [super awakeFromInsert];
-    self.name = @"";
+    self.username = @"";
     self.avatar = @"";
+    self.first_name = @"";
+    self.last_name = @"";
+    self.gender = [NSNumber numberWithBool:NO];
+    self.birthday = [NSDate date];
+    self.email = @"";
 }
 
 @end

@@ -8,11 +8,17 @@
 
 #import "PostZpotViewController.h"
 #import "Utils.h"
+#import "CreateLocationCell.h"
+#import "LocationDataModel.h"
 
-@interface PostZpotViewController ()<UITableViewDataSource,UITextFieldDelegate,CLLocationManagerDelegate,MKMapViewDelegate>{
+@interface PostZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,CLLocationManagerDelegate,MKMapViewDelegate,UISearchBarDelegate>{
     UIScrollView* _scrollViewContent;
     UITextField* zpotTitleTextField;
     UISearchBar* searchLocationBar;
+    NSMutableArray* searchLocationResults;
+    UITableView* tableViewLocation;
+    id currentSelectedLocation;
+    CreateLocationCell* createLocationCell;
 }
 
 @end
@@ -34,6 +40,7 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     
+    searchLocationResults = [NSMutableArray array];
     CGRect frame = [UIScreen mainScreen].bounds;
     frame.size.height -= 64;
     _scrollViewContent = [[UIScrollView alloc]initWithFrame:frame];
@@ -60,9 +67,12 @@
     [btnPostZpot setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     [btnPostZpot setFrame:CGRectMake(zpotTitleView.frame.size.width-60, 0, 60, zpotTitleView.height)];
     [btnPostZpot setTitle:@"post".localized.uppercaseString forState:UIControlStateNormal];
+    [btnPostZpot addTarget:self action:@selector(postNewZpot:) forControlEvents:UIControlEventTouchUpInside];
     [zpotTitleView addSubview:btnPostZpot];
     /*======================View Search Location=======================*/
     searchLocationBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, zpotTitleView.y + zpotTitleView.height, self.view.width, 40)];
+    searchLocationBar.delegate = self;
+    searchLocationBar.enablesReturnKeyAutomatically = NO;
     searchLocationBar.backgroundColor = [UIColor clearColor];
     searchLocationBar.barTintColor = [UIColor clearColor];
     searchLocationBar.backgroundImage = [[UIImage alloc]init];
@@ -81,16 +91,34 @@
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont fontWithName:@"PTSans-Regular" size:16]];
     [_scrollViewContent addSubview:searchLocationBar];
     /*======================Locations Result Table=======================*/
-    UITableView* tableViewLocation = [[UITableView alloc]initWithFrame:CGRectMake(0, searchLocationBar.y + searchLocationBar.height, self.view.width, _scrollViewContent.height - searchLocationBar.y - searchLocationBar.height) style:UITableViewStylePlain];
+    tableViewLocation = [[UITableView alloc]initWithFrame:CGRectMake(0, searchLocationBar.y + searchLocationBar.height, self.view.width, _scrollViewContent.height - searchLocationBar.y - searchLocationBar.height) style:UITableViewStylePlain];
     tableViewLocation.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [tableViewLocation registerNib:[UINib nibWithNibName:NSStringFromClass([CreateLocationCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([CreateLocationCell class])];
     tableViewLocation.dataSource = self;
+    tableViewLocation.delegate = self;
     [_scrollViewContent addSubview:tableViewLocation];
-    
-    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeKeyboardIfNeed)];
-    tapGesture.numberOfTapsRequired = 1;
-    [_scrollViewContent addGestureRecognizer:tapGesture];
+    [_scrollViewContent setClipsToBounds:YES];
+//    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeKeyboardIfNeed)];
+//    tapGesture.numberOfTapsRequired = 1;
+//    [_scrollViewContent addGestureRecognizer:tapGesture];
     
     return self;
+}
+
+-(void)postNewZpot:(UIButton*)sender{
+    if (![Utils instance].mapView.userLocationVisible ||  !CLLocationCoordinate2DIsValid([Utils instance].mapView.userLocation.coordinate)) {
+        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_no_gps".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        }];
+    }
+    else if ([zpotTitleTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0) {
+        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_empty_zpot_title".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        }];
+    }else if (currentSelectedLocation == nil){
+        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_empty_zpot_location".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        }];
+    }else{
+        //Post zpot
+    }
 }
 
 -(void)closeKeyboardIfNeed{
@@ -117,8 +145,8 @@
         [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_no_gps".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
         }];
     }else{
-        [[Utils instance].locationManager startUpdatingLocation];
         [[Utils instance].locationManager setDelegate:self];
+        [[Utils instance].locationManager startUpdatingLocation];
         [[Utils instance].mapView setShowsUserLocation:YES];
         [[Utils instance].mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
     }
@@ -160,33 +188,98 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 5;
+    return searchLocationResults.count + 1;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString* str = @"cellLocation";
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:str];
-    if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:str];
-        cell.detailTextLabel.textColor = [UIColor colorWithRed:159 green:159 blue:159];
-        cell.detailTextLabel.font = [UIFont fontWithName:@"PTSans-Regular" size:12];
-        cell.textLabel.font =   [UIFont fontWithName:@"PTSans-Bold" size:16];
-    };
+    if (indexPath.row == searchLocationResults.count) {
+        CreateLocationCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CreateLocationCell class])];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.onCreateLocationPressed = ^(NSString* name,NSString* address){
+            if (![Utils instance].mapView.userLocationVisible ||  !CLLocationCoordinate2DIsValid([Utils instance].mapView.userLocation.coordinate)) {
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_no_gps".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                }];
+            }
+            else if (name.length == 0) {
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_empty_location_name".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                }];
+            }else if (address.length == 0 ){
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_empty_location_address".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                }];
+            }else{
+                //create location
+                [[Utils instance]showProgressWithMessage:nil];
+                [[APIService shareAPIService]createLocationWithCoordinate:[Utils instance].mapView.userLocation.coordinate params:[NSMutableDictionary dictionaryWithDictionary:@{@"name":name,@"address":address}] completion:^(id data, NSString *error) {
+                    [[Utils instance]hideProgess];
+                    if (data == nil) {
+                        [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                        }];
+                    }else{
+                        [searchLocationResults insertObject:data atIndex:0];
+                        [tableViewLocation insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+                    }
+                }];
+            }
+        };
+        createLocationCell = cell;
+        return cell;
+    }else{
+        LocationDataModel* data = [searchLocationResults objectAtIndex:indexPath.row];
+        static NSString* str = @"cellLocation";
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:str];
+        if (!cell) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:str];
+            cell.detailTextLabel.textColor = [UIColor colorWithRed:159 green:159 blue:159];
+            cell.detailTextLabel.font = [UIFont fontWithName:@"PTSans-Regular" size:12];
+            cell.textLabel.font =   [UIFont fontWithName:@"PTSans-Bold" size:16];
+        };
+        if (data == currentSelectedLocation) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }else{
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textLabel.text = data.name;
+        cell.detailTextLabel.text = data.address;
+        [cell addBorderWithFrame:CGRectMake(10, 44-1,tableView.frame.size.width -20, 1) color:COLOR_SEPEARATE_LINE];
+        
+        return cell;
+    }
     
-    cell.textLabel.text = @"Text Title";
-    cell.detailTextLabel.text = @"Text Subtitle";
-    [cell addBorderWithFrame:CGRectMake(10, 44-1,tableView.frame.size.width -10, 1) color:COLOR_SEPEARATE_LINE];
-    
-    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row < searchLocationResults.count) {
+        id data = [searchLocationResults objectAtIndex:indexPath.row];
+        if (data != currentSelectedLocation) {
+            NSMutableArray* array = [NSMutableArray arrayWithObjects:indexPath, nil];
+            if (currentSelectedLocation != nil) {
+                NSInteger row = [searchLocationResults indexOfObject:currentSelectedLocation];
+                [array addObject:[NSIndexPath indexPathForRow:row inSection:0]];
+            }
+            currentSelectedLocation = data;
+            [tableView reloadRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
+        }
+    }
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == searchLocationResults.count) {
+        return 185;
+    }
+    return 44;
 }
 
 #pragma mark - UIKeyboard
 -(void)keyboardShow:(CGRect)frame{
     CGRect rect;
     if (zpotTitleTextField.isFirstResponder) {
-        rect =zpotTitleTextField.superview.frame;
-    }else{
+        rect = zpotTitleTextField.superview.frame;
+    }else if(searchLocationBar.isFirstResponder){
         rect = searchLocationBar.frame;
+    }else{
+        rect = tableViewLocation.frame;
     }
     if (_scrollViewContent.height - rect.origin.y - rect.size.height < frame.size.height) {
         [_scrollViewContent setContentOffset:CGPointMake(0, frame.size.height -(_scrollViewContent.height - rect.origin.y - rect.size.height) )];
@@ -201,6 +294,19 @@
     [textField resignFirstResponder];
     return YES;
 }
+#pragma mark - CLLocationDelegate
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    if (createLocationCell && createLocationCell.address.length == 0) {
+        CLLocation* loc = [locations lastObject];
+        CLLocationCoordinate2D coor = [loc coordinate];
+        [[APIService shareAPIService]addressFromLocationCoordinate:coor completion:^(NSString *address) {
+            if (createLocationCell && address) {
+                [createLocationCell setAddress:address];
+            }
+        }];
+    }
+    
+}
 #pragma mark - MKMapViewDelegate
 -(void)changeUserLocationColor{
     MKAnnotationView* annotationView = [[Utils instance].mapView viewForAnnotation:[Utils instance].mapView .userLocation];
@@ -212,5 +318,9 @@
 }
 -(void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views{
     [self changeUserLocationColor];
+}
+#pragma mark - UISearchbarDelegate
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    [searchBar resignFirstResponder];
 }
 @end

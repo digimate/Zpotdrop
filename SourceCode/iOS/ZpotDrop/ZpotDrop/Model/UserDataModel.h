@@ -12,7 +12,11 @@
 
 @interface UserDataModel : BaseDataModel
 
-@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSString * username;
 @property (nonatomic, retain) NSString * avatar;
-
+@property (nonatomic, retain) NSString * first_name;
+@property (nonatomic, retain) NSString * last_name;
+@property (nonatomic, retain) NSString * email;
+@property (nonatomic, retain) NSDate * birthday;
+@property (nonatomic, retain) NSNumber* gender;
 @end

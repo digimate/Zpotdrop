@@ -8,7 +8,9 @@
 
 #import "CompleteSignupViewController.h"
 
-@interface CompleteSignupViewController ()
+@interface CompleteSignupViewController (){
+    UITextField* currentTextField;
+}
 
 @end
 
@@ -20,6 +22,10 @@
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(didHide:) name:UIKeyboardWillHideNotification object:nil];
     [center addObserver:self selector:@selector(didShow:) name:UIKeyboardWillShowNotification object:nil];
+}
+
+-(void)closeKeyboard{
+    [currentTextField resignFirstResponder];
 }
 
 -(IBAction)didShow:(id)sender
@@ -114,6 +120,7 @@
 
 -(IBAction)completePressed:(id)sender
 {
+    [self closeKeyboard];
     if (IS_DEBUG) {
         [[NSNotificationCenter defaultCenter]postNotificationName:KEY_LOGIN_SUCCEED object:nil];
     }else{
@@ -137,8 +144,16 @@
         [_data setObject:_lastName.text forKey:@"lastName"];
         [_data setObject:_dob.getDate forKey:@"dob"];
         [_data setObject:[NSNumber numberWithBool:_gender] forKey:@"gender"];
+        [[Utils instance]showProgressWithMessage:nil];
         [_api createAccountWithData:_data :^(id data, NSString *error) {
-            [[NSNotificationCenter defaultCenter]postNotificationName:KEY_LOGIN_SUCCEED object:nil];
+            [[Utils instance]hideProgess];
+            if (data) {
+                [[NSNotificationCenter defaultCenter]postNotificationName:KEY_LOGIN_SUCCEED object:nil];
+            }else{
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                }];
+
+            }
         }];
     }
 }
@@ -176,6 +191,7 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
+    currentTextField = textField;
     [_mScrollView setContentOffset:CGPointMake(0, textField.frame.origin.y - 100) animated:YES];
 }
 

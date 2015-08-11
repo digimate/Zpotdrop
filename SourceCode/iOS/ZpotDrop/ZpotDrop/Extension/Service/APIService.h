@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "AFNetworking.h"
+#import <CoreLocation/CoreLocation.h>
 typedef void(^dataResponse)(id data, NSString* error);
 
 @interface APIService : NSObject
@@ -28,9 +29,12 @@ typedef void(^dataResponse)(id data, NSString* error);
  
  @returns data receive will be return on block code response.
  */
+-(void)checkIsExistUsername:(NSString*)username completion:(void(^)(BOOL isExist))completion;
 -(void)createAccountWithData:(NSDictionary*)data :(dataResponse)response;
 
 -(void)loginWithData:(NSDictionary*)data :(dataResponse)response;
 -(void)forgotPasswordWithData:(NSDictionary*)data :(dataResponse)response;
 
+-(void)createLocationWithCoordinate:(CLLocationCoordinate2D)coor params:(NSMutableDictionary*)params completion:(void(^)(id data,NSString* error))completion;
+-(void)addressFromLocationCoordinate:(CLLocationCoordinate2D)coor completion:(void(^)(NSString* address))completion;
 @end

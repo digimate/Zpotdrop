@@ -15,6 +15,7 @@
 "confirm_password" = "Confirm again";
 "comming" = "C'Min";
 "change_password" = "Change password";
+"create_location" = "Create location";
 //MARK: - ***** D *****
 "drops" = "Drops";
 "dob" = "Date of birth";
@@ -29,6 +30,11 @@
 "email" = "Email";
 "enable_all_zpot" = "Enable all zpot";
 "enable_all_zpot_usage" = "Allow you to zpot all your friends(follower + following) using the All zpot, but also makes you visible to them when they use the All zpot";
+"error_exist_email" = "Your email has already used";
+"error_empty_location_name" = "Please input location name";
+"error_empty_location_address" = "Please input location address";
+"error_empty_zpot_title" = "Please input zpot title";
+"error_empty_zpot_location" = "Please choose a location for zpot";
 //MARK: - ***** F *****
 "feed" = "Feed";
 "find" = "Find";
@@ -46,6 +52,8 @@
 //MARK: - ***** L *****
 "last_name" = "Last name";
 "logout" = "Log out";
+"location_name" = "Location name";
+"location_address" = "Location address";
 //MARK: - ***** M *****
 "male" = "Male";
 //MARK: - ***** N *****

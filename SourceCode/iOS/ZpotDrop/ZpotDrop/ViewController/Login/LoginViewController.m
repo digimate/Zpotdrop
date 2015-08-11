@@ -9,7 +9,9 @@
 #import "LoginViewController.h"
 #import "SignupViewController.h"
 
-@interface LoginViewController ()
+@interface LoginViewController (){
+    UITextField* currentTextField;
+}
 
 @end
 
@@ -119,8 +121,13 @@
     [_mScrollView addSubview:_icon];
 }
 
+-(void)closeKeyboard{
+    [currentTextField resignFirstResponder];
+}
+
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
+    currentTextField = textField;
     [_mScrollView setContentOffset:CGPointMake(0, textField.frame.origin.y - 100) animated:YES];
 }
 
@@ -168,11 +175,14 @@
 
 -(IBAction)login:(id)sender
 {
+    [self closeKeyboard];
     if (IS_DEBUG) {
         //login success
         [[NSNotificationCenter defaultCenter]postNotificationName:KEY_LOGIN_SUCCEED object:nil];
     }else{
+        [[Utils instance]showProgressWithMessage:nil];
         [_api loginWithData:@{@"email":_email.text, @"password":_password.text} :^(id data, NSString *error) {
+            [[Utils instance]hideProgess];
             if (error)
             {
                 [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
