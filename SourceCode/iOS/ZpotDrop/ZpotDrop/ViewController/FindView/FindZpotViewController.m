@@ -67,6 +67,7 @@
     [btnScan setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btnScan setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     [btnScan.titleLabel setFont:[UIFont fontWithName:@"PTSans-Bold" size:20]];
+    [btnScan setTitle:@"scan".localized forState:UIControlStateNormal];
     [self.view addSubview:btnScan];
     
     /*======================Users Collection=======================*/

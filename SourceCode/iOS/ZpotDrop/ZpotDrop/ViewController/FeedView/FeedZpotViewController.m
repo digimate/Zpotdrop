@@ -204,11 +204,11 @@
     NSMutableArray* reloadIndexPaths = [NSMutableArray arrayWithObject:indexPath];
     if (data == selectedData) {
         selectedData = nil;
-        mLayoutComposeHeight.constant = 0;
         [_tvComment setText:@""];
         [_tvComment resignFirstResponder];
         lblHolder.hidden = false;
         [self textViewDidChange:_tvComment];
+        mLayoutComposeHeight.constant = 0;
     }else{
         if (selectedData != nil && [_feedData containsObject:selectedData]) {
             NSInteger row = [_feedData indexOfObject:selectedData];

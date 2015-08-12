@@ -14,9 +14,8 @@
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
-    lblTitle.text = @"create_location".localized;
-    lblAddress.text = @"location_address".localized;
-    lblName.text = @"location_name".localized;
+    lblAddress.text = [NSString stringWithFormat:@"%@:",@"location_address".localized];
+    lblName.text = [NSString stringWithFormat:@"%@:",@"location_name".localized];
     tfAddress.text = tfName.text = nil;
     tfAddress.delegate = tfName.delegate = self;
     tfName.returnKeyType = tfAddress.returnKeyType = UIReturnKeyDone;
@@ -49,7 +48,7 @@
 }
 
 +(CGFloat)cellHeightWithData:(BaseDataModel *)data{
-    return 185;
+    return 120;
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{

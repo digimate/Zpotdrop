@@ -13,7 +13,6 @@
     IBOutlet UILabel* lblAddress;
     IBOutlet UITextField* tfName;
     IBOutlet UITextField* tfAddress;
-    IBOutlet UILabel* lblTitle;
     IBOutlet UIButton* btnCreate;
 }
 @property(nonatomic, copy)NSString* address;
