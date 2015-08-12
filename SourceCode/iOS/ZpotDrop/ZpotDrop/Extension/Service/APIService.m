@@ -69,6 +69,45 @@
         }
     }];
 }
+
+-(void)searchLocationWithName:(NSString*)name withinCoord:(CLLocationCoordinate2D)topLeft coor2:(CLLocationCoordinate2D)botRight completion:(void(^)(NSArray * data,NSString* error))completion{
+    PFQuery* query = [PFQuery queryWithClassName:@"Location" predicate:[NSPredicate predicateWithFormat:@"name BEGINSWITH %@ AND %@ <= latitude AND latitude <= %@ AND %@ <= longitude AND longitude <= %@",name,[NSNumber numberWithDouble:botRight.latitude],[NSNumber numberWithDouble:topLeft.latitude],[NSNumber numberWithDouble:topLeft.longitude],[NSNumber numberWithDouble:botRight.longitude]]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
+        for (PFObject* location in data) {
+            LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:location.objectId];
+            model.name = location[@"name"];
+            model.address = location[@"address"];
+            model.latitude = location[@"latitude"];
+            model.longitude = location[@"longitude"];
+        }
+        completion(data,error.description);
+    }];
+}
+
+#pragma mark - POST
+-(void)postZpotWithCoordinate:(CLLocationCoordinate2D)coor params:(NSMutableDictionary*)params completion:(void(^)(id data,NSString* error))completion{
+    PFObject* location = [PFObject objectWithClassName:@"Post"];
+    location[@"latitude"] = [NSNumber numberWithDouble:coor.latitude];
+    location[@"longitude"] = [NSNumber numberWithDouble:coor.longitude];
+    location[@"user_id"] = [PFUser currentUser].objectId;
+    location[@"location_id"] = [params objectForKey:@"location"];
+    location[@"title"] = [params objectForKey:@"title"];
+    [location saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+        if (succeeded) {
+            FeedDataModel* model = (FeedDataModel*)[FeedDataModel fetchObjectWithID:location.objectId];
+            model.user_id = location[@"user_id"];
+            model.latitude = location[@"latitude"];
+            model.longitude = location[@"longitude"];
+            model.location_id = location[@"location_id"];
+            model.title = location[@"title"];
+            model.time = location.createdAt;
+            completion(model,nil);
+        }else{
+            completion(nil,error.description);
+        }
+    }];
+}
+
 #pragma mark - Account
 -(void)checkIsExistUsername:(NSString*)username completion:(void(^)(BOOL isExist))completion{
     [self fetchUserWithUsername:username callback:^(PFObject *user, NSString *error) {

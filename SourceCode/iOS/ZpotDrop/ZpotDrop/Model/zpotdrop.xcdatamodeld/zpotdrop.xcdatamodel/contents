@@ -7,7 +7,7 @@
     <entity name="FeedCommentDataModel" representedClassName="FeedCommentDataModel" syncable="YES">
         <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mid" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="time" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="user_id" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
@@ -16,11 +16,11 @@
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="like_count" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="like_userIds" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="location_address" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="location_title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="location_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="mid" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="time" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="user_id" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="LocationDataModel" representedClassName="LocationDataModel" syncable="YES">
@@ -44,7 +44,7 @@
         <element name="AccountModel" positionX="-63" positionY="9" width="128" height="75"/>
         <element name="FeedCommentDataModel" positionX="-63" positionY="9" width="128" height="120"/>
         <element name="FeedDataModel" positionX="-54" positionY="18" width="128" height="195"/>
-        <element name="UserDataModel" positionX="-63" positionY="-18" width="128" height="165"/>
         <element name="LocationDataModel" positionX="-54" positionY="72" width="128" height="120"/>
+        <element name="UserDataModel" positionX="-63" positionY="-18" width="128" height="165"/>
     </elements>
 </model>

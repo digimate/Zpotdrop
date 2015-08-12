@@ -22,4 +22,8 @@
     }
     return object;
 }
+
++(NSArray*)fetchObjectsWithPredicate:(NSPredicate*)predicate sorts:(NSArray*)sorts{
+    return [[CoreDataService instance]fetchEntitiesForName:NSStringFromClass([self class]) predicate:predicate sortDescriptors:sorts];
+}
 @end

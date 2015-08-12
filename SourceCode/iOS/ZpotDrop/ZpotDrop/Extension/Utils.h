@@ -28,7 +28,7 @@
 
 #define MAIN_COLOR @"b1cb89"
 
-#define IS_DEBUG 1
+#define IS_DEBUG 0
 #define DATE_FORMAT_MONTH_IN_LETTER @"MMM dd yyyy"
 
 #define KEY_LOGIN_SUCCEED @"KEY_LOGIN_SUCCEED"

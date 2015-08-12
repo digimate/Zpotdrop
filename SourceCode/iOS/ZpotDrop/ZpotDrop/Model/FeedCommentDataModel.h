@@ -14,7 +14,7 @@
 
 @property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) NSString * message;
-@property (nonatomic, retain) NSNumber * time;
+@property (nonatomic, retain) NSDate * time;
 @property (nonatomic, retain) NSString * user_id;
 
 @end

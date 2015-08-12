@@ -118,6 +118,29 @@
         }];
     }else{
         //Post zpot
+        [self closeKeyboardIfNeed];
+        NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:@{
+                @"title":[zpotTitleTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]],
+                @"location":[(LocationDataModel*)currentSelectedLocation mid]
+        }];
+        NSInteger row = [searchLocationResults indexOfObject:currentSelectedLocation];
+        currentSelectedLocation = nil;
+        [tableViewLocation reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        zpotTitleTextField.text = nil;
+        [[Utils instance]showProgressWithMessage:nil];
+        [[APIService shareAPIService]postZpotWithCoordinate:[Utils instance].mapView.userLocation.coordinate params:params completion:^(id data, NSString *error) {
+            [[Utils instance]hideProgess];
+            if (data) {
+                FeedDataModel* feedModel = (FeedDataModel*)data;
+                ZpotAnnotation *annotationPoint = [[ZpotAnnotation alloc] init];
+                [annotationPoint setCoordinate:CLLocationCoordinate2DMake([feedModel.latitude doubleValue], [feedModel.longitude doubleValue])];
+                [annotationPoint setTitle:feedModel.title];
+                [[[Utils instance] mapView] addAnnotation:annotationPoint];
+            }else{
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                }];
+            }
+        }];
     }
 }
 
@@ -181,6 +204,20 @@
 }
 -(void)rightMenuOpened{
     [self closeKeyboardIfNeed];
+}
+
+-(void)searchLocationInLocal:(NSString*)key{
+    MKMapView* mapView = [[Utils instance] mapView];
+    
+    CLLocationCoordinate2D topLeft = MKCoordinateForMapPoint(mapView.visibleMapRect.origin);
+    CLLocationCoordinate2D botRight = MKCoordinateForMapPoint(MKMapPointMake(mapView.visibleMapRect.origin.x + mapView.visibleMapRect.size.width, mapView.visibleMapRect.origin.y + mapView.visibleMapRect.size.height));
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"name contains[c] %@ AND %lf <= latitude AND latitude <= %lf AND %lf <= longitude AND longitude <= %lf",key,botRight.latitude,topLeft.latitude,topLeft.longitude,botRight.longitude];
+    
+    NSArray* locationModels = [LocationDataModel fetchObjectsWithPredicate:predicate sorts:nil];
+    [searchLocationResults removeAllObjects];
+    currentSelectedLocation = nil;
+    [searchLocationResults addObjectsFromArray:locationModels];
+    [tableViewLocation reloadData];
 }
 #pragma mark - UITableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -250,6 +287,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self closeKeyboardIfNeed];
     if (indexPath.row < searchLocationResults.count) {
         id data = [searchLocationResults objectAtIndex:indexPath.row];
         if (data != currentSelectedLocation) {
@@ -319,8 +357,46 @@
 -(void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views{
     [self changeUserLocationColor];
 }
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
+{
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+        return nil;
+    }
+    static NSString *const kAnnotationIdentifier = @"ZpotMapAnnotation";
+    ZpotAnnotationView *annotationView = (ZpotAnnotationView *)
+    [mapView dequeueReusableAnnotationViewWithIdentifier:kAnnotationIdentifier];
+    if (! annotationView) {
+        annotationView = [[ZpotAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:kAnnotationIdentifier];
+    }
+    [annotationView setAnnotation:annotation];
+    
+    return annotationView;
+}
+
 #pragma mark - UISearchbarDelegate
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    if (searchBar.text.length > 0) {
+        [self searchLocationInLocal:searchBar.text];
+    }else{
+        [searchLocationResults removeAllObjects];
+        currentSelectedLocation = nil;
+        [tableViewLocation reloadData];
+    }
+}
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [searchBar resignFirstResponder];
+    if (searchBar.text.length > 0) {
+        MKMapView* mapView = [[Utils instance] mapView];
+        CLLocationCoordinate2D topLeft = MKCoordinateForMapPoint(mapView.visibleMapRect.origin);
+        CLLocationCoordinate2D botRight = MKCoordinateForMapPoint(MKMapPointMake(mapView.visibleMapRect.origin.x + mapView.visibleMapRect.size.width, mapView.visibleMapRect.origin.y + mapView.visibleMapRect.size.height));
+        
+        [[Utils instance]showProgressWithMessage:nil];
+        [[APIService shareAPIService]searchLocationWithName:searchBar.text withinCoord:topLeft coor2:botRight completion:^(NSArray *data, NSString *error) {
+            [[Utils instance]hideProgess];
+            [self searchLocationInLocal:searchBar.text];
+        }];
+    }
 }
 @end

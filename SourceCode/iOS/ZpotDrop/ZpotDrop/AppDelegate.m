@@ -43,6 +43,7 @@
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     [Utils instance].mapView.showsUserLocation = NO;
     [[Utils instance].locationManager stopUpdatingLocation];
+    [[CoreDataService instance]saveContext];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -55,6 +56,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [[CoreDataService instance]saveContext];
 }
 
 @end

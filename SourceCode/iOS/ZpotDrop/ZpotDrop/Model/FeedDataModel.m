@@ -16,9 +16,9 @@
 @dynamic latitude;
 @dynamic longitude;
 @dynamic time;
-@dynamic location_title;
-@dynamic location_address;
+@dynamic location_id;
 @dynamic like_count;
 @dynamic comment_count;
+@dynamic title;
 
 @end

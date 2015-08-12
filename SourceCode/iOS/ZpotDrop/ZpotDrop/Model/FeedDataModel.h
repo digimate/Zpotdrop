@@ -16,10 +16,9 @@
 @property (nonatomic, retain) NSString * user_id;
 @property (nonatomic, retain) NSNumber * latitude;
 @property (nonatomic, retain) NSNumber * longitude;
-@property (nonatomic, retain) NSNumber * time;
-@property (nonatomic, retain) NSString * location_title;
-@property (nonatomic, retain) NSString * location_address;
+@property (nonatomic, retain) NSDate * time;
+@property (nonatomic, retain) NSString * location_id;
 @property (nonatomic, retain) NSNumber * like_count;
 @property (nonatomic, retain) NSNumber * comment_count;
-
+@property (nonatomic, retain) NSString * title;
 @end

@@ -12,4 +12,5 @@
 @property (nonatomic, retain) NSString * mid;
 
 +(BaseDataModel*)fetchObjectWithID:(NSString*)mid;
++(NSArray*)fetchObjectsWithPredicate:(NSPredicate*)predicate sorts:(NSArray*)sorts;
 @end
