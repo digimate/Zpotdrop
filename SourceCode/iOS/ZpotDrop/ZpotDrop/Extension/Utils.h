@@ -18,7 +18,7 @@
 #import "UIView+Borders.h"
 #import "UIView+Frame.h"
 #import "SVProgressHUD.h"
-#import "TableViewInsertDataHandler.h"
+#import "TableViewDataHandler.h"
 #import "AccountModel.h"
 #import "ZpotAnnotation.h"
 #import "ZpotAnnotationView.h"
@@ -30,6 +30,7 @@
 
 #define IS_DEBUG 0
 #define DATE_FORMAT_MONTH_IN_LETTER @"MMM dd yyyy"
+#define API_PAGE 20
 
 #define KEY_LOGIN_SUCCEED @"KEY_LOGIN_SUCCEED"
 #define KEY_OPEN_LEFT_MENU @"KEY_OPEN_LEFT_MENU"
@@ -59,4 +60,7 @@ typedef enum {
 -(void)clearMapViewBeforeUsing;
 -(void)showUserProfile:(id)userDataModel fromViewController:(UIViewController*)viewController;
 -(void)showImagePickerWithCompletion:(void(^)(UIImage* image))completion fromViewController:(UIViewController*)controller isCrop:(BOOL)isDrop isCamera:(BOOL)isCamera;
+-(NSString*)convertDateToRecent:(NSDate*)date;
+-(NSString*)distanceBetweenCoor:(CLLocationCoordinate2D)c1 andCoor:(CLLocationCoordinate2D)c2;
+-(NSString*)distanceWithMoveTimeBetweenCoor:(CLLocationCoordinate2D)c1 andCoor:(CLLocationCoordinate2D)c2;
 @end

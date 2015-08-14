@@ -33,4 +33,7 @@
 +(id)instance{
     return nil;
 }
+-(void)updateUIForDataModel:(BaseDataModel *)model options:(NSDictionary*)params{
+
+}
 @end

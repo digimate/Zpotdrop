@@ -168,7 +168,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString* identifier = [self cellIdentiferForIndexPath:indexPath];
-    BaseTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    BaseTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     CGFloat height = [self tableView:tableView heightForRowAtIndexPath:indexPath];
     [cell addBorderWithFrame:CGRectMake(10, height - 1.0, cell.width-20, 1.0) color:COLOR_SEPEARATE_LINE];

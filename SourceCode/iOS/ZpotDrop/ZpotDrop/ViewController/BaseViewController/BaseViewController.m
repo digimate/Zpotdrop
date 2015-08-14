@@ -26,6 +26,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)registerAppBecomActiveNotification{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+-(void)appBecomeActive{
+
+}
+
+-(void)removeAppBecomActiveNotification{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
 -(void)registerKeyboardNotification{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];

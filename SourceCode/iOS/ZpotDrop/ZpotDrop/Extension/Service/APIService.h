@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
 #import <CoreLocation/CoreLocation.h>
+#import "Utils.h"
+
 typedef void(^dataResponse)(id data, NSString* error);
 
 @interface APIService : NSObject
@@ -39,4 +41,8 @@ typedef void(^dataResponse)(id data, NSString* error);
 -(void)addressFromLocationCoordinate:(CLLocationCoordinate2D)coor completion:(void(^)(NSString* address))completion;
 -(void)searchLocationWithName:(NSString*)name withinCoord:(CLLocationCoordinate2D)topLeft coor2:(CLLocationCoordinate2D)botRight completion:(void(^)(NSArray * data,NSString* error))completion;
 -(void)postZpotWithCoordinate:(CLLocationCoordinate2D)coor params:(NSMutableDictionary*)params completion:(void(^)(id data,NSString* error))completion;
+-(void)getFeedsFromServer:(void(^)(NSMutableArray* returnArray,NSString*error))completion;
+-(void)updateUserModelWithID:(NSString*)mid completion:(VoidBlock)completion;
+-(void)updateLocationModelWithID:(NSString*)mid completion:(VoidBlock)completion;
+-(void)postComment:(FeedCommentDataModel*)commentModel completion:(void(^)(BOOL isSuccess))completion;
 @end

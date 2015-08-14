@@ -25,7 +25,7 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    if ([AccountModel currentAccountModel].is_login) {
+    if ([[AccountModel currentAccountModel] isLoggedIn]) {
         [[NSNotificationCenter defaultCenter]removeObserver:self];
         
         MainViewController* mainViewC = [[MainViewController alloc]init];
@@ -39,7 +39,7 @@
 }
 
 -(void)loginSucceed{
-    [AccountModel currentAccountModel].is_login = YES;
+    [AccountModel currentAccountModel].access_token = @"1";
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 @end

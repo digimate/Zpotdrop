@@ -43,7 +43,7 @@
     self.navigationItem.rightBarButtonItem = notificationItem;
 
     //====================== LEFT MENU =========================
-    _leftMenuViewController = [[LeftMenuViewController alloc]init];
+    _leftMenuViewController = [LeftMenuViewController instance];
     _leftMenuViewController.delegate = self;
     _leftMenuViewController.view.frame = [UIScreen mainScreen].bounds;
     [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] addSubview:_leftMenuViewController.view];
@@ -246,7 +246,6 @@
     }else if ([clsString isEqualToString:NSStringFromClass([UserSettingViewController class])]){
         [self showSettingView];
     }
-    [self openMenu];
 }
 
 -(void)closeLeftMenu

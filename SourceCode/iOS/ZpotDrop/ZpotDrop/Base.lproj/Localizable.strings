@@ -19,6 +19,7 @@
 //MARK: - ***** D *****
 "drops" = "Drops";
 "dob" = "Date of birth";
+"delete" = "Delete";
 //MARK: - ***** E *****
 "error_title" = "We're sorry";
 "error_email_format" = "Your email is not correct format";
@@ -45,8 +46,12 @@
 "following" = "Following";
 "follow" = "Follow";
 "followed" = "Followed";
+"format_second_ago" = "%0.0lf sec ago";
+"format_min_ago" = "%0.0lf min ago";
+"format_hour_ago" = "%0.0lf hour ago";
 //MARK: - ***** H *****
 "hometown" = "Hometown";
+"hour" = "hour";
 //MARK: - ***** I *****
 "is_comming" = "is comming";
 //MARK: - ***** L *****
@@ -56,6 +61,7 @@
 "location_address" = "Location address";
 //MARK: - ***** M *****
 "male" = "Male";
+"minute" = "min";
 //MARK: - ***** N *****
 "no_zpotdrop_account" = "Not yet on zpotdrop?";
 "notice_input_email" = "Please enter your email";
@@ -78,6 +84,7 @@
 "privacy_policy" = "Privacy Policy";
 //MARK: - ***** R *****
 "request_zpot" = "Request zpot";
+"retry" = "Retry";
 //MARK: - ***** S *****
 "search" = "Search";
 "settings" = "Settings";
@@ -85,10 +92,13 @@
 "search_for_people" = "Search for people";
 "save" = "Save";
 "scan" = "Scan";
+"seconds" = "sec";
 //MARK: - ***** T *****
 "terms_of_use" = "Temp of Use";
 //MARK: - ***** W *****
 "welcome" = "Welcome to";
+//MARK: - ***** Y *****
+"yesterday" = "Yesterday";
 //MARK: - ***** Z *****
 "zpot_all" = "Zpot All";
 "zpot_all_usage" = "Now,click to zpot all your friends";

@@ -19,6 +19,8 @@
     UITableView* _tableView;
     NSInteger currentSelectedRow;
 }
++ (LeftMenuViewController *) instance;
+-(void)changeViewToClass:(NSString*)clsString;
 @property(nonatomic,readonly)UITableView* tableView;
 @property(nonatomic, weak)id<LeftMenuDelegate>delegate;
 @end

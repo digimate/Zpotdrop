@@ -15,5 +15,7 @@
 @dynamic message;
 @dynamic time;
 @dynamic user_id;
+@dynamic status;
+@dynamic feed_id;
 
 @end

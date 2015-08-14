@@ -10,6 +10,8 @@
 #import "Utils.h"
 #import "CreateLocationCell.h"
 #import "LocationDataModel.h"
+#import "LeftMenuViewController.h"
+#import "FeedZpotViewController.h"
 
 @interface PostZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,CLLocationManagerDelegate,MKMapViewDelegate,UISearchBarDelegate>{
     UIScrollView* _scrollViewContent;
@@ -131,11 +133,12 @@
         [[APIService shareAPIService]postZpotWithCoordinate:[Utils instance].mapView.userLocation.coordinate params:params completion:^(id data, NSString *error) {
             [[Utils instance]hideProgess];
             if (data) {
-                FeedDataModel* feedModel = (FeedDataModel*)data;
-                ZpotAnnotation *annotationPoint = [[ZpotAnnotation alloc] init];
-                [annotationPoint setCoordinate:CLLocationCoordinate2DMake([feedModel.latitude doubleValue], [feedModel.longitude doubleValue])];
-                [annotationPoint setTitle:feedModel.title];
-                [[[Utils instance] mapView] addAnnotation:annotationPoint];
+//                FeedDataModel* feedModel = (FeedDataModel*)data;
+//                ZpotAnnotation *annotationPoint = [[ZpotAnnotation alloc] init];
+//                [annotationPoint setCoordinate:CLLocationCoordinate2DMake([feedModel.latitude doubleValue], [feedModel.longitude doubleValue])];
+//                [annotationPoint setTitle:feedModel.title];
+//                [[[Utils instance] mapView] addAnnotation:annotationPoint];
+                [[LeftMenuViewController instance]changeViewToClass:NSStringFromClass([FeedZpotViewController class])];
             }else{
                 [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
                 }];
@@ -173,7 +176,7 @@
         [[Utils instance].mapView setShowsUserLocation:YES];
         [[Utils instance].mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
     }
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [self removeAppBecomActiveNotification];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -185,7 +188,7 @@
     [self removeOpenRightMenuNotification];
     [[Utils instance] mapView].delegate = nil;
     [[Utils instance].mapView setShowsUserLocation:NO];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    [self removeAppBecomActiveNotification];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -230,7 +233,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == searchLocationResults.count) {
-        CreateLocationCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CreateLocationCell class])];
+        CreateLocationCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([CreateLocationCell class]) forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.onCreateLocationPressed = ^(NSString* name,NSString* address){
             if (![Utils instance].mapView.userLocationVisible ||  !CLLocationCoordinate2DIsValid([Utils instance].mapView.userLocation.coordinate)) {

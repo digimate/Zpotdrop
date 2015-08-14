@@ -7,6 +7,8 @@
     <customFonts key="customFonts">
         <mutableArray key="PTS55F.ttf">
             <string>PTSans-Regular</string>
+            <string>PTSans-Regular</string>
+            <string>PTSans-Regular</string>
         </mutableArray>
         <mutableArray key="PTS56F.ttf">
             <string>PTSans-Italic</string>
@@ -56,9 +58,58 @@
                         <color key="textColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.66274509800000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OGS-i9-Gxh">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IYd-up-qIk" customClass="SCSkypeActivityIndicatorView">
+                                <rect key="frame" x="135" y="3" width="50" height="50"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Dx1-rf-nrX"/>
+                                    <constraint firstAttribute="width" constant="50" id="P6Y-Fe-9St"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ewV-1d-n89">
+                                <rect key="frame" x="50" y="13" width="100" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="jDB-tv-tVs"/>
+                                    <constraint firstAttribute="width" constant="100" id="v8M-8I-WFX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="15"/>
+                                <state key="normal" title="Retry">
+                                    <color key="titleColor" red="0.4549019608" green="0.75294117650000003" blue="0.3803921569" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yn5-2q-PfX">
+                                <rect key="frame" x="170" y="13" width="100" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="WK7-Ef-ypV"/>
+                                    <constraint firstAttribute="width" constant="100" id="l1l-qE-6Gn"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="15"/>
+                                <state key="normal" title="Delete">
+                                    <color key="titleColor" red="0.87058830259999997" green="0.16078431900000001" blue="0.094117656349999995" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.70000000000000007" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="IYd-up-qIk" secondAttribute="centerY" id="Bdx-TL-Yge"/>
+                            <constraint firstItem="Yn5-2q-PfX" firstAttribute="leading" secondItem="ewV-1d-n89" secondAttribute="trailing" constant="20" id="FTQ-3D-IeW"/>
+                            <constraint firstAttribute="centerX" secondItem="ewV-1d-n89" secondAttribute="centerX" constant="60" id="JKT-bx-2sK"/>
+                            <constraint firstAttribute="centerY" secondItem="Yn5-2q-PfX" secondAttribute="centerY" id="VXr-5Z-JAu"/>
+                            <constraint firstAttribute="centerY" secondItem="ewV-1d-n89" secondAttribute="centerY" id="gXp-RA-uSi"/>
+                            <constraint firstAttribute="centerX" secondItem="IYd-up-qIk" secondAttribute="centerX" id="tin-El-eot"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="gih-IJ-RkI" firstAttribute="leading" secondItem="HhF-Of-ErC" secondAttribute="trailing" constant="8" id="0B1-lh-PZV"/>
+                    <constraint firstItem="OGS-i9-Gxh" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="0xS-Xw-bGT"/>
+                    <constraint firstAttribute="bottom" secondItem="OGS-i9-Gxh" secondAttribute="bottom" id="6lG-cX-CP7"/>
                     <constraint firstAttribute="trailing" secondItem="gih-IJ-RkI" secondAttribute="trailing" constant="8" id="BPY-vR-Wcz"/>
                     <constraint firstAttribute="bottom" secondItem="HhF-Of-ErC" secondAttribute="bottom" constant="7" id="HSc-x3-Sti"/>
                     <constraint firstItem="vmy-Ly-yOk" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="L31-Tu-XqN"/>
@@ -67,15 +118,21 @@
                     <constraint firstAttribute="trailing" secondItem="vmy-Ly-yOk" secondAttribute="trailing" constant="8" id="S7q-Ho-Fci"/>
                     <constraint firstItem="gih-IJ-RkI" firstAttribute="top" secondItem="vmy-Ly-yOk" secondAttribute="bottom" constant="5" id="bJ4-uz-CtJ"/>
                     <constraint firstItem="Nw3-R1-cuz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="bnQ-BE-lUH"/>
+                    <constraint firstAttribute="trailing" secondItem="OGS-i9-Gxh" secondAttribute="trailing" id="dEJ-Fd-pyl"/>
+                    <constraint firstItem="OGS-i9-Gxh" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="fCE-YY-0J7"/>
                     <constraint firstItem="HhF-Of-ErC" firstAttribute="leading" secondItem="Nw3-R1-cuz" secondAttribute="trailing" constant="8" id="iGZ-8e-3A9"/>
                     <constraint firstItem="HhF-Of-ErC" firstAttribute="top" secondItem="vmy-Ly-yOk" secondAttribute="bottom" constant="3" id="rwj-Ha-cQj"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="_btnDelete" destination="Yn5-2q-PfX" id="gx9-Ub-7aR"/>
+                <outlet property="_btnRetry" destination="ewV-1d-n89" id="laf-g9-uFm"/>
                 <outlet property="_imgvAvatar" destination="Nw3-R1-cuz" id="uSR-a6-q2K"/>
+                <outlet property="_indicatorView" destination="IYd-up-qIk" id="FQW-Y0-Vbe"/>
                 <outlet property="_lblMessage" destination="HhF-Of-ErC" id="Ti6-J0-nSJ"/>
                 <outlet property="_lblName" destination="vmy-Ly-yOk" id="YYe-JW-a9P"/>
                 <outlet property="_lblTime" destination="gih-IJ-RkI" id="XJk-B6-SFK"/>
+                <outlet property="_viewSending" destination="OGS-i9-Gxh" id="vQL-hn-PoM"/>
             </connections>
             <point key="canvasLocation" x="272" y="332.5"/>
         </tableViewCell>

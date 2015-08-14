@@ -26,6 +26,15 @@
 
 @implementation LeftMenuViewController
 @synthesize tableView = _tableView;
++ (LeftMenuViewController *) instance {
+    static LeftMenuViewController *_sharedInstance = nil;
+    static dispatch_once_t oncePredicate;
+    dispatch_once(&oncePredicate, ^{
+        _sharedInstance = [[LeftMenuViewController alloc] init];
+    });
+    return _sharedInstance;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
@@ -93,6 +102,25 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+}
+
+-(void)changeViewToClass:(NSString*)clsString{
+    if ([clsString isEqualToString:NSStringFromClass([PostZpotViewController class])]) {
+        currentSelectedRow = 1;
+        [self.delegate leftmenuChangeViewToClass:NSStringFromClass([PostZpotViewController class])];
+    }else if ([clsString isEqualToString:NSStringFromClass([FeedZpotViewController class])]) {
+        currentSelectedRow = 2;
+        [self.delegate leftmenuChangeViewToClass:NSStringFromClass([FeedZpotViewController class])];
+    }else if ([clsString isEqualToString:NSStringFromClass([FindZpotViewController class])]) {
+        currentSelectedRow = 3;
+        [self.delegate leftmenuChangeViewToClass:NSStringFromClass([FindZpotViewController class])];
+    }else if ([clsString isEqualToString:NSStringFromClass([SearchViewController class])]) {
+        currentSelectedRow = 4;
+        [self.delegate leftmenuChangeViewToClass:NSStringFromClass([SearchViewController class])];
+    }else if ([clsString isEqualToString:NSStringFromClass([UserSettingViewController class])]) {
+        currentSelectedRow = 5;
+        [self.delegate leftmenuChangeViewToClass:NSStringFromClass([UserSettingViewController class])];
+    }
 }
 #pragma mark - Table view data source
 
@@ -181,8 +209,10 @@
         }else if (currentSelectedRow == 5) {
             [self.delegate leftmenuChangeViewToClass:NSStringFromClass([UserSettingViewController class])];
         }
+        [self.delegate closeLeftMenu];
     }else{
         [self.delegate leftmenuChangeViewToClass:nil];
+        [self.delegate closeLeftMenu];
     }
 }
 @end

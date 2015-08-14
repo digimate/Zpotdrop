@@ -19,4 +19,7 @@
 @property (nonatomic, retain) NSString * email;
 @property (nonatomic, retain) NSDate * birthday;
 @property (nonatomic, retain) NSNumber* gender;
+
+-(NSString*)name;
+
 @end

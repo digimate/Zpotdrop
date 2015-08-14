@@ -29,4 +29,7 @@
 -(void)removeOpenRightMenuNotification;
 -(void)rightMenuOpened;
 - (NSLayoutConstraint *)constraintForAttribute:(NSLayoutAttribute)attribute firstItem:(id)first secondItem:(id)second;
+-(void)registerAppBecomActiveNotification;
+-(void)appBecomeActive;
+-(void)removeAppBecomActiveNotification;
 @end

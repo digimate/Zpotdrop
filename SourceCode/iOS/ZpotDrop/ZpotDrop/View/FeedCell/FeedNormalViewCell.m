@@ -8,6 +8,8 @@
 
 #import "FeedNormalViewCell.h"
 #import "Utils.h"
+#import "UserDataModel.h"
+#import "LocationDataModel.h"
 
 @implementation FeedNormalViewCell
 
@@ -35,14 +37,34 @@
 }
 
 -(void)setupCellWithData:(BaseDataModel *)data andOptions:(NSDictionary *)param{
-    _lblName.text = @"Alex Stone";
-    _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
-    _lblZpotAddress.text = @"Villandry - StJames's";
-    _lblZpotTitle.text = @"Brunch with mom.";
-    _lblZpotTime.text = @"10 min ago";
-    _lblSpotDistance.text = @"234 m";
-    _lblNumberComments.text = @"0";
-    _lblNumberLikes.text = @"3";
+    if ([data isKindOfClass:[FeedDataModel class]]) {
+        FeedDataModel* feedData = (FeedDataModel*)data;
+        self.dataModel = data;
+        self.dataModel.dataDelegate = self;
+        if (feedData.user_id != nil && feedData.user_id.length > 0) {
+            UserDataModel* poster = (UserDataModel*)[UserDataModel fetchObjectWithID:feedData.user_id];
+            [poster updateObjectForUse:^{
+                _lblName.text = poster.name;
+            }];
+        }
+        if (feedData.location_id != nil && feedData.location_id.length > 0) {
+            LocationDataModel* location = (LocationDataModel*)[LocationDataModel fetchObjectWithID:feedData.location_id];
+            [location updateObjectForUse:^{
+                _lblZpotAddress.text = [NSString stringWithFormat:@"%@-%@",location.name,location.address];
+            }];
+        }
+        _lblZpotTitle.text = feedData.title;
+        _lblZpotTime.text = [[Utils instance]convertDateToRecent:feedData.time];
+        if ([Utils instance].isGPS) {
+            _lblSpotDistance.text = [[Utils instance] distanceBetweenCoor:CLLocationCoordinate2DMake([feedData.latitude doubleValue], [feedData.longitude doubleValue]) andCoor:[Utils instance].locationManager.location.coordinate];
+
+        }
+        _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
+        _lblNumberComments.text = feedData.comment_count.description;
+        _lblNumberLikes.text = feedData.like_count.description;
+    }
+    
+   
     
     CGSize s = [_lblNumberComments sizeThatFits:CGSizeMake(MAXFLOAT, _lblNumberComments.height)];
     _lblNumberCommentsWidth.constant = ceilf(s.width);
@@ -65,6 +87,10 @@
         _lblNumberComments.hidden = NO;
     }
     _btnComment.selected = !_lblNumberComments.hidden;
+}
+
+-(void)updateUIForDataModel:(BaseDataModel *)model options:(NSDictionary*)params{
+    [self setupCellWithData:model andOptions:params];
 }
 
 +(CGFloat)cellHeightWithData:(BaseDataModel *)data{

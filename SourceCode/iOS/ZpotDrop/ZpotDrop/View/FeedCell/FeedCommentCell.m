@@ -20,6 +20,8 @@
     _lblName.textColor = COLOR_DARK_GREEN;
     _lblName.text = _lblMessage.text = _lblTime.text = nil;
     _lblName.numberOfLines = 0;
+    [_btnDelete setTitle:@"delete".localized forState:UIControlStateNormal];
+    [_btnRetry setTitle:@"retry".localized forState:UIControlStateNormal];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -29,10 +31,61 @@
 }
 
 -(void)setupCellWithData:(BaseDataModel *)data andOptions:(NSDictionary *)param{
-    _lblMessage.text = @"Happy birthday Alex!!! Happy birthday Alex!!!";
-    _lblTime.text = @"3 min ago";
-    _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
-    _lblName.text = @"Sonny Truong";
+    if ([data isKindOfClass:[FeedCommentDataModel class]]) {
+        FeedCommentDataModel* feedComment = (FeedCommentDataModel*)data;
+        self.dataModel = data;
+        data.dataDelegate = self;
+        _lblMessage.text = @"Happy birthday Alex!!! Happy birthday Alex!!!";
+        _lblTime.text = @"3 min ago";
+        _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
+        _lblName.text = @"Sonny Truong";
+        
+        if ([feedComment.status isEqualToString:STATUS_SENDING]) {
+            [_indicatorView setBubbleColor:COLOR_DARK_GREEN];
+            [_indicatorView setNumberOfBubbles:4];
+            [_indicatorView setBubbleSize:CGSizeMake(8, 8)];
+            [_indicatorView startAnimating];
+            _btnRetry.hidden = _btnDelete.hidden = YES;
+            _viewSending.hidden = NO;
+            _indicatorView.hidden = NO;
+        }else if([feedComment.status isEqualToString:STATUS_ERROR]){
+            _btnRetry.hidden = _btnDelete.hidden = NO;
+            _viewSending.hidden = NO;
+            _indicatorView.hidden = YES;
+            [_indicatorView stopAnimating];
+        }else{
+            _btnRetry.hidden = _btnDelete.hidden = YES;
+            _viewSending.hidden = YES;
+            _indicatorView.hidden = YES;
+            [_indicatorView stopAnimating];
+        }
+        
+    }
+}
+
+-(void)updateUIForDataModel:(BaseDataModel *)model options:(NSDictionary *)params{
+    if (params != nil && [[params allKeys] containsObject:@"status"]) {
+        FeedCommentDataModel* feedComment = (FeedCommentDataModel*)self.dataModel;
+        if ([feedComment.status isEqualToString:STATUS_SENDING]) {
+            [_indicatorView setBubbleColor:COLOR_DARK_GREEN];
+            [_indicatorView setNumberOfBubbles:4];
+            [_indicatorView setBubbleSize:CGSizeMake(8, 8)];
+            [_indicatorView startAnimating];
+            _btnRetry.hidden = _btnDelete.hidden = YES;
+            _viewSending.hidden = NO;
+            _indicatorView.hidden = NO;
+        }else if([feedComment.status isEqualToString:STATUS_ERROR]){
+            _btnRetry.hidden = _btnDelete.hidden = NO;
+            _viewSending.hidden = NO;
+            _indicatorView.hidden = YES;
+            [_indicatorView stopAnimating];
+        }else{
+            _btnRetry.hidden = _btnDelete.hidden = YES;
+            _viewSending.hidden = YES;
+            _indicatorView.hidden = YES;
+            [_indicatorView stopAnimating];
+        }
+    }
 }
 
 +(CGFloat)cellHeightWithData:(BaseDataModel *)data{

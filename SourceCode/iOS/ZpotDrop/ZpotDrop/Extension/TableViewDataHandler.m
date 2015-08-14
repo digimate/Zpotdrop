@@ -6,40 +6,58 @@
 //  Copyright (c) 2015 zpotdrop. All rights reserved.
 //
 
-#import "TableViewInsertDataHandler.h"
+#import "TableViewDataHandler.h"
 
-@implementation TableViewInsertDataHandler
+@implementation TableViewDataHandler
 -(instancetype)init{
     self = [super init];
     waitingData = [NSMutableArray array];
-    canInsert = YES;
+    canExcute = YES;
     self.addOnTop = YES;
     return self;
 }
--(void)handleInsertData:(NSMutableArray *)array ofTableView:(UITableView *)tableView{
+-(void)handleData:(NSMutableArray *)array ofTableView:(UITableView *)tableView{
     self.tableData = array;
     self.tableView = tableView;
 }
 
--(void)insertData:(id)data{
-    if (canInsert) {
-        if (self.addOnTop) {
-            [self.tableData insertObject:data atIndex:0];
-            [self beginReloadData:[NSMutableArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]];
+-(void)insertData:(id)dataInsert{
+    if (canExcute) {
+        if ([dataInsert isKindOfClass:[NSArray class]] || [dataInsert isKindOfClass:[NSMutableArray class]]) {
+            NSArray* array = (NSArray*)dataInsert;
+            NSMutableArray* indexPaths = [NSMutableArray array];
+            for (int i = 0; i < array.count; i++) {
+                id data = [array objectAtIndex:(array.count - i -1)];
+                if (self.addOnTop) {
+                    [self.tableData insertObject:data atIndex:0];
+                    NSIndexPath* indexPath = [NSIndexPath indexPathForRow:array.count - i -1 inSection:0];
+                    [indexPaths addObject:indexPath];
+                }else{
+                    [self.tableData addObject:data];
+                    NSIndexPath* indexPath = [NSIndexPath indexPathForRow:self.tableData.count-1 inSection:0];
+                    [indexPaths addObject:indexPath];
+                }
+            }
         }else{
-            [self.tableData addObject:data];
-            [self beginReloadData:[NSMutableArray arrayWithObject:[NSIndexPath indexPathForRow:self.tableData.count-1 inSection:0]]];
+            if (self.addOnTop) {
+                [self.tableData insertObject:dataInsert atIndex:0];
+                [self beginReloadData:[NSMutableArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]];
+            }else{
+                [self.tableData addObject:dataInsert];
+                [self beginReloadData:[NSMutableArray arrayWithObject:[NSIndexPath indexPathForRow:self.tableData.count-1 inSection:0]]];
+            }
         }
+        
         
     }else{
         @synchronized(waitingData)
         {
-            [waitingData addObject:data];
+            [waitingData addObject:dataInsert];
         }
     }
 }
 -(void)beginReloadData:(NSMutableArray*)indexPaths{
-    canInsert = NO;
+    canExcute = NO;
     if (self.addOnTop) {
         [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
     }else{
@@ -49,7 +67,7 @@
 }
 
 -(void)resetFlag{
-    canInsert = YES;
+    canExcute = YES;
     @synchronized(waitingData)
     {
         if (waitingData.count > 0) {

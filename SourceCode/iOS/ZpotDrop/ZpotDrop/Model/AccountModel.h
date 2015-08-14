@@ -12,8 +12,10 @@
 
 @interface AccountModel : BaseDataModel
 
-@property (nonatomic) BOOL is_login;
+-(BOOL)isLoggedIn;
 
 +(AccountModel*)currentAccountModel;
+@property (nonatomic) NSString* access_token;
+@property (nonatomic) NSString* user_id;
 
 @end

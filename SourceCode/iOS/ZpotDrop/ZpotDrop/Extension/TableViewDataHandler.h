@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface TableViewInsertDataHandler : NSObject{
+@interface TableViewDataHandler : NSObject{
     NSMutableArray* waitingData;
-    BOOL canInsert;
+    BOOL canExcute;
 }
 @property(atomic,weak)NSMutableArray* tableData;
 @property(atomic,weak)UITableView* tableView;
 @property(nonatomic, assign)BOOL addOnTop;
--(void)handleInsertData:(NSMutableArray*)array ofTableView:(UITableView*)tableView;
+-(void)handleData:(NSMutableArray*)array ofTableView:(UITableView*)tableView;
 -(void)insertData:(id)data;
 @end

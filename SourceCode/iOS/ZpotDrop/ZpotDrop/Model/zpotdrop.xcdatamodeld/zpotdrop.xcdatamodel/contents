@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14B17" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AccountModel" representedClassName="AccountModel" syncable="YES">
-        <attribute name="is_login" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="access_token" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="user_id" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="FeedCommentDataModel" representedClassName="FeedCommentDataModel" syncable="YES">
+        <attribute name="feed_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="user_id" optional="YES" attributeType="String" syncable="YES"/>
@@ -41,8 +44,8 @@
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="AccountModel" positionX="-63" positionY="9" width="128" height="75"/>
-        <element name="FeedCommentDataModel" positionX="-63" positionY="9" width="128" height="120"/>
+        <element name="AccountModel" positionX="-63" positionY="9" width="128" height="90"/>
+        <element name="FeedCommentDataModel" positionX="-63" positionY="9" width="128" height="150"/>
         <element name="FeedDataModel" positionX="-54" positionY="18" width="128" height="195"/>
         <element name="LocationDataModel" positionX="-54" positionY="72" width="128" height="120"/>
         <element name="UserDataModel" positionX="-63" positionY="-18" width="128" height="165"/>

@@ -8,7 +8,6 @@
 
 #import "APIService.h"
 #import <Parse/Parse.h>
-#import "Utils.h"
 #import "UserDataModel.h"
 #import "CoreDataService.h"
 #import "LocationDataModel.h"
@@ -72,6 +71,7 @@
 
 -(void)searchLocationWithName:(NSString*)name withinCoord:(CLLocationCoordinate2D)topLeft coor2:(CLLocationCoordinate2D)botRight completion:(void(^)(NSArray * data,NSString* error))completion{
     PFQuery* query = [PFQuery queryWithClassName:@"Location" predicate:[NSPredicate predicateWithFormat:@"name BEGINSWITH %@ AND %@ <= latitude AND latitude <= %@ AND %@ <= longitude AND longitude <= %@",name,[NSNumber numberWithDouble:botRight.latitude],[NSNumber numberWithDouble:topLeft.latitude],[NSNumber numberWithDouble:topLeft.longitude],[NSNumber numberWithDouble:botRight.longitude]]];
+    [query setLimit:API_PAGE];
     [query findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
         for (PFObject* location in data) {
             LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:location.objectId];
@@ -108,6 +108,29 @@
     }];
 }
 
+-(void)getFeedsFromServer:(void(^)(NSMutableArray* returnArray,NSString*error))completion{
+    PFQuery* query = [PFQuery queryWithClassName:@"Post"];
+    [query setLimit:API_PAGE];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
+        if (data) {
+            NSMutableArray* returnArray = [NSMutableArray array];
+            for (PFObject* feedParse in data) {
+                FeedDataModel* feedModel = (FeedDataModel*)[FeedDataModel fetchObjectWithID:feedParse.objectId];
+                feedModel.title = feedParse[@"title"];
+                feedModel.time = feedParse.createdAt;
+                feedModel.latitude = feedParse[@"latitude"];
+                feedModel.longitude = feedParse[@"longitude"];
+                feedModel.user_id = feedParse[@"user_id"];
+                feedModel.location_id = feedParse[@"location_id"];
+                [returnArray addObject:feedModel];
+            }
+            completion(returnArray,nil);
+        }else{
+            completion([NSMutableArray array],error.description);
+        }
+    }];
+}
+
 #pragma mark - Account
 -(void)checkIsExistUsername:(NSString*)username completion:(void(^)(BOOL isExist))completion{
     [self fetchUserWithUsername:username callback:^(PFObject *user, NSString *error) {
@@ -138,6 +161,7 @@
             userModel.last_name = user[@"lastName"];
             userModel.gender = user[@"gender"];
             userModel.birthday = user[@"dob"];
+            [AccountModel currentAccountModel].user_id = userModel.mid;
             [[CoreDataService instance]saveContext];
             response(userModel, error.localizedDescription);
         }else{
@@ -159,6 +183,7 @@
             userModel.last_name = user[@"lastName"];
             userModel.gender = user[@"gender"];
             userModel.birthday = user[@"dob"];
+            [AccountModel currentAccountModel].user_id = userModel.mid;
             [[CoreDataService instance]saveContext];
             response(userModel, error.localizedDescription);
         }
@@ -181,6 +206,60 @@
         }else{
             callback(nil,error.description);
         }
+    }];
+}
+
+#pragma mark - DataModel
+-(void)updateUserModelWithID:(NSString*)mid completion:(VoidBlock)completion{
+    PFQuery *query = [PFUser query];
+    [query whereKey:@"objectId" equalTo: mid];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        for (PFUser* user in objects) {
+            UserDataModel* userModel = (UserDataModel*)[UserDataModel fetchObjectWithID:user.objectId];
+            userModel.email = user.email;
+            userModel.username = user.username;
+            userModel.first_name = user[@"firstName"];
+            userModel.last_name = user[@"lastName"];
+            userModel.gender = user[@"gender"];
+            userModel.birthday = user[@"dob"];
+            [[CoreDataService instance]saveContext];
+        }
+        completion();
+    }];
+}
+-(void)updateLocationModelWithID:(NSString*)mid completion:(VoidBlock)completion{
+    PFQuery *query = [PFQuery queryWithClassName:@"Location"];
+    [query whereKey:@"objectId" equalTo: mid];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        for (PFObject* location in objects) {
+            LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:location.objectId];
+            model.name = location[@"name"];
+            model.address = location[@"address"];
+            model.latitude = location[@"latitude"];
+            model.longitude = location[@"longitude"];
+        }
+        [[CoreDataService instance]saveContext];
+        completion();
+    }];
+}
+
+#pragma mark - Commment
+-(void)postComment:(FeedCommentDataModel*)commentModel completion:(void(^)(BOOL isSuccess))completion{
+    PFObject* location = [PFObject objectWithClassName:@"Comment"];
+    location[@"content"] = commentModel.message;
+    location[@"post_id"] = commentModel.feed_id;
+    location[@"user_id"] = commentModel.user_id;
+    location[@"type"] = commentModel.type;
+    [location saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+        if (succeeded) {
+            commentModel.mid = location.objectId;
+            commentModel.status = STATUS_DELIVER;
+            commentModel.time = location.createdAt;
+        }else{
+            commentModel.status = STATUS_ERROR;
+        }
+        [[CoreDataService instance]saveContext];
+        completion(succeeded);
     }];
 }
 @end

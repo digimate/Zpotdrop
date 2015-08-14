@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BaseTableViewCell.h"
 #import <MapKit/MapKit.h>
-#import "TableViewInsertDataHandler.h"
+#import "TableViewDataHandler.h"
 
 @interface FeedSelectedViewCell : BaseTableViewCell<MKMapViewDelegate,UITableViewDataSource,UITableViewDelegate>{
     IBOutlet UIImageView* _imgvAvatar;
@@ -21,7 +21,7 @@
     IBOutlet UITableView* _tableViewComments;
     IBOutlet UIButton* _btnComming;
     NSMutableArray* _commentsData;
-    TableViewInsertDataHandler* insertHandler;
+    TableViewDataHandler* insertHandler;
 }
 -(void)addComment:(BaseDataModel*)data;
 @end

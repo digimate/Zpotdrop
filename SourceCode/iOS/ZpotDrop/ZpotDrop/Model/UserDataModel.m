@@ -7,7 +7,7 @@
 //
 
 #import "UserDataModel.h"
-
+#import "APIService.h"
 
 @implementation UserDataModel
 
@@ -25,4 +25,17 @@
     self.email = @"";
 }
 
+-(NSString *)name{
+    return [NSString stringWithFormat:@"%@ %@",self.first_name,self.last_name];
+}
+
+-(void)updateObjectForUse:(void(^)())completion{
+    if (self.username == nil || self.username.length == 0) {
+        [[APIService shareAPIService] updateUserModelWithID:self.mid completion:^{
+            completion();
+        }];
+    }else{
+        completion();
+    }
+}
 @end

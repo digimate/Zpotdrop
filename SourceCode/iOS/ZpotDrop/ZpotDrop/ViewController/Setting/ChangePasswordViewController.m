@@ -86,7 +86,7 @@
     return [ChangePasswordViewCell cellHeightWithData:nil];
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    ChangePasswordViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ChangePasswordViewCell class])];
+    ChangePasswordViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ChangePasswordViewCell class]) forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell setupCellWithData:nil andOptions:nil];
     return cell;

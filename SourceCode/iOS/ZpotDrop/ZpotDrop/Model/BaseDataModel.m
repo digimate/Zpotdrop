@@ -11,6 +11,7 @@
 
 @implementation BaseDataModel
 @dynamic mid;
+@synthesize dataDelegate;
 
 //fetch object with unique MID
 +(BaseDataModel*)fetchObjectWithID:(NSString*)mid{
@@ -25,5 +26,8 @@
 
 +(NSArray*)fetchObjectsWithPredicate:(NSPredicate*)predicate sorts:(NSArray*)sorts{
     return [[CoreDataService instance]fetchEntitiesForName:NSStringFromClass([self class]) predicate:predicate sortDescriptors:sorts];
+}
+-(void)updateObjectForUse:(void (^)())completion{
+    completion();
 }
 @end

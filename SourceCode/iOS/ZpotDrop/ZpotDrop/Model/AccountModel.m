@@ -11,11 +11,22 @@
 
 @implementation AccountModel
 
-@dynamic is_login;
+@dynamic access_token;
+@dynamic user_id;
+
 -(void)awakeFromInsert{
     [super awakeFromInsert];
-    self.is_login = NO;
+    self.access_token = @"";
+    self.user_id = @"";
 }
+
+-(BOOL)isLoggedIn{
+    if (self.access_token.length > 0) {
+        return YES;
+    }
+    return NO;
+}
+
 +(AccountModel *)currentAccountModel{
     AccountModel* account = (AccountModel*)[[CoreDataService instance]fetchFirstEntityForName:NSStringFromClass([AccountModel class]) predicate:[NSPredicate predicateWithFormat:@"mid == %@",@"zspotdrop6969"] sortDescriptors:nil];
     if (!account) {

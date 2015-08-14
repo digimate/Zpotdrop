@@ -17,8 +17,8 @@
     UIButton* _btnSendComment;
     NSMutableArray* _feedData;
     UILabel* lblHolder;
-    id selectedData;
-    TableViewInsertDataHandler* insertDataHandler;
+    FeedDataModel* selectedData;
+    TableViewDataHandler* insertDataHandler;
     NSLayoutConstraint* mLayoutComposeHeight;
     NSLayoutConstraint* mLayoutBottom;
     FeedSelectedViewCell* feedSelectedCell;
@@ -38,7 +38,7 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     /*============Feed TableView============*/
-    _feedData = [NSMutableArray arrayWithArray:@[@"1",@"2",@"3"]];
+    _feedData = [NSMutableArray array];
     _feedTableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStylePlain];
     _feedTableView.translatesAutoresizingMaskIntoConstraints = NO;
     _feedTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -121,27 +121,73 @@
     mLayoutComposeHeight = [self constraintForAttribute:NSLayoutAttributeHeight firstItem:_commentPostView secondItem:nil];
     mLayoutComposeHeight.constant = 0;
     mLayoutBottom = [self constraintForAttribute:NSLayoutAttributeBottom firstItem:self.view secondItem:_commentPostView];
+    
+    [self getFeedsFromServer];
+}
+
+-(void)loadFeedsFromLocal:(void(^)(NSMutableArray* returnArray))completion{
+    NSMutableArray* returnArray = [NSMutableArray array];
+    [returnArray addObjectsFromArray:[FeedDataModel fetchObjectsWithPredicate:nil sorts:nil]];
+    completion(returnArray);
+}
+
+-(void)getFeedsFromServer{
+    [[Utils instance]showProgressWithMessage:nil];
+    [[APIService shareAPIService]getFeedsFromServer:^(NSMutableArray *returnArray, NSString *error) {
+        [[Utils instance]hideProgess];
+        if (error) {
+            [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            }];
+        }else{
+//            for (FeedDataModel* feedModel in returnArray) {
+//                if (![_feedData containsObject:feedModel]) {
+//                    [_feedData addObject:feedModel];
+//                }
+//            }
+//            [_feedTableView reloadData];
+            [self loadFeedsFromLocal:^(NSMutableArray *returnArray) {
+                [_feedData addObjectsFromArray:returnArray];
+                [_feedTableView reloadData];
+            }];
+        }
+    }];
 }
 
 -(void)closeKeyboard{
     [_tvComment resignFirstResponder];
 }
 
+-(void)appBecomeActive{
+    //check GPS
+    if (![Utils instance].isGPS) {
+        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_no_gps".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        }];
+    }
+}
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     if (!insertDataHandler) {
-        insertDataHandler = [[TableViewInsertDataHandler alloc]init];
-        [insertDataHandler handleInsertData:_feedData ofTableView:_feedTableView];
+        insertDataHandler = [[TableViewDataHandler alloc]init];
+        [insertDataHandler handleData:_feedData ofTableView:_feedTableView];
     }
+    [self registerAppBecomActiveNotification];
     [self registerKeyboardNotification];
     [self registerOpenLeftMenuNotification];
     [self registerOpenRightMenuNotification];
+    
+    //check GPS
+    if (![Utils instance].isGPS) {
+        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_no_gps".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        }];
+    }
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self removeKeyboardNotification];
     [self removeOpenLeftMenuNotification];
     [self removeOpenRightMenuNotification];
+    [self removeAppBecomActiveNotification];
 }
 -(void)insertNewFeedInTable:(id)data{
     [insertDataHandler insertData:data];
@@ -153,10 +199,34 @@
     [self closeKeyboard];
 }
 -(void)addComment:(UIButton*)sender{
-    [_tvComment setText:@""];
-    [self textViewDidChange:_tvComment];
     if (feedSelectedCell != nil) {
-        [feedSelectedCell addComment:nil];
+        FeedCommentDataModel* comment = (FeedCommentDataModel*)[FeedCommentDataModel fetchObjectWithID:[[NSDate date] string]];
+        comment.message = _tvComment.text;
+        comment.feed_id = selectedData.mid;
+        comment.user_id = [AccountModel currentAccountModel].user_id;
+        comment.status = STATUS_SENDING;
+        comment.type = TYPE_COMMENT;
+        comment.time = [NSDate date];
+        [feedSelectedCell addComment:comment];
+        [_tvComment setText:@""];
+        [self textViewDidChange:_tvComment];
+        [[APIService shareAPIService]postComment:comment completion:^(BOOL isSuccess) {
+            [comment.dataDelegate updateUIForDataModel:comment options:@{@"status":@""}];
+        }];
+    }
+}
+
+
+-(void)moveToSelectedCell{
+    if (feedSelectedCell) {
+        if (feedSelectedCell.height < _feedTableView.height) {
+            [_feedTableView setContentOffset:CGPointMake(0, feedSelectedCell.y) animated:YES];
+        }else{
+            [_feedTableView setContentOffset:CGPointMake(0, feedSelectedCell.y + (feedSelectedCell.height - _feedTableView.height)) animated:YES];
+        }
+        //        NSInteger row = [_feedData indexOfObject:selectedData];
+        //        [_feedTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        
     }
 }
 #pragma mark - UITableViewDelegate & UITableViewDatasource
@@ -177,9 +247,12 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    FeedDataModel* model = [_feedData objectAtIndex:indexPath.row];
     NSString* identifier = [self cellIdentiferForIndexPath:indexPath];
-    BaseTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    [cell setupCellWithData:nil andOptions:nil];
+    BaseTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+    cell.dataModel.dataDelegate = nil;
+    cell.dataModel = nil;
+    [cell setupCellWithData:model andOptions:nil];
     if (selectedData) {
         if ([identifier isEqualToString:NSStringFromClass([FeedSelectedViewCell class])]) {
             feedSelectedCell = (FeedSelectedViewCell*)cell;
@@ -216,6 +289,9 @@
         }
         selectedData = data;
         mLayoutComposeHeight.constant = 40;
+        if (_tvComment.isFirstResponder) {
+            [self moveToSelectedCell];
+        }
     }
     [tableView reloadRowsAtIndexPaths:reloadIndexPaths withRowAnimation:UITableViewRowAnimationMiddle];
 }
@@ -258,12 +334,11 @@
     mLayoutBottom.constant = frame.size.height;
     [UIView animateWithDuration:0.3 animations:^{
         [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        [self moveToSelectedCell];
     }];
-    if (selectedData) {
-        NSInteger row = [_feedData indexOfObject:selectedData];
-        [_feedTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    }
 }
+
 -(void)keyboardHide:(CGRect)frame{
     mLayoutBottom.constant = 0;
     [UIView animateWithDuration:0.3 animations:^{

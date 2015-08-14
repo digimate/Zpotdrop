@@ -10,6 +10,8 @@
 #import "Utils.h"
 #import "FeedCommentCell.h"
 #import "FeedCommentNotifyCell.h"
+#import "UserDataModel.h"
+#import "LocationDataModel.h"
 
 @implementation FeedSelectedViewCell
 
@@ -36,7 +38,7 @@
     _tableViewComments.delegate = self;
     _tableViewComments.dataSource = self;
     
-    insertHandler = [[TableViewInsertDataHandler alloc]init];
+    insertHandler = [[TableViewDataHandler alloc]init];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -46,12 +48,31 @@
 }
 
 -(void)setupCellWithData:(BaseDataModel *)data andOptions:(NSDictionary *)param{
-    _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
-    _lblName.text = @"Alex Stone";
-    _lblZpotAddress.text = @"Villandry - StJames's";
-    _lblZpotTitle.text = @"Brunch with mom.";
-    [_btnComming setTitle:@"comming".localized forState:UIControlStateNormal];
-    _lblZpotInfo.text = [NSString stringWithFormat:@"zpot_distance_format".localized,@"234 m",@"3 min",@"1 min"];
+    if ([data isKindOfClass:[FeedDataModel class]]) {
+        FeedDataModel* feedData = (FeedDataModel*)data;
+        self.dataModel = data;
+        self.dataModel.dataDelegate = self;
+        if (feedData.user_id != nil && feedData.user_id.length > 0) {
+            UserDataModel* poster = (UserDataModel*)[UserDataModel fetchObjectWithID:feedData.user_id];
+            [poster updateObjectForUse:^{
+                _lblName.text = poster.name;
+            }];
+        }
+        if (feedData.location_id != nil && feedData.location_id.length > 0) {
+            LocationDataModel* location = (LocationDataModel*)[LocationDataModel fetchObjectWithID:feedData.location_id];
+            [location updateObjectForUse:^{
+                _lblZpotAddress.text = [NSString stringWithFormat:@"%@-%@",location.name,location.address];
+            }];
+        }
+        _lblZpotTitle.text = feedData.title;
+        if ([Utils instance].isGPS) {
+            NSString* distance = [[Utils instance] distanceWithMoveTimeBetweenCoor:CLLocationCoordinate2DMake([feedData.latitude doubleValue], [feedData.longitude doubleValue]) andCoor:[Utils instance].locationManager.location.coordinate];
+            _lblZpotInfo.text = distance;
+        }
+        _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
+        [_btnComming setTitle:@"comming".localized forState:UIControlStateNormal];
+    }
+    
     [[Utils instance] clearMapViewBeforeUsing];
     [[[Utils instance]mapView] setFrame:_viewForMap.bounds];
     [_viewForMap addSubview:[[Utils instance] mapView]];
@@ -71,8 +92,7 @@
     [[[Utils instance] mapView] addAnnotation:annotationPoint];
     
     [_commentsData removeAllObjects];
-    [_commentsData addObjectsFromArray:@[@"2",@"1",@"1"]];
-    [insertHandler handleInsertData:_commentsData ofTableView:_tableViewComments];
+    [insertHandler handleData:_commentsData ofTableView:_tableViewComments];
     [_tableViewComments reloadData];
     
     //headerView
@@ -86,15 +106,24 @@
     _tableViewComments.tableHeaderView = viewHeader;
 }
 
+-(void)updateUIForDataModel:(BaseDataModel *)model options:(NSDictionary*)params{
+    
+    
+}
+
 +(CGFloat)cellHeightWithData:(BaseDataModel *)data{
     return 390;
 }
 -(void)addComment:(BaseDataModel*)data{
-    [insertHandler insertData:@"2"];
+    [insertHandler insertData:data];
     [self performSelector:@selector(scrollToTop) withObject:nil afterDelay:0.3];
 }
 -(void)scrollToTop{
     [_tableViewComments setContentOffset:CGPointZero];
+}
+
+-(void)loadComments{
+
 }
 #pragma mark - MKMapViewDelegate
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
@@ -122,21 +151,23 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     id data = [_commentsData objectAtIndex:indexPath.row];
-    BaseTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:[self cellIdentifierForIndexPath:indexPath]];
+    BaseTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:[self cellIdentifierForIndexPath:indexPath] forIndexPath:indexPath];
+    cell.dataModel.dataDelegate = nil;
+    cell.dataModel = nil;
     [cell setupCellWithData:data andOptions:nil];
     return cell;
 }
 -(NSString*)cellIdentifierForIndexPath:(NSIndexPath*)indexPath{
-    id data = [_commentsData objectAtIndex:indexPath.row];
-    if ([data isEqualToString:@"1"]) {
+    FeedCommentDataModel* data = (FeedCommentDataModel*)[_commentsData objectAtIndex:indexPath.row];
+    if ([data.type isEqualToString:TYPE_NOTIFY]) {
         return NSStringFromClass([FeedCommentNotifyCell class]);
     }
     return NSStringFromClass([FeedCommentCell class]);
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    id data = [_commentsData objectAtIndex:indexPath.row];
-    if ([data isEqualToString:@"1"]) {
+    FeedCommentDataModel* data = (FeedCommentDataModel*)[_commentsData objectAtIndex:indexPath.row];
+    if ([data.type isEqualToString:TYPE_NOTIFY]) {
         return [FeedCommentNotifyCell cellHeightWithData:data];
     }
     return [FeedCommentCell cellHeightWithData:data];

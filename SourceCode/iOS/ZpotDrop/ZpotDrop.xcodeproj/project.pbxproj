@@ -146,6 +146,7 @@
 		BA6284281B71060500399368 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6284251B71060500399368 /* SVProgressHUD.m */; };
 		BA62842C1B710BE700399368 /* PostZpotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA62842B1B710BE700399368 /* PostZpotViewController.m */; };
 		BA62842E1B71153400399368 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA62842D1B71153400399368 /* MapKit.framework */; };
+		BA7380FF1B7E606F00DF10C0 /* SCSkypeActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA7380FE1B7E606F00DF10C0 /* SCSkypeActivityIndicatorView.m */; };
 		BAAE49961B777480003BE114 /* FriendRequestZpotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAE49941B777480003BE114 /* FriendRequestZpotCell.m */; };
 		BAAE49971B777480003BE114 /* FriendRequestZpotCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAAE49951B777480003BE114 /* FriendRequestZpotCell.xib */; };
 		BAAE499B1B7782EA003BE114 /* UserSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAE499A1B7782EA003BE114 /* UserSettingViewController.m */; };
@@ -166,7 +167,7 @@
 		BAE481FF1B7255CF0071BCF3 /* ic_heart_s@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAE481F91B7255CF0071BCF3 /* ic_heart_s@2x.png */; };
 		BAE482001B7255CF0071BCF3 /* ic_heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAE481FA1B7255CF0071BCF3 /* ic_heart@2x.png */; };
 		BAE482011B7255CF0071BCF3 /* ic_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAE481FB1B7255CF0071BCF3 /* ic_location@2x.png */; };
-		BAE482041B7277ED0071BCF3 /* TableViewInsertDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE482031B7277ED0071BCF3 /* TableViewInsertDataHandler.m */; };
+		BAE482041B7277ED0071BCF3 /* TableViewDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE482031B7277ED0071BCF3 /* TableViewDataHandler.m */; };
 		BAED10CD1B75D3F200C96E01 /* ScannedUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BAED10CB1B75D3F200C96E01 /* ScannedUserCell.m */; };
 		BAED10CE1B75D3F200C96E01 /* ScannedUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAED10CC1B75D3F200C96E01 /* ScannedUserCell.xib */; };
 		BAED10D11B75DC5800C96E01 /* BaseCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BAED10D01B75DC5800C96E01 /* BaseCollectionViewCell.m */; };
@@ -412,6 +413,8 @@
 		BA62842A1B710BE700399368 /* PostZpotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostZpotViewController.h; sourceTree = "<group>"; };
 		BA62842B1B710BE700399368 /* PostZpotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostZpotViewController.m; sourceTree = "<group>"; };
 		BA62842D1B71153400399368 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		BA7380FD1B7E606F00DF10C0 /* SCSkypeActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSkypeActivityIndicatorView.h; sourceTree = "<group>"; };
+		BA7380FE1B7E606F00DF10C0 /* SCSkypeActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSkypeActivityIndicatorView.m; sourceTree = "<group>"; };
 		BAAE49931B777480003BE114 /* FriendRequestZpotCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendRequestZpotCell.h; sourceTree = "<group>"; };
 		BAAE49941B777480003BE114 /* FriendRequestZpotCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendRequestZpotCell.m; sourceTree = "<group>"; };
 		BAAE49951B777480003BE114 /* FriendRequestZpotCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendRequestZpotCell.xib; sourceTree = "<group>"; };
@@ -441,8 +444,8 @@
 		BAE481F91B7255CF0071BCF3 /* ic_heart_s@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_heart_s@2x.png"; sourceTree = "<group>"; };
 		BAE481FA1B7255CF0071BCF3 /* ic_heart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_heart@2x.png"; sourceTree = "<group>"; };
 		BAE481FB1B7255CF0071BCF3 /* ic_location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_location@2x.png"; sourceTree = "<group>"; };
-		BAE482021B7277ED0071BCF3 /* TableViewInsertDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewInsertDataHandler.h; sourceTree = "<group>"; };
-		BAE482031B7277ED0071BCF3 /* TableViewInsertDataHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewInsertDataHandler.m; sourceTree = "<group>"; };
+		BAE482021B7277ED0071BCF3 /* TableViewDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewDataHandler.h; sourceTree = "<group>"; };
+		BAE482031B7277ED0071BCF3 /* TableViewDataHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewDataHandler.m; sourceTree = "<group>"; };
 		BAED10CA1B75D3F200C96E01 /* ScannedUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScannedUserCell.h; sourceTree = "<group>"; };
 		BAED10CB1B75D3F200C96E01 /* ScannedUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannedUserCell.m; sourceTree = "<group>"; };
 		BAED10CC1B75D3F200C96E01 /* ScannedUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScannedUserCell.xib; sourceTree = "<group>"; };
@@ -593,6 +596,7 @@
 		0ACD9D8C1B68D497004140EE /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				BA7380FC1B7E606F00DF10C0 /* SCSkypeActivityIndicatorView */,
 				BA5099751B76539500B9092A /* iOSBlocksProtocol.h */,
 				BA5099711B76532F00B9092A /* UINavigationController+Block.h */,
 				BA5099721B76532F00B9092A /* UINavigationController+Block.m */,
@@ -623,8 +627,8 @@
 				8C269C651B70984500E6835E /* UIImageView+Ext.m */,
 				BA62840F1B70F12000399368 /* NSString+Ext.h */,
 				BA6284101B70F12000399368 /* NSString+Ext.m */,
-				BAE482021B7277ED0071BCF3 /* TableViewInsertDataHandler.h */,
-				BAE482031B7277ED0071BCF3 /* TableViewInsertDataHandler.m */,
+				BAE482021B7277ED0071BCF3 /* TableViewDataHandler.h */,
+				BAE482031B7277ED0071BCF3 /* TableViewDataHandler.m */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -967,6 +971,15 @@
 			path = PostView;
 			sourceTree = "<group>";
 		};
+		BA7380FC1B7E606F00DF10C0 /* SCSkypeActivityIndicatorView */ = {
+			isa = PBXGroup;
+			children = (
+				BA7380FD1B7E606F00DF10C0 /* SCSkypeActivityIndicatorView.h */,
+				BA7380FE1B7E606F00DF10C0 /* SCSkypeActivityIndicatorView.m */,
+			);
+			path = SCSkypeActivityIndicatorView;
+			sourceTree = "<group>";
+		};
 		BAAE49921B777464003BE114 /* FindCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1220,6 +1233,7 @@
 				0ACD9DD51B68D497004140EE /* SDImageCache.m in Sources */,
 				BAAE49A51B778DC3003BE114 /* SettingDisclosureViewCell.m in Sources */,
 				0ACD9DCD1B68D497004140EE /* AFSecurityPolicy.m in Sources */,
+				BA7380FF1B7E606F00DF10C0 /* SCSkypeActivityIndicatorView.m in Sources */,
 				8C269C261B7064EB00E6835E /* MainViewController.m in Sources */,
 				0A9F5ACA1B77AA3B00C9E0FD /* NotificationModel.m in Sources */,
 				0ACD9E0F1B6A22A7004140EE /* CompleteSignupViewController.m in Sources */,
@@ -1248,7 +1262,7 @@
 				BAAE49961B777480003BE114 /* FriendRequestZpotCell.m in Sources */,
 				BA30F2751B7A363D00152A95 /* CreateLocationCell.m in Sources */,
 				8C2ABFF31B71F7C800047D74 /* FeedNormalViewCell.m in Sources */,
-				BAE482041B7277ED0071BCF3 /* TableViewInsertDataHandler.m in Sources */,
+				BAE482041B7277ED0071BCF3 /* TableViewDataHandler.m in Sources */,
 				BA6284111B70F12000399368 /* NSString+Ext.m in Sources */,
 				8C269C6B1B709B8000E6835E /* BaseTableViewCell.m in Sources */,
 				0A9F5AD51B77BA5A00C9E0FD /* listModeCell.m in Sources */,

@@ -7,6 +7,7 @@
 //
 
 #import "LocationDataModel.h"
+#import "APIService.h"
 
 @implementation LocationDataModel
 
@@ -19,5 +20,15 @@
     [super awakeFromInsert];
     self.name = @"";
     self.address = @"";
+}
+
+-(void)updateObjectForUse:(void(^)())completion{
+    if (self.address == nil || self.address.length == 0) {
+        [[APIService shareAPIService] updateLocationModelWithID:self.mid completion:^{
+            completion();
+        }];
+    }else{
+        completion();
+    }
 }
 @end
