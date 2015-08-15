@@ -20,6 +20,8 @@
     [super awakeFromInsert];
     self.name = @"";
     self.address = @"";
+    self.latitude = @(0);
+    self.longitude = @(0);
 }
 
 -(void)updateObjectForUse:(void(^)())completion{

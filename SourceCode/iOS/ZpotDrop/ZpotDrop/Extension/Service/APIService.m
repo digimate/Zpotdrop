@@ -86,21 +86,15 @@
 
 #pragma mark - POST
 -(void)postZpotWithCoordinate:(CLLocationCoordinate2D)coor params:(NSMutableDictionary*)params completion:(void(^)(id data,NSString* error))completion{
-    PFObject* location = [PFObject objectWithClassName:@"Post"];
-    location[@"latitude"] = [NSNumber numberWithDouble:coor.latitude];
-    location[@"longitude"] = [NSNumber numberWithDouble:coor.longitude];
-    location[@"user_id"] = [PFUser currentUser].objectId;
-    location[@"location_id"] = [params objectForKey:@"location"];
-    location[@"title"] = [params objectForKey:@"title"];
-    [location saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+    PFObject* feedParse = [PFObject objectWithClassName:@"Post"];
+    feedParse[@"latitude"] = [NSNumber numberWithDouble:coor.latitude];
+    feedParse[@"longitude"] = [NSNumber numberWithDouble:coor.longitude];
+    feedParse[@"user_id"] = [PFUser currentUser].objectId;
+    feedParse[@"location_id"] = [params objectForKey:@"location"];
+    feedParse[@"title"] = [params objectForKey:@"title"];
+    [feedParse saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         if (succeeded) {
-            FeedDataModel* model = (FeedDataModel*)[FeedDataModel fetchObjectWithID:location.objectId];
-            model.user_id = location[@"user_id"];
-            model.latitude = location[@"latitude"];
-            model.longitude = location[@"longitude"];
-            model.location_id = location[@"location_id"];
-            model.title = location[@"title"];
-            model.time = location.createdAt;
+            FeedDataModel* model = [self updateFeedFromParse:feedParse];
             completion(model,nil);
         }else{
             completion(nil,error.description);
@@ -115,13 +109,7 @@
         if (data) {
             NSMutableArray* returnArray = [NSMutableArray array];
             for (PFObject* feedParse in data) {
-                FeedDataModel* feedModel = (FeedDataModel*)[FeedDataModel fetchObjectWithID:feedParse.objectId];
-                feedModel.title = feedParse[@"title"];
-                feedModel.time = feedParse.createdAt;
-                feedModel.latitude = feedParse[@"latitude"];
-                feedModel.longitude = feedParse[@"longitude"];
-                feedModel.user_id = feedParse[@"user_id"];
-                feedModel.location_id = feedParse[@"location_id"];
+                FeedDataModel* feedModel = [self updateFeedFromParse:feedParse];
                 [returnArray addObject:feedModel];
             }
             completion(returnArray,nil);
@@ -131,6 +119,108 @@
     }];
 }
 
+-(void)increaseFeedCommentCountForFeedID:(NSString*)feedID{
+    PFQuery* query = [PFQuery queryWithClassName:@"Post"];
+    [query whereKey:@"objectId" equalTo: feedID];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (objects && objects.count > 0) {
+            PFObject* parseObject = [objects firstObject];
+            NSInteger count = [parseObject[@"comment_count"] integerValue];
+            count++;
+            parseObject[@"comment_count"] = [NSNumber numberWithInteger:count];
+            [parseObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+                if (succeeded) {
+                    FeedDataModel* feedModel = [self updateFeedFromParse:parseObject];
+                    [feedModel.dataDelegate updateUIForDataModel:feedModel options:nil];
+                }
+            }];
+        }
+    }];
+}
+
+-(FeedDataModel*)updateFeedFromParse:(PFObject*)parse{
+    FeedDataModel* feedModel = (FeedDataModel*)[FeedDataModel fetchObjectWithID:parse.objectId];
+    feedModel.title = parse[@"title"];
+    feedModel.time = parse.createdAt;
+    feedModel.latitude = parse[@"latitude"];
+    feedModel.longitude = parse[@"longitude"];
+    feedModel.user_id = parse[@"user_id"];
+    feedModel.location_id = parse[@"location_id"];
+    feedModel.like_count = parse[@"like_count"];
+    feedModel.comment_count = parse[@"comment_count"];
+    feedModel.like_userIds = parse[@"like_userIds"];
+    return feedModel;
+}
+
+-(void)likeFeedWithID:(NSString*)feedID completion:(void(^)(BOOL successful,NSString* error))completion{
+    PFQuery* query = [PFQuery queryWithClassName:@"Post"];
+    [query whereKey:@"objectId" equalTo: feedID];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (objects && objects.count > 0) {
+            PFObject* parseObject = [objects firstObject];
+            NSString* likeIDs = parseObject[@"like_userIds"];
+            if ([likeIDs rangeOfString:[AccountModel currentAccountModel].user_id].location == NSNotFound) {
+                if (likeIDs && likeIDs.length > 0) {
+                    likeIDs = [NSString stringWithFormat:@"%@,%@",likeIDs,[AccountModel currentAccountModel].user_id];
+                }else{
+                    likeIDs = [AccountModel currentAccountModel].user_id;
+                }
+                parseObject[@"like_userIds"] = likeIDs;
+                NSInteger count = [parseObject[@"like_count"] integerValue];
+                count++;
+                parseObject[@"like_count"] = [NSNumber numberWithInteger:count];
+                [parseObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+                    if (succeeded) {
+                        FeedDataModel* feedModel = [self updateFeedFromParse:parseObject];
+                        [feedModel.dataDelegate updateUIForDataModel:feedModel options:nil];
+                    }
+                    completion(succeeded,error.description);
+                }];
+            }else{
+                FeedDataModel* feedModel = [self updateFeedFromParse:parseObject];
+                [feedModel.dataDelegate updateUIForDataModel:feedModel options:nil];
+                completion(YES,nil);
+            }
+        }else{
+            completion(NO,error.description);
+        }
+        
+    }];
+}
+
+-(void)unlikeFeedWithID:(NSString*)feedID completion:(void(^)(BOOL successful,NSString* error))completion{
+    PFQuery* query = [PFQuery queryWithClassName:@"Post"];
+    [query whereKey:@"objectId" equalTo: feedID];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (objects && objects.count > 0) {
+            PFObject* parseObject = [objects firstObject];
+            NSString* likeIDs = parseObject[@"like_userIds"];
+            NSMutableArray* likeIDArray = [NSMutableArray arrayWithArray:[likeIDs componentsSeparatedByString:@","]];
+            if ([likeIDArray containsObject:[AccountModel currentAccountModel].user_id]) {
+                [likeIDArray removeObject:[AccountModel currentAccountModel].user_id];
+                likeIDs = [likeIDArray componentsJoinedByString:@","];
+                parseObject[@"like_userIds"] = likeIDs;
+                NSInteger count = [parseObject[@"like_count"] integerValue];
+                count--;
+                parseObject[@"like_count"] = [NSNumber numberWithInteger:count];
+                [parseObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+                    if (succeeded) {
+                        FeedDataModel* feedModel = [self updateFeedFromParse:parseObject];
+                        [feedModel.dataDelegate updateUIForDataModel:feedModel options:nil];
+                    }
+                    completion(succeeded,error.description);
+                }];
+            }else{
+                FeedDataModel* feedModel = [self updateFeedFromParse:parseObject];
+                [feedModel.dataDelegate updateUIForDataModel:feedModel options:nil];
+                completion(YES,nil);
+            }
+        }else{
+            completion(NO,error.description);
+        }
+        
+    }];
+}
 #pragma mark - Account
 -(void)checkIsExistUsername:(NSString*)username completion:(void(^)(BOOL isExist))completion{
     [self fetchUserWithUsername:username callback:^(PFObject *user, NSString *error) {
@@ -244,7 +334,28 @@
 }
 
 #pragma mark - Commment
--(void)postComment:(FeedCommentDataModel*)commentModel completion:(void(^)(BOOL isSuccess))completion{
+-(void)getCommentsFromServerForFeedID:(NSString*)fid completion:(void(^)(NSMutableArray* returnData,NSString* error))completion{
+    PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+    [query whereKey:@"post_id" equalTo: fid];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
+        NSMutableArray* returnArray = [NSMutableArray array];
+        if (objects) {
+            for (PFObject* objectParse in objects) {
+                FeedCommentDataModel* feedModel = (FeedCommentDataModel*)[FeedCommentDataModel fetchObjectWithID:objectParse.objectId];
+                feedModel.message = objectParse[@"content"];
+                feedModel.feed_id = objectParse[@"post_id"];
+                feedModel.user_id = objectParse[@"user_id"];
+                feedModel.time = objectParse.createdAt;
+                feedModel.type = objectParse[@"type"];
+                feedModel.status = STATUS_DELIVER;
+                [returnArray addObject:feedModel];
+            }
+        }
+        completion(returnArray,error.description);
+    }];
+}
+
+-(void)postComment:(FeedCommentDataModel*)commentModel completion:(void(^)(BOOL isSuccess,NSString* error))completion{
     PFObject* location = [PFObject objectWithClassName:@"Comment"];
     location[@"content"] = commentModel.message;
     location[@"post_id"] = commentModel.feed_id;
@@ -255,11 +366,14 @@
             commentModel.mid = location.objectId;
             commentModel.status = STATUS_DELIVER;
             commentModel.time = location.createdAt;
+            //change number of comment for FeedDataModel
+            [self increaseFeedCommentCountForFeedID:commentModel.feed_id];
+            
         }else{
             commentModel.status = STATUS_ERROR;
         }
         [[CoreDataService instance]saveContext];
-        completion(succeeded);
+        completion(succeeded,error.description);
     }];
 }
 @end

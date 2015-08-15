@@ -10,6 +10,7 @@
 #import "BaseTableViewCell.h"
 #import <MapKit/MapKit.h>
 #import "TableViewDataHandler.h"
+#import "LoadingView.h"
 
 @interface FeedSelectedViewCell : BaseTableViewCell<MKMapViewDelegate,UITableViewDataSource,UITableViewDelegate>{
     IBOutlet UIImageView* _imgvAvatar;
@@ -20,8 +21,10 @@
     IBOutlet UIView* _viewForMap;
     IBOutlet UITableView* _tableViewComments;
     IBOutlet UIButton* _btnComming;
+    UILabel* _lblLikeInfo;
     NSMutableArray* _commentsData;
-    TableViewDataHandler* insertHandler;
+    TableViewDataHandler* tableDataHandler;
+    LoadingView* loadingView;
 }
 -(void)addComment:(BaseDataModel*)data;
 @end

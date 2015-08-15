@@ -7,6 +7,9 @@
 //
 
 #import "TableViewDataHandler.h"
+#import "CoreDataService.h"
+
+#define TIME_RESET 0.2
 
 @implementation TableViewDataHandler
 -(instancetype)init{
@@ -19,6 +22,30 @@
 -(void)handleData:(NSMutableArray *)array ofTableView:(UITableView *)tableView{
     self.tableData = array;
     self.tableView = tableView;
+}
+
+-(void)removeData:(id)data{
+    if (canExcute) {
+        if ([self.tableData containsObject:data]) {
+            canExcute = NO;
+            NSIndexPath* indexPath = [NSIndexPath indexPathForRow:[self.tableData indexOfObject:data] inSection:0];
+            [self.tableData removeObject:data];
+            if ([data isKindOfClass:[NSManagedObject class]]) {
+                [[CoreDataService instance] deleteEntity:data];
+                [[CoreDataService instance]saveContext];
+            }
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+            [self performSelector:@selector(resetFlag) withObject:nil afterDelay:TIME_RESET];
+        }
+    }else{
+       
+        if (!removeList) {
+            removeList = [NSMutableArray array];
+        }
+        @synchronized(removeList){
+            [removeList addObject:data];
+        }
+    }
 }
 
 -(void)insertData:(id)dataInsert{
@@ -63,14 +90,15 @@
     }else{
         [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
     }
-    [self performSelector:@selector(resetFlag) withObject:nil afterDelay:0.3];
+    [self performSelector:@selector(resetFlag) withObject:nil afterDelay:TIME_RESET];
 }
 
 -(void)resetFlag{
     canExcute = YES;
-    @synchronized(waitingData)
-    {
-        if (waitingData.count > 0) {
+    
+    if (waitingData.count > 0) {
+        @synchronized(waitingData)
+        {
             NSMutableArray* indexPaths = [NSMutableArray array];
             for (int i = 0; i < waitingData.count; i++) {
                 id data = [waitingData objectAtIndex:i];
@@ -86,6 +114,27 @@
             }
             [waitingData removeAllObjects];
             [self beginReloadData:indexPaths];
+        }
+    }else if (removeList.count > 0){
+        @synchronized(removeList)
+        {
+            NSMutableArray* indexPaths = [NSMutableArray array];
+            for (id data in removeList) {
+                if ([self.tableData containsObject:data]) {
+                    canExcute = NO;
+                    NSIndexPath* indexPath = [NSIndexPath indexPathForRow:[self.tableData indexOfObject:data] inSection:0];
+                    if ([data isKindOfClass:[NSManagedObject class]]) {
+                        [[CoreDataService instance] deleteEntity:data];
+                    }
+                    [self.tableData removeObjectAtIndex:indexPath.row];
+                    
+                    [indexPaths addObject:indexPath];
+                }
+            }
+            [removeList removeAllObjects];
+            [[CoreDataService instance]saveContext];
+            [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationRight];
+            [self performSelector:@selector(resetFlag) withObject:nil afterDelay:TIME_RESET];
         }
     }
 }

@@ -12,6 +12,7 @@
 #import "FeedCommentNotifyCell.h"
 #import "UserDataModel.h"
 #import "LocationDataModel.h"
+#import "APIService.h"
 
 @implementation FeedSelectedViewCell
 
@@ -38,7 +39,10 @@
     _tableViewComments.delegate = self;
     _tableViewComments.dataSource = self;
     
-    insertHandler = [[TableViewDataHandler alloc]init];
+    tableDataHandler = [[TableViewDataHandler alloc]init];
+    loadingView = [[LoadingView alloc]init];
+    
+    [_btnComming addTarget:self action:@selector(sendCommingNotify:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -71,59 +75,124 @@
         }
         _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
         [_btnComming setTitle:@"comming".localized forState:UIControlStateNormal];
+        _btnComming.enabled = ![feedData.user_id isEqualToString:[AccountModel currentAccountModel].user_id];
+        if (_btnComming.enabled) {
+            _btnComming.backgroundColor = COLOR_DARK_GREEN;
+        }else{
+            _btnComming.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.7];
+        }
+        
+        [[Utils instance] clearMapViewBeforeUsing];
+        [[[Utils instance]mapView] setFrame:_viewForMap.bounds];
+        [_viewForMap addSubview:[[Utils instance] mapView]];
+        [_viewForMap sendSubviewToBack:[[Utils instance] mapView]];
+        [[Utils instance] mapView].userInteractionEnabled = YES;
+        [[Utils instance] mapView].scrollEnabled = NO;
+        [[Utils instance] mapView].zoomEnabled = YES;
+        CLLocationCoordinate2D startCoord = CLLocationCoordinate2DMake(10.784693, 106.684585);
+        MKCoordinateRegion adjustedRegion = [[[Utils instance] mapView] regionThatFits:MKCoordinateRegionMakeWithDistance(startCoord, 400, 400)];
+        [[[Utils instance] mapView] removeAnnotations:[[Utils instance] mapView].annotations];
+        [[[Utils instance] mapView] setRegion:adjustedRegion animated:NO];
+        [[Utils instance] mapView].delegate = self;
+        //add annotation
+        ZpotAnnotation *annotationPoint = [[ZpotAnnotation alloc] init];
+        [annotationPoint setCoordinate:startCoord];
+        [annotationPoint setTitle:_lblZpotTitle.text];
+        [[[Utils instance] mapView] addAnnotation:annotationPoint];
+        
+        [_commentsData removeAllObjects];
+        [tableDataHandler handleData:_commentsData ofTableView:_tableViewComments];
+        [_tableViewComments reloadData];
+        
+        //headerView
+        _tableViewComments.tableHeaderView = nil;
+        UIView* viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _tableViewComments.width, 28)];
+        UILabel* lblHeader = [[UILabel alloc]initWithFrame:CGRectMake(10, 0,viewHeader.width-10, viewHeader.height-2)];
+        lblHeader.textColor = [COLOR_DARK_GREEN colorWithAlphaComponent:0.7];
+        lblHeader.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
+        lblHeader.text = nil;
+        [viewHeader addSubview:lblHeader];
+        _lblLikeInfo = lblHeader;
+        _tableViewComments.tableHeaderView = viewHeader;
+        [[Utils instance]convertLikeIDsToInfo:[feedData.like_userIds componentsSeparatedByString:@","] completion:^(NSString *txt) {
+            _lblLikeInfo.text = txt;
+        }];
+        [self loadComments];
+
     }
-    
-    [[Utils instance] clearMapViewBeforeUsing];
-    [[[Utils instance]mapView] setFrame:_viewForMap.bounds];
-    [_viewForMap addSubview:[[Utils instance] mapView]];
-    [_viewForMap sendSubviewToBack:[[Utils instance] mapView]];
-    [[Utils instance] mapView].userInteractionEnabled = YES;
-    [[Utils instance] mapView].scrollEnabled = NO;
-    [[Utils instance] mapView].zoomEnabled = YES;
-    CLLocationCoordinate2D startCoord = CLLocationCoordinate2DMake(10.784693, 106.684585);
-    MKCoordinateRegion adjustedRegion = [[[Utils instance] mapView] regionThatFits:MKCoordinateRegionMakeWithDistance(startCoord, 400, 400)];
-    [[[Utils instance] mapView] removeAnnotations:[[Utils instance] mapView].annotations];
-    [[[Utils instance] mapView] setRegion:adjustedRegion animated:NO];
-    [[Utils instance] mapView].delegate = self;
-    //add annotation
-    ZpotAnnotation *annotationPoint = [[ZpotAnnotation alloc] init];
-    [annotationPoint setCoordinate:startCoord];
-    [annotationPoint setTitle:_lblZpotTitle.text];
-    [[[Utils instance] mapView] addAnnotation:annotationPoint];
-    
-    [_commentsData removeAllObjects];
-    [insertHandler handleData:_commentsData ofTableView:_tableViewComments];
-    [_tableViewComments reloadData];
-    
-    //headerView
-    _tableViewComments.tableHeaderView = nil;
-    UIView* viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _tableViewComments.width, 28)];
-    UILabel* lblHeader = [[UILabel alloc]initWithFrame:CGRectMake(10, 0,viewHeader.width-10, viewHeader.height-2)];
-    lblHeader.textColor = [COLOR_DARK_GREEN colorWithAlphaComponent:0.7];
-    lblHeader.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
-    lblHeader.text = @"You, Alex and 5 others like this";
-    [viewHeader addSubview:lblHeader];
-    _tableViewComments.tableHeaderView = viewHeader;
 }
 
 -(void)updateUIForDataModel:(BaseDataModel *)model options:(NSDictionary*)params{
-    
-    
+    if (self.dataModel) {
+        FeedDataModel* feedData = (FeedDataModel*)self.dataModel;
+        [[Utils instance]convertLikeIDsToInfo:[feedData.like_userIds componentsSeparatedByString:@","] completion:^(NSString *txt) {
+            _lblLikeInfo.text = txt;
+        }];
+    }
 }
 
 +(CGFloat)cellHeightWithData:(BaseDataModel *)data{
     return 390;
 }
+
+-(void)sendCommingNotify:(UIButton*)sender{
+    sender.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.7];
+    sender.enabled = NO;
+    if (self.dataModel != nil) {
+        FeedDataModel* feedData = (FeedDataModel*)self.dataModel;
+        FeedCommentDataModel* comment = (FeedCommentDataModel*)[FeedCommentDataModel fetchObjectWithID:[[NSDate date] string]];
+        comment.message = @"";
+        comment.feed_id = feedData.mid;
+        comment.user_id = [AccountModel currentAccountModel].user_id;
+        comment.status = STATUS_DELIVER;
+        comment.type = TYPE_NOTIFY;
+        comment.time = [NSDate date];
+        [[APIService shareAPIService]postComment:comment completion:^(BOOL isSuccess,NSString* error) {
+            if (isSuccess) {
+                [self addComment:comment];
+            }else{
+                _btnComming.backgroundColor = COLOR_DARK_GREEN;
+                _btnComming.enabled = YES;
+            }
+        }];
+    }
+}
+
 -(void)addComment:(BaseDataModel*)data{
-    [insertHandler insertData:data];
+    [tableDataHandler insertData:data];
     [self performSelector:@selector(scrollToTop) withObject:nil afterDelay:0.3];
 }
 -(void)scrollToTop{
     [_tableViewComments setContentOffset:CGPointZero];
 }
 
--(void)loadComments{
+-(void)removeComment:(BaseDataModel*)data{
+    if (data != nil) {
+        [tableDataHandler removeData:data];
+    }
+}
 
+-(void)loadComments{
+    FeedDataModel* feedModel = (FeedDataModel*)self.dataModel;
+    if (feedModel) {
+        [loadingView showViewInView:_tableViewComments];
+        [[APIService shareAPIService]getCommentsFromServerForFeedID:feedModel.mid completion:^(NSMutableArray *returnData, NSString *error) {
+            [loadingView hideView];
+            [self loadCommentsFromLocal];
+        }];
+    }
+}
+
+-(void)loadCommentsFromLocal{
+    FeedDataModel* feedModel = (FeedDataModel*)self.dataModel;
+    if (feedModel) {
+        NSSortDescriptor* sortByTime = [NSSortDescriptor sortDescriptorWithKey:@"time" ascending:NO];
+        NSArray* comments = [FeedCommentDataModel fetchObjectsWithPredicate:[NSPredicate predicateWithFormat:@"feed_id = %@",feedModel.mid] sorts:@[sortByTime]];
+        [_commentsData removeAllObjects];
+        [_commentsData addObjectsFromArray:comments];
+        [_tableViewComments reloadData];
+    }
+    
 }
 #pragma mark - MKMapViewDelegate
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
@@ -155,6 +224,13 @@
     cell.dataModel.dataDelegate = nil;
     cell.dataModel = nil;
     [cell setupCellWithData:data andOptions:nil];
+    if ([cell isKindOfClass:[FeedCommentCell class]]) {
+        FeedSelectedViewCell* weak = weakObject(self);
+        FeedCommentCell* weakCommentCell = weakObject(cell);
+        [(FeedCommentCell*)cell setOnDeleteComment:^{
+            [weak removeComment:weakCommentCell.dataModel];
+        }];
+    }
     return cell;
 }
 -(NSString*)cellIdentifierForIndexPath:(NSIndexPath*)indexPath{

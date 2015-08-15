@@ -46,7 +46,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alex Stone" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Uh-WG-dIa">
-                        <rect key="frame" x="68" y="52" width="172" height="19"/>
+                        <rect key="frame" x="68" y="52" width="165" height="19"/>
                         <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="16"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -109,10 +109,10 @@
                         <state key="selected" image="ic_comment_s.png"/>
                     </button>
                     <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yDY-j5-owo">
-                        <rect key="frame" x="258" y="50" width="18" height="20"/>
+                        <rect key="frame" x="251" y="50" width="25" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="dc5-1W-h3B"/>
-                            <constraint firstAttribute="width" constant="18" id="lTF-ME-dyn"/>
+                            <constraint firstAttribute="width" constant="25" id="lTF-ME-dyn"/>
                         </constraints>
                         <state key="normal" image="ic_heart.png">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -120,7 +120,7 @@
                         <state key="selected" image="ic_heart_s.png"/>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KdM-ef-5Fh">
-                        <rect key="frame" x="245" y="50" width="10" height="18"/>
+                        <rect key="frame" x="238" y="50" width="10" height="18"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="18" id="4Ee-c9-y3t"/>
                             <constraint firstAttribute="width" constant="10" id="fzL-V2-dd1"/>

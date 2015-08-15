@@ -7,8 +7,10 @@
 */
 //MARK: - ***** A *****
 "add" = "Add";
+"and" = "And";
 //MARK: - ***** B *****
 "birthday" = "Date of birth";
+"be_first_one_like_this" = "Be first person like this";
 //MARK: - ***** C *****
 "continue" = "Continue";
 "cancel" = "Cancel";
@@ -49,6 +51,9 @@
 "format_second_ago" = "%0.0lf sec ago";
 "format_min_ago" = "%0.0lf min ago";
 "format_hour_ago" = "%0.0lf hour ago";
+"friend" = "Friend";
+//MARK: - ***** J *****
+"just_now" = "Just now";
 //MARK: - ***** H *****
 "hometown" = "Hometown";
 "hour" = "hour";
@@ -59,6 +64,8 @@
 "logout" = "Log out";
 "location_name" = "Location name";
 "location_address" = "Location address";
+"like_this" = "like this";
+
 //MARK: - ***** M *****
 "male" = "Male";
 "minute" = "min";
@@ -69,6 +76,7 @@
 "new_password_again" = "New Password again";
 //MARK: - ***** O *****
 "ok" = "OK";
+"other" = "Other";
 //MARK: - ***** P *****
 "post" = "Post";
 "password" = "Password";
@@ -99,6 +107,7 @@
 "welcome" = "Welcome to";
 //MARK: - ***** Y *****
 "yesterday" = "Yesterday";
+"you" = "You";
 //MARK: - ***** Z *****
 "zpot_all" = "Zpot All";
 "zpot_all_usage" = "Now,click to zpot all your friends";

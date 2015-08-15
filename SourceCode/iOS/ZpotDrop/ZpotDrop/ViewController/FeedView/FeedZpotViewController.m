@@ -127,7 +127,8 @@
 
 -(void)loadFeedsFromLocal:(void(^)(NSMutableArray* returnArray))completion{
     NSMutableArray* returnArray = [NSMutableArray array];
-    [returnArray addObjectsFromArray:[FeedDataModel fetchObjectsWithPredicate:nil sorts:nil]];
+    NSSortDescriptor* sortByTime = [NSSortDescriptor sortDescriptorWithKey:@"time" ascending:NO];
+    [returnArray addObjectsFromArray:[FeedDataModel fetchObjectsWithPredicate:nil sorts:@[sortByTime]]];
     completion(returnArray);
 }
 
@@ -210,7 +211,7 @@
         [feedSelectedCell addComment:comment];
         [_tvComment setText:@""];
         [self textViewDidChange:_tvComment];
-        [[APIService shareAPIService]postComment:comment completion:^(BOOL isSuccess) {
+        [[APIService shareAPIService]postComment:comment completion:^(BOOL isSuccess,NSString* error) {
             [comment.dataDelegate updateUIForDataModel:comment options:@{@"status":@""}];
         }];
     }

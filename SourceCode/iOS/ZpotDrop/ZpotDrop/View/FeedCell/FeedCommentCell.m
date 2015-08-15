@@ -8,6 +8,7 @@
 
 #import "FeedCommentCell.h"
 #import "Utils.h"
+#import "UserDataModel.h"
 
 @implementation FeedCommentCell
 @synthesize lblName = _lblName;
@@ -21,7 +22,9 @@
     _lblName.text = _lblMessage.text = _lblTime.text = nil;
     _lblName.numberOfLines = 0;
     [_btnDelete setTitle:@"delete".localized forState:UIControlStateNormal];
+    [_btnDelete addTarget:self action:@selector(deleteComment:) forControlEvents:UIControlEventTouchUpInside];
     [_btnRetry setTitle:@"retry".localized forState:UIControlStateNormal];
+    [_btnRetry addTarget:self action:@selector(retryComment:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -30,15 +33,32 @@
     // Configure the view for the selected state
 }
 
+-(void)deleteComment:(UIButton*)sender{
+    if (self.onDeleteComment) {
+        self.onDeleteComment();
+    }
+}
+
+-(void)retryComment:(UIButton*)sender{
+    FeedCommentDataModel* feedData = (FeedCommentDataModel*)self.dataModel;
+    if (feedData != nil) {
+        feedData.status = STATUS_SENDING;
+        [self updateUIForDataModel:nil options:@{@"status":@""}];
+    }
+}
+
 -(void)setupCellWithData:(BaseDataModel *)data andOptions:(NSDictionary *)param{
     if ([data isKindOfClass:[FeedCommentDataModel class]]) {
         FeedCommentDataModel* feedComment = (FeedCommentDataModel*)data;
         self.dataModel = data;
         data.dataDelegate = self;
-        _lblMessage.text = @"Happy birthday Alex!!! Happy birthday Alex!!!";
-        _lblTime.text = @"3 min ago";
+        _lblMessage.text = feedComment.message;
+        _lblTime.text = [[Utils instance]convertDateToRecent:feedComment.time];
         _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
-        _lblName.text = @"Sonny Truong";
+        UserDataModel* poster = (UserDataModel*)[UserDataModel fetchObjectWithID:feedComment.user_id];
+        [poster updateObjectForUse:^{
+            _lblName.text = poster.name;
+        }];
         
         if ([feedComment.status isEqualToString:STATUS_SENDING]) {
             [_indicatorView setBubbleColor:COLOR_DARK_GREEN];
@@ -89,11 +109,14 @@
 }
 
 +(CGFloat)cellHeightWithData:(BaseDataModel *)data{
-
-    FeedCommentCell* cell = [FeedCommentCell instance];
-    cell.lblName.text = @"Happy birthday Alex!!! Happy birthday Alex!!!";
-    CGSize s = [cell.lblName sizeThatFits:CGSizeMake(cell.lblName.width, MAXFLOAT)];
-    return 57 + (s.height - cell.lblName.height);
+    if (data != nil && [data isKindOfClass:[FeedCommentDataModel class]]) {
+        FeedCommentCell* cell = [FeedCommentCell instance];
+        cell.lblName.text = [(FeedCommentDataModel*)data message];
+        CGSize s = [cell.lblName sizeThatFits:CGSizeMake(cell.lblName.width, MAXFLOAT)];
+        return 57 + (s.height - cell.lblName.height);
+    }
+    return 0;
+    
 }
 
 +(id)instance{

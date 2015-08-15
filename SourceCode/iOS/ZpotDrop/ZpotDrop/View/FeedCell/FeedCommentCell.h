@@ -21,4 +21,5 @@
     IBOutlet UIButton * _btnDelete;
 }
 @property(nonatomic, readonly)UILabel * lblName;
+@property(nonatomic, copy)void(^onDeleteComment)();
 @end

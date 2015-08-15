@@ -147,6 +147,7 @@
 		BA62842C1B710BE700399368 /* PostZpotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA62842B1B710BE700399368 /* PostZpotViewController.m */; };
 		BA62842E1B71153400399368 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA62842D1B71153400399368 /* MapKit.framework */; };
 		BA7380FF1B7E606F00DF10C0 /* SCSkypeActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA7380FE1B7E606F00DF10C0 /* SCSkypeActivityIndicatorView.m */; };
+		BA8FCBDB1B7F5C0400BDB00A /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA8FCBDA1B7F5C0400BDB00A /* LoadingView.m */; };
 		BAAE49961B777480003BE114 /* FriendRequestZpotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAE49941B777480003BE114 /* FriendRequestZpotCell.m */; };
 		BAAE49971B777480003BE114 /* FriendRequestZpotCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAAE49951B777480003BE114 /* FriendRequestZpotCell.xib */; };
 		BAAE499B1B7782EA003BE114 /* UserSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAE499A1B7782EA003BE114 /* UserSettingViewController.m */; };
@@ -415,6 +416,8 @@
 		BA62842D1B71153400399368 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		BA7380FD1B7E606F00DF10C0 /* SCSkypeActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSkypeActivityIndicatorView.h; sourceTree = "<group>"; };
 		BA7380FE1B7E606F00DF10C0 /* SCSkypeActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSkypeActivityIndicatorView.m; sourceTree = "<group>"; };
+		BA8FCBD91B7F5C0400BDB00A /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
+		BA8FCBDA1B7F5C0400BDB00A /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
 		BAAE49931B777480003BE114 /* FriendRequestZpotCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendRequestZpotCell.h; sourceTree = "<group>"; };
 		BAAE49941B777480003BE114 /* FriendRequestZpotCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendRequestZpotCell.m; sourceTree = "<group>"; };
 		BAAE49951B777480003BE114 /* FriendRequestZpotCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendRequestZpotCell.xib; sourceTree = "<group>"; };
@@ -833,6 +836,8 @@
 				8C269C6A1B709B8000E6835E /* BaseTableViewCell.m */,
 				BAED10CF1B75DC5800C96E01 /* BaseCollectionViewCell.h */,
 				BAED10D01B75DC5800C96E01 /* BaseCollectionViewCell.m */,
+				BA8FCBD91B7F5C0400BDB00A /* LoadingView.h */,
+				BA8FCBDA1B7F5C0400BDB00A /* LoadingView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1240,6 +1245,7 @@
 				8C269C411B70774E00E6835E /* MenuProfileTableViewCell.m in Sources */,
 				0ACD9DCB1B68D497004140EE /* AFHTTPSessionManager.m in Sources */,
 				0ACD9DCF1B68D497004140EE /* AFURLRequestSerialization.m in Sources */,
+				BA8FCBDB1B7F5C0400BDB00A /* LoadingView.m in Sources */,
 				8C269C421B70774E00E6835E /* MenuZpotAllTableViewCell.m in Sources */,
 				0ACD9DD61B68D497004140EE /* SDWebImageCompat.m in Sources */,
 				0ACD9DD41B68D497004140EE /* NSData+ImageContentType.m in Sources */,

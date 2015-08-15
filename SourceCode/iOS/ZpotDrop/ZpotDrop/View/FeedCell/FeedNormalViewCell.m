@@ -10,6 +10,7 @@
 #import "Utils.h"
 #import "UserDataModel.h"
 #import "LocationDataModel.h"
+#import "APIService.h"
 
 @implementation FeedNormalViewCell
 
@@ -28,6 +29,34 @@
     _lblZpotAddress.text = nil;
     _lblZpotTitle.text = nil;
     _lblZpotTime.text = nil;
+    _btnLike.enabled = YES;
+    _btnLike.userInteractionEnabled = YES;
+    [_btnLike addTarget:self action:@selector(likeFeed:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+-(void)likeFeed:(UIButton*)sender{
+    if (self.dataModel) {
+        FeedDataModel* feedData = (FeedDataModel*)self.dataModel;
+        sender.enabled = NO;
+        if (sender.isSelected) {
+            [[APIService shareAPIService] unlikeFeedWithID:feedData.mid completion:^(BOOL successful, NSString *error) {
+                sender.enabled = YES;
+                if (!successful) {
+                    [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    }];
+                }
+            }];
+        }else{
+            [[APIService shareAPIService] likeFeedWithID:feedData.mid completion:^(BOOL successful, NSString *error) {
+                sender.enabled = YES;
+                if (!successful) {
+                    [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    }];
+                }
+            }];
+        }
+        
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -62,31 +91,30 @@
         _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
         _lblNumberComments.text = feedData.comment_count.description;
         _lblNumberLikes.text = feedData.like_count.description;
+        
+        CGSize s = [_lblNumberComments sizeThatFits:CGSizeMake(MAXFLOAT, _lblNumberComments.height)];
+        _lblNumberCommentsWidth.constant = ceilf(s.width);
+        
+        s = [_lblNumberLikes sizeThatFits:CGSizeMake(MAXFLOAT, _lblNumberLikes.height)];
+        _lblNumberLikesWidth.constant = ceilf(s.width);
+        
+        if ([_lblNumberLikes.text isEqualToString:@"0"]) {
+            _lblNumberLikes.hidden = YES;
+            _lblNumberLikesWidth.constant = 0;
+        }else{
+            _lblNumberLikes.hidden = NO;
+        }
+        _btnLike.selected = ([feedData.like_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
+        
+        if ([_lblNumberComments.text isEqualToString:@"0"]) {
+            _lblNumberComments.hidden = YES;
+            _lblNumberCommentsWidth.constant = 0;
+        }else{
+            _lblNumberComments.hidden = NO;
+        }
+        _btnComment.selected = !_lblNumberComments.hidden;
+
     }
-    
-   
-    
-    CGSize s = [_lblNumberComments sizeThatFits:CGSizeMake(MAXFLOAT, _lblNumberComments.height)];
-    _lblNumberCommentsWidth.constant = ceilf(s.width);
-    
-    s = [_lblNumberLikes sizeThatFits:CGSizeMake(MAXFLOAT, _lblNumberLikes.height)];
-    _lblNumberLikesWidth.constant = ceilf(s.width);
-    
-    if ([_lblNumberLikes.text isEqualToString:@"0"]) {
-        _lblNumberLikes.hidden = YES;
-        _lblNumberLikesWidth.constant = 0;
-    }else{
-        _lblNumberLikes.hidden = NO;
-    }
-    _btnLike.selected = !_lblNumberLikes.hidden;
-    
-    if ([_lblNumberComments.text isEqualToString:@"0"]) {
-        _lblNumberComments.hidden = YES;
-        _lblNumberCommentsWidth.constant = 0;
-    }else{
-        _lblNumberComments.hidden = NO;
-    }
-    _btnComment.selected = !_lblNumberComments.hidden;
 }
 
 -(void)updateUIForDataModel:(BaseDataModel *)model options:(NSDictionary*)params{

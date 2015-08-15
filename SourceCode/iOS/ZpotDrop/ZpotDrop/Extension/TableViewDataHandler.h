@@ -11,6 +11,7 @@
 
 @interface TableViewDataHandler : NSObject{
     NSMutableArray* waitingData;
+    NSMutableArray* removeList;
     BOOL canExcute;
 }
 @property(atomic,weak)NSMutableArray* tableData;
@@ -18,4 +19,5 @@
 @property(nonatomic, assign)BOOL addOnTop;
 -(void)handleData:(NSMutableArray*)array ofTableView:(UITableView*)tableView;
 -(void)insertData:(id)data;
+-(void)removeData:(id)data;
 @end

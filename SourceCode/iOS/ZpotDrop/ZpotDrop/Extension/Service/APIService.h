@@ -44,5 +44,8 @@ typedef void(^dataResponse)(id data, NSString* error);
 -(void)getFeedsFromServer:(void(^)(NSMutableArray* returnArray,NSString*error))completion;
 -(void)updateUserModelWithID:(NSString*)mid completion:(VoidBlock)completion;
 -(void)updateLocationModelWithID:(NSString*)mid completion:(VoidBlock)completion;
--(void)postComment:(FeedCommentDataModel*)commentModel completion:(void(^)(BOOL isSuccess))completion;
+-(void)postComment:(FeedCommentDataModel*)commentModel completion:(void(^)(BOOL isSuccess,NSString* error))completion;
+-(void)getCommentsFromServerForFeedID:(NSString*)fid completion:(void(^)(NSMutableArray* returnData,NSString* error))completion;
+-(void)likeFeedWithID:(NSString*)feedID completion:(void(^)(BOOL successful,NSString* error))completion;
+-(void)unlikeFeedWithID:(NSString*)feedID completion:(void(^)(BOOL successful,NSString* error))completion;
 @end

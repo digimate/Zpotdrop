@@ -8,6 +8,7 @@
 
 #import "Utils.h"
 #import "UserProfileViewController.h"
+#import "UserDataModel.h"
 
 @implementation Utils
 + (Utils *) instance {
@@ -95,7 +96,9 @@
 #pragma mark - Converter
 -(NSString*)convertDateToRecent:(NSDate*)date{
     double deltaSeconds = [[NSDate date] timeIntervalSinceDate:date];
-    if (deltaSeconds < 60) {
+    if (deltaSeconds < 1) {
+        return @"just_now".localized;
+    }else if (deltaSeconds < 60) {
         return [NSString stringWithFormat:@"format_second_ago".localized,deltaSeconds];
     }else if (deltaSeconds < 60*60) {
         return [NSString stringWithFormat:@"format_min_ago".localized,(deltaSeconds/60)];
@@ -157,6 +160,61 @@
             carTimeStr = [NSString stringWithFormat:@"%d %@",(carTimeInMin/60),@"hour".localized];
         }
         return [NSString stringWithFormat:@"zpot_distance_format".localized,distance,walkTimeStr,carTimeStr];
+    }
+}
+
+-(void)convertLikeIDsToInfo:(NSArray*)likes completion:(void(^)(NSString* txt))completion{
+    __block NSMutableArray* muLikes = [NSMutableArray arrayWithArray:likes];
+    __block NSString* returnString = @"";
+    
+    void(^voidBlock)() = ^{
+        if (muLikes.count > 0) {
+            NSString* user_id = [muLikes firstObject];
+            [muLikes removeObjectAtIndex:0];
+            UserDataModel* user = (UserDataModel*) [UserDataModel fetchObjectWithID:user_id];
+            [user updateObjectForUse:^{
+                if (muLikes.count > 0) {
+                    returnString = [NSString stringWithFormat:@"%@, %@ %@",returnString,user.name,@"and".localized.lowercaseString];
+                    if (muLikes.count == 1) {
+                        //3 users
+                        NSString* user_id = [muLikes firstObject];
+                        UserDataModel* user = (UserDataModel*) [UserDataModel fetchObjectWithID:user_id];
+                        [user updateObjectForUse:^{
+                            returnString = [NSString stringWithFormat:@"%@ %@ %@",returnString,user.name,@"like_this".localized];
+                            completion(returnString);
+                        }];
+                    }else{
+                        //> 3 users
+                        returnString = [NSString stringWithFormat:@"%@ %d %@ %@",returnString,(int)muLikes.count,@"other".localized.lowercaseString,@"like_this".localized];
+                        completion(returnString);
+                    }
+                }else{
+                    //2 users
+                    returnString = [NSString stringWithFormat:@"%@ %@ %@ %@",returnString,@"and".localized.lowercaseString,user.name,@"like_this".localized];
+                    completion(returnString);
+                    
+                }
+            }];
+        }else{
+            //1 user
+            completion([NSString stringWithFormat:@"%@ %@",returnString,@"like_this".localized]);
+        }
+    };
+    
+    if ([muLikes containsObject:[AccountModel currentAccountModel].user_id]) {
+        returnString = @"you".localized;
+        [muLikes removeObject:[AccountModel currentAccountModel].user_id];
+        voidBlock();
+    }else if (muLikes.count>0){
+        NSString* user_id = [muLikes firstObject];
+        [muLikes removeObjectAtIndex:0];
+        UserDataModel* user = (UserDataModel*) [UserDataModel fetchObjectWithID:user_id];
+        [user updateObjectForUse:^{
+            returnString = user.name;
+            voidBlock();
+        }];
+    }else{
+        completion(@"be_first_one_like_this".localized);
     }
 }
 

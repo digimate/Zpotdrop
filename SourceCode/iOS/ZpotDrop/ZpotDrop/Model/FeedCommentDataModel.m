@@ -18,4 +18,13 @@
 @dynamic status;
 @dynamic feed_id;
 
+-(void)awakeFromInsert{
+    [super awakeFromInsert];
+    self.type = @"";
+    self.message = @"";
+    self.time = [NSDate date];
+    self.user_id = @"";
+    self.status = @"";
+    self.feed_id = @"";
+}
 @end
