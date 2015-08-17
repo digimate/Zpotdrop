@@ -19,4 +19,5 @@
 +(NSArray*)fetchObjectsWithPredicate:(NSPredicate*)predicate sorts:(NSArray*)sorts;
 -(void)updateObjectForUse:(void(^)())completion;
 @property(nonatomic, retain)id<DataModelChangedDelegate>dataDelegate;
+-(void)deleteFromDB;
 @end

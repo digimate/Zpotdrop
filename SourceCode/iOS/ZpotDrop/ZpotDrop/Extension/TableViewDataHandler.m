@@ -26,24 +26,48 @@
 
 -(void)removeData:(id)data{
     if (canExcute) {
-        if ([self.tableData containsObject:data]) {
+        if ([data isKindOfClass:[NSArray class]] || [data isKindOfClass:[NSMutableArray class]]) {
+            NSArray* dataArray = (NSArray*)data;
             canExcute = NO;
-            NSIndexPath* indexPath = [NSIndexPath indexPathForRow:[self.tableData indexOfObject:data] inSection:0];
-            [self.tableData removeObject:data];
-            if ([data isKindOfClass:[NSManagedObject class]]) {
-                [[CoreDataService instance] deleteEntity:data];
-                [[CoreDataService instance]saveContext];
+            NSMutableArray* deleteIndexPaths = [NSMutableArray array];
+            for (id object in dataArray) {
+                if ([self.tableData containsObject:object]) {
+                    NSIndexPath* indexPath = [NSIndexPath indexPathForRow:[self.tableData indexOfObject:object] inSection:0];
+                    [deleteIndexPaths addObject:indexPath];
+                    [self.tableData removeObject:object];
+                    if ([object isKindOfClass:[NSManagedObject class]]&& ![(NSManagedObject*)object isFault]) {
+                        [[CoreDataService instance] deleteEntity:object];
+                        [[CoreDataService instance]saveContext];
+                    }
+                }
             }
-            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+            [self.tableView deleteRowsAtIndexPaths:deleteIndexPaths withRowAnimation:UITableViewRowAnimationRight];
             [self performSelector:@selector(resetFlag) withObject:nil afterDelay:TIME_RESET];
+        }else{
+            if ([self.tableData containsObject:data]) {
+                canExcute = NO;
+                NSIndexPath* indexPath = [NSIndexPath indexPathForRow:[self.tableData indexOfObject:data] inSection:0];
+                [self.tableData removeObject:data];
+                if ([data isKindOfClass:[NSManagedObject class]] && ![(NSManagedObject*)data isFault]) {
+                    [[CoreDataService instance] deleteEntity:data];
+                    [[CoreDataService instance]saveContext];
+                }
+                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
+                [self performSelector:@selector(resetFlag) withObject:nil afterDelay:TIME_RESET];
+            }
         }
+        
     }else{
        
         if (!removeList) {
             removeList = [NSMutableArray array];
         }
         @synchronized(removeList){
-            [removeList addObject:data];
+            if ([data isKindOfClass:[NSArray class]] || [data isKindOfClass:[NSMutableArray class]]) {
+                [removeList addObjectsFromArray:data];
+            }else{
+                [removeList addObject:data];
+            }
         }
     }
 }

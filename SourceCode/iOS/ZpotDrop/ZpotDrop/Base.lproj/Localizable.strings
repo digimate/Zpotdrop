@@ -16,8 +16,11 @@
 "cancel" = "Cancel";
 "confirm_password" = "Confirm again";
 "comming" = "C'Min";
+"comminged" = "UnC'Min";
 "change_password" = "Change password";
 "create_location" = "Create location";
+"comment" = "Comment";
+"comments" = "Comments";
 //MARK: - ***** D *****
 "drops" = "Drops";
 "dob" = "Date of birth";
@@ -65,7 +68,9 @@
 "location_name" = "Location name";
 "location_address" = "Location address";
 "like_this" = "like this";
-
+"like" = "Like";
+"liked" = "Liked";
+"likes" = "Likes";
 //MARK: - ***** M *****
 "male" = "Male";
 "minute" = "min";

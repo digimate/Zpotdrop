@@ -19,13 +19,28 @@
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
+    _viewButtons.width = self.width;
+    [_viewButtons addBorderWithFrame:CGRectMake(0, 0, _viewButtons.width, 1.0) color:COLOR_SEPEARATE_LINE];
+    [_btnComment addBorderWithFrame:CGRectMake(0, 0, 1.0, _btnComment.height) color:COLOR_SEPEARATE_LINE];
+    [_btnComming addBorderWithFrame:CGRectMake(0, 0, 1.0, _btnComment.height) color:COLOR_SEPEARATE_LINE];
+    [_btnLike setTitle:@"like".localized forState:UIControlStateNormal];
+    [_btnLike setTitle:@"liked".localized forState:UIControlStateSelected];
+    [_btnLike setTitleColor:COLOR_DARK_GREEN forState:UIControlStateSelected];
+    
+    [_btnComment setTitle:@"comment".localized forState:UIControlStateNormal];
+    [_btnComment setTitleColor:COLOR_DARK_GREEN forState:UIControlStateSelected];
+    
+    [_btnComming setTitle:@"comming".localized forState:UIControlStateNormal];
+    [_btnComming setTitle:@"comminged".localized forState:UIControlStateSelected];
+    [_btnComming setTitleColor:COLOR_DARK_GREEN forState:UIControlStateSelected];
+    
     self.selectionStyle = UITableViewCellSeparatorStyleNone;
     [_lblZpotTitle setWidth:(_lblZpotTitle.width + (self.width - 320))];
     [_viewForMap setWidth:self.width];
     [_tableViewComments setWidth:self.width];
     _imgvAvatar.layer.cornerRadius = _imgvAvatar.width/2;
     _imgvAvatar.layer.masksToBounds = YES;
-    _lblName.textColor = _btnComming.backgroundColor =  COLOR_DARK_GREEN;
+    _lblName.textColor = COLOR_DARK_GREEN;
     _lblZpotInfo.backgroundColor = [COLOR_DARK_GREEN colorWithAlphaComponent:0.5];
     _lblName.text = _lblZpotAddress.text = _lblZpotInfo.text = _lblZpotTitle.text = nil;
     
@@ -40,9 +55,11 @@
     _tableViewComments.dataSource = self;
     
     tableDataHandler = [[TableViewDataHandler alloc]init];
+    tableDataHandler.addOnTop = NO;
     loadingView = [[LoadingView alloc]init];
     
     [_btnComming addTarget:self action:@selector(sendCommingNotify:) forControlEvents:UIControlEventTouchUpInside];
+    [_btnLike addTarget:self action:@selector(likeFeed:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -74,13 +91,16 @@
             _lblZpotInfo.text = distance;
         }
         _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
-        [_btnComming setTitle:@"comming".localized forState:UIControlStateNormal];
+
         _btnComming.enabled = ![feedData.user_id isEqualToString:[AccountModel currentAccountModel].user_id];
-        if (_btnComming.enabled) {
-            _btnComming.backgroundColor = COLOR_DARK_GREEN;
-        }else{
-            _btnComming.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.7];
+        
+        _lblZpotTitle.text = feedData.title;
+        _lblZpotTime.text = [[Utils instance]convertDateToRecent:feedData.time];
+        if ([Utils instance].isGPS) {
+            _lblSpotDistance.text = [[Utils instance] distanceBetweenCoor:CLLocationCoordinate2DMake([feedData.latitude doubleValue], [feedData.longitude doubleValue]) andCoor:[Utils instance].locationManager.location.coordinate];
+            
         }
+
         
         [[Utils instance] clearMapViewBeforeUsing];
         [[[Utils instance]mapView] setFrame:_viewForMap.bounds];
@@ -114,47 +134,168 @@
         [viewHeader addSubview:lblHeader];
         _lblLikeInfo = lblHeader;
         _tableViewComments.tableHeaderView = viewHeader;
-        [[Utils instance]convertLikeIDsToInfo:[feedData.like_userIds componentsSeparatedByString:@","] completion:^(NSString *txt) {
+        NSArray* arrayLikeUserID;
+        if (feedData.like_userIds.length > 0) {
+            arrayLikeUserID = [feedData.like_userIds componentsSeparatedByString:@","];
+        }else{
+            arrayLikeUserID = @[];
+        }
+        [[Utils instance]convertLikeIDsToInfo:arrayLikeUserID completion:^(NSString *txt) {
             _lblLikeInfo.text = txt;
         }];
         [self loadComments];
-
+        _btnLike.selected = ([feedData.like_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
+        _btnComming.selected = ([feedData.comming_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
+        
+        //setup comment number
+        NSString* commentString;
+        if ([feedData.comment_count integerValue] > 1) {
+            commentString = [NSString stringWithFormat:@"%@ %@",feedData.comment_count.description,@"comments".localized];
+        }else{
+            commentString = [NSString stringWithFormat:@"%@ %@",feedData.comment_count.description,@"comment".localized];
+        }
+        NSMutableAttributedString* commentAttString = [[NSMutableAttributedString alloc]initWithString:commentString];
+        [commentAttString addAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]} range:NSMakeRange(0, feedData.comment_count.description.length)];
+        _lblNumberComments.attributedText = commentAttString;
+        
+        //setup like number
+        NSString* likeString;
+        if ([feedData.like_count integerValue] > 1) {
+            likeString = [NSString stringWithFormat:@"%@ %@",feedData.like_count.description,@"likes".localized];
+        }else{
+            likeString = [NSString stringWithFormat:@"%@ %@",feedData.like_count.description,@"like".localized];
+        }
+        NSMutableAttributedString* likeAttString = [[NSMutableAttributedString alloc]initWithString:likeString];
+        [likeAttString addAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]} range:NSMakeRange(0, feedData.like_count.description.length)];
+        _lblNumberLikes.attributedText = likeAttString;
+        
+        CGSize s = [_lblNumberComments sizeThatFits:CGSizeMake(MAXFLOAT, _lblNumberComments.height)];
+        _lblNumberCommentsWidth.constant = ceilf(s.width);
+        
+        s = [_lblNumberLikes sizeThatFits:CGSizeMake(MAXFLOAT, _lblNumberLikes.height)];
+        _lblNumberLikesWidth.constant = ceilf(s.width);
     }
 }
 
 -(void)updateUIForDataModel:(BaseDataModel *)model options:(NSDictionary*)params{
     if (self.dataModel) {
         FeedDataModel* feedData = (FeedDataModel*)self.dataModel;
-        [[Utils instance]convertLikeIDsToInfo:[feedData.like_userIds componentsSeparatedByString:@","] completion:^(NSString *txt) {
+        NSArray* arrayLikeUserID;
+        if (feedData.like_userIds.length > 0) {
+            arrayLikeUserID = [feedData.like_userIds componentsSeparatedByString:@","];
+        }else{
+            arrayLikeUserID = @[];
+        }
+        [[Utils instance]convertLikeIDsToInfo:arrayLikeUserID completion:^(NSString *txt) {
             _lblLikeInfo.text = txt;
         }];
+        _btnLike.selected = ([feedData.like_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
+        _btnComming.selected = ([feedData.comming_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
+        
+        //setup comment number
+        NSString* commentString;
+        if ([feedData.comment_count integerValue] > 1) {
+            commentString = [NSString stringWithFormat:@"%@ %@",feedData.comment_count.description,@"comments".localized];
+        }else{
+            commentString = [NSString stringWithFormat:@"%@ %@",feedData.comment_count.description,@"comment".localized];
+        }
+        NSMutableAttributedString* commentAttString = [[NSMutableAttributedString alloc]initWithString:commentString];
+        [commentAttString addAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]} range:NSMakeRange(0, feedData.comment_count.description.length)];
+        _lblNumberComments.attributedText = commentAttString;
+        
+        //setup like number
+        NSString* likeString;
+        if ([feedData.like_count integerValue] > 1) {
+            likeString = [NSString stringWithFormat:@"%@ %@",feedData.like_count.description,@"likes".localized];
+        }else{
+            likeString = [NSString stringWithFormat:@"%@ %@",feedData.like_count.description,@"like".localized];
+        }
+        NSMutableAttributedString* likeAttString = [[NSMutableAttributedString alloc]initWithString:likeString];
+        [likeAttString addAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]} range:NSMakeRange(0, feedData.like_count.description.length)];
+        _lblNumberLikes.attributedText = likeAttString;
+        
+        CGSize s = [_lblNumberComments sizeThatFits:CGSizeMake(MAXFLOAT, _lblNumberComments.height)];
+        _lblNumberCommentsWidth.constant = ceilf(s.width);
+        
+        s = [_lblNumberLikes sizeThatFits:CGSizeMake(MAXFLOAT, _lblNumberLikes.height)];
+        _lblNumberLikesWidth.constant = ceilf(s.width);
     }
+    
 }
 
 +(CGFloat)cellHeightWithData:(BaseDataModel *)data{
-    return 390;
+    return 472;
+}
+
+-(void)likeFeed:(UIButton*)sender{
+    if (self.dataModel) {
+        FeedDataModel* feedData = (FeedDataModel*)self.dataModel;
+        sender.enabled = NO;
+        if (sender.isSelected) {
+            [[APIService shareAPIService] unlikeFeedWithID:feedData.mid completion:^(BOOL successful, NSString *error) {
+                sender.enabled = YES;
+                if (!successful) {
+                    [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    }];
+                }else{
+                    sender.selected = NO;
+                }
+            }];
+        }else{
+            [[APIService shareAPIService] likeFeedWithID:feedData.mid completion:^(BOOL successful, NSString *error) {
+                sender.enabled = YES;
+                if (!successful) {
+                    [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    }];
+                }else{
+                    sender.selected = YES;
+                }
+            }];
+        }
+        
+    }
 }
 
 -(void)sendCommingNotify:(UIButton*)sender{
-    sender.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.7];
-    sender.enabled = NO;
     if (self.dataModel != nil) {
+        sender.enabled = NO;
         FeedDataModel* feedData = (FeedDataModel*)self.dataModel;
-        FeedCommentDataModel* comment = (FeedCommentDataModel*)[FeedCommentDataModel fetchObjectWithID:[[NSDate date] string]];
-        comment.message = @"";
-        comment.feed_id = feedData.mid;
-        comment.user_id = [AccountModel currentAccountModel].user_id;
-        comment.status = STATUS_DELIVER;
-        comment.type = TYPE_NOTIFY;
-        comment.time = [NSDate date];
-        [[APIService shareAPIService]postComment:comment completion:^(BOOL isSuccess,NSString* error) {
-            if (isSuccess) {
-                [self addComment:comment];
-            }else{
-                _btnComming.backgroundColor = COLOR_DARK_GREEN;
-                _btnComming.enabled = YES;
-            }
-        }];
+        if (sender.isSelected) {
+            //send uncomming
+            [[APIService shareAPIService]sendUnCommingNotifyForFeedID:feedData.mid completion:^(BOOL isSuccess, NSString *error) {
+                sender.enabled = YES;
+                if (isSuccess) {
+                    _btnComming.selected = NO;
+                    NSArray* deleteArray = [FeedCommentDataModel fetchObjectsWithPredicate:[NSPredicate predicateWithFormat:@"feed_id = %@ AND user_id = %@ AND type = %@",feedData.mid,[AccountModel currentAccountModel].user_id,TYPE_NOTIFY] sorts:nil];
+                    [tableDataHandler removeData:deleteArray];
+                }else{
+                    [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    }];
+                }
+            }];
+            
+        }else{
+            //send comming
+            [[APIService shareAPIService]sendCommingNotifyForFeedID:feedData.mid completion:^(BOOL isSuccess, NSString *error) {
+                sender.enabled = YES;
+                if (isSuccess) {
+                    _btnComming.selected = YES;
+                    FeedCommentDataModel* comment = (FeedCommentDataModel*)[FeedCommentDataModel fetchObjectWithID:[[NSDate date] string]];
+                    comment.message = @"";
+                    comment.feed_id = feedData.mid;
+                    comment.user_id = [AccountModel currentAccountModel].user_id;
+                    comment.status = STATUS_DELIVER;
+                    comment.type = TYPE_NOTIFY;
+                    comment.time = [NSDate date];
+                    if (![_commentsData containsObject:comment]) {
+                        [tableDataHandler insertData:comment];
+                    }
+                }else{
+                    [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    }];
+                }
+            }];
+        }
     }
 }
 

@@ -19,6 +19,8 @@
     IBOutlet UILabel* _lblNumberComments;
     IBOutlet UIButton* _btnLike;
     IBOutlet UIButton* _btnComment;
+    IBOutlet UIButton* _btnComming;
+    IBOutlet UIView* _viewButtons;
     IBOutlet NSLayoutConstraint* _lblNumberLikesWidth;
     IBOutlet NSLayoutConstraint* _lblNumberCommentsWidth;
 }
