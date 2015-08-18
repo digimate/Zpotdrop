@@ -29,6 +29,7 @@
     
     [_btnComment setTitle:@"comment".localized forState:UIControlStateNormal];
     [_btnComment setTitleColor:COLOR_DARK_GREEN forState:UIControlStateSelected];
+    [_btnComment addTarget:self action:@selector(showCommentView) forControlEvents:UIControlEventTouchUpInside];
     
     [_btnComming setTitle:@"comming".localized forState:UIControlStateNormal];
     [_btnComming setTitle:@"comminged".localized forState:UIControlStateSelected];
@@ -126,23 +127,57 @@
         
         //headerView
         _tableViewComments.tableHeaderView = nil;
-        UIView* viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _tableViewComments.width, 28)];
-        UILabel* lblHeader = [[UILabel alloc]initWithFrame:CGRectMake(10, 0,viewHeader.width-10, viewHeader.height-2)];
-        lblHeader.textColor = [COLOR_DARK_GREEN colorWithAlphaComponent:0.7];
-        lblHeader.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
-        lblHeader.text = nil;
-        [viewHeader addSubview:lblHeader];
-        _lblLikeInfo = lblHeader;
+        UIView* viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _tableViewComments.width, 50)];
+        _lblLikeInfo = [[UILabel alloc]initWithFrame:CGRectMake(10, 0,viewHeader.width-10, viewHeader.height/2)];
+        _lblLikeInfo.textColor = [UIColor colorWithRed:192 green:192 blue:192];
+        _lblLikeInfo.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
+        _lblLikeInfo.text = nil;
+        [viewHeader addSubview:_lblLikeInfo];
+        
+        _lblCommingInfo = [[UILabel alloc]initWithFrame:CGRectMake(10, viewHeader.height/2,viewHeader.width-10, viewHeader.height/2)];
+        _lblCommingInfo.textColor = [UIColor colorWithRed:192 green:192 blue:192];
+        _lblCommingInfo.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
+        _lblCommingInfo.text = nil;
+        [viewHeader addSubview:_lblCommingInfo];
+        
         _tableViewComments.tableHeaderView = viewHeader;
+        //show Like Info
         NSArray* arrayLikeUserID;
         if (feedData.like_userIds.length > 0) {
             arrayLikeUserID = [feedData.like_userIds componentsSeparatedByString:@","];
         }else{
             arrayLikeUserID = @[];
         }
-        [[Utils instance]convertLikeIDsToInfo:arrayLikeUserID completion:^(NSString *txt) {
-            _lblLikeInfo.text = txt;
+        [[Utils instance]convertLikeIDsToInfo:arrayLikeUserID completion:^(NSString *txt,NSArray* rangeArray) {
+            NSMutableAttributedString* attStr = [[NSMutableAttributedString alloc]initWithString:txt];
+            NSDictionary* dict = @{NSForegroundColorAttributeName : [UIColor colorWithRed:125 green:125 blue:125]};
+            for (NSValue* value in rangeArray) {
+                NSRange range = [value rangeValue];
+                if (range.location != NSNotFound) {
+                    [attStr addAttributes:dict range:range];
+                }
+            }
+            _lblLikeInfo.attributedText = attStr;
         }];
+        //show Comming Info
+        NSArray* arrayCommingUserID;
+        if (feedData.comming_userIds.length > 0) {
+            arrayCommingUserID = [feedData.comming_userIds componentsSeparatedByString:@","];
+        }else{
+            arrayCommingUserID = @[];
+        }
+        [[Utils instance]convertCommingIDsToInfo:arrayCommingUserID completion:^(NSString *txt, NSArray *rangeArray) {
+            NSMutableAttributedString* attStr = [[NSMutableAttributedString alloc]initWithString:txt];
+            NSDictionary* dict = @{NSForegroundColorAttributeName : [UIColor colorWithRed:125 green:125 blue:125]};
+            for (NSValue* value in rangeArray) {
+                NSRange range = [value rangeValue];
+                if (range.location != NSNotFound) {
+                    [attStr addAttributes:dict range:range];
+                }
+            }
+            _lblCommingInfo.attributedText = attStr;
+        }];
+        
         [self loadComments];
         _btnLike.selected = ([feedData.like_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
         _btnComming.selected = ([feedData.comming_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
@@ -177,18 +212,51 @@
     }
 }
 
+-(void)showCommentView{
+    self.onShowComment();
+}
+
 -(void)updateUIForDataModel:(BaseDataModel *)model options:(NSDictionary*)params{
     if (self.dataModel) {
         FeedDataModel* feedData = (FeedDataModel*)self.dataModel;
+        //show like info
         NSArray* arrayLikeUserID;
         if (feedData.like_userIds.length > 0) {
             arrayLikeUserID = [feedData.like_userIds componentsSeparatedByString:@","];
         }else{
             arrayLikeUserID = @[];
         }
-        [[Utils instance]convertLikeIDsToInfo:arrayLikeUserID completion:^(NSString *txt) {
-            _lblLikeInfo.text = txt;
+        [[Utils instance]convertLikeIDsToInfo:arrayLikeUserID completion:^(NSString *txt,NSArray* rangeArray) {
+            NSMutableAttributedString* attStr = [[NSMutableAttributedString alloc]initWithString:txt];
+            NSDictionary* dict = @{NSForegroundColorAttributeName : [UIColor colorWithRed:125 green:125 blue:125]};
+            for (NSValue* value in rangeArray) {
+                NSRange range = [value rangeValue];
+                if (range.location != NSNotFound) {
+                    [attStr addAttributes:dict range:range];
+                }
+            }
+            _lblLikeInfo.attributedText = attStr;
         }];
+        
+        //show Comming Info
+        NSArray* arrayCommingUserID;
+        if (feedData.comming_userIds.length > 0) {
+            arrayCommingUserID = [feedData.comming_userIds componentsSeparatedByString:@","];
+        }else{
+            arrayCommingUserID = @[];
+        }
+        [[Utils instance]convertCommingIDsToInfo:arrayCommingUserID completion:^(NSString *txt, NSArray *rangeArray) {
+            NSMutableAttributedString* attStr = [[NSMutableAttributedString alloc]initWithString:txt];
+            NSDictionary* dict = @{NSForegroundColorAttributeName : [UIColor colorWithRed:125 green:125 blue:125]};
+            for (NSValue* value in rangeArray) {
+                NSRange range = [value rangeValue];
+                if (range.location != NSNotFound) {
+                    [attStr addAttributes:dict range:range];
+                }
+            }
+            _lblCommingInfo.attributedText = attStr;
+        }];
+        
         _btnLike.selected = ([feedData.like_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
         _btnComming.selected = ([feedData.comming_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
         
@@ -299,14 +367,16 @@
     }
 }
 
--(void)addComment:(BaseDataModel*)data{
-    [tableDataHandler insertData:data];
-    [self performSelector:@selector(scrollToTop) withObject:nil afterDelay:0.3];
-}
 -(void)scrollToTop{
     [_tableViewComments setContentOffset:CGPointZero];
 }
-
+-(void)scrollToBottom{
+    [_tableViewComments setContentOffset:CGPointMake(0, _tableViewComments.contentSize.height - _tableViewComments.height)];
+}
+-(void)addComment:(BaseDataModel*)data{
+    [tableDataHandler insertData:data];
+    [self performSelector:@selector(scrollToBottom) withObject:nil afterDelay:0.3];
+}
 -(void)removeComment:(BaseDataModel*)data{
     if (data != nil) {
         [tableDataHandler removeData:data];
@@ -322,6 +392,10 @@
             [self loadCommentsFromLocal];
         }];
     }
+}
+
+-(void)loadOldComments:(UIButton*)sender{
+
 }
 
 -(void)loadCommentsFromLocal{
@@ -357,6 +431,7 @@
     return 1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    [_commentsData sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"time" ascending:YES]]];
     return _commentsData.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -390,4 +465,26 @@
     return [FeedCommentCell cellHeightWithData:data];
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        return 24;
+    }
+    return 0;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        UIView* viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.width, 24)];
+        UIButton* btnViewOldComment = [UIButton buttonWithType:UIButtonTypeSystem];
+        [btnViewOldComment setFrame:CGRectMake(10, 0, viewHeader.width - 10, viewHeader.height)];
+        [btnViewOldComment setTitleColor:[UIColor colorWithRed:152 green:152 blue:152] forState:UIControlStateNormal];
+        [btnViewOldComment addTarget:self action:@selector(loadOldComments:) forControlEvents:UIControlEventTouchUpInside];
+        [btnViewOldComment setTitle:@"view_previous_comment".localized forState:UIControlStateNormal];
+        [[btnViewOldComment titleLabel]setFont:[UIFont fontWithName:@"PTSans-Bold" size:14]];
+        [btnViewOldComment setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+        [viewHeader addSubview:btnViewOldComment];
+        return viewHeader;
+    }
+    return nil;
+}
 @end

@@ -17,6 +17,7 @@
 "confirm_password" = "Confirm again";
 "comming" = "C'Min";
 "comminged" = "UnC'Min";
+"coming" = "Coming";
 "change_password" = "Change password";
 "create_location" = "Create location";
 "comment" = "Comment";
@@ -79,6 +80,7 @@
 "notice_input_email" = "Please enter your email";
 "new_password" = "New Password";
 "new_password_again" = "New Password again";
+"no_coming_user" = "Be first person coming";
 //MARK: - ***** O *****
 "ok" = "OK";
 "other" = "Other";
@@ -108,6 +110,8 @@
 "seconds" = "sec";
 //MARK: - ***** T *****
 "terms_of_use" = "Temp of Use";
+//MARK: - ***** V *****
+"view_previous_comment" = "View previous comments";
 //MARK: - ***** W *****
 "welcome" = "Welcome to";
 //MARK: - ***** Y *****

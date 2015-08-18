@@ -433,7 +433,9 @@
             commentModel.status = STATUS_DELIVER;
             commentModel.time = location.createdAt;
             //change number of comment for FeedDataModel
-            [self increaseFeedCommentCountForFeedID:commentModel.feed_id];
+            if ([commentModel.type isEqualToString:TYPE_COMMENT]) {
+                [self increaseFeedCommentCountForFeedID:commentModel.feed_id];
+            }
             
         }else{
             commentModel.status = STATUS_ERROR;

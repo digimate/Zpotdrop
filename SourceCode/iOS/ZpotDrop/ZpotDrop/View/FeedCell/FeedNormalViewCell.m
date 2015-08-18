@@ -13,7 +13,9 @@
 #import "APIService.h"
 
 @implementation FeedNormalViewCell
-
+@synthesize btnComment = _btnComment;
+@synthesize btnComming = _btnComming;
+@synthesize btnLike = _btnLike;
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
@@ -27,6 +29,7 @@
     
     [_btnComment setTitle:@"comment".localized forState:UIControlStateNormal];
     [_btnComment setTitleColor:COLOR_DARK_GREEN forState:UIControlStateSelected];
+    [_btnComment addTarget:self action:@selector(showCommentView) forControlEvents:UIControlEventTouchUpInside];
     
     [_btnComming setTitle:@"comming".localized forState:UIControlStateNormal];
     [_btnComming setTitle:@"comminged".localized forState:UIControlStateSelected];
@@ -49,6 +52,10 @@
     _btnLike.userInteractionEnabled = YES;
     [_btnLike addTarget:self action:@selector(likeFeed:) forControlEvents:UIControlEventTouchUpInside];
     [self addBorderWithFrame:CGRectMake(0, [FeedNormalViewCell cellHeightWithData:nil]-5.0, self.width, 5.0) color:[UIColor colorWithRed:242 green:242 blue:242]];
+}
+
+-(void)showCommentView{
+    self.onShowComment();
 }
 
 -(void)sendCommingNotify:(UIButton*)sender{
@@ -182,6 +189,7 @@
         
         _btnLike.selected = ([feedData.like_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
         _btnComming.selected = ([feedData.comming_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
+        _btnComming.enabled = ![feedData.user_id isEqualToString:[AccountModel currentAccountModel].user_id];
     }
 }
 

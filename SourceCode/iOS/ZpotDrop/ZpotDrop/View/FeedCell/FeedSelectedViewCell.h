@@ -31,9 +31,11 @@
     IBOutlet UILabel* _lblNumberLikes;
     IBOutlet UILabel* _lblNumberComments;
     UILabel* _lblLikeInfo;
+    UILabel* _lblCommingInfo;
     NSMutableArray* _commentsData;
     TableViewDataHandler* tableDataHandler;
     LoadingView* loadingView;
 }
 -(void)addComment:(BaseDataModel*)data;
+@property(nonatomic, copy)void(^onShowComment)();
 @end

@@ -63,5 +63,6 @@ typedef enum {
 -(NSString*)convertDateToRecent:(NSDate*)date;
 -(NSString*)distanceBetweenCoor:(CLLocationCoordinate2D)c1 andCoor:(CLLocationCoordinate2D)c2;
 -(NSString*)distanceWithMoveTimeBetweenCoor:(CLLocationCoordinate2D)c1 andCoor:(CLLocationCoordinate2D)c2;
--(void)convertLikeIDsToInfo:(NSArray*)likes completion:(void(^)(NSString* txt))completion;
+-(void)convertLikeIDsToInfo:(NSArray*)likes completion:(void(^)(NSString* txt,NSArray * rangeArray))completion;
+-(void)convertCommingIDsToInfo:(NSArray*)likes completion:(void(^)(NSString* txt,NSArray * rangeArray))completion;
 @end

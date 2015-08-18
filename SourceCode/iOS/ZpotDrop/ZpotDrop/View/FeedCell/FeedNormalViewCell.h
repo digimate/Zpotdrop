@@ -24,5 +24,9 @@
     IBOutlet NSLayoutConstraint* _lblNumberLikesWidth;
     IBOutlet NSLayoutConstraint* _lblNumberCommentsWidth;
 }
+@property(nonatomic, readonly)UIButton* btnLike;
+@property(nonatomic, readonly)UIButton* btnComment;
+@property(nonatomic, readonly)UIButton* btnComming;
 
+@property(nonatomic, copy)void(^onShowComment)();
 @end
