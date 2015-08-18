@@ -24,5 +24,6 @@
 @property (nonatomic, retain) NSNumber* privateProfile;
 @property (nonatomic, retain) NSNumber* enableAllZpot;
 -(NSString*)name;
++(id)UserFromParse:(id)data;
 
 @end

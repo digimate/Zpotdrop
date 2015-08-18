@@ -10,12 +10,15 @@
 #import "ContactCell.h"
 #import "friendCell.h"
 #import "listModeCell.h"
+#import <Parse/Parse.h>
 
 @interface SearchViewController() <UISearchBarDelegate>
 {
     UISearchBar* _searchZpotBar;
     UITableView* _mTableView;
     CONTACT_MODE _mode;
+    NSArray* _searchResult;
+    NSArray* _follow;
 }
 @end
 
@@ -58,10 +61,18 @@
     [_mTableView setKeyboardDismissMode:UIScrollViewKeyboardDismissModeInteractive];
     [_mTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.view addSubview:_mTableView];
+    
+    [_api getFolowerListOfUser:[AccountModel currentAccountModel].user_id completion:^(BOOL successful, NSArray *result) {
+        _follow = result;
+    }];
 }
 
 #pragma mark - UISearchBarDelegate
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    [_api searchUserWithData:searchBar.text completion:^(BOOL successful, NSArray *result) {
+        _searchResult = result;
+        [_mTableView reloadData];
+    }];
     [searchBar resignFirstResponder];
 }
 
@@ -73,7 +84,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return [_searchResult count] + 3;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -85,13 +96,35 @@
     return 35.f;
 }
 
+-(BOOL)checkIsFollowing:(UserDataModel*)user
+{
+    for (PFObject* i in _follow)
+    {
+        if ([i[@"followedUser"][@"email"] isEqualToString:user.email])
+            return YES;
+    }
+    return NO;
+}
+
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row > 2)
     {
         ContactCell* cell = [tableView dequeueReusableCellWithIdentifier:@"contactCell" forIndexPath:indexPath];
-        [cell setupCellWithData:nil inSize:CGSizeMake(tableView.frame.size.width, 50)];
-        [cell setFollow:(indexPath.row%2)];
+        UserDataModel* user = [UserDataModel UserFromParse:_searchResult[(indexPath.row - 3)]];
+        [cell setupCellWithData:user inSize:CGSizeMake(tableView.frame.size.width, 50)];
+        [cell setFollow:[self checkIsFollowing:user] withHandler:^(BOOL setFollow) {
+            if (setFollow)
+            {
+                [_api setFolowWithUser:user.mid completion:^(BOOL successful, NSArray *result) {
+                }];
+            }
+            else
+            {
+                [_api setUnFollowWithUser:user.mid completion:^(BOOL successful, NSArray *result) {
+                }];
+            }
+        }];
         return cell;
     }
     if (indexPath.row == 0)

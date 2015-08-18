@@ -158,7 +158,7 @@ static NSDateFormatter *_displayFormatter = nil;
     // From progrmr's answer...
     NSCalendar* calendar = [NSCalendar currentCalendar];
     
-    unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
+    unsigned unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay;
     NSDateComponents* comp1 = [calendar components:unitFlags fromDate:self];
     NSDateComponents* comp2 = [calendar components:unitFlags fromDate:otherDate];
     
