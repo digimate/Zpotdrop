@@ -13,6 +13,7 @@
 
 @dynamic username,first_name,last_name;
 @dynamic avatar,gender,birthday,email;
+@dynamic hometown,phone,enableAllZpot,privateProfile;
 
 -(void)awakeFromInsert{
     [super awakeFromInsert];
@@ -23,6 +24,24 @@
     self.gender = [NSNumber numberWithBool:NO];
     self.birthday = [NSDate date];
     self.email = @"";
+    self.hometown = @"";
+    self.phone = @"";
+    self.privateProfile = [NSNumber numberWithBool:YES];
+    self.enableAllZpot = [NSNumber numberWithBool:YES];
+}
+
+-(void)awakeFromFetch{
+    if (self.hometown == nil) {
+        self.hometown = @"";
+    }
+    if (self.phone == nil) {
+        self.phone = @"";
+    }
+    if (self.privateProfile == nil) {
+        self.privateProfile = [NSNumber numberWithBool:YES];
+    }if (self.enableAllZpot == nil) {
+        self.enableAllZpot = [NSNumber numberWithBool:YES];
+    }
 }
 
 -(NSString *)name{

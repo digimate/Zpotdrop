@@ -19,7 +19,10 @@
 @property (nonatomic, retain) NSString * email;
 @property (nonatomic, retain) NSDate * birthday;
 @property (nonatomic, retain) NSNumber* gender;
-
+@property (nonatomic, retain) NSString* hometown;
+@property (nonatomic, retain) NSString* phone;
+@property (nonatomic, retain) NSNumber* privateProfile;
+@property (nonatomic, retain) NSNumber* enableAllZpot;
 -(NSString*)name;
 
 @end

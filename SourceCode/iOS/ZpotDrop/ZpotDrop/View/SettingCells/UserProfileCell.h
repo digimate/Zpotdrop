@@ -25,6 +25,14 @@
     IBOutlet UIButton * btnEditPicture;
     IBOutlet UIImageView* imgvAvatar;
     UIDatePicker* datePicker;
+    BOOL isChangeAvatar;
 }
+@property(nonatomic,readonly)NSString* lastName;
+@property(nonatomic,readonly)NSString* firstName;
+@property(nonatomic,readonly)NSString* hometown;
+@property(nonatomic,readonly)NSDate* birthday;
+@property(nonatomic,readonly)NSString* email;
+@property(nonatomic,readonly)NSString* phoneNumber;
+@property(nonatomic,readonly)UIImage* imageChanged;
 
 @end

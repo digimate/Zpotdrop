@@ -38,10 +38,14 @@
         <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="birthday" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="enableAllZpot" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="first_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gender" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="hometown" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="last_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="privateProfile" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
@@ -49,6 +53,6 @@
         <element name="FeedCommentDataModel" positionX="-63" positionY="9" width="128" height="150"/>
         <element name="FeedDataModel" positionX="-54" positionY="18" width="128" height="210"/>
         <element name="LocationDataModel" positionX="-54" positionY="72" width="128" height="120"/>
-        <element name="UserDataModel" positionX="-63" positionY="-18" width="128" height="165"/>
+        <element name="UserDataModel" positionX="-63" positionY="-18" width="128" height="225"/>
     </elements>
 </model>

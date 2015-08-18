@@ -15,4 +15,5 @@
     IBOutlet UISwitch* switchControl;
 }
 +(CGFloat)ceilHeigthWithParams:(NSDictionary*)dict;
+@property(nonatomic,copy)void(^onSwitchChanged)(BOOL flag);
 @end

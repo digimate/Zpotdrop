@@ -22,6 +22,8 @@
 "create_location" = "Create location";
 "comment" = "Comment";
 "comments" = "Comments";
+"confirm" = "Confirm";
+"confirm_save_info" = "Do you want to save your change?";
 //MARK: - ***** D *****
 "drops" = "Drops";
 "dob" = "Date of birth";
@@ -81,6 +83,7 @@
 "new_password" = "New Password";
 "new_password_again" = "New Password again";
 "no_coming_user" = "Be first person coming";
+"no" = "No";
 //MARK: - ***** O *****
 "ok" = "OK";
 "other" = "Other";
@@ -117,6 +120,7 @@
 //MARK: - ***** Y *****
 "yesterday" = "Yesterday";
 "you" = "You";
+"yes" = "Yes";
 //MARK: - ***** Z *****
 "zpot_all" = "Zpot All";
 "zpot_all_usage" = "Now,click to zpot all your friends";

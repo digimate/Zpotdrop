@@ -308,15 +308,13 @@
     user[@"lastName"] = [data objectForKey:@"lastName"];
     user[@"gender"] = [data objectForKey:@"gender"];
     user[@"dob"] = [data objectForKey:@"dob"];
+    user[@"phoneNumber"] = @"";
+    user[@"hometown"] = @"";
+    user[@"enableAllZpot"] = [NSNumber numberWithBool:YES];
+    user[@"privateProfile"] = [NSNumber numberWithBool:YES];
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         if (succeeded) {
-            UserDataModel* userModel = (UserDataModel*)[UserDataModel fetchObjectWithID:user.objectId];
-            userModel.email = user.email;
-            userModel.username = user.username;
-            userModel.first_name = user[@"firstName"];
-            userModel.last_name = user[@"lastName"];
-            userModel.gender = user[@"gender"];
-            userModel.birthday = user[@"dob"];
+            UserDataModel* userModel = [self updateUserModel:user.objectId withParse:user];;
             [AccountModel currentAccountModel].user_id = userModel.mid;
             [[CoreDataService instance]saveContext];
             response(userModel, error.localizedDescription);
@@ -332,18 +330,27 @@
         if (error) {
             response(nil, error.localizedDescription);
         }else{
-            UserDataModel* userModel = (UserDataModel*)[UserDataModel fetchObjectWithID:user.objectId];
-            userModel.email = user.email;
-            userModel.username = user.username;
-            userModel.first_name = user[@"firstName"];
-            userModel.last_name = user[@"lastName"];
-            userModel.gender = user[@"gender"];
-            userModel.birthday = user[@"dob"];
+            UserDataModel* userModel = [self updateUserModel:user.objectId withParse:user];
             [AccountModel currentAccountModel].user_id = userModel.mid;
             [[CoreDataService instance]saveContext];
             response(userModel, error.localizedDescription);
         }
     }];
+}
+
+-(UserDataModel*)updateUserModel:(NSString*)uid withParse:(PFUser*)user{
+    UserDataModel* userModel = (UserDataModel*)[UserDataModel fetchObjectWithID:user.objectId];
+    userModel.email = user.email;
+    userModel.username = user.username;
+    userModel.first_name = user[@"firstName"];
+    userModel.last_name = user[@"lastName"];
+    userModel.gender = user[@"gender"];
+    userModel.birthday = user[@"dob"];
+    userModel.phone = user[@"phoneNumber"];
+    userModel.hometown = user[@"hometown"];
+    userModel.enableAllZpot = user[@"enableAllZpot"];
+    userModel.privateProfile = user[@"privateProfile"];
+    return userModel;
 }
 
 -(void)forgotPasswordWithData:(NSDictionary *)data :(dataResponse)response
@@ -365,6 +372,22 @@
     }];
 }
 
+-(void)updateUserInfoToServerWithID:(NSString*)userID params:(NSDictionary*)params completion:(void(^)(BOOL success,NSString* error))completion{
+    PFUser* user = [PFUser currentUser];
+    user.email = [params objectForKey:@"email"];
+    user[@"firstName"] = [params objectForKey:@"firstName"];
+    user[@"lastName"] = [params objectForKey:@"lastName"];
+//    user[@"gender"] = [params objectForKey:@"gender"];
+    user[@"dob"] = [params objectForKey:@"dob"];
+    user[@"phoneNumber"] = [params objectForKey:@"phoneNumber"];
+    user[@"hometown"] = [params objectForKey:@"hometown"];
+    user[@"enableAllZpot"] = [params objectForKey:@"enableAllZpot"];
+    user[@"privateProfile"] = [params objectForKey:@"privateProfile"];
+    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+        [self updateUserModel:userID withParse:user];
+        completion(succeeded,error.description);
+    }];
+}
 #pragma mark - DataModel
 -(void)updateUserModelWithID:(NSString*)mid completion:(VoidBlock)completion{
     PFQuery *query = [PFUser query];
@@ -378,6 +401,8 @@
             userModel.last_name = user[@"lastName"];
             userModel.gender = user[@"gender"];
             userModel.birthday = user[@"dob"];
+            userModel.phone = user[@"phoneNumber"];
+            userModel.hometown = user[@"hometown"];
             [[CoreDataService instance]saveContext];
         }
         completion();

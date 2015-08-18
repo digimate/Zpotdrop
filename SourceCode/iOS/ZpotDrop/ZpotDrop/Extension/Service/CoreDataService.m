@@ -51,6 +51,7 @@
 	[request setEntity:entity];
     [request setPredicate:predicate];
 	[request setSortDescriptors:sortDescriptors];
+    [request setReturnsObjectsAsFaults:NO];
     
 	NSError *error = nil;
 	NSArray *entities = [self.managedObjectContext executeFetchRequest:request error:&error];
@@ -96,6 +97,7 @@
 	[request setEntity:entity];
     [request setPredicate:predicate];
 	[request setSortDescriptors:sortDescriptors];
+    [request setReturnsObjectsAsFaults:NO];
     [request setFetchLimit:1];
     
 	NSError *error = nil;

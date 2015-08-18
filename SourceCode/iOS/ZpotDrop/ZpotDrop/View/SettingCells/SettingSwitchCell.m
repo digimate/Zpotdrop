@@ -16,6 +16,11 @@
     [super awakeFromNib];
     lblSubtitle.numberOfLines = 0;
     lblTitle.text = lblSubtitle.text = nil;
+    [switchControl addTarget:self action:@selector(valueChanged:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+-(void)valueChanged:(id)sender{
+    self.onSwitchChanged(switchControl.isOn);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
