@@ -21,4 +21,5 @@
 @property (nonatomic, retain) NSNumber * like_count;
 @property (nonatomic, retain) NSNumber * comment_count;
 @property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSString * comming_userIds;
 @end

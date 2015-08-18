@@ -20,6 +20,7 @@
 @dynamic like_count;
 @dynamic comment_count;
 @dynamic title;
+@dynamic comming_userIds;
 
 -(void)awakeFromInsert{
     [super awakeFromInsert];
@@ -32,6 +33,15 @@
     self.like_count = @(0);
     self.comment_count = @(0);
     self.title = @"";
+    self.comming_userIds = @"";
 }
 
+-(void)awakeFromFetch{
+    if (self.comment_count == nil || [self.comment_count isKindOfClass:[NSNull class]]) {
+        self.comment_count = @(0);
+    }
+    if (self.comming_userIds == nil) {
+        self.comming_userIds = @"";
+    }
+}
 @end

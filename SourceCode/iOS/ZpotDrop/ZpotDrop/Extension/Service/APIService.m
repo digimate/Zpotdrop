@@ -149,6 +149,7 @@
     feedModel.like_count = parse[@"like_count"];
     feedModel.comment_count = parse[@"comment_count"];
     feedModel.like_userIds = parse[@"like_userIds"];
+    feedModel.comming_userIds = parse[@"comming_userIds"];
     return feedModel;
 }
 
@@ -221,6 +222,71 @@
         
     }];
 }
+
+-(void)sendCommingNotifyForFeedID:(NSString*)fid completion:(void(^)(BOOL isSuccess,NSString* error))completion{
+    PFQuery* query = [PFQuery queryWithClassName:@"Post"];
+    [query whereKey:@"objectId" equalTo: fid];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (objects && objects.count > 0) {
+            PFObject* parseObject = [objects firstObject];
+            NSString* likeIDs = parseObject[@"comming_userIds"];
+            if ([likeIDs rangeOfString:[AccountModel currentAccountModel].user_id].location == NSNotFound) {
+                if (likeIDs && likeIDs.length > 0) {
+                    likeIDs = [NSString stringWithFormat:@"%@,%@",likeIDs,[AccountModel currentAccountModel].user_id];
+                }else{
+                    likeIDs = [AccountModel currentAccountModel].user_id;
+                }
+                parseObject[@"comming_userIds"] = likeIDs;
+                [parseObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+                    if (succeeded) {
+                        FeedDataModel* feedModel = [self updateFeedFromParse:parseObject];
+                        [feedModel.dataDelegate updateUIForDataModel:feedModel options:nil];
+                    }
+                    completion(succeeded,error.description);
+                }];
+            }else{
+                FeedDataModel* feedModel = [self updateFeedFromParse:parseObject];
+                [feedModel.dataDelegate updateUIForDataModel:feedModel options:nil];
+                completion(YES,nil);
+            }
+        }else{
+            completion(NO,error.description);
+        }
+        
+    }];
+}
+
+-(void)sendUnCommingNotifyForFeedID:(NSString*)fid completion:(void(^)(BOOL isSuccess,NSString* error))completion{
+    PFQuery* query = [PFQuery queryWithClassName:@"Post"];
+    [query whereKey:@"objectId" equalTo: fid];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (objects && objects.count > 0) {
+            PFObject* parseObject = [objects firstObject];
+            NSString* likeIDs = parseObject[@"comming_userIds"];
+            NSMutableArray* likeIDArray = [NSMutableArray arrayWithArray:[likeIDs componentsSeparatedByString:@","]];
+            if ([likeIDArray containsObject:[AccountModel currentAccountModel].user_id]) {
+                [likeIDArray removeObject:[AccountModel currentAccountModel].user_id];
+                likeIDs = [likeIDArray componentsJoinedByString:@","];
+                parseObject[@"comming_userIds"] = likeIDs;
+                [parseObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+                    if (succeeded) {
+                        FeedDataModel* feedModel = [self updateFeedFromParse:parseObject];
+                        [feedModel.dataDelegate updateUIForDataModel:feedModel options:nil];
+                    }
+                    completion(succeeded,error.description);
+                }];
+            }else{
+                FeedDataModel* feedModel = [self updateFeedFromParse:parseObject];
+                [feedModel.dataDelegate updateUIForDataModel:feedModel options:nil];
+                completion(YES,nil);
+            }
+        }else{
+            completion(NO,error.description);
+        }
+        
+    }];
+}
+
 #pragma mark - Account
 -(void)checkIsExistUsername:(NSString*)username completion:(void(^)(BOOL isExist))completion{
     [self fetchUserWithUsername:username callback:^(PFObject *user, NSString *error) {
@@ -367,7 +433,9 @@
             commentModel.status = STATUS_DELIVER;
             commentModel.time = location.createdAt;
             //change number of comment for FeedDataModel
-            [self increaseFeedCommentCountForFeedID:commentModel.feed_id];
+            if ([commentModel.type isEqualToString:TYPE_COMMENT]) {
+                [self increaseFeedCommentCountForFeedID:commentModel.feed_id];
+            }
             
         }else{
             commentModel.status = STATUS_ERROR;

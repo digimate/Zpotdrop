@@ -30,4 +30,9 @@
 -(void)updateObjectForUse:(void (^)())completion{
     completion();
 }
+
+-(void)deleteFromDB{
+    [[CoreDataService instance]deleteEntity:self];
+    [[CoreDataService instance]saveContext];
+}
 @end

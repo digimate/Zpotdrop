@@ -21,10 +21,21 @@
     IBOutlet UIView* _viewForMap;
     IBOutlet UITableView* _tableViewComments;
     IBOutlet UIButton* _btnComming;
+    IBOutlet UIButton* _btnLike;
+    IBOutlet UIButton* _btnComment;
+    IBOutlet UILabel* _lblZpotTime;
+    IBOutlet UILabel* _lblSpotDistance;
+    IBOutlet UIView* _viewButtons;
+    IBOutlet NSLayoutConstraint* _lblNumberLikesWidth;
+    IBOutlet NSLayoutConstraint* _lblNumberCommentsWidth;
+    IBOutlet UILabel* _lblNumberLikes;
+    IBOutlet UILabel* _lblNumberComments;
     UILabel* _lblLikeInfo;
+    UILabel* _lblCommingInfo;
     NSMutableArray* _commentsData;
     TableViewDataHandler* tableDataHandler;
     LoadingView* loadingView;
 }
 -(void)addComment:(BaseDataModel*)data;
+@property(nonatomic, copy)void(^onShowComment)();
 @end

@@ -163,10 +163,10 @@
     }
 }
 
--(void)convertLikeIDsToInfo:(NSArray*)likes completion:(void(^)(NSString* txt))completion{
+-(void)convertLikeIDsToInfo:(NSArray*)likes completion:(void(^)(NSString* txt,NSArray * rangeArray))completion{
     __block NSMutableArray* muLikes = [NSMutableArray arrayWithArray:likes];
     __block NSString* returnString = @"";
-    
+    __block NSMutableArray* rangeArray = [NSMutableArray array];
     void(^voidBlock)() = ^{
         if (muLikes.count > 0) {
             NSString* user_id = [muLikes firstObject];
@@ -175,34 +175,40 @@
             [user updateObjectForUse:^{
                 if (muLikes.count > 0) {
                     returnString = [NSString stringWithFormat:@"%@, %@ %@",returnString,user.name,@"and".localized.lowercaseString];
+                    [rangeArray addObject:[NSValue valueWithRange:[returnString rangeOfString:user.name]]];
                     if (muLikes.count == 1) {
                         //3 users
                         NSString* user_id = [muLikes firstObject];
                         UserDataModel* user = (UserDataModel*) [UserDataModel fetchObjectWithID:user_id];
                         [user updateObjectForUse:^{
                             returnString = [NSString stringWithFormat:@"%@ %@ %@",returnString,user.name,@"like_this".localized];
-                            completion(returnString);
+                            [rangeArray addObject:[NSValue valueWithRange:[returnString rangeOfString:user.name]]];
+                        
+                            completion(returnString,rangeArray);
                         }];
                     }else{
                         //> 3 users
-                        returnString = [NSString stringWithFormat:@"%@ %d %@ %@",returnString,(int)muLikes.count,@"other".localized.lowercaseString,@"like_this".localized];
-                        completion(returnString);
+                        returnString = [NSString stringWithFormat:@"%@ %@ %@ %@",returnString,muLikes.description,@"other".localized.lowercaseString,@"like_this".localized];
+                        [rangeArray addObject:[NSValue valueWithRange:[returnString rangeOfString:muLikes.description]]];
+                        completion(returnString,rangeArray);
                     }
                 }else{
                     //2 users
                     returnString = [NSString stringWithFormat:@"%@ %@ %@ %@",returnString,@"and".localized.lowercaseString,user.name,@"like_this".localized];
-                    completion(returnString);
+                    [rangeArray addObject:[NSValue valueWithRange:[returnString rangeOfString:user.name]]];
+                    completion(returnString,rangeArray);
                     
                 }
             }];
         }else{
             //1 user
-            completion([NSString stringWithFormat:@"%@ %@",returnString,@"like_this".localized]);
+            completion([NSString stringWithFormat:@"%@ %@",returnString,@"like_this".localized],rangeArray);
         }
     };
     
     if ([muLikes containsObject:[AccountModel currentAccountModel].user_id]) {
         returnString = @"you".localized;
+        [rangeArray addObject:[NSValue valueWithRange:NSMakeRange(0, returnString.length)]];
         [muLikes removeObject:[AccountModel currentAccountModel].user_id];
         voidBlock();
     }else if (muLikes.count>0){
@@ -211,13 +217,75 @@
         UserDataModel* user = (UserDataModel*) [UserDataModel fetchObjectWithID:user_id];
         [user updateObjectForUse:^{
             returnString = user.name;
+            [rangeArray addObject:[NSValue valueWithRange:NSMakeRange(0, returnString.length)]];
             voidBlock();
         }];
     }else{
-        completion(@"be_first_one_like_this".localized);
+        completion(@"be_first_one_like_this".localized,@[]);
     }
 }
 
+-(void)convertCommingIDsToInfo:(NSArray*)likes completion:(void(^)(NSString* txt,NSArray * rangeArray))completion{
+    __block NSMutableArray* muLikes = [NSMutableArray arrayWithArray:likes];
+    __block NSString* returnString = @"";
+    __block NSMutableArray* rangeArray = [NSMutableArray array];
+    void(^voidBlock)() = ^{
+        if (muLikes.count > 0) {
+            NSString* user_id = [muLikes firstObject];
+            [muLikes removeObjectAtIndex:0];
+            UserDataModel* user = (UserDataModel*) [UserDataModel fetchObjectWithID:user_id];
+            [user updateObjectForUse:^{
+                if (muLikes.count > 0) {
+                    returnString = [NSString stringWithFormat:@"%@, %@ %@",returnString,user.name,@"and".localized.lowercaseString];
+                    [rangeArray addObject:[NSValue valueWithRange:[returnString rangeOfString:user.name]]];
+                    if (muLikes.count == 1) {
+                        //3 users
+                        NSString* user_id = [muLikes firstObject];
+                        UserDataModel* user = (UserDataModel*) [UserDataModel fetchObjectWithID:user_id];
+                        [user updateObjectForUse:^{
+                            returnString = [NSString stringWithFormat:@"%@ %@ %@",returnString,user.name,@"coming".localized.lowercaseString];
+                            [rangeArray addObject:[NSValue valueWithRange:[returnString rangeOfString:user.name]]];
+                            
+                            completion(returnString,rangeArray);
+                        }];
+                    }else{
+                        //> 3 users
+                        returnString = [NSString stringWithFormat:@"%@ %@ %@ %@",returnString,muLikes.description,@"other".localized.lowercaseString,@"coming".localized.lowercaseString];
+                        [rangeArray addObject:[NSValue valueWithRange:[returnString rangeOfString:muLikes.description]]];
+                        completion(returnString,rangeArray);
+                    }
+                }else{
+                    //2 users
+                    returnString = [NSString stringWithFormat:@"%@ %@ %@ %@",returnString,@"and".localized.lowercaseString,user.name,@"coming".localized.lowercaseString];
+                    [rangeArray addObject:[NSValue valueWithRange:[returnString rangeOfString:user.name]]];
+                    completion(returnString,rangeArray);
+                    
+                }
+            }];
+        }else{
+            //1 user
+            completion([NSString stringWithFormat:@"%@ %@",returnString,@"coming".localized.lowercaseString],rangeArray);
+        }
+    };
+    
+    if ([muLikes containsObject:[AccountModel currentAccountModel].user_id]) {
+        returnString = @"you".localized;
+        [rangeArray addObject:[NSValue valueWithRange:NSMakeRange(0, returnString.length)]];
+        [muLikes removeObject:[AccountModel currentAccountModel].user_id];
+        voidBlock();
+    }else if (muLikes.count>0){
+        NSString* user_id = [muLikes firstObject];
+        [muLikes removeObjectAtIndex:0];
+        UserDataModel* user = (UserDataModel*) [UserDataModel fetchObjectWithID:user_id];
+        [user updateObjectForUse:^{
+            returnString = user.name;
+            [rangeArray addObject:[NSValue valueWithRange:NSMakeRange(0, returnString.length)]];
+            voidBlock();
+        }];
+    }else{
+        completion(@"no_coming_user".localized,@[]);
+    }
+}
 #pragma mark - UIImagePicker
 -(void)showImagePickerWithCompletion:(void(^)(UIImage* image))completion fromViewController:(UIViewController*)controller isCrop:(BOOL)isDrop isCamera:(BOOL)isCamera{
     imageCompletion = completion;

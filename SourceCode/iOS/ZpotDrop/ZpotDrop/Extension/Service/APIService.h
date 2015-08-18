@@ -54,4 +54,7 @@ typedef void(^dataResponse)(id data, NSString* error);
 -(void)getFollowMe:(void(^)(BOOL successful,NSArray* result))completion;
 -(void)setFolowWithUser:(NSString*)data completion:(void(^)(BOOL successful,NSArray* result))completion;
 -(void)setUnFollowWithUser:(NSString*)data completion:(void(^)(BOOL successful,NSArray* result))completion;
+
+-(void)sendCommingNotifyForFeedID:(NSString*)fid completion:(void(^)(BOOL isSuccess,NSString* error))completion;
+-(void)sendUnCommingNotifyForFeedID:(NSString*)fid completion:(void(^)(BOOL isSuccess,NSString* error))completion;
 @end

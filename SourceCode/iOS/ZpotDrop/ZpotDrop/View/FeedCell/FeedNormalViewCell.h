@@ -19,8 +19,14 @@
     IBOutlet UILabel* _lblNumberComments;
     IBOutlet UIButton* _btnLike;
     IBOutlet UIButton* _btnComment;
+    IBOutlet UIButton* _btnComming;
+    IBOutlet UIView* _viewButtons;
     IBOutlet NSLayoutConstraint* _lblNumberLikesWidth;
     IBOutlet NSLayoutConstraint* _lblNumberCommentsWidth;
 }
+@property(nonatomic, readonly)UIButton* btnLike;
+@property(nonatomic, readonly)UIButton* btnComment;
+@property(nonatomic, readonly)UIButton* btnComming;
 
+@property(nonatomic, copy)void(^onShowComment)();
 @end
