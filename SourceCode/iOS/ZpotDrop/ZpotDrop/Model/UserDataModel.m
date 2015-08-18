@@ -62,15 +62,6 @@
 +(id)UserFromParse:(id)data
 {
     PFUser* user = data;
-    UserDataModel* model = (UserDataModel*)[UserDataModel fetchObjectWithID:user[@"email"]];
-
-    model.username = user[@"email"];
-    model.avatar = @"";
-    model.first_name = user[@"firstName"];
-    model.last_name = user[@"lastName"];
-    model.gender = user[@"gender"];
-    model.birthday = user[@"dob"];
-    model.email = user[@"email"];
-    return model;
+    return [[APIService shareAPIService]updateUserModel:user.objectId withParse:user];
 }
 @end

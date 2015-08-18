@@ -339,7 +339,7 @@
 }
 
 -(UserDataModel*)updateUserModel:(NSString*)uid withParse:(PFUser*)user{
-    UserDataModel* userModel = (UserDataModel*)[UserDataModel fetchObjectWithID:user.objectId];
+    UserDataModel* userModel = (UserDataModel*)[UserDataModel fetchObjectWithID:uid];
     userModel.email = user.email;
     userModel.username = user.username;
     userModel.first_name = user[@"firstName"];

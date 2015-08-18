@@ -58,4 +58,5 @@ typedef void(^dataResponse)(id data, NSString* error);
 -(void)sendCommingNotifyForFeedID:(NSString*)fid completion:(void(^)(BOOL isSuccess,NSString* error))completion;
 -(void)sendUnCommingNotifyForFeedID:(NSString*)fid completion:(void(^)(BOOL isSuccess,NSString* error))completion;
 -(void)updateUserInfoToServerWithID:(NSString*)userID params:(NSDictionary*)params completion:(void(^)(BOOL success,NSString* error))completion;
+-(UserDataModel*)updateUserModel:(NSString*)uid withParse:(PFUser*)user;
 @end
