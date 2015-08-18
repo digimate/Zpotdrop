@@ -31,8 +31,8 @@ typedef void(^dataResponse)(id data, NSString* error);
  
  @returns data receive will be return on block code response.
  */
--(void)checkIsExistUsername:(NSString*)username completion:(void(^)(BOOL isExist))completion;
 -(void)createAccountWithData:(NSDictionary*)data :(dataResponse)response;
+-(void)checkIsExistUsername:(NSString*)username completion:(void(^)(BOOL isExist))completion;
 
 -(void)loginWithData:(NSDictionary*)data :(dataResponse)response;
 -(void)forgotPasswordWithData:(NSDictionary*)data :(dataResponse)response;
@@ -48,4 +48,10 @@ typedef void(^dataResponse)(id data, NSString* error);
 -(void)getCommentsFromServerForFeedID:(NSString*)fid completion:(void(^)(NSMutableArray* returnData,NSString* error))completion;
 -(void)likeFeedWithID:(NSString*)feedID completion:(void(^)(BOOL successful,NSString* error))completion;
 -(void)unlikeFeedWithID:(NSString*)feedID completion:(void(^)(BOOL successful,NSString* error))completion;
+
+-(void)searchUserWithData:(NSString*)data completion:(void(^)(BOOL successful,NSArray* result))completion;
+-(void)getFolowerListOfUser:(NSString*)data completion:(void(^)(BOOL successful,NSArray* result))completion;
+-(void)getFollowMe:(void(^)(BOOL successful,NSArray* result))completion;
+-(void)setFolowWithUser:(NSString*)data completion:(void(^)(BOOL successful,NSArray* result))completion;
+-(void)setUnFollowWithUser:(NSString*)data completion:(void(^)(BOOL successful,NSArray* result))completion;
 @end

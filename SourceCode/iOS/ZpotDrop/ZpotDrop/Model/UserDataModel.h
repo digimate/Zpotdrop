@@ -21,5 +21,6 @@
 @property (nonatomic, retain) NSNumber* gender;
 
 -(NSString*)name;
++(id)UserFromParse:(id)data;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "UserDataModel.h"
 #import "APIService.h"
+#import <Parse/Parse.h>
 
 @implementation UserDataModel
 
@@ -37,5 +38,20 @@
     }else{
         completion();
     }
+}
+
++(id)UserFromParse:(id)data
+{
+    PFUser* user = data;
+    UserDataModel* model = (UserDataModel*)[UserDataModel fetchObjectWithID:user[@"email"]];
+
+    model.username = user[@"email"];
+    model.avatar = @"";
+    model.first_name = user[@"firstName"];
+    model.last_name = user[@"lastName"];
+    model.gender = user[@"gender"];
+    model.birthday = user[@"dob"];
+    model.email = user[@"email"];
+    return model;
 }
 @end

@@ -25,6 +25,7 @@
         [_folow setFrame:CGRectMake(size.width - 20 - 55, size.height/2 - 10, 55, 20)];
         [_folow setBackgroundColor:[UIColor colorWithHexString:MAIN_COLOR]];
         [_folow setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_folow addTarget:self action:@selector(followPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_folow];
         
         _username = [[UILabel alloc]initWithFrame:CGRectMake(_avatar.frame.size.width + _avatar.frame.origin.x + 10, _avatar.frame.origin.y, size.width - (_avatar.frame.size.width + _avatar.frame.origin.x + 10) - (_folow.frame.size.width + 20), _avatar.frame.size.height)];
@@ -34,10 +35,16 @@
         
         [self addSubview:_username];
     }
+    if (data)
+    {
+        [_username setText:[NSString stringWithFormat:@"%@ %@", data.first_name, data.last_name]];
+    }
 }
 
--(void)setFollow:(BOOL)follow
+-(void)setFollow:(BOOL)follow withHandler:(followHandler)handler
 {
+    _handler = handler;
+    _isFollowing = follow;
     NSMutableAttributedString *myString;
     if (follow)
     {
@@ -63,6 +70,37 @@
     [myString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"PTSans-Regular" size:10.f] range:NSMakeRange(0, myString.length)];
     
     [_folow setAttributedTitle:myString forState:UIControlStateNormal];
+}
+
+-(IBAction)followPressed:(id)sender
+{
+    _isFollowing = !_isFollowing;
+    NSMutableAttributedString *myString;
+    if (_isFollowing)
+    {
+        NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
+        attachment.image = [UIImage imageNamed:@"ic_follow"];
+        NSAttributedString *attachmentString = [NSAttributedString attributedStringWithAttachment:attachment];
+        myString = [[NSMutableAttributedString alloc]initWithAttributedString:attachmentString];
+        
+        [myString appendAttributedString:[[NSAttributedString alloc] initWithString:@"following".localized]];
+        [_folow setBackgroundColor:[UIColor colorWithHexString:MAIN_COLOR]];
+    }
+    else
+    {
+        NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
+        attachment.image = [UIImage imageNamed:@"ic_add"];
+        NSAttributedString *attachmentString = [NSAttributedString attributedStringWithAttachment:attachment];
+        myString = [[NSMutableAttributedString alloc]initWithAttributedString:attachmentString];
+        [myString appendAttributedString:[[NSAttributedString alloc] initWithString:@"follow".localized]];
+        [_folow setBackgroundColor:[UIColor colorWithHexString:@"d9d9d9"]];
+    }
+    [myString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, myString.length)];
+    
+    [myString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"PTSans-Regular" size:10.f] range:NSMakeRange(0, myString.length)];
+    
+    [_folow setAttributedTitle:myString forState:UIControlStateNormal];
+    _handler(_isFollowing);
 }
 
 @end
