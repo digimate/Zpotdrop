@@ -7,7 +7,6 @@
 //
 
 #import "APIService.h"
-#import <Parse/Parse.h>
 #import "UserDataModel.h"
 #import "CoreDataService.h"
 #import "LocationDataModel.h"

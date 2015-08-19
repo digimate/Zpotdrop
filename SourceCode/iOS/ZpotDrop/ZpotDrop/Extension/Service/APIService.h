@@ -10,6 +10,8 @@
 #import "AFNetworking.h"
 #import <CoreLocation/CoreLocation.h>
 #import "Utils.h"
+#import "UserDataModel.h"
+#import <Parse/Parse.h>
 
 typedef void(^dataResponse)(id data, NSString* error);
 
