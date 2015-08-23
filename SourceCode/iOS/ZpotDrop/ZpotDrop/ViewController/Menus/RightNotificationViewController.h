@@ -21,7 +21,8 @@
     UIRefreshControl* _refresh;
     NSMutableArray* _notificationData;
 }
-
++ (RightNotificationViewController *) instance;
+-(void)setupData;
 @property (nonatomic, retain) UITableView* tableView;
 @property (nonatomic, retain) id<rightNotificationDelegate> delegate;
 

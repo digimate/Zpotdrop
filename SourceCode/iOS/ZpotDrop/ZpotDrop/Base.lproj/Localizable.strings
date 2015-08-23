@@ -24,6 +24,7 @@
 "comments" = "Comments";
 "confirm" = "Confirm";
 "confirm_save_info" = "Do you want to save your change?";
+"confirm_logout" = "Do you want to log out?";
 //MARK: - ***** D *****
 "drops" = "Drops";
 "dob" = "Date of birth";
@@ -121,6 +122,7 @@
 "yesterday" = "Yesterday";
 "you" = "You";
 "yes" = "Yes";
+"year_old" = "yo";
 //MARK: - ***** Z *****
 "zpot_all" = "Zpot All";
 "zpot_all_usage" = "Now,click to zpot all your friends";

@@ -89,6 +89,7 @@
 -(void)showUserProfile:(id)userDataModel fromViewController:(UIViewController *)viewController{
     if (viewController.navigationController) {
         UserProfileViewController* userProfileVC = [[UserProfileViewController alloc]init];
+        userProfileVC.userModel = userDataModel;
         [viewController.navigationController pushViewController:userProfileVC animated:YES];
     }
 }
@@ -285,6 +286,17 @@
     }else{
         completion(@"no_coming_user".localized,@[]);
     }
+}
+
+-(NSString*)convertBirthdayToAge:(NSDate*)birthday{
+    NSDate* now = [NSDate date];
+    NSDateComponents* ageComponents = [[NSCalendar currentCalendar]
+                                       components:NSCalendarUnitYear
+                                       fromDate:birthday
+                                       toDate:now
+                                       options:0];
+    NSInteger age = [ageComponents year];
+    return [NSString stringWithFormat:@"%ld %@",age,@"year_old".localized];
 }
 #pragma mark - UIImagePicker
 -(void)showImagePickerWithCompletion:(void(^)(UIImage* image))completion fromViewController:(UIViewController*)controller isCrop:(BOOL)isDrop isCamera:(BOOL)isCamera{

@@ -15,7 +15,9 @@
 @end
 
 @implementation RightNotificationViewController
+-(void)setupData{
 
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
@@ -125,4 +127,12 @@
     [_delegate didPressedOnNotificationWithAction:NOTIFICATION_LIKE andData:nil];
 }
 
++ (RightNotificationViewController *) instance {
+    static RightNotificationViewController *_sharedInstance = nil;
+    static dispatch_once_t oncePredicate;
+    dispatch_once(&oncePredicate, ^{
+        _sharedInstance = [[RightNotificationViewController alloc] init];
+    });
+    return _sharedInstance;
+}
 @end

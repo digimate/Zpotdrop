@@ -83,6 +83,35 @@
     }];
 }
 
+-(void)scanAreaForUserID:(NSString*)userID topLeftCoord:(CLLocationCoordinate2D)topLeft botRightCoord:(CLLocationCoordinate2D)botRight completion:(void(^)(NSArray * data,NSString* error))completion{
+
+    PFQuery* query = [PFQuery queryWithClassName:@"Post"];
+    [query whereKey:@"latitude" greaterThanOrEqualTo:[NSNumber numberWithDouble:botRight.latitude]];
+    [query whereKey:@"latitude" lessThanOrEqualTo:[NSNumber numberWithDouble:topLeft.latitude]];
+    [query whereKey:@"longitude" greaterThanOrEqualTo:[NSNumber numberWithDouble:topLeft.longitude]];
+    [query whereKey:@"longitude" lessThanOrEqualTo:[NSNumber numberWithDouble:botRight.longitude]];
+    [query whereKey:@"user_id" notEqualTo:userID];
+    //NSDate* date = [NSDate dateWithTimeIntervalSinceNow:-(60*60)];
+    //[query whereKey:@"createdAt" greaterThanOrEqualTo:date];
+    //shoud query User table to find Friend Location
+    [query setLimit:API_PAGE];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
+        if (data) {
+            NSMutableArray* returnArray = [NSMutableArray array];
+            for (PFObject* feedParse in data) {
+                FeedDataModel* feedModel = [self updateFeedFromParse:feedParse];
+                [returnArray addObject:feedModel];
+            }
+            completion(returnArray,nil);
+        }else{
+            completion([NSMutableArray array],error.description);
+        }
+    }];
+}
+
+-(void)requestLocationOfUserID:(NSString*)friendID completion:(void(^)(BOOL successful,NSString* error))completion{
+    
+}
 #pragma mark - POST
 -(void)postZpotWithCoordinate:(CLLocationCoordinate2D)coor params:(NSMutableDictionary*)params completion:(void(^)(id data,NSString* error))completion{
     PFObject* feedParse = [PFObject objectWithClassName:@"Post"];
@@ -97,6 +126,24 @@
             completion(model,nil);
         }else{
             completion(nil,error.description);
+        }
+    }];
+}
+
+-(void)getFeedsFromServerForUserID:(NSString*)userID completion:(void(^)(NSMutableArray* returnArray,NSString*error))completion{
+    PFQuery* query = [PFQuery queryWithClassName:@"Post"];
+    [query whereKey:@"user_id" equalTo:userID];
+    [query setLimit:API_PAGE];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
+        if (data) {
+            NSMutableArray* returnArray = [NSMutableArray array];
+            for (PFObject* feedParse in data) {
+                FeedDataModel* feedModel = [self updateFeedFromParse:feedParse];
+                [returnArray addObject:feedModel];
+            }
+            completion(returnArray,nil);
+        }else{
+            completion([NSMutableArray array],error.description);
         }
     }];
 }
@@ -287,6 +334,15 @@
 }
 
 #pragma mark - Account
+-(void)logoutWithCompletion:(void(^)(BOOL successful,NSString* error))completion{
+    [PFUser logOutInBackgroundWithBlock:^(NSError *error){
+        if (error) {
+            completion(NO,error.description);
+        }else{
+            completion(YES,nil);
+        }
+    }];
+}
 -(void)checkIsExistUsername:(NSString*)username completion:(void(^)(BOOL isExist))completion{
     [self fetchUserWithUsername:username callback:^(PFObject *user, NSString *error) {
         if (user == nil) {
@@ -387,7 +443,58 @@
         completion(succeeded,error.description);
     }];
 }
+
 #pragma mark - DataModel
+-(void)checkFriendWithUserID:(NSString*)friendID completion:(void(^)(BOOL isFriend,NSString* error))completion{
+    PFQuery* query1 = [PFQuery queryWithClassName:@"Follow"];
+    [query1 whereKey:@"isFriend" equalTo:[NSNumber numberWithBool:YES]];
+    [query1 whereKey:@"followUser" equalTo:friendID];
+    [query1 whereKey:@"followedUser" equalTo:[AccountModel currentAccountModel].user_id];
+    
+    PFQuery* query2 = [PFQuery queryWithClassName:@"Follow"];
+    [query2 whereKey:@"isFriend" equalTo:[NSNumber numberWithBool:YES]];
+    [query2 whereKey:@"followedUser" equalTo:friendID];
+    [query2 whereKey:@"followUser" equalTo:[AccountModel currentAccountModel].user_id];
+    
+    [[PFQuery orQueryWithSubqueries:@[query1,query2]] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
+        if (objects && objects.count > 0) {
+            completion(YES,nil);
+        }else{
+            completion(NO,error.description);
+        }
+    }];
+}
+
+-(void)searchFriendWithName:(NSString*)userName completion:(void(^)(NSMutableArray* returnArray,NSString*error))completion{
+    NSMutableArray* returnArray = [NSMutableArray array];
+    PFQuery* query1 = [PFUser query];
+    [query1 whereKey:@"firstName" containsString:userName];
+    [query1 whereKey:@"objectId" notEqualTo:[AccountModel currentAccountModel].user_id];
+    
+    PFQuery* query2 = [PFUser query];
+    [query2 whereKey:@"lastName" containsString:userName];
+    [query2 whereKey:@"objectId" notEqualTo:[AccountModel currentAccountModel].user_id];
+    
+    PFQuery* query = [PFQuery orQueryWithSubqueries:@[query1,query2]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        for (PFUser* user in objects) {
+            UserDataModel* userModel = (UserDataModel*)[UserDataModel fetchObjectWithID:user.objectId];
+            userModel.email = user.email;
+            userModel.username = user.username;
+            userModel.first_name = user[@"firstName"];
+            userModel.last_name = user[@"lastName"];
+            userModel.gender = user[@"gender"];
+            userModel.birthday = user[@"dob"];
+            userModel.phone = user[@"phoneNumber"];
+            userModel.hometown = user[@"hometown"];
+            [returnArray addObject:userModel];
+        }
+        [[CoreDataService instance]saveContext];
+        completion(returnArray,error.description);
+    }];
+    
+}
+
 -(void)updateUserModelWithID:(NSString*)mid completion:(VoidBlock)completion{
     PFQuery *query = [PFUser query];
     [query whereKey:@"objectId" equalTo: mid];

@@ -7,7 +7,8 @@
 //
 
 #import "BaseViewController.h"
+#import "UserDataModel.h"
 
 @interface UserProfileViewController : BaseViewController
-
+@property(nonatomic, retain)UserDataModel* userModel;
 @end

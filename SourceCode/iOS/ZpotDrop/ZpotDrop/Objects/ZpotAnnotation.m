@@ -9,5 +9,5 @@
 #import "ZpotAnnotation.h"
 
 @implementation ZpotAnnotation
-
+@synthesize ownerID;
 @end

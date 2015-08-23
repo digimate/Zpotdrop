@@ -15,6 +15,9 @@
 #import "ChangePasswordViewController.h"
 #import "UserDataModel.h"
 #import "APIService.h"
+#import "LeftMenuViewController.h"
+#import "RightNotificationViewController.h"
+#import "LocationDataModel.h"
 
 @interface UserSettingViewController ()<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate>{
     UITableView* settingTableView;
@@ -65,6 +68,7 @@
     btnLogout.titleLabel.font = [UIFont fontWithName:@"PTSans-Regular" size:16];
     [btnLogout setTitle:@"logout".localized forState:UIControlStateNormal];
     [btnLogout setTitleColor:[UIColor colorWithRed:133 green:133 blue:133] forState:UIControlStateNormal];
+    [btnLogout addTarget:self action:@selector(logout:) forControlEvents:UIControlEventTouchUpInside];
     [btnLogout setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
     btnLogout.backgroundColor = [UIColor whiteColor];
     
@@ -74,6 +78,47 @@
     [viewFooter addBorderWithFrame:CGRectMake(0, 44, viewFooter.width, 1.0) color:COLOR_SEPEARATE_LINE];
     
     settingTableView.tableFooterView = viewFooter;
+}
+
+-(void)logout:(UIButton*)sender{
+    [[Utils instance]showAlertWithTitle:@"confirm".localized message:@"confirm_logout".localized yesTitle:@"yes".localized noTitle:@"no".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        if (buttonIndex != [alertView cancelButtonIndex]) {
+            NSString* title = [alertView buttonTitleAtIndex:buttonIndex];
+            if ([title isEqualToString:@"yes".localized]) {
+                [[Utils instance]showProgressWithMessage:nil];
+                [[APIService shareAPIService]logoutWithCompletion:^(BOOL successful, NSString *error) {
+                    [[Utils instance]hideProgess];
+                    if (successful) {
+                        [AccountModel currentAccountModel].access_token = @"";
+                        [[LeftMenuViewController instance].view removeFromSuperview];
+                        [[LeftMenuViewController instance]removeFromParentViewController];
+                        [[RightNotificationViewController instance].view removeFromSuperview];
+                        [[RightNotificationViewController instance]removeFromParentViewController];
+                        NSArray * array = [LocationDataModel fetchObjectsWithPredicate:nil sorts:nil];
+                        for (BaseDataModel* model in array) {
+                            [model deleteFromDB];
+                        }
+                        array = [FeedDataModel fetchObjectsWithPredicate:nil sorts:nil];
+                        for (BaseDataModel* model in array) {
+                            [model deleteFromDB];
+                        }
+                        array = [FeedCommentDataModel fetchObjectsWithPredicate:nil sorts:nil];
+                        for (BaseDataModel* model in array) {
+                            [model deleteFromDB];
+                        }
+                        array = [UserDataModel fetchObjectsWithPredicate:nil sorts:nil];
+                        for (BaseDataModel* model in array) {
+                            [model deleteFromDB];
+                        }
+                        [self.navigationController dismissViewControllerAnimated:NO completion:nil];
+                    }else{
+                        [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                        }];
+                    }
+                }];
+            }
+        }
+    }];
 }
 
 -(void)saveInfo{

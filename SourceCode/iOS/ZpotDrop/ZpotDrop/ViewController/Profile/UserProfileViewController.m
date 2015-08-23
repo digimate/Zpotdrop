@@ -18,7 +18,7 @@
 @end
 
 @implementation UserProfileViewController
-
+@synthesize userModel;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"profile".localized.uppercaseString;
@@ -27,107 +27,72 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    userZpotsData = [NSMutableArray arrayWithArray:@[@"1",@"2",@"3"]];
+    userZpotsData = [NSMutableArray array];
     /*=============Profile header=========*/
     viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.width, 233)];
     [self.view addSubview:viewHeader];
 
-    UIImageView* imgvAvatar = [[UIImageView alloc]initWithFrame:CGRectMake(20, 20, 100, 100)];
+    [[Utils instance] clearMapViewBeforeUsing];
+    [[Utils instance].mapView setFrame:viewHeader.bounds];
+    [[Utils instance].mapView setShowsUserLocation:YES];
+    [viewHeader addSubview:[Utils instance].mapView];
+    
+    UIView* blurView = [[UIView alloc]initWithFrame:viewHeader.bounds];
+    blurView.backgroundColor = [COLOR_DARK_GREEN colorWithAlphaComponent:0.8];
+    [viewHeader addSubview:blurView];
+    
+    UIView* viewAvatar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 98, 98)];
+    viewAvatar.layer.cornerRadius = viewAvatar.width/2;
+    viewAvatar.layer.masksToBounds = YES;
+    viewAvatar.backgroundColor = [UIColor colorWithRed:212 green:223 blue:192];
+    viewAvatar.center = CGPointMake(viewHeader.width/2, viewHeader.height/2);
+    [viewHeader addSubview:viewAvatar];
+    
+    UIImageView* imgvAvatar = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 90, 90)];
     imgvAvatar.layer.cornerRadius = imgvAvatar.width/2;
     imgvAvatar.layer.masksToBounds = YES;
     imgvAvatar.image = [UIImage imageNamed:@"avatar"];
+    imgvAvatar.center = CGPointMake(viewHeader.width/2, viewHeader.height/2);
     [viewHeader addSubview:imgvAvatar];
     
-    UIButton* btnFollow = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnFollow.frame = CGRectMake(0, imgvAvatar.y + imgvAvatar.height+ 10, 80, 26);
-    btnFollow.backgroundColor = [UIColor whiteColor];
-    btnFollow.layer.borderWidth = 1.0;
-    btnFollow.layer.borderColor = COLOR_DARK_GREEN.CGColor;
-    [[btnFollow titleLabel]setFont:[UIFont fontWithName:@"PTSans-Regular" size:16]];
-    [btnFollow setTitleColor:COLOR_DARK_GREEN forState:UIControlStateNormal];
-    [btnFollow setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-    [btnFollow setTitle:[NSString stringWithFormat:@"+ %@",@"follow".localized] forState:UIControlStateNormal];
-    [btnFollow setTitle:[NSString stringWithFormat:@"%@",@"followed".localized] forState:UIControlStateSelected];
-    btnFollow.centerX = imgvAvatar.centerX;
-    [btnFollow addTarget:self action:@selector(followUser:) forControlEvents:UIControlEventTouchUpInside];
-    [viewHeader addSubview:btnFollow];
-
-    UILabel* lblName = [[UILabel alloc]initWithFrame:CGRectMake(140, 20, self.view.width - 160, 20)];
-    lblName.font = [UIFont fontWithName:@"PTSans-Bold" size:18];
-    lblName.textColor = [UIColor colorWithRed:163 green:163 blue:163];
-    lblName.text = @"Sonny Truong";
+    UILabel* lblName = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, self.view.width - 40, 22)];
+    lblName.font = [UIFont fontWithName:@"PTSans-Bold" size:20];
+    lblName.textAlignment = NSTextAlignmentCenter;
+    lblName.textColor = [UIColor whiteColor];
     [viewHeader addSubview:lblName];
     
-    UILabel* lblAddress = [[UILabel alloc]initWithFrame:CGRectMake(lblName.x, lblName.y + lblName.height + 4, lblName.width, 16)];
-    lblAddress.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
-    lblAddress.textColor = [UIColor colorWithRed:212 green:212 blue:212];
-    lblAddress.text = @"Stockholm";
-    [viewHeader addSubview:lblAddress];
+    UIButton* btnHometown = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnHometown.userInteractionEnabled = NO;
+    [[btnHometown titleLabel]setFont:[UIFont fontWithName:@"PTSans-Regular" size:14]];
+    [btnHometown setFrame:CGRectMake(20, 35, viewHeader.width - 40, 16)];
+    [btnHometown setImage:[UIImage imageNamed:@"ic_location_white"] forState:UIControlStateNormal];
+    [viewHeader addSubview:btnHometown];
     
-    UILabel* lblAge = [[UILabel alloc]initWithFrame:CGRectMake(lblName.x, lblAddress.y + lblAddress.height + 2, lblName.width, 16)];
-    lblAge.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
-    lblAge.textColor = [UIColor colorWithRed:212 green:212 blue:212];
-    lblAge.text = @"25 years";
-    [viewHeader addSubview:lblAge];
+    UIButton* btnFollow = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btnFollow setFrame:CGRectMake(0, 0, 34, 34)];
+    [btnFollow setCenter:CGPointMake(imgvAvatar.center.x + 25, imgvAvatar.centerY + imgvAvatar.height/2)];
+    [btnFollow setImage:[UIImage imageNamed:@"ic_add_friend"] forState:UIControlStateNormal];
+    [btnFollow setImage:[UIImage imageNamed:@"ic_friended"] forState:UIControlStateSelected];
+    [btnFollow addTarget:self action:@selector(followUser:) forControlEvents:UIControlEventTouchUpInside];
+    [viewHeader addSubview:btnFollow];
     
-    UILabel* lblTitlePlaces = [[UILabel alloc]initWithFrame:CGRectMake(lblName.x, lblAge.y + lblAge.height + 6, lblName.width, 17)];
-    lblTitlePlaces.font = [UIFont fontWithName:@"PTSans-Regular" size:15];
-    lblTitlePlaces.textColor = lblName.textColor;
-    lblTitlePlaces.text = @"Top 3 places";
-    [viewHeader addSubview:lblTitlePlaces];
+    UIButton* btnRequestLocation = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btnRequestLocation setFrame:CGRectMake(0, 0, 34, 34)];
+    [btnRequestLocation setCenter:CGPointMake(imgvAvatar.center.x - 25, imgvAvatar.centerY + imgvAvatar.height/2)];
+    [btnRequestLocation setImage:[UIImage imageNamed:@"ic_request_spot"] forState:UIControlStateNormal];
+    [btnRequestLocation addTarget:self action:@selector(requestLocation:) forControlEvents:UIControlEventTouchUpInside];
+    [viewHeader addSubview:btnRequestLocation];
+
+    [[APIService shareAPIService]checkFriendWithUserID:userModel.mid completion:^(BOOL isFriend, NSString *error) {
+        if (error == nil) {
+            btnRequestLocation.selected = isFriend;
+        }
+    }];
     
-    UILabel* lblPlaces = [[UILabel alloc]initWithFrame:CGRectMake(lblName.x, lblTitlePlaces.y + lblTitlePlaces.height + 2, lblName.width, 50)];
-    lblPlaces.numberOfLines = 0;
-    lblPlaces.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
-    lblPlaces.textColor = [UIColor colorWithRed:212 green:212 blue:212];
-    lblPlaces.text = @"Taverna Brillo\nTMS Building\nBetexco Tower";
-    [viewHeader addSubview:lblPlaces];
-    
-    UIView* viewStatics = [[UIView alloc]initWithFrame:CGRectMake(0, lblPlaces.y + lblPlaces.height+ 20, self.view.width, 60)];
-    viewStatics.backgroundColor =COLOR_DARK_GREEN;
-    [viewHeader addSubview:viewStatics];
-    
-    UILabel* lblFollowerTitle = [[UILabel alloc]initWithFrame:CGRectMake(viewStatics.width/2 - 40, viewStatics.height/2, 80, 20)];
-    lblFollowerTitle.textAlignment = NSTextAlignmentCenter;
-    lblFollowerTitle.font = [UIFont fontWithName:@"PTSans-Regular" size:12];
-    lblFollowerTitle.textColor = [UIColor whiteColor];
-    lblFollowerTitle.text = @"followers".localized.uppercaseString;
-    [viewStatics addSubview:lblFollowerTitle];
-    
-    UILabel* lblFollowingTitle = [[UILabel alloc]initWithFrame:CGRectMake(lblFollowerTitle.x + lblFollowerTitle.width + 2, viewStatics.height/2, lblFollowerTitle.width, lblFollowerTitle.height)];
-    lblFollowingTitle.textAlignment = NSTextAlignmentCenter;
-    lblFollowingTitle.font = [UIFont fontWithName:@"PTSans-Regular" size:12];
-    lblFollowingTitle.textColor = [UIColor whiteColor];
-    lblFollowingTitle.text = @"following".localized.uppercaseString;
-    [viewStatics addSubview:lblFollowingTitle];
-    
-    UILabel* lblDropTitle = [[UILabel alloc]initWithFrame:CGRectMake(lblFollowerTitle.x -2 - lblFollowerTitle.width, viewStatics.height/2, lblFollowerTitle.width, lblFollowerTitle.height)];
-    lblDropTitle.font = [UIFont fontWithName:@"PTSans-Regular" size:12];
-    lblDropTitle.textColor = [UIColor whiteColor];
-    lblDropTitle.text = @"drops".localized.uppercaseString;
-    lblDropTitle.textAlignment = NSTextAlignmentCenter;
-    [viewStatics addSubview:lblDropTitle];
-    
-    UILabel* lblNumberFollower = [[UILabel alloc]initWithFrame:CGRectMake(lblFollowerTitle.x, lblFollowerTitle.y - 24, lblFollowerTitle.width, 24)];
-    lblNumberFollower.font = [UIFont fontWithName:@"PTSans-Bold" size:20];
-    lblNumberFollower.textColor = [UIColor whiteColor];
-    lblNumberFollower.textAlignment = NSTextAlignmentCenter;
-    lblNumberFollower.text = @"120";
-    [viewStatics addSubview:lblNumberFollower];
-    
-    UILabel* lblNumberFollowing = [[UILabel alloc]initWithFrame:CGRectMake(lblFollowingTitle.x, lblFollowingTitle.y - lblNumberFollower.height, lblFollowingTitle.width, lblNumberFollower.height)];
-    lblNumberFollowing.font = [UIFont fontWithName:@"PTSans-Bold" size:20];
-    lblNumberFollowing.textColor = [UIColor whiteColor];
-    lblNumberFollowing.textAlignment = NSTextAlignmentCenter;
-    lblNumberFollowing.text = @"103";
-    [viewStatics addSubview:lblNumberFollowing];
-    
-    UILabel* lblNumberDrop = [[UILabel alloc]initWithFrame:CGRectMake(lblDropTitle.x, lblDropTitle.y - lblNumberFollower.height, lblDropTitle.width, lblNumberFollower.height)];
-    lblNumberDrop.font = [UIFont fontWithName:@"PTSans-Bold" size:20];
-    lblNumberDrop.textColor = [UIColor whiteColor];
-    lblNumberDrop.textAlignment = NSTextAlignmentCenter;
-    lblNumberDrop.text = @"10";
-    [viewStatics addSubview:lblNumberDrop];
+    [userModel updateObjectForUse:^{
+        lblName.text = userModel.name;
+        [btnHometown setTitle:[NSString stringWithFormat:@"%@,%@",userModel.hometown,[[Utils instance]convertBirthdayToAge:userModel.birthday]] forState:UIControlStateNormal];
+    }];
     
     /*=============User's ZPot=========*/
     userZpotsTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, viewHeader.height, self.view.width, self.view.height - 64 - viewHeader.height) style:UITableViewStylePlain];
@@ -136,6 +101,7 @@
     userZpotsTableView.dataSource = self;
     userZpotsTableView.delegate = self;
     [self.view addSubview:userZpotsTableView];
+    [self getFeedsFromServer];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -144,14 +110,59 @@
 }
 
 -(void)followUser:(UIButton*)sender{
-    sender.selected = !sender.isSelected;
+    [[Utils instance]showProgressWithMessage:@""];
     if (sender.isSelected) {
-        sender.backgroundColor = COLOR_DARK_GREEN;
+        [[APIService shareAPIService]setUnFollowWithUser:userModel.username completion:^(BOOL successful, NSArray *result) {
+            [[Utils instance]hideProgess];
+            if (successful) {
+                sender.selected = NO;
+            }
+        }];
     }else{
-        sender.backgroundColor = [UIColor whiteColor];
+        [[APIService shareAPIService]setFolowWithUser:userModel.username completion:^(BOOL successful, NSArray *result) {
+            [[Utils instance]hideProgess];
+            if (successful) {
+                sender.selected = YES;
+            }
+        }];
     }
+    
 }
 
+-(void)requestLocation:(UIButton*)sender{
+    [[Utils instance]showProgressWithMessage:@""];
+    [[APIService shareAPIService]requestLocationOfUserID:userModel.mid completion:^(BOOL successful, NSString *error) {
+        [[Utils instance]hideProgess];
+        if (error) {
+            [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            }];
+        }
+    }];
+}
+
+-(void)loadFeedsFromLocal:(void(^)(NSMutableArray* returnArray))completion{
+    NSMutableArray* returnArray = [NSMutableArray array];
+    NSSortDescriptor* sortByTime = [NSSortDescriptor sortDescriptorWithKey:@"time" ascending:NO];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"user_id == %@",userModel.mid];
+    [returnArray addObjectsFromArray:[FeedDataModel fetchObjectsWithPredicate:predicate sorts:@[sortByTime]]];
+    completion(returnArray);
+}
+
+-(void)getFeedsFromServer{
+    [[Utils instance]showProgressWithMessage:nil];
+    [[APIService shareAPIService]getFeedsFromServerForUserID:userModel.mid completion:^(NSMutableArray *returnArray, NSString *error) {
+        [[Utils instance]hideProgess];
+        if (error) {
+            [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            }];
+        }else{
+            [self loadFeedsFromLocal:^(NSMutableArray *returnArray) {
+                [userZpotsData addObjectsFromArray:returnArray];
+                [userZpotsTableView reloadData];
+            }];
+        }
+    }];
+}
 #pragma mark - UITableViewDatasource & UITableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -168,11 +179,12 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString* identifier = [self cellIdentiferForIndexPath:indexPath];
+    id data = [userZpotsData objectAtIndex:indexPath.row];
     BaseTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     CGFloat height = [self tableView:tableView heightForRowAtIndexPath:indexPath];
     [cell addBorderWithFrame:CGRectMake(10, height - 1.0, cell.width-20, 1.0) color:COLOR_SEPEARATE_LINE];
-    [cell setupCellWithData:nil andOptions:nil];
+    [cell setupCellWithData:data andOptions:nil];
     return cell;
 }
 

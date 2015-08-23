@@ -8,6 +8,8 @@
 
 #import "FriendRequestZpotCell.h"
 #import "Utils.h"
+#import "UserDataModel.h"
+#import "APIService.h"
 
 @implementation FriendRequestZpotCell
 
@@ -21,8 +23,10 @@
     [btnRequestZpot setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btnRequestZpot setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     [btnRequestZpot setTitle:@"request_zpot".localized forState:UIControlStateNormal];
+    [btnRequestZpot addTarget:self action:@selector(sendRequest:) forControlEvents:UIControlEventTouchUpInside];
     lblName.font = [UIFont fontWithName:@"PTSans-Regular" size:16];
     lblName.textColor = [UIColor colorWithRed:188 green:188 blue:188];
+    lblName.text = nil;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -35,7 +39,26 @@
     return 50;
 }
 -(void)setupCellWithData:(BaseDataModel *)data andOptions:(NSDictionary *)param{
-    lblName.text = @"Sonny Truong";
-    imgvAvatar.image = [UIImage imageNamed:@"avatar"];
+    if ([data isKindOfClass:[UserDataModel class]]) {
+        self.dataModel = data;
+        UserDataModel* user = (UserDataModel*)data;
+        lblName.text = user.name;
+        imgvAvatar.image = [UIImage imageNamed:@"avatar"];
+    }
+    
+}
+
+-(void)sendRequest:(UIButton*)sender{
+    if ([self.dataModel isKindOfClass:[UserDataModel class]]) {
+       UserDataModel* user = (UserDataModel*)self.dataModel;
+        sender.enabled = NO;
+        [[APIService shareAPIService]requestLocationOfUserID:user.mid completion:^(BOOL successful, NSString *error) {
+            sender.enabled = YES;
+            if (error) {
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                }];
+            }
+        }];
+    }
 }
 @end

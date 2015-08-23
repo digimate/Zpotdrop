@@ -12,13 +12,14 @@
 #import "ZpotAnnotationView.h"
 #import "FriendRequestZpotCell.h"
 
-@interface FindZpotViewController ()<MKMapViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate>{
+@interface FindZpotViewController ()<MKMapViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate>{
     UISearchBar* searchZpotBar;
     UICollectionView* usersCollectionView;
     BOOL shoudMoveToUserLocation;
     NSMutableArray* scannedUsersData;
     id selectedScannedUser;
     UITableView* friendsSearchTableView;
+    NSMutableArray* searchUsersData;
 }
 
 @end
@@ -28,7 +29,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    scannedUsersData = [NSMutableArray arrayWithArray:@[@"1",@"2",@"3",@"4"]];
+    scannedUsersData = [NSMutableArray array];
+    searchUsersData = [NSMutableArray array];
     self.title = @"find".localized.uppercaseString;
     self.view.backgroundColor = [UIColor whiteColor];
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
@@ -42,7 +44,6 @@
     searchZpotBar.backgroundColor = [UIColor clearColor];
     searchZpotBar.barTintColor = [UIColor clearColor];
     searchZpotBar.backgroundImage = [[UIImage alloc]init];
-    searchZpotBar.returnKeyType = UIReturnKeyDone;
     searchZpotBar.enablesReturnKeyAutomatically = NO;
     searchZpotBar.delegate = self;
     searchZpotBar.placeholder = @"place_holder_search_zpot".localized;
@@ -68,6 +69,7 @@
     [btnScan setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     [btnScan.titleLabel setFont:[UIFont fontWithName:@"PTSans-Bold" size:20]];
     [btnScan setTitle:@"scan".localized forState:UIControlStateNormal];
+    [btnScan addTarget:self action:@selector(scanArea:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnScan];
     
     /*======================Users Collection=======================*/
@@ -80,6 +82,13 @@
     [usersCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([ScannedUserCell class]) bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([ScannedUserCell class])];
     [self.view addSubview:usersCollectionView];
     
+    /*======================Move to Current=======================*/
+    UIButton * btnCurrentLocation = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btnCurrentLocation setFrame:CGRectMake(frame.size.width - 40, usersCollectionView.y - 40, 30, 30)];
+    [btnCurrentLocation setImage:[UIImage imageNamed:@"ic_current_location"] forState:UIControlStateNormal];
+    [btnCurrentLocation addTarget:self action:@selector(moveToCurrentLocation) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btnCurrentLocation];
+    
     /*======================Friends Search Result=======================*/
     friendsSearchTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, searchZpotBar.height, self.view.width, self.view.height - 64 - searchZpotBar.height) style:UITableViewStylePlain];
     friendsSearchTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -87,6 +96,15 @@
     friendsSearchTableView.dataSource = self;
     friendsSearchTableView.delegate = self;
     friendsSearchTableView.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.5];
+}
+
+-(void)moveToCurrentLocation{
+    if ([[Utils instance]isGPS]) {
+        [[Utils instance].locationManager startUpdatingLocation];
+    }else{
+        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_no_gps".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        }];
+    }
 }
 
 -(void)leftMenuOpened{
@@ -110,44 +128,97 @@
         [Utils instance].mapView.frame = CGRectMake(0, searchZpotBar.height, [UIScreen mainScreen].bounds.size.width, usersCollectionView.y - searchZpotBar.height);
         [Utils instance].mapView.delegate = self;
         [self.view addSubview:[Utils instance].mapView];
+        [self.view sendSubviewToBack:[Utils instance].mapView];
     }
+    [Utils instance].locationManager.delegate = self;
     [Utils instance].mapView.showsUserLocation = YES;
+    [self addAnnotationScannedUsers];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self removeOpenLeftMenuNotification];
     [self removeOpenRightMenuNotification];
+    [Utils instance].locationManager.delegate = nil;
     [Utils instance].mapView.showsUserLocation = NO;
+}
+
+-(void)scanArea:(UIButton*)sender{
+    if ([[Utils instance] isGPS]) {
+        MKMapView* mapView = [[Utils instance] mapView];
+        CLLocationCoordinate2D topLeft = MKCoordinateForMapPoint(mapView.visibleMapRect.origin);
+        CLLocationCoordinate2D botRight = MKCoordinateForMapPoint(MKMapPointMake(mapView.visibleMapRect.origin.x + mapView.visibleMapRect.size.width, mapView.visibleMapRect.origin.y + mapView.visibleMapRect.size.height));
+        [[Utils instance]showProgressWithMessage:nil];
+        [[APIService shareAPIService] scanAreaForUserID:[AccountModel currentAccountModel].user_id topLeftCoord:topLeft botRightCoord:botRight completion:^(NSArray *data, NSString *error) {
+            [[Utils instance]hideProgess];
+            if (data && data.count > 0) {
+                [scannedUsersData removeAllObjects];
+                [scannedUsersData addObjectsFromArray:data];
+                [self addAnnotationScannedUsers];
+                [usersCollectionView reloadData];
+            }else{
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                }];
+            }
+            
+        }];
+    }else{
+        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_no_gps".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        }];
+    }
+}
+
+-(void)searchFriendWithName:(NSString*)name{
+    [[Utils instance]showProgressWithMessage:nil];
+    [[APIService shareAPIService]searchFriendWithName:name completion:^(NSMutableArray *returnArray, NSString *error) {
+        [[Utils instance]hideProgess];
+        if (error) {
+            [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            }];
+        }else{
+            [searchUsersData removeAllObjects];
+            [searchUsersData addObjectsFromArray:returnArray];
+            [friendsSearchTableView reloadData];
+        }
+    }];
+}
+
+-(void)filterFriendWithName:(NSString*)name{
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"(first_name contains[c] %@ OR last_name contains[c] %@) AND mid != %@",name,name,[AccountModel currentAccountModel].user_id];
+    NSArray* userArray = [UserDataModel fetchObjectsWithPredicate:predicate sorts:nil];
+    [searchUsersData removeAllObjects];
+    [searchUsersData addObjectsFromArray:userArray];
+    [friendsSearchTableView reloadData];
 }
 
 #define ARC4RANDOM_MAX      0x100000000
 -(void)addAnnotationScannedUsers{
-    if ([Utils instance].mapView.annotations.count <= 1 && scannedUsersData.count > 0) {
-        //add
-        NSMutableArray* annotationArray = [NSMutableArray array];
-        for (int i = 0; i < scannedUsersData.count; i++) {
-            id data = [scannedUsersData objectAtIndex:i];
-            //val is a double between 0 and 1
-            double xOffset = ((double)arc4random() / ARC4RANDOM_MAX);
-            double yOffset = ((double)arc4random() / ARC4RANDOM_MAX);
-            
-            CLLocationCoordinate2D randomCoordinate = [Utils instance].mapView.userLocation.coordinate;
-            randomCoordinate.latitude += (xOffset/200.0);
-            randomCoordinate.longitude += (yOffset/200.0);
-            if ([data isEqual:selectedScannedUser]) {
-                ZpotAnnotation* annotation = [[ZpotAnnotation alloc]init];
-                annotation.coordinate = randomCoordinate;
-                [annotationArray addObject:annotation];
-            }else{
-                ScannedUserAnnotation* annotation = [[ScannedUserAnnotation alloc]init];
-                annotation.coordinate = randomCoordinate;
-                [annotationArray addObject:annotation];
-            }
-            
+    [[Utils instance].mapView removeAnnotations:[Utils instance].mapView.annotations];
+    //add
+    NSMutableArray* annotationArray = [NSMutableArray array];
+    for (int i = 0; i < scannedUsersData.count; i++) {
+        FeedDataModel* data = [scannedUsersData objectAtIndex:i];
+        //val is a double between 0 and 1
+//            double xOffset = ((double)arc4random() / ARC4RANDOM_MAX);
+//            double yOffset = ((double)arc4random() / ARC4RANDOM_MAX);
+//            
+//            CLLocationCoordinate2D randomCoordinate = [Utils instance].mapView.userLocation.coordinate;
+//            randomCoordinate.latitude += (xOffset/200.0);
+//            randomCoordinate.longitude += (yOffset/200.0);
+        CLLocationCoordinate2D randomCoordinate = CLLocationCoordinate2DMake([data.latitude doubleValue], [data.longitude doubleValue]);
+        if ([data isEqual:selectedScannedUser]) {
+            ZpotAnnotation* annotation = [[ZpotAnnotation alloc]init];
+            annotation.coordinate = randomCoordinate;
+            annotation.ownerID = data.user_id;
+            [annotationArray addObject:annotation];
+        }else{
+            ScannedUserAnnotation* annotation = [[ScannedUserAnnotation alloc]init];
+            annotation.coordinate = randomCoordinate;
+            [annotationArray addObject:annotation];
         }
-        [[Utils instance].mapView addAnnotations:annotationArray];
+        
     }
+    [[Utils instance].mapView addAnnotations:annotationArray];
 }
 #pragma mark - MKMapViewDelegate
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
@@ -157,7 +228,7 @@
         MKCoordinateRegion adjustedRegion = [[[Utils instance] mapView] regionThatFits:MKCoordinateRegionMakeWithDistance(startCoord, 600, 600)];
         [[[Utils instance] mapView] setRegion:adjustedRegion animated:NO];
     }
-    [self performSelector:@selector(addAnnotationScannedUsers) withObject:nil afterDelay:3.0];
+    //[self performSelector:@selector(addAnnotationScannedUsers) withObject:nil afterDelay:3.0];
 }
 -(void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views{
     [self changeUserLocationColor];
@@ -200,7 +271,8 @@
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view{
     [mapView deselectAnnotation:view.annotation animated:NO];
     if ([view isKindOfClass:[ZpotAnnotationView class]]) {
-        [[Utils instance]showUserProfile:nil fromViewController:self];
+        ZpotAnnotation* anno = view.annotation;
+        [[Utils instance]showUserProfile:[UserDataModel fetchObjectWithID:anno.ownerID] fromViewController:self];
     }
 }
 #pragma mark - UICollectionView
@@ -244,12 +316,14 @@
     [newCell setSelectedUser:YES withAnimated:YES];
     
     //reload MapView
-    [[Utils instance].mapView removeAnnotations:[Utils instance].mapView.annotations];
     [self addAnnotationScannedUsers];
 }
 #pragma mark - UISearchBarDelegate
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [searchZpotBar resignFirstResponder];
+    if (searchBar.text.length > 0) {
+        [self searchFriendWithName:searchBar.text];
+    }
 }
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     if (searchBar.text.length == 0) {
@@ -258,6 +332,7 @@
         if (!friendsSearchTableView.superview) {
             [self.view addSubview:friendsSearchTableView];
         }
+        [self filterFriendWithName:searchBar.text];
     }
 }
 
@@ -266,14 +341,28 @@
     return 1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 1;
+    return searchUsersData.count;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return [FriendRequestZpotCell cellHeightWithData:nil];
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UserDataModel* user = [searchUsersData objectAtIndex:indexPath.row];
     BaseTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([FriendRequestZpotCell class]) forIndexPath:indexPath];
-    [cell setupCellWithData:nil andOptions:nil];
+    [cell setupCellWithData:user andOptions:nil];
     return cell;
+}
+#pragma mark - CLLocationManagerDelegate
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    if (locations.count > 0) {
+        CLLocation* loc = [locations lastObject];
+        [[Utils instance].mapView setCenterCoordinate:loc.coordinate];
+    }
+    [manager stopUpdatingLocation];
+}
+-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
+    [[Utils instance]showAlertWithTitle:@"error_title".localized message:error.description yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+    }];
+    [manager stopUpdatingLocation];
 }
 @end

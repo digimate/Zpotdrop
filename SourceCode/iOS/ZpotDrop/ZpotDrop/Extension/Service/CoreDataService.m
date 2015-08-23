@@ -49,8 +49,12 @@
 	NSEntityDescription *entity = [NSEntityDescription entityForName:name
 											  inManagedObjectContext:self.managedObjectContext];
 	[request setEntity:entity];
-    [request setPredicate:predicate];
-	[request setSortDescriptors:sortDescriptors];
+    if (predicate) {
+        [request setPredicate:predicate];
+    }
+    if (sortDescriptors) {
+        [request setSortDescriptors:sortDescriptors];
+    }
     [request setReturnsObjectsAsFaults:NO];
     
 	NSError *error = nil;
@@ -72,8 +76,12 @@
 	NSEntityDescription *entity = [NSEntityDescription entityForName:name
 											  inManagedObjectContext:self.managedObjectContext];
 	[request setEntity:entity];
-    [request setPredicate:predicate];
-	[request setSortDescriptors:sortDescriptors];
+    if (predicate) {
+        [request setPredicate:predicate];
+    }
+    if (sortDescriptors) {
+        [request setSortDescriptors:sortDescriptors];
+    }
     [request setRelationshipKeyPathsForPrefetching:keypaths];
     
 	NSError *error = nil;
@@ -95,8 +103,12 @@
 	NSEntityDescription *entity = [NSEntityDescription entityForName:name
 											  inManagedObjectContext:self.managedObjectContext];
 	[request setEntity:entity];
-    [request setPredicate:predicate];
-	[request setSortDescriptors:sortDescriptors];
+    if (predicate) {
+        [request setPredicate:predicate];
+    }
+    if (sortDescriptors) {
+        [request setSortDescriptors:sortDescriptors];
+    }
     [request setReturnsObjectsAsFaults:NO];
     [request setFetchLimit:1];
     
@@ -107,7 +119,7 @@
         return nil;
     }
     
-    if([entities count] > 0)
+    if([entities count] > 0 && [(NSManagedObject*)[entities objectAtIndex:0] isDeleted] == false)
         return [entities objectAtIndex:0];
     else
         return nil;
@@ -122,8 +134,12 @@
 	NSEntityDescription *entity = [NSEntityDescription entityForName:name
 											  inManagedObjectContext:self.managedObjectContext];
 	[request setEntity:entity];
-    [request setPredicate:predicate];
-    [request setSortDescriptors:sortDescriptors];
+    if (predicate) {
+        [request setPredicate:predicate];
+    }
+    if (sortDescriptors) {
+        [request setSortDescriptors:sortDescriptors];
+    }
     
 	NSError *error = nil;
 	NSUInteger count = [self.managedObjectContext countForFetchRequest:request error:&error];

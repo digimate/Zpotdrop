@@ -43,5 +43,12 @@
     if (self.comming_userIds == nil) {
         self.comming_userIds = @"";
     }
+    
+    if (self.like_count == nil || [self.like_count isKindOfClass:[NSNull class]]) {
+        self.like_count = @(0);
+    }
+    if (self.like_userIds == nil) {
+        self.like_userIds = @"";
+    }
 }
 @end

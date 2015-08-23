@@ -60,11 +60,12 @@
     [menuBackground addGestureRecognizer:menuTap];
 
     //====================== RIGHT NOTIFICATION =========================
-    _rightMenuViewController = [[RightNotificationViewController alloc]init];
+    _rightMenuViewController = [RightNotificationViewController instance];
     _rightMenuViewController.delegate = self;
     _rightMenuViewController.view.frame = [UIScreen mainScreen].bounds;
     [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] addSubview:_rightMenuViewController.view];
     [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] sendSubviewToBack:_rightMenuViewController.view];
+    
     UIView* notificationBackground = [[UIView alloc]initWithFrame:_rightMenuViewController.view.bounds];
     notificationBackground.backgroundColor = [UIColor clearColor];
     [_rightMenuViewController.view addSubview:notificationBackground];
@@ -84,8 +85,10 @@
     swipeLeftGesture.direction = UISwipeGestureRecognizerDirectionLeft;
     [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] addGestureRecognizer:swipeLeftGesture];
 
+    [_leftMenuViewController setupData];
+    [_rightMenuViewController setupData];
     ///add PostZpot as Intital View of MainView
-    [self showPostView];
+    [_leftMenuViewController changeViewToClass:NSStringFromClass([FeedZpotViewController class])];
 }
 
 -(void)viewDidAppear:(BOOL)animated{

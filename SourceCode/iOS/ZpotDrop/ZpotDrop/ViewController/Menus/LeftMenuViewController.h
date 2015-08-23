@@ -21,6 +21,7 @@
 }
 + (LeftMenuViewController *) instance;
 -(void)changeViewToClass:(NSString*)clsString;
+-(void)setupData;
 @property(nonatomic,readonly)UITableView* tableView;
 @property(nonatomic, weak)id<LeftMenuDelegate>delegate;
 @end

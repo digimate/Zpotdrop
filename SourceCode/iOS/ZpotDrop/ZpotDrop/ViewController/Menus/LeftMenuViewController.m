@@ -35,6 +35,10 @@
     return _sharedInstance;
 }
 
+-(void)setupData{
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
