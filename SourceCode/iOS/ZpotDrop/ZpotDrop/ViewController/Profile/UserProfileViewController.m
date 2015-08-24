@@ -8,6 +8,7 @@
 
 #import "UserProfileViewController.h"
 #import "FeedNormalViewCell.h"
+#import "FeedCommentViewController.h"
 
 @interface UserProfileViewController ()<UITableViewDataSource,UITableViewDelegate>{
     UIView* viewHeader;
@@ -89,6 +90,72 @@
         }
     }];
     
+    /*=============View Staticst==============*/
+    UIView* viewStatics = [[UIView alloc]initWithFrame:CGRectMake(0, viewHeader.height - 50, self.view.width, 50)];
+    viewStatics.backgroundColor = [UIColor clearColor];
+    [viewHeader addSubview:viewStatics];
+    
+    UILabel* lblFollowerTitle = [[UILabel alloc]initWithFrame:CGRectMake(viewStatics.width/2 - 40, viewStatics.height/2, 80, 20)];
+    lblFollowerTitle.textAlignment = NSTextAlignmentCenter;
+    lblFollowerTitle.font = [UIFont fontWithName:@"PTSans-Regular" size:12];
+    lblFollowerTitle.textColor = [UIColor whiteColor];
+    lblFollowerTitle.text = @"followers".localized.uppercaseString;
+    [viewStatics addSubview:lblFollowerTitle];
+    
+    UILabel* lblFollowingTitle = [[UILabel alloc]initWithFrame:CGRectMake(lblFollowerTitle.x + lblFollowerTitle.width + 2, viewStatics.height/2, lblFollowerTitle.width, lblFollowerTitle.height)];
+    lblFollowingTitle.textAlignment = NSTextAlignmentCenter;
+    lblFollowingTitle.font = [UIFont fontWithName:@"PTSans-Regular" size:12];
+    lblFollowingTitle.textColor = [UIColor whiteColor];
+    lblFollowingTitle.text = @"following".localized.uppercaseString;
+    [viewStatics addSubview:lblFollowingTitle];
+    
+    UILabel* lblDropTitle = [[UILabel alloc]initWithFrame:CGRectMake(lblFollowerTitle.x -2 - lblFollowerTitle.width, viewStatics.height/2, lblFollowerTitle.width, lblFollowerTitle.height)];
+    lblDropTitle.font = [UIFont fontWithName:@"PTSans-Regular" size:12];
+    lblDropTitle.textColor = [UIColor whiteColor];
+    lblDropTitle.text = @"drops".localized.uppercaseString;
+    lblDropTitle.textAlignment = NSTextAlignmentCenter;
+    [viewStatics addSubview:lblDropTitle];
+    
+    UILabel* lblNumberFollower = [[UILabel alloc]initWithFrame:CGRectMake(lblFollowerTitle.x, lblFollowerTitle.y - 24, lblFollowerTitle.width, 24)];
+    lblNumberFollower.font = [UIFont fontWithName:@"PTSans-Bold" size:20];
+    lblNumberFollower.textColor = [UIColor whiteColor];
+    lblNumberFollower.textAlignment = NSTextAlignmentCenter;
+    [viewStatics addSubview:lblNumberFollower];
+    
+    UILabel* lblNumberFollowing = [[UILabel alloc]initWithFrame:CGRectMake(lblFollowingTitle.x, lblFollowingTitle.y - lblNumberFollower.height, lblFollowingTitle.width, lblNumberFollower.height)];
+    lblNumberFollowing.font = [UIFont fontWithName:@"PTSans-Bold" size:20];
+    lblNumberFollowing.textColor = [UIColor whiteColor];
+    lblNumberFollowing.textAlignment = NSTextAlignmentCenter;
+    [viewStatics addSubview:lblNumberFollowing];
+    
+    UILabel* lblNumberDrop = [[UILabel alloc]initWithFrame:CGRectMake(lblDropTitle.x, lblDropTitle.y - lblNumberFollower.height, lblDropTitle.width, lblNumberFollower.height)];
+    lblNumberDrop.font = [UIFont fontWithName:@"PTSans-Bold" size:20];
+    lblNumberDrop.textColor = [UIColor whiteColor];
+    lblNumberDrop.textAlignment = NSTextAlignmentCenter;
+    
+    [viewStatics addSubview:lblNumberDrop];
+    [[APIService shareAPIService]countFeedsForUserID:userModel.mid completion:^(NSInteger count, NSString *error) {
+        if (error) {
+            lblNumberDrop.text = @"0";
+        }else{
+            lblNumberDrop.text = @(count).description;
+        }
+    }];
+    [[APIService shareAPIService]countFollowersForUserID:userModel.mid completion:^(NSInteger count, NSString *error) {
+        if (error) {
+            lblNumberFollower.text = @"0";
+        }else{
+            lblNumberFollower.text = @(count).description;
+        }
+    }];
+    [[APIService shareAPIService]countFollowingForUserID:userModel.mid completion:^(NSInteger count, NSString *error) {
+        if (error) {
+            lblNumberFollowing.text = @"0";
+        }else{
+            lblNumberFollowing.text = @(count).description;
+        }
+    }];
+    
     [userModel updateObjectForUse:^{
         lblName.text = userModel.name;
         [btnHometown setTitle:[NSString stringWithFormat:@"%@,%@",userModel.hometown,[[Utils instance]convertBirthdayToAge:userModel.birthday]] forState:UIControlStateNormal];
@@ -112,14 +179,14 @@
 -(void)followUser:(UIButton*)sender{
     [[Utils instance]showProgressWithMessage:@""];
     if (sender.isSelected) {
-        [[APIService shareAPIService]setUnFollowWithUser:userModel.username completion:^(BOOL successful, NSArray *result) {
+        [[APIService shareAPIService]setUnFollowWithUser:userModel.mid completion:^(BOOL successful, NSArray *result) {
             [[Utils instance]hideProgess];
             if (successful) {
                 sender.selected = NO;
             }
         }];
     }else{
-        [[APIService shareAPIService]setFolowWithUser:userModel.username completion:^(BOOL successful, NSArray *result) {
+        [[APIService shareAPIService]setFolowWithUser:userModel.mid completion:^(BOOL successful, NSArray *result) {
             [[Utils instance]hideProgess];
             if (successful) {
                 sender.selected = YES;
@@ -163,6 +230,12 @@
         }
     }];
 }
+
+-(void)showCommentView:(FeedDataModel*)feedModel{
+    FeedCommentViewController* commentVC = [[FeedCommentViewController alloc]init];
+    commentVC.feedData = feedModel;
+    [self.navigationController pushViewController:commentVC animated:YES];
+}
 #pragma mark - UITableViewDatasource & UITableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -182,8 +255,14 @@
     id data = [userZpotsData objectAtIndex:indexPath.row];
     BaseTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    CGFloat height = [self tableView:tableView heightForRowAtIndexPath:indexPath];
-    [cell addBorderWithFrame:CGRectMake(10, height - 1.0, cell.width-20, 1.0) color:COLOR_SEPEARATE_LINE];
+    //CGFloat height = [self tableView:tableView heightForRowAtIndexPath:indexPath];
+    FeedNormalViewCell* normalCell = (FeedNormalViewCell*)cell;
+    FeedNormalViewCell* weakCell = weakObject(normalCell);
+    UserProfileViewController* weak = weakObject(self);
+    normalCell.onShowComment = ^{
+        [weak showCommentView:(FeedDataModel*)weakCell.dataModel];
+    };
+
     [cell setupCellWithData:data andOptions:nil];
     return cell;
 }

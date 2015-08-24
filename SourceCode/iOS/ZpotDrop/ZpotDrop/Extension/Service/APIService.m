@@ -130,6 +130,14 @@
     }];
 }
 
+-(void)countFeedsForUserID:(NSString*)userID completion:(void(^)(NSInteger count,NSString*error))completion{
+    PFQuery* query = [PFQuery queryWithClassName:@"Post"];
+    [query whereKey:@"user_id" equalTo:userID];
+    [query countObjectsInBackgroundWithBlock:^(int number, NSError* error){
+        completion(number,error.description);
+    }];
+}
+
 -(void)getFeedsFromServerForUserID:(NSString*)userID completion:(void(^)(NSMutableArray* returnArray,NSString*error))completion{
     PFQuery* query = [PFQuery queryWithClassName:@"Post"];
     [query whereKey:@"user_id" equalTo:userID];
@@ -594,10 +602,26 @@
 }
 
 #pragma mark FOLLOW
+-(void)countFollowingForUserID:(NSString*)userID completion:(void(^)(NSInteger count,NSString* error))completion{
+    PFQuery* follow = [PFQuery queryWithClassName:@"Follow"];
+    [follow whereKey:@"followUser" equalTo:userID];
+    [follow countObjectsInBackgroundWithBlock:^(int number,NSError* error){
+        completion(number,error.description);
+    }];
+}
+//users follow me
+-(void)countFollowersForUserID:(NSString*)userID completion:(void(^)(NSInteger count,NSString* error))completion{
+    PFQuery* follow = [PFQuery queryWithClassName:@"Follow"];
+    [follow whereKey:@"followedUser" equalTo:userID];
+    [follow countObjectsInBackgroundWithBlock:^(int number,NSError* error){
+        completion(number,error.description);
+    }];
+}
+
 -(void)getFolowerListOfUser:(NSString*)data completion:(void(^)(BOOL successful,NSArray* result))completion
 {
     PFQuery* follow = [PFQuery queryWithClassName:@"Follow"];
-    [follow whereKey:@"followUser" equalTo:[PFUser currentUser]];
+    [follow whereKey:@"followUser" equalTo:data];
     [follow findObjectsInBackgroundWithBlock:^(NSArray* objects, NSError* error)
     {
         if (!error)
@@ -615,36 +639,26 @@
 -(void)getFollowMe:(void(^)(BOOL successful,NSArray* result))completion
 {
     PFQuery* follow = [PFQuery queryWithClassName:@"Follow"];
-    [follow whereKey:@"followedUser" containsString:[PFUser currentUser].objectId];
+    [follow whereKey:@"followedUser" containsString:[AccountModel currentAccountModel].user_id];
     completion(YES, [follow findObjects]);
 }
 
 -(void)setFolowWithUser:(NSString*)data completion:(void(^)(BOOL successful,NSArray* result))completion
 {
-    PFQuery* query = [PFUser query];
-    [query whereKey:@"username" equalTo:data];
-    [query findObjectsInBackgroundWithBlock:^(NSArray* result, NSError* error)
-    {
-        PFObject* follow = [PFObject objectWithClassName:@"Follow"];
-        follow[@"followUser"] = [PFUser currentUser];
-        follow[@"followedUser"] = [result lastObject];
-        follow[@"isFriend"] = @NO;
-        [follow saveInBackground];
-    }];
+    PFObject* follow = [PFObject objectWithClassName:@"Follow"];
+    follow[@"followUser"] = [AccountModel currentAccountModel].user_id;
+    follow[@"followedUser"] = data;
+    follow[@"isFriend"] = @NO;
+    [follow saveInBackground];
 }
 
 -(void)setUnFollowWithUser:(NSString*)data completion:(void(^)(BOOL successful,NSArray* result))completion
 {
-    PFQuery* query = [PFUser query];
-    [query whereKey:@"username" equalTo:data];
-    [query findObjectsInBackgroundWithBlock:^(NSArray* result, NSError* error)
-    {
-        PFQuery* followQuery = [PFQuery queryWithClassName:@"follow"];
-        [followQuery whereKey:@"followUser" equalTo:[PFUser currentUser]];
-        [followQuery whereKey:@"followedUser" equalTo:[result lastObject]];
-        [followQuery findObjectsInBackgroundWithBlock:^(NSArray* result, NSError* error){
-            [[result lastObject] deleteEventually];
-        }];
+    PFQuery* followQuery = [PFQuery queryWithClassName:@"follow"];
+    [followQuery whereKey:@"followUser" equalTo:[AccountModel currentAccountModel].user_id];
+    [followQuery whereKey:@"followedUser" equalTo:data];
+    [followQuery findObjectsInBackgroundWithBlock:^(NSArray* result, NSError* error){
+        [[result lastObject] deleteEventually];
     }];
     
 }

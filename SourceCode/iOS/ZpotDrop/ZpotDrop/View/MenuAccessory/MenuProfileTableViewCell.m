@@ -31,8 +31,12 @@
 
 -(void)setupCellWithData:(BaseDataModel*)data andOptions:(NSDictionary*)param
 {
-    [_lblName setText:@"SONNY TRUONG"];
-    _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
+    UserDataModel* user = (UserDataModel*)[UserDataModel fetchObjectWithID:[AccountModel currentAccountModel].user_id];
+    [user updateObjectForUse:^{
+        [_lblName setText:user.name];
+        _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
+    }];
+    
 }
 
 +(CGFloat)cellHeightWithData:(BaseDataModel *)data{

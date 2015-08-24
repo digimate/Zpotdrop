@@ -20,7 +20,9 @@
 #import "SearchViewController.h"
 #import "UserSettingViewController.h"
 
-@interface LeftMenuViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface LeftMenuViewController ()<UITableViewDataSource,UITableViewDelegate>{
+
+}
 
 @end
 
@@ -36,7 +38,7 @@
 }
 
 -(void)setupData{
-    
+    [_tableView reloadData];
 }
 
 - (void)viewDidLoad {
