@@ -179,17 +179,23 @@
 -(void)followUser:(UIButton*)sender{
     [[Utils instance]showProgressWithMessage:@""];
     if (sender.isSelected) {
-        [[APIService shareAPIService]setUnFollowWithUser:userModel.mid completion:^(BOOL successful, NSArray *result) {
+        [[APIService shareAPIService]setUnFollowWithUser:userModel.mid completion:^(BOOL successful, NSString *error) {
             [[Utils instance]hideProgess];
             if (successful) {
                 sender.selected = NO;
+            }else{
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                }];
             }
         }];
     }else{
-        [[APIService shareAPIService]setFolowWithUser:userModel.mid completion:^(BOOL successful, NSArray *result) {
+        [[APIService shareAPIService]setFollowWithUser:userModel.mid completion:^(BOOL successful, NSString *error) {
             [[Utils instance]hideProgess];
             if (successful) {
                 sender.selected = YES;
+            }else{
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                }];
             }
         }];
     }

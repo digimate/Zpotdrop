@@ -35,6 +35,7 @@
     NSMutableArray* _commentsData;
     TableViewDataHandler* tableDataHandler;
     LoadingView* loadingView;
+    BOOL canLoadOldComments;
 }
 -(void)addComment:(BaseDataModel*)data;
 @property(nonatomic, copy)void(^onShowComment)();

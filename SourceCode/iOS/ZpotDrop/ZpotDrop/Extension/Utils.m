@@ -189,8 +189,8 @@
                         }];
                     }else{
                         //> 3 users
-                        returnString = [NSString stringWithFormat:@"%@ %@ %@ %@",returnString,muLikes.description,@"other".localized.lowercaseString,@"like_this".localized];
-                        [rangeArray addObject:[NSValue valueWithRange:[returnString rangeOfString:muLikes.description]]];
+                        returnString = [NSString stringWithFormat:@"%@ %d %@ %@",returnString,muLikes.count,@"other".localized.lowercaseString,@"like_this".localized];
+                        [rangeArray addObject:[NSValue valueWithRange:[returnString rangeOfString:[NSString stringWithFormat:@"%d",muLikes.count]]]];
                         completion(returnString,rangeArray);
                     }
                 }else{
@@ -251,8 +251,8 @@
                         }];
                     }else{
                         //> 3 users
-                        returnString = [NSString stringWithFormat:@"%@ %@ %@ %@",returnString,muLikes.description,@"other".localized.lowercaseString,@"coming".localized.lowercaseString];
-                        [rangeArray addObject:[NSValue valueWithRange:[returnString rangeOfString:muLikes.description]]];
+                        returnString = [NSString stringWithFormat:@"%@ %d %@ %@",returnString,muLikes.count,@"other".localized.lowercaseString,@"coming".localized.lowercaseString];
+                        [rangeArray addObject:[NSValue valueWithRange:[returnString rangeOfString:[NSString stringWithFormat:@"%d",muLikes.count]]]];
                         completion(returnString,rangeArray);
                     }
                 }else{

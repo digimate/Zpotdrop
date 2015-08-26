@@ -23,6 +23,7 @@
 @property (nonatomic, retain) NSString* phone;
 @property (nonatomic, retain) NSNumber* privateProfile;
 @property (nonatomic, retain) NSNumber* enableAllZpot;
+@property (nonatomic, assign) BOOL isFriend;
 -(NSString*)name;
 +(id)UserFromParse:(id)data;
 

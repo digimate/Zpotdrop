@@ -55,7 +55,9 @@
 }
 
 -(void)showCommentView{
-    self.onShowComment();
+    if (self.onShowComment) {
+        self.onShowComment();
+    }
 }
 
 -(void)sendCommingNotify:(UIButton*)sender{

@@ -15,7 +15,7 @@
 @dynamic username,first_name,last_name;
 @dynamic avatar,gender,birthday,email;
 @dynamic hometown,phone,enableAllZpot,privateProfile;
-
+@synthesize isFriend;
 -(void)awakeFromInsert{
     [super awakeFromInsert];
     self.username = @"";

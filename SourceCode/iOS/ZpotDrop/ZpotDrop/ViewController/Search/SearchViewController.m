@@ -18,7 +18,7 @@
     UITableView* _mTableView;
     CONTACT_MODE _mode;
     NSArray* _searchResult;
-    NSArray* _follow;
+    NSMutableArray* _follow;
 }
 @end
 
@@ -28,6 +28,7 @@
 {
     [super viewDidLoad];
     [self.view setBackgroundColor:[UIColor whiteColor]];
+    _follow = [NSMutableArray array];
     
     self.title = @"search".localized.uppercaseString;
     _searchZpotBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, self.navigationController.navigationBar.frame.size.height + self.navigationController.navigationBar.frame.origin.y, self.view.width, 40)];
@@ -62,8 +63,12 @@
     [_mTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.view addSubview:_mTableView];
     
-    [_api getFolowerListOfUser:[AccountModel currentAccountModel].user_id completion:^(BOOL successful, NSArray *result) {
-        _follow = result;
+    [_api getFollowerListOfUser:[AccountModel currentAccountModel].user_id completion:^(NSArray *result, NSString *error) {
+        if (error) {
+            
+        }else{
+            [_follow addObjectsFromArray:result];
+        }
     }];
 }
 
@@ -98,11 +103,11 @@
 
 -(BOOL)checkIsFollowing:(UserDataModel*)user
 {
-    for (PFObject* i in _follow)
-    {
-        if ([i[@"followedUser"][@"email"] isEqualToString:user.email])
-            return YES;
-    }
+//    for (PFObject* i in _follow)
+//    {
+//        if ([i[@"followedUser"][@"email"] isEqualToString:user.email])
+//            return YES;
+//    }
     return NO;
 }
 
@@ -114,16 +119,16 @@
         UserDataModel* user = [UserDataModel UserFromParse:_searchResult[(indexPath.row - 3)]];
         [cell setupCellWithData:user inSize:CGSizeMake(tableView.frame.size.width, 50)];
         [cell setFollow:[self checkIsFollowing:user] withHandler:^(BOOL setFollow) {
-            if (setFollow)
-            {
-                [_api setFolowWithUser:user.mid completion:^(BOOL successful, NSArray *result) {
-                }];
-            }
-            else
-            {
-                [_api setUnFollowWithUser:user.mid completion:^(BOOL successful, NSArray *result) {
-                }];
-            }
+//            if (setFollow)
+//            {
+//                [_api setFolowWithUser:user.mid completion:^(BOOL successful, NSArray *result) {
+//                }];
+//            }
+//            else
+//            {
+//                [_api setUnFollowWithUser:user.mid completion:^(BOOL successful, NSArray *result) {
+//                }];
+//            }
         }];
         return cell;
     }

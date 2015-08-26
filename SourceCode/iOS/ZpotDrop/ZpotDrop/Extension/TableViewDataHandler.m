@@ -89,6 +89,7 @@
                     [indexPaths addObject:indexPath];
                 }
             }
+            [self beginReloadData:indexPaths];
         }else{
             if (self.addOnTop) {
                 [self.tableData insertObject:dataInsert atIndex:0];
@@ -109,11 +110,14 @@
 }
 -(void)beginReloadData:(NSMutableArray*)indexPaths{
     canExcute = NO;
-    if (self.addOnTop) {
-        [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
-    }else{
-        [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.addOnTop) {
+            [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
+        }else{
+            [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
+        }
+    });
+   
     [self performSelector:@selector(resetFlag) withObject:nil afterDelay:TIME_RESET];
 }
 

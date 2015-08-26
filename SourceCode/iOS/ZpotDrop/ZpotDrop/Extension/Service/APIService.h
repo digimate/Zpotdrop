@@ -52,10 +52,11 @@ typedef void(^dataResponse)(id data, NSString* error);
 -(void)unlikeFeedWithID:(NSString*)feedID completion:(void(^)(BOOL successful,NSString* error))completion;
 
 -(void)searchUserWithData:(NSString*)data completion:(void(^)(BOOL successful,NSArray* result))completion;
--(void)getFolowerListOfUser:(NSString*)data completion:(void(^)(BOOL successful,NSArray* result))completion;
--(void)getFollowMe:(void(^)(BOOL successful,NSArray* result))completion;
--(void)setFolowWithUser:(NSString*)data completion:(void(^)(BOOL successful,NSArray* result))completion;
--(void)setUnFollowWithUser:(NSString*)data completion:(void(^)(BOOL successful,NSArray* result))completion;
+-(void)getFollowerListOfUser:(NSString*)data completion:(void(^)(NSArray* result,NSString* error))completion;
+-(void)getFollowMe:(void(^)(NSArray* result,NSString* error))completion;
+-(void)setFollowWithUser:(NSString*)data completion:(void(^)(BOOL successful,NSString* error))completion;
+-(void)setUnFollowWithUser:(NSString*)data completion:(void(^)(BOOL successful,NSString* error))completion;
+-(void)getFollowingListOfUser:(NSString*)data completion:(void(^)(NSArray* result,NSString* error))completion;
 
 -(void)sendCommingNotifyForFeedID:(NSString*)fid completion:(void(^)(BOOL isSuccess,NSString* error))completion;
 -(void)sendUnCommingNotifyForFeedID:(NSString*)fid completion:(void(^)(BOOL isSuccess,NSString* error))completion;
@@ -70,4 +71,6 @@ typedef void(^dataResponse)(id data, NSString* error);
 -(void)countFeedsForUserID:(NSString*)userID completion:(void(^)(NSInteger count,NSString*error))completion;
 -(void)countFollowersForUserID:(NSString*)userID completion:(void(^)(NSInteger count,NSString* error))completion;
 -(void)countFollowingForUserID:(NSString*)userID completion:(void(^)(NSInteger count,NSString* error))completion;
+-(void)getOldFeedsFromServer:(NSDate*)time completion:(void(^)(NSMutableArray* returnArray,NSString*error))completion;
+-(void)getOldCommentsFromServerForFeedID:(NSString*)fid time:(NSDate*)time completion:(void(^)(NSMutableArray* returnData,NSString* error))completion;
 @end

@@ -23,6 +23,7 @@
     //NSLayoutConstraint* mLayoutComposeHeight;
     //NSLayoutConstraint* mLayoutBottom;
     FeedSelectedViewCell* feedSelectedCell;
+    BOOL canLoadMore;
 }
 
 @end
@@ -32,6 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    canLoadMore = YES;
     self.title = @"feed".localized.uppercaseString;
     self.view.backgroundColor = [UIColor whiteColor];
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
@@ -82,16 +84,30 @@
             [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
             }];
         }else{
-//            for (FeedDataModel* feedModel in returnArray) {
-//                if (![_feedData containsObject:feedModel]) {
-//                    [_feedData addObject:feedModel];
-//                }
-//            }
-//            [_feedTableView reloadData];
-            [self loadFeedsFromLocal:^(NSMutableArray *returnArray) {
-                [_feedData addObjectsFromArray:returnArray];
-                [_feedTableView reloadData];
-            }];
+            [_feedData removeAllObjects];
+            [_feedData addObjectsFromArray:returnArray];
+            [_feedTableView reloadData];
+        }
+    }];
+}
+
+-(void)loadMoreFeeds{
+    FeedDataModel* oldFeed = [_feedData lastObject];
+    [[APIService shareAPIService]getOldFeedsFromServer:oldFeed.time completion:^(NSMutableArray *returnArray, NSString *error) {
+        if (returnArray && returnArray.count > 0) {
+            NSSortDescriptor* sortByTime = [NSSortDescriptor sortDescriptorWithKey:@"time" ascending:NO];
+            [returnArray sortUsingDescriptors:@[sortByTime]];
+            NSMutableArray* insertArrays = [NSMutableArray array];
+            for (FeedDataModel* feed in returnArray) {
+                if (![_feedData containsObject:feed]) {
+                    [insertArrays addObject:[NSIndexPath indexPathForRow:_feedData.count inSection:0]];
+                    [_feedData addObject:feed];
+                }
+            }
+            [_feedTableView insertRowsAtIndexPaths:insertArrays withRowAnimation:UITableViewRowAnimationBottom];
+            if (returnArray.count == API_PAGE) {
+                canLoadMore = YES;
+            }
         }
     }];
 }
@@ -146,6 +162,7 @@
     commentVC.feedData = feedModel;
     [self.navigationController pushViewController:commentVC animated:YES];
 }
+
 #pragma mark - UITableViewDelegate & UITableViewDatasource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -205,22 +222,21 @@
     NSMutableArray* reloadIndexPaths = [NSMutableArray arrayWithObject:indexPath];
     if (data == selectedData) {
         selectedData = nil;
-//        [_tvComment setText:@""];
-//        [_tvComment resignFirstResponder];
-//        lblHolder.hidden = false;
-//        [self textViewDidChange:_tvComment];
-//        mLayoutComposeHeight.constant = 0;
     }else{
         if (selectedData != nil && [_feedData containsObject:selectedData]) {
             NSInteger row = [_feedData indexOfObject:selectedData];
             [reloadIndexPaths addObject:[NSIndexPath indexPathForRow:row inSection:0]];
         }
         selectedData = data;
-//        mLayoutComposeHeight.constant = 40;
-//        if (_tvComment.isFirstResponder) {
-            [self moveToSelectedCell];
-//        }
+        [self moveToSelectedCell];
     }
     [tableView reloadRowsAtIndexPaths:reloadIndexPaths withRowAnimation:UITableViewRowAnimationMiddle];
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row >= API_PAGE-3 && _feedData.count >= API_PAGE && canLoadMore) {
+        canLoadMore = NO;
+        [self loadMoreFeeds];
+    }
 }
 @end

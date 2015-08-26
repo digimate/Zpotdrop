@@ -29,6 +29,10 @@
     NSMutableArray* _commentsData;
     TableViewDataHandler* tableDataHandler;
     LoadingView* loadingView;
+    BOOL canLoadOldComments;
+    UIButton* btnCloseKeyboard;
+    UILabel* _lblLikeInfo;
+    UILabel* _lblCommingInfo;
 }
 
 @end
@@ -44,7 +48,7 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
+    canLoadOldComments = YES;
     tableDataHandler = [[TableViewDataHandler alloc]init];
     tableDataHandler.addOnTop = NO;
     loadingView = [[LoadingView alloc]init];
@@ -57,6 +61,10 @@
         originalFrame.size.height -= 44;
     }
     
+    btnCloseKeyboard = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btnCloseKeyboard setFrame:originalFrame];
+    [btnCloseKeyboard addTarget:self action:@selector(closeKeyboard) forControlEvents:UIControlEventTouchUpInside];
+    
     // Do any additional setup after loading the view.
     topCell = (FeedNormalViewCell*)[[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([FeedNormalViewCell class]) owner:self options:nil] firstObject];
     [self.view addSubview:topCell];
@@ -66,7 +74,7 @@
     _commentPostView = [[UIView alloc]initWithFrame:CGRectMake(0, originalFrame.size.height-40, self.view.width, 40)];
     _commentPostView.translatesAutoresizingMaskIntoConstraints = NO;
     [_commentPostView addTopBorderWithHeight:1.0 andColor:COLOR_SEPEARATE_LINE];
-    _commentPostView.backgroundColor = [UIColor clearColor];
+    _commentPostView.backgroundColor = [UIColor whiteColor];
     _commentPostView.layer.masksToBounds = YES;
     [self.view addSubview:_commentPostView];
     
@@ -146,6 +154,60 @@
     
     mLayoutComposeHeight = [self constraintForAttribute:NSLayoutAttributeHeight firstItem:_commentPostView secondItem:nil];
     mLayoutBottom = [self constraintForAttribute:NSLayoutAttributeBottom firstItem:self.view secondItem:_commentPostView];
+    
+    //headerView
+    _tableViewComment.tableHeaderView = nil;
+    UIView* viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _tableViewComment.width, 50)];
+    _lblLikeInfo = [[UILabel alloc]initWithFrame:CGRectMake(10, 0,viewHeader.width-10, viewHeader.height/2)];
+    _lblLikeInfo.textColor = [UIColor colorWithRed:192 green:192 blue:192];
+    _lblLikeInfo.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
+    _lblLikeInfo.text = nil;
+    [viewHeader addSubview:_lblLikeInfo];
+    
+    _lblCommingInfo = [[UILabel alloc]initWithFrame:CGRectMake(10, viewHeader.height/2,viewHeader.width-10, viewHeader.height/2)];
+    _lblCommingInfo.textColor = [UIColor colorWithRed:192 green:192 blue:192];
+    _lblCommingInfo.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
+    _lblCommingInfo.text = nil;
+    [viewHeader addSubview:_lblCommingInfo];
+    
+    _tableViewComment.tableHeaderView = viewHeader;
+    //show Like Info
+    NSArray* arrayLikeUserID;
+    if (feedData.like_userIds.length > 0) {
+        arrayLikeUserID = [feedData.like_userIds componentsSeparatedByString:@","];
+    }else{
+        arrayLikeUserID = @[];
+    }
+    [[Utils instance]convertLikeIDsToInfo:arrayLikeUserID completion:^(NSString *txt,NSArray* rangeArray) {
+        NSMutableAttributedString* attStr = [[NSMutableAttributedString alloc]initWithString:txt];
+        NSDictionary* dict = @{NSForegroundColorAttributeName : [UIColor colorWithRed:125 green:125 blue:125]};
+        for (NSValue* value in rangeArray) {
+            NSRange range = [value rangeValue];
+            if (range.location != NSNotFound) {
+                [attStr addAttributes:dict range:range];
+            }
+        }
+        _lblLikeInfo.attributedText = attStr;
+    }];
+    //show Comming Info
+    NSArray* arrayCommingUserID;
+    if (feedData.comming_userIds.length > 0) {
+        arrayCommingUserID = [feedData.comming_userIds componentsSeparatedByString:@","];
+    }else{
+        arrayCommingUserID = @[];
+    }
+    [[Utils instance]convertCommingIDsToInfo:arrayCommingUserID completion:^(NSString *txt, NSArray *rangeArray) {
+        NSMutableAttributedString* attStr = [[NSMutableAttributedString alloc]initWithString:txt];
+        NSDictionary* dict = @{NSForegroundColorAttributeName : [UIColor colorWithRed:125 green:125 blue:125]};
+        for (NSValue* value in rangeArray) {
+            NSRange range = [value rangeValue];
+            if (range.location != NSNotFound) {
+                [attStr addAttributes:dict range:range];
+            }
+        }
+        _lblCommingInfo.attributedText = attStr;
+    }];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -162,8 +224,10 @@
 }
 
 -(void)sendComment:(UIButton*)sender{
+    NSString* text = [_tvComment.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if (text.length > 0) {
         FeedCommentDataModel* comment = (FeedCommentDataModel*)[FeedCommentDataModel fetchObjectWithID:[[NSDate date] string]];
-        comment.message = _tvComment.text;
+        comment.message = text;
         comment.feed_id = feedData.mid;
         comment.user_id = [AccountModel currentAccountModel].user_id;
         comment.status = STATUS_SENDING;
@@ -175,7 +239,10 @@
         [[APIService shareAPIService]postComment:comment completion:^(BOOL isSuccess,NSString* error) {
             [comment.dataDelegate updateUIForDataModel:comment options:@{@"status":@""}];
         }];
-    
+    }else{
+        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_send_comment_empty".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        }];
+    }
 }
 
 -(void)closeKeyboard{
@@ -201,13 +268,35 @@
         [loadingView showViewInView:_tableViewComment];
         [[APIService shareAPIService]getCommentsFromServerForFeedID:self.feedData.mid completion:^(NSMutableArray *returnData, NSString *error) {
             [loadingView hideView];
-            [self loadCommentsFromLocal];
+            NSSortDescriptor* sortByTime = [NSSortDescriptor sortDescriptorWithKey:@"time" ascending:YES];
+            [returnData sortUsingDescriptors:@[sortByTime]];
+            if (returnData.count < API_PAGE) {
+                canLoadOldComments = NO;
+            }
+            [_commentsData addObjectsFromArray:returnData];
+            [_tableViewComment reloadData];
         }];
     }
 }
 
 -(void)loadOldComments:(UIButton*)sender{
-    
+    if (canLoadOldComments) {
+        sender.hidden = YES;
+        FeedDataModel* feedModel = (FeedDataModel*)self.feedData;
+        FeedCommentDataModel* comment = _commentsData.firstObject;
+        [[APIService shareAPIService]getOldCommentsFromServerForFeedID:feedModel.mid time:comment.time completion:^(NSMutableArray *returnData, NSString *error) {
+            if (returnData && returnData.count > 0) {
+                if (returnData.count == API_PAGE) {
+                    sender.hidden = NO;
+                }else{
+                    canLoadOldComments = NO;
+                }
+                [_commentsData addObjectsFromArray:returnData];
+                [_tableViewComment reloadData];
+            }
+            
+        }];
+    }
 }
 
 -(void)loadCommentsFromLocal{
@@ -255,6 +344,10 @@
 }
 #pragma mark - UIKeyboard
 -(void)keyboardShow:(CGRect)frame{
+    if (btnCloseKeyboard.superview == nil) {
+        [self.view addSubview:btnCloseKeyboard];
+    }
+    [self.view bringSubviewToFront:_commentPostView];
     mLayoutBottom.constant = frame.size.height;
     [UIView animateWithDuration:0.3 animations:^{
         [self.view layoutIfNeeded];
@@ -263,6 +356,7 @@
 }
 
 -(void)keyboardHide:(CGRect)frame{
+    [btnCloseKeyboard removeFromSuperview];
     mLayoutBottom.constant = 0;
     [UIView animateWithDuration:0.3 animations:^{
         [self.view layoutIfNeeded];
@@ -270,7 +364,7 @@
 }
 #pragma mark - UIScrollViewDelegate
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    [self closeKeyboard];
+    //[self closeKeyboard];
 }
 #pragma mark - UITableViewDatasource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -312,7 +406,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
+    if (section == 0 && canLoadOldComments) {
         return 24;
     }
     return 0;

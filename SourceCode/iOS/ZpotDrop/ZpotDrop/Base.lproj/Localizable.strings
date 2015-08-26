@@ -45,6 +45,7 @@
 "error_empty_location_address" = "Please input location address";
 "error_empty_zpot_title" = "Please input zpot title";
 "error_empty_zpot_location" = "Please choose a location for zpot";
+"error_send_comment_empty" = "Please input comment";
 //MARK: - ***** F *****
 "feed" = "Feed";
 "find" = "Find";

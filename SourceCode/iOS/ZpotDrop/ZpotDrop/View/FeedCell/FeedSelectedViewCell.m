@@ -55,6 +55,7 @@
     _tableViewComments.delegate = self;
     _tableViewComments.dataSource = self;
     
+    canLoadOldComments = YES;
     tableDataHandler = [[TableViewDataHandler alloc]init];
     tableDataHandler.addOnTop = NO;
     loadingView = [[LoadingView alloc]init];
@@ -374,6 +375,7 @@
     [_tableViewComments setContentOffset:CGPointMake(0, _tableViewComments.contentSize.height - _tableViewComments.height)];
 }
 -(void)addComment:(BaseDataModel*)data{
+    tableDataHandler.addOnTop = NO;
     [tableDataHandler insertData:data];
     [self performSelector:@selector(scrollToBottom) withObject:nil afterDelay:0.3];
 }
@@ -389,19 +391,42 @@
         [loadingView showViewInView:_tableViewComments];
         [[APIService shareAPIService]getCommentsFromServerForFeedID:feedModel.mid completion:^(NSMutableArray *returnData, NSString *error) {
             [loadingView hideView];
-            [self loadCommentsFromLocal];
+            [_commentsData removeAllObjects];
+            NSSortDescriptor* sortByTime = [NSSortDescriptor sortDescriptorWithKey:@"time" ascending:YES];
+            [returnData sortUsingDescriptors:@[sortByTime]];
+            if (returnData.count < API_PAGE) {
+                canLoadOldComments = NO;
+            }
+            [_commentsData addObjectsFromArray:returnData];
+            [_tableViewComments reloadData];
         }];
     }
 }
 
 -(void)loadOldComments:(UIButton*)sender{
-
+    if (canLoadOldComments) {
+        sender.hidden = YES;
+        FeedDataModel* feedModel = (FeedDataModel*)self.dataModel;
+        FeedCommentDataModel* comment = _commentsData.firstObject;
+        [[APIService shareAPIService]getOldCommentsFromServerForFeedID:feedModel.mid time:comment.time completion:^(NSMutableArray *returnData, NSString *error) {
+            if (returnData && returnData.count > 0) {
+                if (returnData.count == API_PAGE) {
+                    sender.hidden = NO;
+                }else{
+                    canLoadOldComments = NO;
+                }
+                [_commentsData addObjectsFromArray:returnData];
+                [_tableViewComments reloadData];
+            }
+            
+        }];
+    }
 }
 
 -(void)loadCommentsFromLocal{
     FeedDataModel* feedModel = (FeedDataModel*)self.dataModel;
     if (feedModel) {
-        NSSortDescriptor* sortByTime = [NSSortDescriptor sortDescriptorWithKey:@"time" ascending:NO];
+        NSSortDescriptor* sortByTime = [NSSortDescriptor sortDescriptorWithKey:@"time" ascending:YES];
         NSArray* comments = [FeedCommentDataModel fetchObjectsWithPredicate:[NSPredicate predicateWithFormat:@"feed_id = %@",feedModel.mid] sorts:@[sortByTime]];
         [_commentsData removeAllObjects];
         [_commentsData addObjectsFromArray:comments];
@@ -466,7 +491,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
+    if (section == 0 && canLoadOldComments) {
         return 24;
     }
     return 0;
