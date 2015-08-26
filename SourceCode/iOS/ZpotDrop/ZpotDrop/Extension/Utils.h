@@ -39,13 +39,11 @@
 #define COLOR_DARK_GREEN [UIColor colorWithRed:(172/255.0) green:(199/255.0) blue:(132/255.0) alpha:1.0]
 #define COLOR_SEPEARATE_LINE [UIColor colorWithRed:(240/255.0) green:(240/255.0) blue:(240/255.0) alpha:1.0]
 
-typedef enum {
-    NOTIFICATION_COMMING = 0,
-    NOTIFICATION_FOLLOW,
-    NOTIFICATION_COMMENT,
-    NOTIFICATION_LIKE,
-    NOTIFICATION_UNKNOWN
-}NOTIFICATION_ACTION;
+#define NOTIFICATION_COMMING  @"1"
+#define NOTIFICATION_FOLLOW  @"2"
+#define NOTIFICATION_COMMENT  @"3"
+#define NOTIFICATION_LIKE  @"4"
+#define NOTIFICATION_FB_Friend  @"5"
 
 @interface Utils : NSObject<UINavigationControllerDelegate,UIImagePickerControllerDelegate>{
     void (^imageCompletion)(UIImage* image);
@@ -61,6 +59,7 @@ typedef enum {
 -(void)showUserProfile:(id)userDataModel fromViewController:(UIViewController*)viewController;
 -(void)showImagePickerWithCompletion:(void(^)(UIImage* image))completion fromViewController:(UIViewController*)controller isCrop:(BOOL)isDrop isCamera:(BOOL)isCamera;
 -(NSString*)convertDateToRecent:(NSDate*)date;
+-(NSString*)convertDateToAgo:(NSDate*)date;
 -(NSString*)distanceBetweenCoor:(CLLocationCoordinate2D)c1 andCoor:(CLLocationCoordinate2D)c2;
 -(NSString*)distanceWithMoveTimeBetweenCoor:(CLLocationCoordinate2D)c1 andCoor:(CLLocationCoordinate2D)c2;
 -(void)convertLikeIDsToInfo:(NSArray*)likes completion:(void(^)(NSString* txt,NSArray * rangeArray))completion;

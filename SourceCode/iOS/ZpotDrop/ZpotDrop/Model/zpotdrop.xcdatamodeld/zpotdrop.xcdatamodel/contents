@@ -34,6 +34,15 @@
         <attribute name="mid" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="NotificationModel" representedClassName="NotificationModel" syncable="YES">
+        <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="feed_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mid" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="receiver_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sender_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="UserDataModel" representedClassName="UserDataModel" syncable="YES">
         <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="birthday" optional="YES" attributeType="Date" syncable="YES"/>
@@ -54,5 +63,6 @@
         <element name="FeedDataModel" positionX="-54" positionY="18" width="128" height="210"/>
         <element name="LocationDataModel" positionX="-54" positionY="72" width="128" height="120"/>
         <element name="UserDataModel" positionX="-63" positionY="-18" width="128" height="225"/>
+        <element name="NotificationModel" positionX="-54" positionY="81" width="128" height="150"/>
     </elements>
 </model>

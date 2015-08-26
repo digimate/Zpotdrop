@@ -15,9 +15,11 @@
 @end
 
 @implementation RightNotificationViewController
+
 -(void)setupData{
 
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
@@ -42,27 +44,45 @@
     [self.view addGestureRecognizer:closeSwipe];
     
     _notificationData = [NSMutableArray array];
-    for(int i = 0; i < 50 ; ++i)
-    {
-        NotificationModel* model = [[NotificationModel alloc]init];
-        model.time = [NSDate date];
-        model.notificationType = [NSNumber numberWithInt:(i%4)];
-        switch (i%4) {
-            case NOTIFICATION_COMMENT:
-                model.notificationContent = @"comment on your Zpotdrop: <<Have fun!>>";
-                break;
-            case NOTIFICATION_COMMING:
-                model.notificationContent = @"is comming to your zpotdrop";
-                break;
-            case NOTIFICATION_FOLLOW:
-                model.notificationContent = @"Started following you";
-                break;
-            default:
-                model.notificationContent = @"Liked your Zpotdrop";
-                break;
-        }
-        [_notificationData addObject:model];
-    }
+    NotificationModel* m1 = (NotificationModel*)[NotificationModel fetchObjectWithID:@"1"];
+    m1.type = NOTIFICATION_COMMENT;
+    m1.comment = @"Hey you";
+    m1.sender_id = [AccountModel currentAccountModel].user_id;
+    m1.receiver_id = [AccountModel currentAccountModel].user_id;
+    m1.feed_id = @"HZRLmabJBZ";
+    [_notificationData addObject:m1];
+    
+    NotificationModel* m2 = (NotificationModel*)[NotificationModel fetchObjectWithID:@"2"];
+    m2.type = NOTIFICATION_COMMING;
+    m2.comment = @"Hey you";
+    m2.sender_id = [AccountModel currentAccountModel].user_id;
+    m2.receiver_id = [AccountModel currentAccountModel].user_id;
+    m2.feed_id = @"HZRLmabJBZ";
+    [_notificationData addObject:m2];
+    
+    NotificationModel* m3 = (NotificationModel*)[NotificationModel fetchObjectWithID:@"3"];
+    m3.type = NOTIFICATION_FB_Friend;
+    m3.comment = @"Hey you";
+    m3.sender_id = [AccountModel currentAccountModel].user_id;
+    m3.receiver_id = [AccountModel currentAccountModel].user_id;
+    m3.feed_id = @"HZRLmabJBZ";
+    [_notificationData addObject:m3];
+    
+    NotificationModel* m4 = (NotificationModel*)[NotificationModel fetchObjectWithID:@"4"];
+    m4.type = NOTIFICATION_FOLLOW;
+    m4.comment = @"Hey you";
+    m4.sender_id = [AccountModel currentAccountModel].user_id;
+    m4.receiver_id = [AccountModel currentAccountModel].user_id;
+    m4.feed_id = @"HZRLmabJBZ";
+    [_notificationData addObject:m4];
+    
+    NotificationModel* m5 = (NotificationModel*)[NotificationModel fetchObjectWithID:@"5"];
+    m5.type = NOTIFICATION_LIKE;
+    m5.comment = @"Hey you";
+    m5.sender_id = [AccountModel currentAccountModel].user_id;
+    m5.receiver_id = [AccountModel currentAccountModel].user_id;
+    m5.feed_id = @"HZRLmabJBZ";
+    [_notificationData addObject:m5];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -92,7 +112,8 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50.f;
+    NotificationModel* model = [_notificationData objectAtIndex:indexPath.row];
+    return [NotificationTableViewCell cellHeightWithData:model];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -113,18 +134,16 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NotificationModel* model = [_notificationData objectAtIndex:indexPath.row];
     NotificationTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"notificationCell" forIndexPath:indexPath];
-    [cell setupCellWithData:_notificationData[indexPath.row] inSize:CGSizeMake(tableView.frame.size.width, 50.f) andHandler:^(id data, NOTIFICATION_ACTION action) {
-        
-    }];
-    [cell scrollBack];
+    [cell setupCellWithData:model andOptions:nil];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [_delegate didPressedOnNotificationWithAction:NOTIFICATION_LIKE andData:nil];
+    [_delegate didPressedOnNotificationWithData:[_notificationData objectAtIndex:indexPath.row]];
 }
 
 + (RightNotificationViewController *) instance {

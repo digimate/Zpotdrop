@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A9F5ACA1B77AA3B00C9E0FD /* NotificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9F5AC91B77AA3B00C9E0FD /* NotificationModel.m */; };
 		0A9F5ACE1B77B33300C9E0FD /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9F5ACD1B77B33300C9E0FD /* SearchViewController.m */; };
 		0A9F5AD21B77BA4B00C9E0FD /* friendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9F5AD11B77BA4B00C9E0FD /* friendCell.m */; };
 		0A9F5AD51B77BA5A00C9E0FD /* listModeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9F5AD41B77BA5A00C9E0FD /* listModeCell.m */; };
@@ -120,6 +119,7 @@
 		BA0874B21B6FC15200FBFF74 /* UserDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BA0874B11B6FC15200FBFF74 /* UserDataModel.m */; };
 		BA0874B41B6FC31300FBFF74 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0874B31B6FC31300FBFF74 /* CoreData.framework */; };
 		BA0874B61B6FC35000FBFF74 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0874B51B6FC35000FBFF74 /* libsqlite3.dylib */; };
+		BA18266C1B8DED8F007A8F46 /* NotificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BA18266B1B8DED8F007A8F46 /* NotificationModel.m */; };
 		BA18FF201B897DF80084A978 /* ic_current_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA18FF1F1B897DF80084A978 /* ic_current_location@2x.png */; };
 		BA1A97671B836C1600F087A1 /* FeedCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA1A97661B836C1600F087A1 /* FeedCommentViewController.m */; };
 		BA2CEBE91B821728000EA360 /* ic_comment_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BA2CEBE31B821728000EA360 /* ic_comment_green@2x.png */; };
@@ -201,8 +201,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0A9F5AC81B77AA3B00C9E0FD /* NotificationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationModel.h; sourceTree = "<group>"; };
-		0A9F5AC91B77AA3B00C9E0FD /* NotificationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationModel.m; sourceTree = "<group>"; };
 		0A9F5ACC1B77B33300C9E0FD /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		0A9F5ACD1B77B33300C9E0FD /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		0A9F5AD01B77BA4B00C9E0FD /* friendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = friendCell.h; sourceTree = "<group>"; };
@@ -386,6 +384,8 @@
 		BA0874B11B6FC15200FBFF74 /* UserDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDataModel.m; sourceTree = "<group>"; };
 		BA0874B31B6FC31300FBFF74 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		BA0874B51B6FC35000FBFF74 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		BA18266A1B8DED8F007A8F46 /* NotificationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationModel.h; sourceTree = "<group>"; };
+		BA18266B1B8DED8F007A8F46 /* NotificationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationModel.m; sourceTree = "<group>"; };
 		BA18FF1F1B897DF80084A978 /* ic_current_location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_current_location@2x.png"; sourceTree = "<group>"; };
 		BA1A97651B836C1600F087A1 /* FeedCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedCommentViewController.h; sourceTree = "<group>"; };
 		BA1A97661B836C1600F087A1 /* FeedCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedCommentViewController.m; sourceTree = "<group>"; };
@@ -800,6 +800,8 @@
 		0ACD9E451B6E5205004140EE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				BA18266A1B8DED8F007A8F46 /* NotificationModel.h */,
+				BA18266B1B8DED8F007A8F46 /* NotificationModel.m */,
 				BA30F2771B7A471B00152A95 /* LocationDataModel.h */,
 				BA30F2781B7A471B00152A95 /* LocationDataModel.m */,
 				8C50F7831B7359E100997C06 /* FeedDataModel.h */,
@@ -815,8 +817,6 @@
 				BA0874AA1B6FC0C800FBFF74 /* zpotdrop.xcdatamodeld */,
 				0ACD9E461B6E71E4004140EE /* UserModel.h */,
 				0ACD9E471B6E71E4004140EE /* UserModel.m */,
-				0A9F5AC81B77AA3B00C9E0FD /* NotificationModel.h */,
-				0A9F5AC91B77AA3B00C9E0FD /* NotificationModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1297,7 +1297,6 @@
 				0ACD9DCD1B68D497004140EE /* AFSecurityPolicy.m in Sources */,
 				BA7380FF1B7E606F00DF10C0 /* SCSkypeActivityIndicatorView.m in Sources */,
 				8C269C261B7064EB00E6835E /* MainViewController.m in Sources */,
-				0A9F5ACA1B77AA3B00C9E0FD /* NotificationModel.m in Sources */,
 				0ACD9E0F1B6A22A7004140EE /* CompleteSignupViewController.m in Sources */,
 				8C269C411B70774E00E6835E /* MenuProfileTableViewCell.m in Sources */,
 				0ACD9DCB1B68D497004140EE /* AFHTTPSessionManager.m in Sources */,
@@ -1344,6 +1343,7 @@
 				BAED10CD1B75D3F200C96E01 /* ScannedUserCell.m in Sources */,
 				BA62841F1B70FF9200399368 /* CircleProgressView.m in Sources */,
 				8C269C401B70774E00E6835E /* MenuFeatureTableViewCell.m in Sources */,
+				BA18266C1B8DED8F007A8F46 /* NotificationModel.m in Sources */,
 				0ACD9DDD1B68D497004140EE /* UIImage+GIF.m in Sources */,
 				0ACD9D6C1B68B767004140EE /* AppDelegate.m in Sources */,
 				BA5099691B764A5B00B9092A /* RightNotificationViewController.m in Sources */,

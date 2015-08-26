@@ -10,7 +10,7 @@
 
 @protocol rightNotificationDelegate <NSObject>
 
--(void)didPressedOnNotificationWithAction:(NOTIFICATION_ACTION)command andData:(id)data;
+-(void)didPressedOnNotificationWithData:(id)data;
 -(void)closeRightNotification;
 
 @end

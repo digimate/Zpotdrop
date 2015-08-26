@@ -86,6 +86,11 @@
 "new_password_again" = "New Password again";
 "no_coming_user" = "Be first person coming";
 "no" = "No";
+"notification_comming_format" = "%@ Is coming to your zpotdrop. %@";
+"notification_comment_format" = "%@ Left a comment on your zpotdrop. %@";
+"notification_like_format" = "%@ Liked your zpotdrop. %@";
+"notification_follow_format" = "%@ Started following you. %@";
+"notification_facebook_format" = "Your facebook friend %@ is on Zpotdrop. %@";
 //MARK: - ***** O *****
 "ok" = "OK";
 "other" = "Other";

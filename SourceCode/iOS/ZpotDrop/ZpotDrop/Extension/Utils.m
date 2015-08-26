@@ -112,6 +112,21 @@
     }
 }
 
+-(NSString*)convertDateToAgo:(NSDate*)date{
+    double deltaSeconds = [[NSDate date] timeIntervalSinceDate:date];
+    if (deltaSeconds < 1) {
+        return @"1s";
+    }else if (deltaSeconds < 60) {
+        return [NSString stringWithFormat:@"%0.0lfs",deltaSeconds];
+    }else if (deltaSeconds < 60*60) {
+        return [NSString stringWithFormat:@"%0.0lfm",deltaSeconds/60];
+    }else if (deltaSeconds < 60*60*24) {
+        return [NSString stringWithFormat:@"%0.0lfh",deltaSeconds/(60*60)];
+    }else{
+        return [NSString stringWithFormat:@"%0.0lfd",deltaSeconds/(60*60*24)];
+    }
+}
+
 -(NSString*)distanceBetweenCoor:(CLLocationCoordinate2D)c1 andCoor:(CLLocationCoordinate2D)c2{
     CLLocation* l1  = [[CLLocation alloc]initWithLatitude:c1.latitude longitude:c1.longitude];
     CLLocation* l2  = [[CLLocation alloc]initWithLatitude:c2.latitude longitude:c2.longitude];

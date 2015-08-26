@@ -261,8 +261,8 @@
     [self openNotification];
 }
 
--(void)didPressedOnNotificationWithAction:(NOTIFICATION_ACTION)command andData:(id)data{
-    
+-(void)didPressedOnNotificationWithData:(id)data{
+
 }
 
 @end

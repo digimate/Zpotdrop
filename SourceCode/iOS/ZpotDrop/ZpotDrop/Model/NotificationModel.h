@@ -2,19 +2,21 @@
 //  NotificationModel.h
 //  ZpotDrop
 //
-//  Created by Nguyenh on 8/9/15.
+//  Created by Son Truong on 8/26/15.
 //  Copyright (c) 2015 zpotdrop. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 #import "BaseDataModel.h"
-#import <Parse/Parse.h>
-#import "Utils.h"
 
-@interface NotificationModel : NSObject
+@interface NotificationModel : BaseDataModel
 
-@property (nonatomic, retain) NSNumber* notificationType;
-@property (nonatomic, retain) NSString* notificationContent;
-@property (nonatomic, retain) NSDate* time;
-//@property (nonatomic, retain) PFRelation* user;
+@property (nonatomic, retain) NSString * type;
+@property (nonatomic, retain) NSString * comment;
+@property (nonatomic, retain) NSString * receiver_id;
+@property (nonatomic, retain) NSString * sender_id;
+@property (nonatomic, retain) NSString * feed_id;
+@property (nonatomic, retain) NSDate * time;
 
 @end

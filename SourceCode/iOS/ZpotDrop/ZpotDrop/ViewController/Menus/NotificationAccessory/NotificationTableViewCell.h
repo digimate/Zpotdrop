@@ -8,24 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "NotificationModel.h"
+#import "BaseTableViewCell.h"
+//typedef void(^notifiactionCellHandler)(id data, NOTIFICATION_ACTION action);
 
-typedef void(^notifiactionCellHandler)(id data, NOTIFICATION_ACTION action);
-
-@interface NotificationTableViewCell : UITableViewCell <UIScrollViewDelegate>
+@interface NotificationTableViewCell : BaseTableViewCell <UIScrollViewDelegate>
 {
     UIScrollView* _mScrollView;
     UIImageView* _avatarImage;
-    UILabel* _username;
     UILabel* _content;
-    UILabel* _time;
-    UIButton* _location;
-    UIButton* _add;
-    id _data;
-    
-    notifiactionCellHandler _handler;
+    UIView* viewButtons;
 }
 
--(void)setupCellWithData:(NotificationModel*)data inSize:(CGSize)size andHandler:(notifiactionCellHandler)handler;
--(void)scrollBack;
+//-(void)setupCellWithData:(NotificationModel*)data inSize:(CGSize)size andHandler:(notifiactionCellHandler)handler;
+//-(void)scrollBack;
 
 @end
