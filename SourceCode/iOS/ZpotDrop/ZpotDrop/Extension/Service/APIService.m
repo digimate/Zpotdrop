@@ -754,6 +754,45 @@
 }
 
 #pragma mark - Notification
+-(void)removeNotification:(NotificationModel*)model completion:(void(^)(BOOL successful,NSString* error))completion{
+    PFQuery* query = [PFQuery queryWithClassName:@"Notification"];
+    [query whereKey:@"objectId" equalTo:model.mid];
+    [query findObjectsInBackgroundWithBlock:^(NSArray* objects, NSError* error){
+        if (error) {
+            completion(NO,error.description);
+        }else if(objects && objects.count == 1){
+            PFObject* notification = objects.lastObject;
+            [notification deleteInBackgroundWithBlock:^(BOOL successful,NSError* error){
+                completion(successful,error.description);
+            }];
+        }else{
+            completion(YES,nil);
+        }
+    }];
+}
+-(void)sendNotification:(NotificationModel*)model completion:(void(^)(BOOL successful,NSString* error))completion{
+    PFQuery* query = [PFQuery queryWithClassName:@"Notification"];
+    [query whereKey:@"objectId" equalTo:model.mid];
+    [query findObjectsInBackgroundWithBlock:^(NSArray* objects, NSError* error){
+        if (error) {
+            completion(NO,error.description);
+        }else if(objects && objects.count == 1){
+            completion(YES,nil);
+        }else{
+            PFObject* notification = [PFObject objectWithClassName:@"Notification"];
+            notification[@"comment"] = model.comment;
+            notification[@"post_id"] = model.feed_id;
+            notification[@"sender_id"] = model.sender_id;
+            notification[@"type"] = model.type;
+            notification[@"receiver_id"] = model.receiver_id;
+            [notification saveInBackgroundWithBlock:^(BOOL successful,NSError* error){
+                model.mid = notification.objectId;
+                [self notificationModelFromParse:notification];
+                completion(successful,error.description);
+            }];
+        }
+    }];
+}
 -(void)getNotificationFromServerForUser:(NSString*)userID completion:(void(^)(NSArray* returnArray,NSString* error))completion{
     PFQuery* query = [PFQuery queryWithClassName:@"Notification"];
     [query setLimit:API_PAGE];

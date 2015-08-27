@@ -12,6 +12,7 @@
 #import "Utils.h"
 #import "UserDataModel.h"
 #import <Parse/Parse.h>
+#import "NotificationModel.h"
 
 typedef void(^dataResponse)(id data, NSString* error);
 
@@ -75,4 +76,6 @@ typedef void(^dataResponse)(id data, NSString* error);
 -(void)getOldCommentsFromServerForFeedID:(NSString*)fid time:(NSDate*)time completion:(void(^)(NSMutableArray* returnData,NSString* error))completion;
 -(void)getFeedWithID:(NSString*)fid completion:(void(^)(BOOL successful,NSString* error))completion;
 -(void)getNotificationFromServerForUser:(NSString*)userID completion:(void(^)(NSArray* returnArray,NSString* error))completion;
+-(void)sendNotification:(NotificationModel*)model completion:(void(^)(BOOL successful,NSString* error))completion;
+-(void)removeNotification:(NotificationModel*)model completion:(void(^)(BOOL successful,NSString* error))completion;
 @end
