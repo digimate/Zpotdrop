@@ -10,7 +10,7 @@
 #import "UserDataModel.h"
 #import "CoreDataService.h"
 #import "LocationDataModel.h"
-
+#import "NotificationModel.h"
 @implementation APIService
 
 +(APIService*)shareAPIService
@@ -108,11 +108,34 @@
         }
     }];
 }
-
+//send request to get Current Location of this user
 -(void)requestLocationOfUserID:(NSString*)friendID completion:(void(^)(BOOL successful,NSString* error))completion{
     
 }
+
+//
+-(LocationDataModel*)locationModelFromParse:(PFObject*)location{
+    LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:location.objectId];
+    model.name = location[@"name"];
+    model.address = location[@"address"];
+    model.latitude = location[@"latitude"];
+    model.longitude = location[@"longitude"];
+    return model;
+}
+
 #pragma mark - POST
+-(void)getFeedWithID:(NSString*)fid completion:(void(^)(BOOL successful,NSString* error))completion{
+    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+    [query whereKey:@"objectId" equalTo: fid];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (objects && objects.count > 0) {
+            [self updateFeedFromParse:objects.lastObject];
+            completion(YES,nil);
+        }else{
+            completion(NO,error.description);
+        }
+    }];
+}
 -(void)postZpotWithCoordinate:(CLLocationCoordinate2D)coor params:(NSMutableDictionary*)params completion:(void(^)(id data,NSString* error))completion{
     PFObject* feedParse = [PFObject objectWithClassName:@"Post"];
     feedParse[@"latitude"] = [NSNumber numberWithDouble:coor.latitude];
@@ -461,73 +484,16 @@
     }];
 }
 
-#pragma mark - DataModel
--(void)checkFriendWithUserID:(NSString*)friendID completion:(void(^)(BOOL isFriend,NSString* error))completion{
-    PFQuery* query1 = [PFQuery queryWithClassName:@"Follow"];
-    [query1 whereKey:@"isFriend" equalTo:[NSNumber numberWithBool:YES]];
-    [query1 whereKey:@"followUser" equalTo:friendID];
-    [query1 whereKey:@"followedUser" equalTo:[AccountModel currentAccountModel].user_id];
-    
-    PFQuery* query2 = [PFQuery queryWithClassName:@"Follow"];
-    [query2 whereKey:@"isFriend" equalTo:[NSNumber numberWithBool:YES]];
-    [query2 whereKey:@"followedUser" equalTo:friendID];
-    [query2 whereKey:@"followUser" equalTo:[AccountModel currentAccountModel].user_id];
-    
-    [[PFQuery orQueryWithSubqueries:@[query1,query2]] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
-        if (objects && objects.count > 0) {
-            completion(YES,nil);
-        }else{
-            completion(NO,error.description);
-        }
-    }];
-}
-
--(void)searchFriendWithName:(NSString*)userName completion:(void(^)(NSMutableArray* returnArray,NSString*error))completion{
-    NSMutableArray* returnArray = [NSMutableArray array];
-    PFQuery* query1 = [PFUser query];
-    [query1 whereKey:@"firstName" containsString:userName];
-    [query1 whereKey:@"objectId" notEqualTo:[AccountModel currentAccountModel].user_id];
-    
-    PFQuery* query2 = [PFUser query];
-    [query2 whereKey:@"lastName" containsString:userName];
-    [query2 whereKey:@"objectId" notEqualTo:[AccountModel currentAccountModel].user_id];
-    
-    PFQuery* query = [PFQuery orQueryWithSubqueries:@[query1,query2]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        for (PFUser* user in objects) {
-            UserDataModel* userModel = (UserDataModel*)[UserDataModel fetchObjectWithID:user.objectId];
-            userModel.email = user.email;
-            userModel.username = user.username;
-            userModel.first_name = user[@"firstName"];
-            userModel.last_name = user[@"lastName"];
-            userModel.gender = user[@"gender"];
-            userModel.birthday = user[@"dob"];
-            userModel.phone = user[@"phoneNumber"];
-            userModel.hometown = user[@"hometown"];
-            [returnArray addObject:userModel];
-        }
-        [[CoreDataService instance]saveContext];
-        completion(returnArray,error.description);
-    }];
-    
-}
+#pragma mark - CoreDataModel Update
 
 -(void)updateUserModelWithID:(NSString*)mid completion:(VoidBlock)completion{
     PFQuery *query = [PFUser query];
     [query whereKey:@"objectId" equalTo: mid];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         for (PFUser* user in objects) {
-            UserDataModel* userModel = (UserDataModel*)[UserDataModel fetchObjectWithID:user.objectId];
-            userModel.email = user.email;
-            userModel.username = user.username;
-            userModel.first_name = user[@"firstName"];
-            userModel.last_name = user[@"lastName"];
-            userModel.gender = user[@"gender"];
-            userModel.birthday = user[@"dob"];
-            userModel.phone = user[@"phoneNumber"];
-            userModel.hometown = user[@"hometown"];
-            [[CoreDataService instance]saveContext];
+            [self updateUserModel:user.objectId withParse:user];
         }
+        [[CoreDataService instance]saveContext];
         completion();
     }];
 }
@@ -536,11 +502,19 @@
     [query whereKey:@"objectId" equalTo: mid];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         for (PFObject* location in objects) {
-            LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:location.objectId];
-            model.name = location[@"name"];
-            model.address = location[@"address"];
-            model.latitude = location[@"latitude"];
-            model.longitude = location[@"longitude"];
+            [self locationModelFromParse:location];
+        }
+        [[CoreDataService instance]saveContext];
+        completion();
+    }];
+}
+
+-(void)updateFeedModelWithID:(NSString*)mid completion:(VoidBlock)completion{
+    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+    [query whereKey:@"objectId" equalTo: mid];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        for (PFObject* feed in objects) {
+            [self updateFeedFromParse:feed];
         }
         [[CoreDataService instance]saveContext];
         completion();
@@ -620,6 +594,56 @@
 }
 
 #pragma mark FOLLOW
+-(void)checkFriendWithUserID:(NSString*)friendID completion:(void(^)(BOOL isFriend,NSString* error))completion{
+    PFQuery* query1 = [PFQuery queryWithClassName:@"Follow"];
+    //[query1 whereKey:@"isFriend" equalTo:[NSNumber numberWithBool:YES]];
+    [query1 whereKey:@"followUser" equalTo:friendID];
+    [query1 whereKey:@"followedUser" equalTo:[AccountModel currentAccountModel].user_id];
+    
+    PFQuery* query2 = [PFQuery queryWithClassName:@"Follow"];
+    //[query2 whereKey:@"isFriend" equalTo:[NSNumber numberWithBool:YES]];
+    [query2 whereKey:@"followedUser" equalTo:friendID];
+    [query2 whereKey:@"followUser" equalTo:[AccountModel currentAccountModel].user_id];
+    
+    [[PFQuery orQueryWithSubqueries:@[query1,query2]] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
+        if (objects && objects.count > 0) {
+            completion(YES,nil);
+        }else{
+            completion(NO,error.description);
+        }
+    }];
+}
+
+-(void)searchFriendWithName:(NSString*)userName completion:(void(^)(NSMutableArray* returnArray,NSString*error))completion{
+    NSMutableArray* returnArray = [NSMutableArray array];
+    PFQuery* query1 = [PFUser query];
+    [query1 whereKey:@"firstName" containsString:userName];
+    [query1 whereKey:@"objectId" notEqualTo:[AccountModel currentAccountModel].user_id];
+    
+    PFQuery* query2 = [PFUser query];
+    [query2 whereKey:@"lastName" containsString:userName];
+    [query2 whereKey:@"objectId" notEqualTo:[AccountModel currentAccountModel].user_id];
+    
+    PFQuery* query = [PFQuery orQueryWithSubqueries:@[query1,query2]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        for (PFUser* user in objects) {
+            UserDataModel* userModel = (UserDataModel*)[UserDataModel fetchObjectWithID:user.objectId];
+            userModel.email = user.email;
+            userModel.username = user.username;
+            userModel.first_name = user[@"firstName"];
+            userModel.last_name = user[@"lastName"];
+            userModel.gender = user[@"gender"];
+            userModel.birthday = user[@"dob"];
+            userModel.phone = user[@"phoneNumber"];
+            userModel.hometown = user[@"hometown"];
+            [returnArray addObject:userModel];
+        }
+        [[CoreDataService instance]saveContext];
+        completion(returnArray,error.description);
+    }];
+    
+}
+
 -(void)countFollowingForUserID:(NSString*)userID completion:(void(^)(NSInteger count,NSString* error))completion{
     PFQuery* follow = [PFQuery queryWithClassName:@"Follow"];
     [follow whereKey:@"followUser" equalTo:userID];
@@ -727,5 +751,39 @@
         }
     }];
     
+}
+
+#pragma mark - Notification
+-(void)getNotificationFromServerForUser:(NSString*)userID completion:(void(^)(NSArray* returnArray,NSString* error))completion{
+    PFQuery* query = [PFQuery queryWithClassName:@"Notification"];
+    [query setLimit:API_PAGE];
+    [query whereKey:@"receiver_id" equalTo:[AccountModel currentAccountModel].user_id];
+    [query orderBySortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"updatedAt" ascending:NO]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray* objects, NSError* error)
+     {
+         if (objects && objects.count > 0)
+         {
+             NSMutableArray* returnArray = [NSMutableArray array];
+             for (PFObject* notif in objects) {
+                 NotificationModel* model = [self notificationModelFromParse:notif];
+                 [returnArray addObject:model];
+             }
+             completion(returnArray,nil);
+         }
+         else
+         {
+             completion(@[],error.description);
+         }
+     }];
+}
+-(NotificationModel*)notificationModelFromParse:(PFObject*)parse{
+    NotificationModel* model = (NotificationModel*)[NotificationModel fetchObjectWithID:parse.objectId];
+    model.comment = parse[@"comment"];
+    model.feed_id = parse[@"post_id"];
+    model.sender_id = parse[@"sender_id"];
+    model.receiver_id = parse[@"receiver_id"];
+    model.type = parse[@"type"];
+    model.time = parse.updatedAt;
+    return model;
 }
 @end

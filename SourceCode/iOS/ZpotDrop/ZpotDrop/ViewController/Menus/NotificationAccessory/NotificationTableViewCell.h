@@ -18,8 +18,9 @@
     UILabel* _content;
     UIView* viewButtons;
 }
-
-//-(void)setupCellWithData:(NotificationModel*)data inSize:(CGSize)size andHandler:(notifiactionCellHandler)handler;
-//-(void)scrollBack;
+@property(nonatomic,copy)void(^onShowPost)(NotificationModel*notif);
+@property(nonatomic,copy)void(^onFollowUser)(NotificationModel*notif);
+@property(nonatomic,copy)void(^onUnFollowUser)(NotificationModel*notif);
+-(void)scrollBack;
 
 @end

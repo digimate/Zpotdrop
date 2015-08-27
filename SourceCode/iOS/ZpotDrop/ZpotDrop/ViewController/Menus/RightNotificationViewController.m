@@ -44,45 +44,6 @@
     [self.view addGestureRecognizer:closeSwipe];
     
     _notificationData = [NSMutableArray array];
-    NotificationModel* m1 = (NotificationModel*)[NotificationModel fetchObjectWithID:@"1"];
-    m1.type = NOTIFICATION_COMMENT;
-    m1.comment = @"Hey you";
-    m1.sender_id = [AccountModel currentAccountModel].user_id;
-    m1.receiver_id = [AccountModel currentAccountModel].user_id;
-    m1.feed_id = @"HZRLmabJBZ";
-    [_notificationData addObject:m1];
-    
-    NotificationModel* m2 = (NotificationModel*)[NotificationModel fetchObjectWithID:@"2"];
-    m2.type = NOTIFICATION_COMMING;
-    m2.comment = @"Hey you";
-    m2.sender_id = [AccountModel currentAccountModel].user_id;
-    m2.receiver_id = [AccountModel currentAccountModel].user_id;
-    m2.feed_id = @"HZRLmabJBZ";
-    [_notificationData addObject:m2];
-    
-    NotificationModel* m3 = (NotificationModel*)[NotificationModel fetchObjectWithID:@"3"];
-    m3.type = NOTIFICATION_FB_Friend;
-    m3.comment = @"Hey you";
-    m3.sender_id = [AccountModel currentAccountModel].user_id;
-    m3.receiver_id = [AccountModel currentAccountModel].user_id;
-    m3.feed_id = @"HZRLmabJBZ";
-    [_notificationData addObject:m3];
-    
-    NotificationModel* m4 = (NotificationModel*)[NotificationModel fetchObjectWithID:@"4"];
-    m4.type = NOTIFICATION_FOLLOW;
-    m4.comment = @"Hey you";
-    m4.sender_id = [AccountModel currentAccountModel].user_id;
-    m4.receiver_id = [AccountModel currentAccountModel].user_id;
-    m4.feed_id = @"HZRLmabJBZ";
-    [_notificationData addObject:m4];
-    
-    NotificationModel* m5 = (NotificationModel*)[NotificationModel fetchObjectWithID:@"5"];
-    m5.type = NOTIFICATION_LIKE;
-    m5.comment = @"Hey you";
-    m5.sender_id = [AccountModel currentAccountModel].user_id;
-    m5.receiver_id = [AccountModel currentAccountModel].user_id;
-    m5.feed_id = @"HZRLmabJBZ";
-    [_notificationData addObject:m5];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -97,7 +58,20 @@
 
 -(IBAction)refreshAction:(id)sender
 {
-    [_refresh endRefreshing];
+    [self getNotificationFromServer];
+}
+
+-(void)getNotificationFromServer{
+    [[APIService shareAPIService]getNotificationFromServerForUser:[AccountModel currentAccountModel].user_id completion:^(NSArray *returnArray, NSString *error) {
+        [_refresh endRefreshing];
+        [_notificationData removeAllObjects];
+        [_notificationData addObjectsFromArray:returnArray];
+        [_tableView reloadData];
+    }];
+}
+
+-(void)getMoreNotifcation{
+    
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -136,7 +110,25 @@
 {
     NotificationModel* model = [_notificationData objectAtIndex:indexPath.row];
     NotificationTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"notificationCell" forIndexPath:indexPath];
+    cell.dataModel.dataDelegate = nil;
+    model.dataDelegate = cell;
     [cell setupCellWithData:model andOptions:nil];
+    cell.onShowPost = ^(NotificationModel*model){
+        
+    };
+    cell.onFollowUser = ^(NotificationModel*model){
+        
+        [[APIService shareAPIService]setFollowWithUser:model.sender_id completion:^(BOOL successful, NSString *error) {
+            // call for update UI after change Data
+            [model.dataDelegate updateUIForDataModel:model options:nil];
+        }];
+    };
+    cell.onUnFollowUser = ^(NotificationModel*model){
+        [[APIService shareAPIService]setUnFollowWithUser:model.sender_id completion:^(BOOL successful, NSString *error) {
+            // call for update UI after change Data
+            [model.dataDelegate updateUIForDataModel:model options:nil];
+        }];
+    };
     return cell;
 }
 

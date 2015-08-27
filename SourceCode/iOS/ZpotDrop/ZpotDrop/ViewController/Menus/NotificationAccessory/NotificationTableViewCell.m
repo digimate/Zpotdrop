@@ -12,7 +12,7 @@
 #import "UserDataModel.h"
 
 @implementation NotificationTableViewCell
-
+@synthesize onFollowUser,onShowPost,onUnFollowUser;
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
@@ -28,6 +28,28 @@
     return 50;
 }
 
+-(void)showPost{
+    if (self.onShowPost) {
+        self.onShowPost((NotificationModel*)self.dataModel);
+    }
+}
+
+-(void)followUser:(UIButton*)sender{
+    if (sender.isSelected) {
+        if (self.onUnFollowUser) {
+            self.onUnFollowUser((NotificationModel*)self.dataModel);
+        }
+    }else{
+        if (self.onFollowUser) {
+            self.onFollowUser((NotificationModel*)self.dataModel);
+        }
+    }
+}
+
+-(void)updateUIForDataModel:(BaseDataModel *)model options:(NSDictionary *)params{
+    [self setupCellWithData:model andOptions:params];
+}
+
 -(void)setupCellWithData:(BaseDataModel *)data andOptions:(NSDictionary *)param{
     if (!_mScrollView) {
         _mScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.width, [NotificationTableViewCell cellHeightWithData:nil])];
@@ -35,6 +57,7 @@
         [_mScrollView setPagingEnabled:YES];
         [self addSubview:_mScrollView];
     }
+    _mScrollView.delegate = self;
     [_mScrollView setBackgroundColor:[UIColor clearColor]];
     for (UIView* sub in _mScrollView.subviews) {
         [sub removeFromSuperview];
@@ -44,9 +67,16 @@
     
     CGSize size = _mScrollView.frame.size;
     
-    viewButtons = [[UIView alloc]initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-    [viewButtons setBackgroundColor:[UIColor whiteColor]];
-    [_mScrollView addSubview:viewButtons];
+    if (!viewButtons) {
+        viewButtons = [[UIView alloc]initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+        [viewButtons setBackgroundColor:[UIColor clearColor]];
+        [self addSubview:viewButtons];
+    }
+    for (UIView* sub in viewButtons.subviews) {
+        [sub removeFromSuperview];
+    }
+    [self sendSubviewToBack:viewButtons];
+
     
     UIView* _background = [[UIView alloc]initWithFrame:CGRectMake(0, 0, size.width, size.height)];
     [_background setBackgroundColor:[UIColor whiteColor]];
@@ -69,6 +99,7 @@
         NSDictionary* dictDate = @{NSForegroundColorAttributeName : COLOR_DARK_GREEN,
                                    NSFontAttributeName : [UIFont fontWithName:@"PTSans-Regular" size:8]};
         NSMutableAttributedString* attStr;
+        CGFloat buttonWidth = 0;
         if ([notifModel.type isEqualToString:NOTIFICATION_COMMING]) {
             attStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"notification_comming_format".localized,name,date]];
             NSDictionary* dictName = @{NSForegroundColorAttributeName : COLOR_DARK_GREEN,
@@ -78,7 +109,13 @@
             [attStr addAttributes:dictDate range:rangeDate];
             [attStr addAttributes:dictName range:rangeName];
             
-            
+            UIButton* btnComming = [UIButton buttonWithType:UIButtonTypeCustom];
+            [btnComming setBackgroundColor:COLOR_DARK_GREEN];
+            [btnComming setFrame:CGRectMake(0, 0, size.height, size.height)];
+            [btnComming setImage:[UIImage imageNamed:@"ic_location_white"] forState:UIControlStateNormal];
+            [btnComming addTarget:self action:@selector(showPost) forControlEvents:UIControlEventTouchUpInside];
+            [viewButtons addSubview:btnComming];
+            buttonWidth = size.height;
         }else if ([notifModel.type isEqualToString:NOTIFICATION_COMMENT]){
             attStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"notification_comment_format".localized,name,date]];
             NSDictionary* dictName = @{NSForegroundColorAttributeName : COLOR_DARK_GREEN,
@@ -87,6 +124,14 @@
             NSRange rangeDate = [attStr.string rangeOfString:date];
             [attStr addAttributes:dictDate range:rangeDate];
             [attStr addAttributes:dictName range:rangeName];
+            
+            UIButton* btnComming = [UIButton buttonWithType:UIButtonTypeCustom];
+            [btnComming setBackgroundColor:COLOR_DARK_GREEN];
+            [btnComming setFrame:CGRectMake(0, 0, size.height, size.height)];
+            [btnComming setImage:[UIImage imageNamed:@"ic_location_white"] forState:UIControlStateNormal];
+            [btnComming addTarget:self action:@selector(showPost) forControlEvents:UIControlEventTouchUpInside];
+            [viewButtons addSubview:btnComming];
+            buttonWidth = size.height;
         }else if ([notifModel.type isEqualToString:NOTIFICATION_LIKE]){
             attStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"notification_like_format".localized,name,date]];
             NSDictionary* dictName = @{NSForegroundColorAttributeName : COLOR_DARK_GREEN,
@@ -95,6 +140,14 @@
             NSRange rangeDate = [attStr.string rangeOfString:date];
             [attStr addAttributes:dictDate range:rangeDate];
             [attStr addAttributes:dictName range:rangeName];
+            
+            UIButton* btnComming = [UIButton buttonWithType:UIButtonTypeCustom];
+            [btnComming setBackgroundColor:COLOR_DARK_GREEN];
+            [btnComming setFrame:CGRectMake(0, 0, size.height, size.height)];
+            [btnComming setImage:[UIImage imageNamed:@"ic_location_white"] forState:UIControlStateNormal];
+            [btnComming addTarget:self action:@selector(showPost) forControlEvents:UIControlEventTouchUpInside];
+            [viewButtons addSubview:btnComming];
+            buttonWidth = size.height;
         }else if ([notifModel.type isEqualToString:NOTIFICATION_FOLLOW]){
             attStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"notification_follow_format".localized,name,date]];
             NSDictionary* dictName = @{NSForegroundColorAttributeName : COLOR_DARK_GREEN,
@@ -103,6 +156,14 @@
             NSRange rangeDate = [attStr.string rangeOfString:date];
             [attStr addAttributes:dictDate range:rangeDate];
             [attStr addAttributes:dictName range:rangeName];
+            
+            UIButton* btnFollow = [UIButton buttonWithType:UIButtonTypeCustom];
+            [btnFollow setFrame:CGRectMake(0, 7, (size.height- 14), (size.height- 14))];
+            [btnFollow setImage:[UIImage imageNamed:@"ic_add_friend"] forState:UIControlStateNormal];
+            [btnFollow setImage:[UIImage imageNamed:@"ic_friended"] forState:UIControlStateSelected];
+            [btnFollow addTarget:self action:@selector(followUser:) forControlEvents:UIControlEventTouchUpInside];
+            [viewButtons addSubview:btnFollow];
+            buttonWidth = size.height;
         }else if ([notifModel.type isEqualToString:NOTIFICATION_FB_Friend]){
             attStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"notification_facebook_format".localized,name,date]];
             NSDictionary* dictName = @{NSForegroundColorAttributeName : [UIColor blackColor],
@@ -113,67 +174,17 @@
             [attStr addAttributes:dictName range:rangeName];
         }
         
+        CGRect frame = viewButtons.frame;
+        frame.size.width = buttonWidth;
+        frame.origin.x = size.width - frame.size.width;
+        viewButtons.frame = frame;
+        
         [_content setAttributedText:attStr];
         [_background addSubview:_content];
         
-        [_mScrollView setContentSize:CGSizeMake(size.width,0)];
+        [_mScrollView setContentSize:CGSizeMake(size.width + buttonWidth,0)];
         [self addBorderWithFrame:CGRectMake(_content.x, size.height - 1, size.width - _content.x, 1.0) color:COLOR_SEPEARATE_LINE];
     }];
-    
-}
-
-
--(void)setupCellWithData:(NotificationModel*)data inSize:(CGSize)size
-{
-    
-//    if (!_mScrollView)
-//    {
-//        _username = [[UILabel alloc]initWithFrame:CGRectMake(_avatarImage.frame.size.width + _avatarImage.frame.origin.x + 7, _avatarImage.frame.origin.y, size.width - (_avatarImage.frame.size.width + _avatarImage.frame.origin.x + 7), _avatarImage.frame.size.height/2)];
-//        [_username setFont:[UIFont fontWithName:@"PTSans-Bold" size:15.f]];
-//        [_username setText:@"User name here"];
-//        [_background addSubview:_username];
-//        
-//        _content = [[UILabel alloc]initWithFrame:CGRectMake(_username.frame.origin.x, _username.frame.size.height + _username.frame.origin.y, size.width - _username.frame.origin.x, _avatarImage.frame.size.height/2)];
-//        [_content setTextColor:[UIColor blackColor]];
-//        [_content setFont:[UIFont fontWithName:@"PTSans-Regular" size:13.f]];
-//        [_content setText:@"notification content should display here"];
-//        [_background addSubview:_content];
-        
-//        _location = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [_location setFrame:CGRectMake(size.width - 60, 0, 60, size.height)];
-//        //[_location setBackgroundColor:[UIColor colorWithHexString:MAIN_COLOR]];
-//        [_location setImage:[UIImage imageNamed:@"notification_location.png"] forState:UIControlStateNormal];
-//        [self addSubview:_location];
-        
-//        _time = [[UILabel alloc]initWithFrame:CGRectMake(size.width - 60, _username.frame.origin.y, 60, _username.frame.size.height)];
-//        //[_time setTextColor:[UIColor colorWithHexString:MAIN_COLOR]];
-//        [_time setText:@"1 min ago"];
-//        [_time setFont:[UIFont fontWithName:@"PTSans-Regular" size:11.f]];
-//        [_background addSubview:_time];
-        
-//        _add = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [_add setFrame:CGRectMake(size.width - 10 - _avatarImage.frame.size.width, _avatarImage.frame.origin.y, _avatarImage.frame.size.width, _avatarImage.frame.size.height)];
-//        [_add circleWithBorderWidth:0 andColor:nil];
-//        //[_add setBackgroundColor:[UIColor colorWithHexString:MAIN_COLOR]];
-//        [_add setImage:[UIImage imageNamed:@"notification_add.png"] forState:UIControlStateNormal];
-//        [_mScrollView addSubview:_add];
-//        [self sendSubviewToBack:_location];
-//    }
-    
-//    if (data.notificationType.intValue == NOTIFICATION_FOLLOW)
-//    {
-//        [_time setHidden:YES];
-//        [_add setHidden:NO];
-//        [_mScrollView setContentSize:CGSizeMake(0,0)];
-//    }
-//    else
-//    {
-//        [_time setHidden:NO];
-//        [_add setHidden:YES];
-//        [_mScrollView setContentSize:CGSizeMake(size.width + _location.frame.size.width,0)];
-//    }
-//    
-//    [_content setText:data.notificationContent];
     
 }
 
@@ -181,11 +192,11 @@
 {
     if (scrollView.contentOffset.x > 0)
     {
-        //[self bringSubviewToFront:_location];
+        [self bringSubviewToFront:viewButtons];
     }
     else
     {
-        //[self sendSubviewToBack:_location];
+        [self sendSubviewToBack:viewButtons];
     }
 }
 
@@ -193,7 +204,10 @@
 {
     if (scrollView.contentOffset.x > 0)
     {
-       // [self bringSubviewToFront:_location];
+        [self bringSubviewToFront:viewButtons];
+    }else
+    {
+        [self sendSubviewToBack:viewButtons];
     }
 }
 

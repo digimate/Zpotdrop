@@ -7,7 +7,7 @@
 //
 
 #import "FeedDataModel.h"
-
+#import "APIService.h"
 
 @implementation FeedDataModel
 
@@ -49,6 +49,16 @@
     }
     if (self.like_userIds == nil) {
         self.like_userIds = @"";
+    }
+}
+
+-(void)updateObjectForUse:(void (^)())completion{
+    if (self.user_id.length ==0 || self.location_id.length == 0) {
+        [[APIService shareAPIService] getFeedWithID:self.mid completion:^(BOOL successful, NSString *error) {
+            completion();
+        }];
+    }else{
+        completion();
     }
 }
 @end
