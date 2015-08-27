@@ -245,6 +245,18 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (objects && objects.count > 0) {
             PFObject* parseObject = [objects firstObject];
+            
+            //send notification
+            NotificationModel* model  = (NotificationModel*)[NotificationModel fetchObjectWithID:[NSDate date].description];
+            model.type = NOTIFICATION_LIKE;
+            model.sender_id = [AccountModel currentAccountModel].user_id;
+            model.receiver_id = parseObject[@"user_id"];
+            model.feed_id = feedID;
+            model.time = [NSDate date];
+            [self sendNotification:model completion:^(BOOL successful, NSString *error) {
+                
+            }];
+            
             NSString* likeIDs = parseObject[@"like_userIds"];
             if ([likeIDs rangeOfString:[AccountModel currentAccountModel].user_id].location == NSNotFound) {
                 if (likeIDs && likeIDs.length > 0) {
@@ -281,6 +293,12 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (objects && objects.count > 0) {
             PFObject* parseObject = [objects firstObject];
+            
+            //remove notification
+            [self removeNotificationType:NOTIFICATION_LIKE receiver:parseObject[@"user_id"] postID:feedID completion:^(BOOL successful, NSString *error) {
+                
+            }];
+            
             NSString* likeIDs = parseObject[@"like_userIds"];
             NSMutableArray* likeIDArray = [NSMutableArray arrayWithArray:[likeIDs componentsSeparatedByString:@","]];
             if ([likeIDArray containsObject:[AccountModel currentAccountModel].user_id]) {
@@ -361,7 +379,7 @@
             PFObject* parseObject = [objects firstObject];
             
             //remove notification
-            [self removeNotification:NOTIFICATION_COMMING receiver:parseObject[@"user_id"] postID:fid completion:^(BOOL successful, NSString *error) {
+            [self removeNotificationType:NOTIFICATION_COMMING receiver:parseObject[@"user_id"] postID:fid completion:^(BOOL successful, NSString *error) {
                 
             }];
             
@@ -591,6 +609,18 @@
         [[CoreDataService instance]saveContext];
         completion(succeeded,error.description);
     }];
+    
+    //send notification
+    NotificationModel* model  = (NotificationModel*)[NotificationModel fetchObjectWithID:[NSDate date].description];
+    model.type = NOTIFICATION_COMMENT;
+    model.comment = commentModel.message;
+    model.sender_id = [AccountModel currentAccountModel].user_id;
+    model.receiver_id = commentModel.user_id;
+    model.feed_id = commentModel.feed_id;
+    model.time = [NSDate date];
+    [self sendNotification:model completion:^(BOOL successful, NSString *error) {
+        
+    }];
 }
 
 #pragma mark SEARCH USER
@@ -761,7 +791,7 @@
 
 -(void)setUnFollowWithUser:(NSString*)data completion:(void(^)(BOOL successful,NSString* error))completion
 {
-    [self removeNotification:NOTIFICATION_FOLLOW receiver:data postID:nil completion:^(BOOL successful, NSString *error) {
+    [self removeNotificationType:NOTIFICATION_FOLLOW receiver:data postID:nil completion:^(BOOL successful, NSString *error) {
         
     }];
     
@@ -785,7 +815,7 @@
 
 #pragma mark - Notification
 //remove for coming and follow
--(void)removeNotification:(NSString*)type receiver:(NSString*)receiverID postID:(NSString*)postID completion:(void(^)(BOOL successful,NSString* error))completion{
+-(void)removeNotificationType:(NSString*)type receiver:(NSString*)receiverID postID:(NSString*)postID completion:(void(^)(BOOL successful,NSString* error))completion{
     PFQuery* query = [PFQuery queryWithClassName:@"Notification"];
     [query whereKey:@"type" equalTo:type];
     [query whereKey:@"sender_id" equalTo:[AccountModel currentAccountModel].user_id];
@@ -809,7 +839,7 @@
 }
 -(void)sendNotification:(NotificationModel*)model completion:(void(^)(BOOL successful,NSString* error))completion{
     if ([model.type isEqualToString:NOTIFICATION_COMMING] || [model.type isEqualToString:NOTIFICATION_FB_Friend]
-        || [model.type isEqualToString:NOTIFICATION_FOLLOW]) {
+        || [model.type isEqualToString:NOTIFICATION_FOLLOW] || [model.type isEqualToString:NOTIFICATION_LIKE]) {
         //have one
         PFQuery* query = [PFQuery queryWithClassName:@"Notification"];
         [query whereKey:@"type" equalTo:model.type];
