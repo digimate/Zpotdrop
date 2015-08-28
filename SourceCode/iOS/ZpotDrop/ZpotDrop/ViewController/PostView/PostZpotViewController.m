@@ -340,6 +340,7 @@
     if (createLocationCell && createLocationCell.address.length == 0) {
         CLLocation* loc = [locations lastObject];
         CLLocationCoordinate2D coor = [loc coordinate];
+        [[Utils instance].mapView setCenterCoordinate:coor];
         [[APIService shareAPIService]addressFromLocationCoordinate:coor completion:^(NSString *address) {
             if (createLocationCell && address) {
                 [createLocationCell setAddress:address];

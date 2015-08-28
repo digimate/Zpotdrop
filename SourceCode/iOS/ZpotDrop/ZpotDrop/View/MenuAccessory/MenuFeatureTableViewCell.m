@@ -14,7 +14,7 @@
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
-    _lblTitle.textColor = COLOR_DARK_GREEN;
+    
     _lblTitle.font = [UIFont fontWithName:@"PTSans-Bold" size:18];
     UIImageView *checkmark = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_indicator"]];
     self.accessoryView = checkmark;
@@ -32,6 +32,12 @@
     }
     if (param != nil && [param objectForKey:@"title"] != nil) {
         _lblTitle.text = [param objectForKey:@"title"];
+    }
+    
+    if (param != nil && [param objectForKey:@"selected"] != nil && [[param objectForKey:@"selected"] boolValue] == YES) {
+        _lblTitle.textColor = COLOR_DARK_GREEN;
+    }else{
+        _lblTitle.textColor = [UIColor blackColor];
     }
 }
 

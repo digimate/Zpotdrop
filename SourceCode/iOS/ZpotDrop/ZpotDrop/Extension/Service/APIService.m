@@ -143,6 +143,10 @@
     feedParse[@"user_id"] = [PFUser currentUser].objectId;
     feedParse[@"location_id"] = [params objectForKey:@"location"];
     feedParse[@"title"] = [params objectForKey:@"title"];
+    feedParse[@"like_count"] = @(0);
+    feedParse[@"comment_count"] = @(0);
+    feedParse[@"like_userIds"] = @"";
+    feedParse[@"comment_userIds"] = @"";
     [feedParse saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         if (succeeded) {
             FeedDataModel* model = [self updateFeedFromParse:feedParse];
@@ -247,15 +251,17 @@
             PFObject* parseObject = [objects firstObject];
             
             //send notification
-            NotificationModel* model  = (NotificationModel*)[NotificationModel fetchObjectWithID:[NSDate date].description];
-            model.type = NOTIFICATION_LIKE;
-            model.sender_id = [AccountModel currentAccountModel].user_id;
-            model.receiver_id = parseObject[@"user_id"];
-            model.feed_id = feedID;
-            model.time = [NSDate date];
-            [self sendNotification:model completion:^(BOOL successful, NSString *error) {
-                
-            }];
+            if (![parseObject[@"user_id"] isEqualToString:[AccountModel currentAccountModel].user_id]) {
+                NotificationModel* model  = (NotificationModel*)[NotificationModel fetchObjectWithID:[NSDate date].description];
+                model.type = NOTIFICATION_LIKE;
+                model.sender_id = [AccountModel currentAccountModel].user_id;
+                model.receiver_id = parseObject[@"user_id"];
+                model.feed_id = feedID;
+                model.time = [NSDate date];
+                [self sendNotification:model completion:^(BOOL successful, NSString *error) {
+                    
+                }];
+            }
             
             NSString* likeIDs = parseObject[@"like_userIds"];
             if ([likeIDs rangeOfString:[AccountModel currentAccountModel].user_id].location == NSNotFound) {
@@ -295,9 +301,11 @@
             PFObject* parseObject = [objects firstObject];
             
             //remove notification
-            [self removeNotificationType:NOTIFICATION_LIKE receiver:parseObject[@"user_id"] postID:feedID completion:^(BOOL successful, NSString *error) {
-                
-            }];
+            if (![parseObject[@"user_id"] isEqualToString:[AccountModel currentAccountModel].user_id]) {
+                [self removeNotificationType:NOTIFICATION_LIKE receiver:parseObject[@"user_id"] postID:feedID completion:^(BOOL successful, NSString *error) {
+                    
+                }];
+            }
             
             NSString* likeIDs = parseObject[@"like_userIds"];
             NSMutableArray* likeIDArray = [NSMutableArray arrayWithArray:[likeIDs componentsSeparatedByString:@","]];
@@ -335,14 +343,17 @@
             PFObject* parseObject = [objects firstObject];
             
             //send notification
-            NotificationModel* model = (NotificationModel*)[NotificationModel fetchObjectWithID:[NSDate date].description];
-            model.type = NOTIFICATION_COMMING;
-            model.sender_id = [AccountModel currentAccountModel].user_id;
-            model.receiver_id = parseObject[@"user_id"];
-            model.feed_id = fid;
-            [self sendNotification:model completion:^(BOOL successful, NSString *error) {
-                
-            }];
+            if (![parseObject[@"user_id"] isEqualToString:[AccountModel currentAccountModel].user_id]) {
+                NotificationModel* model = (NotificationModel*)[NotificationModel fetchObjectWithID:[NSDate date].description];
+                model.type = NOTIFICATION_COMMING;
+                model.sender_id = [AccountModel currentAccountModel].user_id;
+                model.receiver_id = parseObject[@"user_id"];
+                model.feed_id = fid;
+                [self sendNotification:model completion:^(BOOL successful, NSString *error) {
+                    
+                }];
+            }
+            
             
             NSString* likeIDs = parseObject[@"comming_userIds"];
             if ([likeIDs rangeOfString:[AccountModel currentAccountModel].user_id].location == NSNotFound) {
@@ -379,9 +390,11 @@
             PFObject* parseObject = [objects firstObject];
             
             //remove notification
-            [self removeNotificationType:NOTIFICATION_COMMING receiver:parseObject[@"user_id"] postID:fid completion:^(BOOL successful, NSString *error) {
-                
-            }];
+            if (![parseObject[@"user_id"] isEqualToString:[AccountModel currentAccountModel].user_id]) {
+                [self removeNotificationType:NOTIFICATION_COMMING receiver:parseObject[@"user_id"] postID:fid completion:^(BOOL successful, NSString *error) {
+                    
+                }];
+            }
             
             NSString* likeIDs = parseObject[@"comming_userIds"];
             NSMutableArray* likeIDArray = [NSMutableArray arrayWithArray:[likeIDs componentsSeparatedByString:@","]];
@@ -611,16 +624,18 @@
     }];
     
     //send notification
-    NotificationModel* model  = (NotificationModel*)[NotificationModel fetchObjectWithID:[NSDate date].description];
-    model.type = NOTIFICATION_COMMENT;
-    model.comment = commentModel.message;
-    model.sender_id = [AccountModel currentAccountModel].user_id;
-    model.receiver_id = commentModel.user_id;
-    model.feed_id = commentModel.feed_id;
-    model.time = [NSDate date];
-    [self sendNotification:model completion:^(BOOL successful, NSString *error) {
-        
-    }];
+    if (![commentModel.user_id isEqualToString:[AccountModel currentAccountModel].user_id]) {
+        NotificationModel* model  = (NotificationModel*)[NotificationModel fetchObjectWithID:[NSDate date].description];
+        model.type = NOTIFICATION_COMMENT;
+        model.comment = commentModel.message;
+        model.sender_id = [AccountModel currentAccountModel].user_id;
+        model.receiver_id = commentModel.user_id;
+        model.feed_id = commentModel.feed_id;
+        model.time = [NSDate date];
+        [self sendNotification:model completion:^(BOOL successful, NSString *error) {
+            
+        }];
+    }
 }
 
 #pragma mark SEARCH USER

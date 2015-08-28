@@ -19,7 +19,7 @@
     
     [_lblName setText:@""];
     [_lblName setFont:[UIFont fontWithName:@"PTSans-Bold" size:18]];
-    _lblName.textColor = COLOR_DARK_GREEN;
+    //_lblName.textColor = COLOR_DARK_GREEN;
     
 }
 
@@ -40,7 +40,7 @@
 }
 
 +(CGFloat)cellHeightWithData:(BaseDataModel *)data{
-    return 150;
+    return 160;
 }
 
 @end

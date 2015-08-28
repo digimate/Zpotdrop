@@ -97,6 +97,15 @@
     [self.view addGestureRecognizer:closeSwipe];
 }
 
+-(void)showUserSettings{
+    if (currentSelectedRow != 5) {
+        currentSelectedRow = 5;
+        [self.delegate leftmenuChangeViewToClass:NSStringFromClass([UserSettingViewController class])];
+        [_tableView reloadData];
+        [self.delegate closeLeftMenu];
+    }
+}
+
 -(IBAction)closeAction:(id)sender
 {
     [_delegate closeLeftMenu];
@@ -137,7 +146,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return 6;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -147,18 +156,33 @@
     CGRect borderRect = CGRectZero;
     if (indexPath.row == 0) {
          borderRect = CGRectMake(15, [MenuProfileTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
-        cell.userInteractionEnabled = NO;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        UIButton* btnSetting = (UIButton*)[cell viewWithTag:69];
+        if (!btnSetting) {
+            btnSetting = [UIButton buttonWithType:UIButtonTypeCustom];
+            [btnSetting setFrame:CGRectMake(cell.width/2 - 50, cell.height - 25, 100, 20)];
+            [btnSetting setTitle:@"settings".localized forState:UIControlStateNormal];
+            [btnSetting setTitleColor:COLOR_DARK_GREEN forState:UIControlStateNormal];
+            [[btnSetting titleLabel]setFont:[UIFont fontWithName:@"PTSans-Regular" size:14]];
+            [btnSetting setTag:69];
+            [btnSetting addTarget:self action:@selector(showUserSettings) forControlEvents:UIControlEventTouchUpInside];
+            [cell addSubview:btnSetting];
+        }
     }else if (indexPath.row == 1) {
-        param = @{@"title":@"post".localized.uppercaseString,@"icon":@"icon"};
+        BOOL selected = indexPath.row == currentSelectedRow;
+        param = @{@"title":@"post".localized.uppercaseString,@"icon":@"icon",@"selected":[NSNumber numberWithBool:selected]};
         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 2){
-        param = @{@"title":@"feed".localized.uppercaseString,@"icon":@"ic_feed"};
-         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
+        BOOL selected = indexPath.row == currentSelectedRow;
+        param = @{@"title":@"feed".localized.uppercaseString,@"icon":@"ic_feed",@"selected":[NSNumber numberWithBool:selected]};
+        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 3){
-        param = @{@"title":@"find".localized.uppercaseString,@"icon":@"ic_find"};
-         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
+        BOOL selected = indexPath.row == currentSelectedRow;
+        param = @{@"title":@"find".localized.uppercaseString,@"icon":@"ic_find",@"selected":[NSNumber numberWithBool:selected]};
+        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 4){
-        param = @{@"title":@"search".localized.uppercaseString};
+        BOOL selected = indexPath.row == currentSelectedRow;
+        param = @{@"title":@"search".localized.uppercaseString,@"icon":@"ic_search",@"selected":[NSNumber numberWithBool:selected]};
         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 5){
         param = @{@"title":@"settings".localized.uppercaseString};
@@ -175,9 +199,9 @@
 -(NSString*)identifierForIndexPath:(NSIndexPath*)indexPath{
     if (indexPath.row == 0) {
         return NSStringFromClass([MenuProfileTableViewCell class]);
-    }else if (indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3){
+    }else if (indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 4 || indexPath.row == 3){
         return NSStringFromClass([MenuFeatureTableViewCell class]);
-    }else if (indexPath.row == 4 || indexPath.row == 5 ){
+    }else if (indexPath.row == 5 ){
         return NSStringFromClass([MenuSettingViewCell class]);
     }
     return NSStringFromClass([MenuProfileTableViewCell class]);
@@ -186,9 +210,9 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0){
         return [MenuProfileTableViewCell cellHeightWithData:nil];
-    }else if (indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 3){
+    }else if (indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 4 || indexPath.row == 3){
         return [MenuFeatureTableViewCell cellHeightWithData:nil];
-    }else if (indexPath.row == 4 || indexPath.row == 5){
+    }else if (indexPath.row == 5){
         return [MenuSettingViewCell cellHeightWithData:nil];
     }
     return 0;
@@ -202,6 +226,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 0) {
+        return;
+    }
     if (currentSelectedRow != indexPath.row) {
         currentSelectedRow = indexPath.row;
         if (currentSelectedRow == 1) {
@@ -215,6 +242,7 @@
         }else if (currentSelectedRow == 5) {
             [self.delegate leftmenuChangeViewToClass:NSStringFromClass([UserSettingViewController class])];
         }
+        [tableView reloadData];
         [self.delegate closeLeftMenu];
     }else{
         [self.delegate leftmenuChangeViewToClass:nil];

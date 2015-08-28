@@ -16,9 +16,6 @@
 
 @implementation RightNotificationViewController
 
--(void)setupData{
-
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -49,6 +46,9 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+-(void)setupData{
+    [self getNotificationFromServer];
 }
 
 -(IBAction)closeAction:(id)sender
