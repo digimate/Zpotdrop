@@ -451,8 +451,9 @@
     user[@"lastName"] = [data objectForKey:@"lastName"];
     user[@"gender"] = [data objectForKey:@"gender"];
     user[@"dob"] = [data objectForKey:@"dob"];
-    user[@"phoneNumber"] = @"";
-    user[@"hometown"] = @"";
+    user[@"phoneNumber"] = [data objectForKey:@"phoneNumber"];
+    user[@"hometown"] =[data objectForKey:@"hometown"];
+    user[@"facebook_id"] =[data objectForKey:@"facebook_id"];
     user[@"enableAllZpot"] = [NSNumber numberWithBool:YES];
     user[@"privateProfile"] = [NSNumber numberWithBool:YES];
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
@@ -465,6 +466,84 @@
             response(nil, error.localizedDescription);
         }
     }];
+}
+
+-(void)loginUserWithFID:(NSString*)facebookID :(dataResponse)response{
+    if ([FBSDKAccessToken currentAccessToken]) {
+        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields" : @"email,name,birthday,gender"}]
+         startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+             if (!error) {
+                 NSString* email = result[@"email"];
+                 NSString* gender = result[@"gender"];
+                 
+                 void (^onFetchUser)(NSArray *objects) = ^(NSArray *objects){
+                     if (objects.count == 1) {
+                         PFUser* user = objects.firstObject;
+                         user[@"facebookID"] = facebookID;
+                         [user saveInBackground];
+                         response(objects.firstObject, error.localizedDescription);
+                     }else{
+                         PFUser* user = [PFUser user];
+                         user.username = email;
+                         user.password = @"";
+                         user.email = email;
+                         user[@"firstName"] = [FBSDKProfile currentProfile].firstName;
+                         user[@"lastName"] = [FBSDKProfile currentProfile].lastName;
+                         if ([gender isEqualToString:@"male"]) {
+                             user[@"gender"] = @(0);
+                         }else if ([gender isEqualToString:@"female"]){
+                             user[@"gender"] = @(2);
+                         }else{
+                             user[@"gender"] = @(1);
+                         }
+                         user[@"dob"] = [NSDate date];
+                         user[@"phoneNumber"] = @"";
+                         user[@"hometown"] = @"";
+                         user[@"facebook_id"] = facebookID;
+                         user[@"enableAllZpot"] = [NSNumber numberWithBool:YES];
+                         user[@"privateProfile"] = [NSNumber numberWithBool:YES];
+                         [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+                             if (succeeded) {
+                                 UserDataModel* userModel = [self updateUserModel:user.objectId withParse:user];;
+                                 [AccountModel currentAccountModel].user_id = userModel.mid;
+                                 [[CoreDataService instance]saveContext];
+                                 response(userModel, error.localizedDescription);
+                             }else{
+                                 response(nil, error.localizedDescription);
+                             }
+                         }];
+
+                     }
+                 };
+                 
+                 PFQuery *query = [PFUser query];
+                 [query whereKey:@"facebook_id" equalTo:facebookID];
+                 if (email) {
+                     PFQuery *query1 = [PFUser query];
+                     [query1 whereKey:@"username" equalTo:email];
+                     PFQuery* orQuery = [PFQuery orQueryWithSubqueries:@[query,query1]];
+                     [orQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
+                         if (error) {
+                             response(nil,error.description);
+                         }else{
+                             onFetchUser(objects);
+                         }
+                     }];
+                 }else{
+                     email = @"";
+                     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
+                         if (error) {
+                             response(nil,error.description);
+                         }else{
+                             onFetchUser(objects);
+                         }
+                     }];
+                 }
+             }else{
+                 response(nil,error.description);
+             }
+         }];
+    }
 }
 
 -(void)loginWithData:(NSDictionary *)data :(dataResponse)response
@@ -520,7 +599,7 @@
     user.email = [params objectForKey:@"email"];
     user[@"firstName"] = [params objectForKey:@"firstName"];
     user[@"lastName"] = [params objectForKey:@"lastName"];
-//    user[@"gender"] = [params objectForKey:@"gender"];
+    user[@"gender"] = [params objectForKey:@"gender"];
     user[@"dob"] = [params objectForKey:@"dob"];
     user[@"phoneNumber"] = [params objectForKey:@"phoneNumber"];
     user[@"hometown"] = [params objectForKey:@"hometown"];
@@ -896,10 +975,64 @@
         }];
     }
 }
+
+-(void)getNotificationFromServerForUser:(NSString*)userID oldestNotifcation:(NotificationModel*)notif completion:(void(^)(NSArray* returnArray,NSString* error))completion{
+    PFQuery* query = [PFQuery queryWithClassName:@"Notification"];
+    if (notif) {
+        [query whereKey:@"updatedAt" lessThan:notif.time];
+    }
+    [query setLimit:API_PAGE];
+    [query whereKey:@"receiver_id" equalTo:[AccountModel currentAccountModel].user_id];
+    [query whereKey:@"sender_id" notEqualTo:[AccountModel currentAccountModel].user_id];
+    [query orderBySortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"updatedAt" ascending:NO]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray* objects, NSError* error)
+     {
+         if (objects && objects.count > 0)
+         {
+             NSMutableArray* returnArray = [NSMutableArray array];
+             for (PFObject* notif in objects) {
+                 NotificationModel* model = [self notificationModelFromParse:notif];
+                 [returnArray addObject:model];
+             }
+             completion(returnArray,nil);
+         }
+         else
+         {
+             completion(@[],error.description);
+         }
+     }];
+}
+-(void)getNotificationFromServerForUser:(NSString*)userID lastestNotifcation:(NotificationModel*)notif completion:(void(^)(NSArray* returnArray,NSString* error))completion{
+    PFQuery* query = [PFQuery queryWithClassName:@"Notification"];
+    if (notif) {
+        [query whereKey:@"updatedAt" greaterThan:notif.time];
+    }
+    [query whereKey:@"receiver_id" equalTo:[AccountModel currentAccountModel].user_id];
+    [query whereKey:@"sender_id" notEqualTo:[AccountModel currentAccountModel].user_id];
+    [query orderBySortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"updatedAt" ascending:NO]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray* objects, NSError* error)
+     {
+         if (objects && objects.count > 0)
+         {
+             NSMutableArray* returnArray = [NSMutableArray array];
+             for (PFObject* notif in objects) {
+                 NotificationModel* model = [self notificationModelFromParse:notif];
+                 [returnArray addObject:model];
+             }
+             completion(returnArray,nil);
+         }
+         else
+         {
+             completion(@[],error.description);
+         }
+     }];
+
+}
 -(void)getNotificationFromServerForUser:(NSString*)userID completion:(void(^)(NSArray* returnArray,NSString* error))completion{
     PFQuery* query = [PFQuery queryWithClassName:@"Notification"];
     [query setLimit:API_PAGE];
     [query whereKey:@"receiver_id" equalTo:[AccountModel currentAccountModel].user_id];
+    [query whereKey:@"sender_id" notEqualTo:[AccountModel currentAccountModel].user_id];
     [query orderBySortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"updatedAt" ascending:NO]];
     [query findObjectsInBackgroundWithBlock:^(NSArray* objects, NSError* error)
      {

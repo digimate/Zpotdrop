@@ -167,6 +167,12 @@
 		BAAE49AB1B779358003BE114 /* SettingSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAAE49A91B779358003BE114 /* SettingSwitchCell.xib */; };
 		BAAFD0841B75F67F009779FF /* ScannedUserAnnoView.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAFD0831B75F67F009779FF /* ScannedUserAnnoView.m */; };
 		BAAFD0871B75F6AF009779FF /* ScannedUserAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAFD0861B75F6AF009779FF /* ScannedUserAnnotation.m */; };
+		BAC5BAB31B92014800CB892F /* ic_facebook2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAC5BAB21B92014800CB892F /* ic_facebook2@2x.png */; };
+		BAC5BABA1B92114B00CB892F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAC5BAB51B92114B00CB892F /* Bolts.framework */; };
+		BAC5BABB1B92114B00CB892F /* FacebookService.m in Sources */ = {isa = PBXBuildFile; fileRef = BAC5BAB71B92114B00CB892F /* FacebookService.m */; };
+		BAC5BABC1B92114B00CB892F /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAC5BAB81B92114B00CB892F /* FBSDKCoreKit.framework */; };
+		BAC5BABD1B92114B00CB892F /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAC5BAB91B92114B00CB892F /* FBSDKLoginKit.framework */; };
+		BAC5BAC01B9221D700CB892F /* ForgetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BAC5BABF1B9221D700CB892F /* ForgetPasswordViewController.m */; };
 		BADEF74B1B8A07FF00C1F1FD /* ic_add_friend@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BADEF7451B8A07FF00C1F1FD /* ic_add_friend@2x.png */; };
 		BADEF74C1B8A07FF00C1F1FD /* ic_friended@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BADEF7461B8A07FF00C1F1FD /* ic_friended@2x.png */; };
 		BADEF74D1B8A07FF00C1F1FD /* ic_location_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BADEF7471B8A07FF00C1F1FD /* ic_location_white@2x.png */; };
@@ -459,6 +465,14 @@
 		BAAFD0831B75F67F009779FF /* ScannedUserAnnoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannedUserAnnoView.m; sourceTree = "<group>"; };
 		BAAFD0851B75F6AF009779FF /* ScannedUserAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScannedUserAnnotation.h; sourceTree = "<group>"; };
 		BAAFD0861B75F6AF009779FF /* ScannedUserAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannedUserAnnotation.m; sourceTree = "<group>"; };
+		BAC5BAB21B92014800CB892F /* ic_facebook2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_facebook2@2x.png"; sourceTree = "<group>"; };
+		BAC5BAB51B92114B00CB892F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		BAC5BAB61B92114B00CB892F /* FacebookService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookService.h; sourceTree = "<group>"; };
+		BAC5BAB71B92114B00CB892F /* FacebookService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookService.m; sourceTree = "<group>"; };
+		BAC5BAB81B92114B00CB892F /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		BAC5BAB91B92114B00CB892F /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		BAC5BABE1B9221D700CB892F /* ForgetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgetPasswordViewController.h; sourceTree = "<group>"; };
+		BAC5BABF1B9221D700CB892F /* ForgetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetPasswordViewController.m; sourceTree = "<group>"; };
 		BADEF7451B8A07FF00C1F1FD /* ic_add_friend@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_add_friend@2x.png"; sourceTree = "<group>"; };
 		BADEF7461B8A07FF00C1F1FD /* ic_friended@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_friended@2x.png"; sourceTree = "<group>"; };
 		BADEF7471B8A07FF00C1F1FD /* ic_location_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_location_white@2x.png"; sourceTree = "<group>"; };
@@ -500,11 +514,14 @@
 				BA0874B41B6FC31300FBFF74 /* CoreData.framework in Frameworks */,
 				0ACD9E281B6A8A05004140EE /* libz.dylib in Frameworks */,
 				0ACD9E261B6A89FD004140EE /* SystemConfiguration.framework in Frameworks */,
+				BAC5BABC1B92114B00CB892F /* FBSDKCoreKit.framework in Frameworks */,
 				0ACD9E241B6A89D9004140EE /* StoreKit.framework in Frameworks */,
 				0ACD9E221B6A89D1004140EE /* Security.framework in Frameworks */,
 				0ACD9E201B6A89C6004140EE /* QuartzCore.framework in Frameworks */,
 				0ACD9E1E1B6A89AB004140EE /* CoreLocation.framework in Frameworks */,
 				0ACD9E1C1B6A89A5004140EE /* CoreGraphics.framework in Frameworks */,
+				BAC5BABD1B92114B00CB892F /* FBSDKLoginKit.framework in Frameworks */,
+				BAC5BABA1B92114B00CB892F /* Bolts.framework in Frameworks */,
 				0ACD9E1A1B6A8988004140EE /* CFNetwork.framework in Frameworks */,
 				0ACD9E181B6A897C004140EE /* AudioToolbox.framework in Frameworks */,
 				0ACD9E151B6A8918004140EE /* Parse.framework in Frameworks */,
@@ -628,6 +645,7 @@
 		0ACD9D8C1B68D497004140EE /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				BAC5BAB41B92114B00CB892F /* Facebook */,
 				BA7380FC1B7E606F00DF10C0 /* SCSkypeActivityIndicatorView */,
 				BA5099751B76539500B9092A /* iOSBlocksProtocol.h */,
 				BA5099711B76532F00B9092A /* UINavigationController+Block.h */,
@@ -783,6 +801,8 @@
 				0ACD9E0B1B6A185D004140EE /* SignupViewController.m */,
 				0ACD9E0D1B6A22A7004140EE /* CompleteSignupViewController.h */,
 				0ACD9E0E1B6A22A7004140EE /* CompleteSignupViewController.m */,
+				BAC5BABE1B9221D700CB892F /* ForgetPasswordViewController.h */,
+				BAC5BABF1B9221D700CB892F /* ForgetPasswordViewController.m */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -824,6 +844,7 @@
 		0ACD9E491B6F137E004140EE /* Common Resource */ = {
 			isa = PBXGroup;
 			children = (
+				BAC5BAB21B92014800CB892F /* ic_facebook2@2x.png */,
 				BADEF7451B8A07FF00C1F1FD /* ic_add_friend@2x.png */,
 				BADEF7461B8A07FF00C1F1FD /* ic_friended@2x.png */,
 				BADEF7471B8A07FF00C1F1FD /* ic_location_white@2x.png */,
@@ -1083,6 +1104,18 @@
 			name = MKAnnotationView;
 			sourceTree = "<group>";
 		};
+		BAC5BAB41B92114B00CB892F /* Facebook */ = {
+			isa = PBXGroup;
+			children = (
+				BAC5BAB51B92114B00CB892F /* Bolts.framework */,
+				BAC5BAB61B92114B00CB892F /* FacebookService.h */,
+				BAC5BAB71B92114B00CB892F /* FacebookService.m */,
+				BAC5BAB81B92114B00CB892F /* FBSDKCoreKit.framework */,
+				BAC5BAB91B92114B00CB892F /* FBSDKLoginKit.framework */,
+			);
+			path = Facebook;
+			sourceTree = "<group>";
+		};
 		BAED10C91B75D3A200C96E01 /* CollectionView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1214,6 +1247,7 @@
 				BAAE49A11B778607003BE114 /* UserProfileCell.xib in Resources */,
 				BADEF74D1B8A07FF00C1F1FD /* ic_location_white@2x.png in Resources */,
 				BA2CEBE91B821728000EA360 /* ic_comment_green@2x.png in Resources */,
+				BAC5BAB31B92014800CB892F /* ic_facebook2@2x.png in Resources */,
 				BAE482001B7255CF0071BCF3 /* ic_heart@2x.png in Resources */,
 				BAE481FC1B7255CF0071BCF3 /* ic_annotation@2x.png in Resources */,
 				8C269C5F1B707D0E00E6835E /* MenuZpotAllTableViewCell.xib in Resources */,
@@ -1298,6 +1332,7 @@
 				BA7380FF1B7E606F00DF10C0 /* SCSkypeActivityIndicatorView.m in Sources */,
 				8C269C261B7064EB00E6835E /* MainViewController.m in Sources */,
 				0ACD9E0F1B6A22A7004140EE /* CompleteSignupViewController.m in Sources */,
+				BAC5BAC01B9221D700CB892F /* ForgetPasswordViewController.m in Sources */,
 				8C269C411B70774E00E6835E /* MenuProfileTableViewCell.m in Sources */,
 				0ACD9DCB1B68D497004140EE /* AFHTTPSessionManager.m in Sources */,
 				BA1A97671B836C1600F087A1 /* FeedCommentViewController.m in Sources */,
@@ -1332,6 +1367,7 @@
 				BA6284281B71060500399368 /* SVProgressHUD.m in Sources */,
 				0ACD9DE11B68D497004140EE /* UIImageView+WebCache.m in Sources */,
 				8C2ABFEE1B71F2C300047D74 /* FeedZpotViewController.m in Sources */,
+				BAC5BABB1B92114B00CB892F /* FacebookService.m in Sources */,
 				BAAE499B1B7782EA003BE114 /* UserSettingViewController.m in Sources */,
 				8C50F77C1B731F6200997C06 /* ZpotAnnotation.m in Sources */,
 				BAAFD0871B75F6AF009779FF /* ScannedUserAnnotation.m in Sources */,
@@ -1501,6 +1537,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZpotDrop/Extension/Parse",
+					"$(PROJECT_DIR)/ZpotDrop/Extension/Facebook",
 				);
 				INFOPLIST_FILE = ZpotDrop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
@@ -1518,6 +1555,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZpotDrop/Extension/Parse",
+					"$(PROJECT_DIR)/ZpotDrop/Extension/Facebook",
 				);
 				INFOPLIST_FILE = ZpotDrop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;

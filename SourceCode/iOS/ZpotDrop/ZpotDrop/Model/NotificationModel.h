@@ -19,4 +19,5 @@
 @property (nonatomic, retain) NSString * feed_id;
 @property (nonatomic, retain) NSDate * time;
 
++(NotificationModel*)lastestNotification;
 @end

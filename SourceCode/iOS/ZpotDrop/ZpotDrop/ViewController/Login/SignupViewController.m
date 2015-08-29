@@ -30,6 +30,16 @@
     [currentTextField resignFirstResponder];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 -(IBAction)didShow:(id)sender
 {
     NSDictionary* keyboardInfo = [sender userInfo];
@@ -49,9 +59,9 @@
 
 -(void)setupLayout
 {
-    [self.navigationController setNavigationBarHidden:YES];
-    
-    _mScrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
+    self.view.backgroundColor = [UIColor whiteColor];
+    CGRect frame = self.view.frame;
+    _mScrollView = [[UIScrollView alloc]initWithFrame:frame];
     [_mScrollView setBackgroundColor:[UIColor whiteColor]];
     [_mScrollView setKeyboardDismissMode:UIScrollViewKeyboardDismissModeInteractive];
     [self.view addSubview:_mScrollView];
@@ -151,11 +161,5 @@
         }
     }];
   
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 @end

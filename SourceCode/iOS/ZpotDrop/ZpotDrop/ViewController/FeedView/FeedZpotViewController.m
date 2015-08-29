@@ -184,13 +184,16 @@
     FeedDataModel* model = [_feedData objectAtIndex:indexPath.row];
     NSString* identifier = [self cellIdentiferForIndexPath:indexPath];
     BaseTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-    cell.dataModel.dataDelegate = nil;
-    cell.dataModel = nil;
-    [cell setupCellWithData:model andOptions:nil];
-    if (!selectedData) {
-        feedSelectedCell = nil;
-    }
     if ([identifier isEqualToString:NSStringFromClass([FeedSelectedViewCell class])]) {
+        if (model != cell.dataModel) {
+            cell.dataModel.dataDelegate = nil;
+            cell.dataModel = nil;
+            [cell setupCellWithData:model andOptions:nil];
+        }
+        if (!selectedData) {
+            feedSelectedCell = nil;
+        }
+        
         feedSelectedCell = (FeedSelectedViewCell*)cell;
         FeedZpotViewController* weak = weakObject(self);
         FeedSelectedViewCell* weakCell = weakObject(feedSelectedCell);
@@ -198,6 +201,13 @@
             [weak showCommentView:(FeedDataModel*)weakCell.dataModel];
         };
     }else{
+        cell.dataModel.dataDelegate = nil;
+        cell.dataModel = nil;
+        [cell setupCellWithData:model andOptions:nil];
+        if (!selectedData) {
+            feedSelectedCell = nil;
+        }
+        
         FeedZpotViewController* weak = weakObject(self);
         FeedNormalViewCell* normalCell = (FeedNormalViewCell*)cell;
         FeedNormalViewCell* weakCell = weakObject(normalCell);

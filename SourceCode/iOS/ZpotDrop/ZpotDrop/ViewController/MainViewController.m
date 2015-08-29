@@ -41,6 +41,14 @@
     [notificationButton addTarget:self action:@selector(notificationPressed:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* notificationItem = [[UIBarButtonItem alloc]initWithCustomView:notificationButton];
     self.navigationItem.rightBarButtonItem = notificationItem;
+    
+    UIView* notificationIcon = [[UIView alloc]initWithFrame:CGRectMake(notificationButton.width/2 + 2, notificationButton.height/4, 4, 4)];
+    notificationIcon.layer.cornerRadius = notificationIcon.width/2;
+    notificationIcon.backgroundColor = [UIColor redColor];
+    notificationIcon.userInteractionEnabled = NO;
+    notificationIcon.tag = 69;
+    notificationIcon.hidden = YES;
+    [notificationButton addSubview:notificationIcon];
 
     //====================== LEFT MENU =========================
     _leftMenuViewController = [LeftMenuViewController instance];
@@ -89,12 +97,6 @@
     [_rightMenuViewController setupData];
     ///add PostZpot as Intital View of MainView
     [_leftMenuViewController changeViewToClass:NSStringFromClass([FeedZpotViewController class])];
-}
-
--(void)viewDidAppear:(BOOL)animated{
-    if (_leftMenuViewController.parentViewController == nil) {
-        [self.navigationController addChildViewController:_leftMenuViewController];
-    }
 }
 
 -(void)showPostView{
@@ -154,6 +156,9 @@
     _menuOpening = !_menuOpening;
     if (_menuOpening)
     {
+        if (_leftMenuViewController.parentViewController == nil) {
+            [self addChildViewController:_leftMenuViewController];
+        }
         [[NSNotificationCenter defaultCenter]postNotificationName:KEY_OPEN_LEFT_MENU object:nil];
         [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] bringSubviewToFront:_leftMenuViewController.view];
         [[UIApplication sharedApplication]setStatusBarHidden:YES];
@@ -176,6 +181,7 @@
             _leftMenuViewController.tableView.frame = frame;
         } completion:^(BOOL finished) {
             [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] sendSubviewToBack:_leftMenuViewController.view];
+            [_leftMenuViewController removeFromParentViewController];
         }];
     }
 }
@@ -188,7 +194,9 @@
     _notificationOpening = !_notificationOpening;
     if (_notificationOpening)
     {
-        
+        if (_rightMenuViewController.parentViewController == nil) {
+            [self addChildViewController:_rightMenuViewController];
+        }
         [[NSNotificationCenter defaultCenter]postNotificationName:KEY_OPEN_RIGHT_MENU object:nil];
         [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] bringSubviewToFront:_rightMenuViewController.view];
         [[UIApplication sharedApplication]setStatusBarHidden:YES];
@@ -217,6 +225,7 @@
             _rightMenuViewController.tableView.frame = frame;
         }completion:^(BOOL finished) {
             [[(AppDelegate*)[[UIApplication sharedApplication]delegate] window] sendSubviewToBack:_rightMenuViewController.view];
+            [_rightMenuViewController removeFromParentViewController];
         }];
     }
 }

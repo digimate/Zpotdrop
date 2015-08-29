@@ -16,6 +16,7 @@
     
     UITextField* _firstName;
     UITextField* _lastName;
+    UITextField* _phoneNumber;
     DateTextField* _dob;
     UIButton* _male;
     UIButton* _female;
@@ -23,6 +24,7 @@
     UIButton* _complete;
     BOOL _gender; //YES: male, NO: female
     NSDate* _dobData;
+    UISlider* _genderSlider;
 }
 
 @property (nonatomic, retain) NSMutableDictionary* data;

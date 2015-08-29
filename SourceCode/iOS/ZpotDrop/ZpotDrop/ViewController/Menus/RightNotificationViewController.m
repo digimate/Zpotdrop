@@ -9,8 +9,14 @@
 #import "RightNotificationViewController.h"
 #import "NotificationTableViewCell.h"
 #import "NotificationModel.h"
+#import "MainViewController.h"
+#import "BaseNavigationController.h"
+#import "FeedCommentViewController.h"
 
-@interface RightNotificationViewController ()
+@interface RightNotificationViewController (){
+    int countNew;
+    BOOL canLoadMore;
+}
 
 @end
 
@@ -23,7 +29,9 @@
     self.view.autoresizesSubviews = NO;
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
     //======================UITableView=========================//
+    canLoadMore = YES;
     int spacing = 40;
+    countNew = 0;
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(spacing, 0, self.view.frame.size.width - spacing, self.view.frame.size.height) style:UITableViewStylePlain];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.delegate = self;
@@ -41,6 +49,37 @@
     [self.view addGestureRecognizer:closeSwipe];
     
     _notificationData = [NSMutableArray array];
+    
+    [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(getNewNotification) userInfo:nil repeats:YES];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    countNew = 0;
+    [self updateRightButton];
+    [self getLocalNotification];
+}
+
+-(void)updateRightButton{
+    if (self.parentViewController) {
+        MainViewController* mainVC = (MainViewController*)self.parentViewController;
+        [[mainVC.navigationItem.rightBarButtonItem.customView viewWithTag:69] setHidden:(countNew == 0)];
+    }
+}
+
+-(void)getNewNotification{
+    NotificationModel* lastestModel = [NotificationModel lastestNotification];
+    if (lastestModel) {
+        [[APIService shareAPIService]getNotificationFromServerForUser:[AccountModel currentAccountModel].user_id lastestNotifcation:lastestModel completion:^(NSArray *returnArray, NSString *error) {
+            countNew += returnArray.count;
+            [self updateRightButton];
+        }];
+    }else{
+        [[APIService shareAPIService]getNotificationFromServerForUser:[AccountModel currentAccountModel].user_id completion:^(NSArray *returnArray, NSString *error) {
+             countNew += returnArray.count;
+            [self updateRightButton];
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,7 +87,7 @@
     // Dispose of any resources that can be recreated.
 }
 -(void)setupData{
-    [self getNotificationFromServer];
+    [self getLocalNotification];
 }
 
 -(IBAction)closeAction:(id)sender
@@ -61,6 +100,18 @@
     [self getNotificationFromServer];
 }
 
+-(void)getLocalNotification{
+    NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:@"time" ascending:NO];
+    NSArray* notifications = [NotificationModel fetchObjectsWithPredicate:[NSPredicate predicateWithFormat:@"receiver_id == %@ AND sender_id != %@",[AccountModel currentAccountModel].user_id,[AccountModel currentAccountModel].user_id] sorts:@[sort]];
+    if (notifications.count == 0) {
+        [self getNotificationFromServer];
+    }else{
+        [_notificationData removeAllObjects];
+        [_notificationData addObjectsFromArray:notifications];
+        [_tableView reloadData];
+    }
+}
+
 -(void)getNotificationFromServer{
     [[APIService shareAPIService]getNotificationFromServerForUser:[AccountModel currentAccountModel].user_id completion:^(NSArray *returnArray, NSString *error) {
         [_refresh endRefreshing];
@@ -71,9 +122,27 @@
 }
 
 -(void)getMoreNotifcation{
-    
+    NotificationModel* oldNotify = [_notificationData lastObject];
+    NSArray* array = [NotificationModel fetchObjectsWithPredicate:[NSPredicate predicateWithFormat:@"receiver_id == %@ AND time < %@",[AccountModel currentAccountModel].user_id,oldNotify.time] sorts:@[[NSSortDescriptor sortDescriptorWithKey:@"time" ascending:NO]]];
+    if (array.count > 0) {
+        canLoadMore = YES;
+        [_notificationData addObjectsFromArray:array];
+        [_tableView reloadData];
+    }else{
+        [[APIService shareAPIService]getNotificationFromServerForUser:[AccountModel currentAccountModel].user_id oldestNotifcation:oldNotify completion:^(NSArray *returnArray, NSString *error) {
+            if (returnArray.count == API_PAGE) {
+                canLoadMore = YES;
+            }
+            [_notificationData addObjectsFromArray:returnArray];
+            [_tableView reloadData];
+        }];
+    }
 }
-
+-(void)showCommentView:(FeedDataModel*)feedModel{
+    FeedCommentViewController* commentVC = [[FeedCommentViewController alloc]init];
+    commentVC.feedData = feedModel;
+    [self.navigationController pushViewController:commentVC animated:YES];
+}
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -114,7 +183,11 @@
     model.dataDelegate = cell;
     [cell setupCellWithData:model andOptions:nil];
     cell.onShowPost = ^(NotificationModel*model){
-        
+        FeedDataModel* feed = (FeedDataModel*)[FeedDataModel fetchObjectWithID:model.feed_id];
+        [feed updateObjectForUse:^{
+            [self.delegate closeRightNotification];
+            [self showCommentView:feed];
+        }];
     };
     cell.onFollowUser = ^(NotificationModel*model){
         
@@ -132,6 +205,13 @@
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (canLoadMore && _notificationData.count >= API_PAGE && indexPath.row == (_notificationData.count - 2)) {
+        canLoadMore = NO;
+        [self getMoreNotifcation];
+    }
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -146,4 +226,5 @@
     });
     return _sharedInstance;
 }
+
 @end

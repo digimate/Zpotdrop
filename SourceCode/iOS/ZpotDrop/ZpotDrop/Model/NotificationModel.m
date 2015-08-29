@@ -7,7 +7,7 @@
 //
 
 #import "NotificationModel.h"
-
+#import "AccountModel.h"
 
 @implementation NotificationModel
 
@@ -26,5 +26,13 @@
     self.sender_id = @"";
     self.feed_id = @"";
     self.time = [NSDate date];
+}
+
++(NotificationModel *)lastestNotification{
+    NSArray* lastestNotify = [NotificationModel fetchObjectsWithPredicate:[NSPredicate predicateWithFormat:@"receiver_id == %@ AND sender_id != %@",[AccountModel currentAccountModel].user_id,[AccountModel currentAccountModel].user_id] sorts:@[[NSSortDescriptor sortDescriptorWithKey:@"time" ascending:YES]]];
+    if (lastestNotify.count > 0) {
+        return [lastestNotify firstObject];
+    }
+    return nil;
 }
 @end

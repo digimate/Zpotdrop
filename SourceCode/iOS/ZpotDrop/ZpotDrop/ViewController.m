@@ -34,7 +34,13 @@
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginSucceed) name:KEY_LOGIN_SUCCEED object:nil];
         
         LoginViewController* lg = [[LoginViewController alloc]init];
-        [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:lg] animated:YES completion:nil];
+        BaseNavigationController* navigation = [[BaseNavigationController alloc] initWithRootViewController:lg];
+        navigation.navigationBar.tintColor = [UIColor lightGrayColor];
+        navigation.navigationBar.barTintColor = [UIColor lightGrayColor];
+        [navigation.navigationBar setBackgroundImage:[[UIImage alloc]init] forBarMetrics:UIBarMetricsDefault];
+        [navigation.navigationBar setBackgroundColor:[UIColor clearColor]];
+        navigation.navigationBar.shadowImage = [[UIImage alloc]init];
+        [self presentViewController:navigation animated:YES completion:nil];
     }
 }
 

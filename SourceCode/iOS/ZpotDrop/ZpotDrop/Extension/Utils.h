@@ -25,6 +25,7 @@
 #import "FeedCommentDataModel.h"
 #import "FeedDataModel.h"
 #import "UINavigationController+Block.h"
+#import "FacebookService.h"
 
 #define MAIN_COLOR @"b1cb89"
 

@@ -89,6 +89,7 @@
                 [[APIService shareAPIService]logoutWithCompletion:^(BOOL successful, NSString *error) {
                     [[Utils instance]hideProgess];
                     if (successful) {
+                        [[FacebookService instance]logout];
                         [AccountModel currentAccountModel].access_token = @"";
                         [[LeftMenuViewController instance].view removeFromSuperview];
                         [[LeftMenuViewController instance]removeFromParentViewController];
@@ -107,6 +108,10 @@
                             [model deleteFromDB];
                         }
                         array = [UserDataModel fetchObjectsWithPredicate:nil sorts:nil];
+                        for (BaseDataModel* model in array) {
+                            [model deleteFromDB];
+                        }
+                        array = [NotificationModel fetchObjectsWithPredicate:nil sorts:nil];
                         for (BaseDataModel* model in array) {
                             [model deleteFromDB];
                         }
