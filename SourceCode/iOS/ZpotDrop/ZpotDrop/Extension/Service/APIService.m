@@ -481,7 +481,28 @@
                          PFUser* user = objects.firstObject;
                          user[@"facebookID"] = facebookID;
                          [user saveInBackground];
-                         response(objects.firstObject, error.localizedDescription);
+//                         response(objects.firstObject, error.localizedDescription);
+                         __block int count = 2;
+                         [self getFollowMe:^(NSArray *result, NSString *error) {
+                             if (result) {
+                                 [AccountModel currentAccountModel].follower_ids = [result componentsJoinedByString:@","];
+                             }
+                             count--;
+                             if (count == 0) {
+                                 [[CoreDataService instance]saveContext];
+                                 response([self updateUserModel:user.objectId withParse:user],nil);
+                             }
+                         }];
+                         [self getFollowingListOfUser:[AccountModel currentAccountModel].user_id completion:^(NSArray *result, NSString *error) {
+                             if (result) {
+                                 [AccountModel currentAccountModel].following_ids = [result componentsJoinedByString:@","];
+                             }
+                             count--;
+                             if (count == 0) {
+                                 [[CoreDataService instance]saveContext];
+                                  response([self updateUserModel:user.objectId withParse:user],nil);
+                             }
+                         }];
                      }else{
                          PFUser* user = [PFUser user];
                          user.username = email;
@@ -554,8 +575,28 @@
         }else{
             UserDataModel* userModel = [self updateUserModel:user.objectId withParse:user];
             [AccountModel currentAccountModel].user_id = userModel.mid;
-            [[CoreDataService instance]saveContext];
-            response(userModel, error.localizedDescription);
+            __block int count = 2;
+            [self getFollowMe:^(NSArray *result, NSString *error) {
+                if (result) {
+                    [AccountModel currentAccountModel].follower_ids = [result componentsJoinedByString:@","];
+                }
+                count--;
+                if (count == 0) {
+                    [[CoreDataService instance]saveContext];
+                    response(userModel,nil);
+                }
+            }];
+            [self getFollowingListOfUser:[AccountModel currentAccountModel].user_id completion:^(NSArray *result, NSString *error) {
+                if (result) {
+                    [AccountModel currentAccountModel].following_ids = [result componentsJoinedByString:@","];
+                }
+                count--;
+                if (count == 0) {
+                    [[CoreDataService instance]saveContext];
+                    response(userModel,nil);
+                }
+            }];
+            
         }
     }];
 }
@@ -727,10 +768,17 @@
     
     [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
     {
-        if (!error)
-            completion(YES, objects);
-        else
-            completion(YES, nil);
+        if (!error){
+            NSMutableArray* returnData = [NSMutableArray array];
+            for (PFUser* user in objects) {
+                UserDataModel* userModel = [self updateUserModel:user.objectId withParse:user];
+                [returnData addObject:userModel];
+            }
+            completion(YES, returnData);
+        }
+        else{
+            completion(YES, @[]);
+        }
     }];
 }
 
@@ -873,6 +921,11 @@
             follow[@"followedUser"] = data;
             follow[@"isFriend"] = @NO;
             [follow saveInBackgroundWithBlock:^(BOOL successful,NSError* error){
+                NSMutableArray* array = [NSMutableArray arrayWithArray:[[AccountModel currentAccountModel].following_ids componentsSeparatedByString:@","]];
+                if (![array containsObject:data]) {
+                    [array addObject:data];
+                    [AccountModel currentAccountModel].following_ids = [array componentsJoinedByString:@","];
+                }
                 completion(successful,error.description);
             }];
         }else if(objects && objects.count == 1){
@@ -896,6 +949,11 @@
         if (objects && objects.count == 1) {
             PFObject* follow = objects.lastObject;
             [follow deleteInBackgroundWithBlock:^(BOOL successful,NSError* error){
+                NSMutableArray* array = [NSMutableArray arrayWithArray:[[AccountModel currentAccountModel].following_ids componentsSeparatedByString:@","]];
+                if ([array containsObject:data]) {
+                    [array removeObject:data];
+                    [AccountModel currentAccountModel].following_ids = [array componentsJoinedByString:@","];
+                }
                 completion(successful,error.description);
             }];
         }else if(objects && objects.count == 0){

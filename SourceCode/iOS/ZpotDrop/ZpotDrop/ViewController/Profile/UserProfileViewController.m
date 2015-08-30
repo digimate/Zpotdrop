@@ -14,6 +14,7 @@
     UIView* viewHeader;
     UITableView* userZpotsTableView;
     NSMutableArray* userZpotsData;
+    UIView* blockView;
 }
 
 @end
@@ -169,6 +170,37 @@
     userZpotsTableView.delegate = self;
     [self.view addSubview:userZpotsTableView];
     [self getFeedsFromServer];
+    
+    blockView = [[UIView alloc]initWithFrame:userZpotsTableView.frame];
+    [blockView setBackgroundColor:[UIColor whiteColor]];
+    UIImageView* iconBlock = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
+    iconBlock.image = [UIImage imageNamed:@"ic_private"];
+    iconBlock.center = CGPointMake(blockView.width/2, blockView.height/2 - 20);
+    [blockView addSubview:iconBlock];
+    
+    UILabel* lblBlock = [[UILabel alloc]initWithFrame:CGRectMake(0, blockView.height/2, blockView.width, 20)];
+    lblBlock.font = [UIFont fontWithName:@"PTSans-Regular" size:16];
+    lblBlock.textColor = [UIColor lightGrayColor];
+    lblBlock.textAlignment = NSTextAlignmentCenter;
+    lblBlock.text = @"private_profile".localized;
+    [blockView addSubview:lblBlock];
+    blockView.hidden = YES;
+    [self.view addSubview:blockView];
+    [self checkPrivate];
+}
+
+-(void)checkPrivate{
+    if ([userModel.mid isEqualToString:[AccountModel currentAccountModel].user_id]) {
+        blockView.hidden = YES;
+    }else{
+        NSArray* followers = [[AccountModel currentAccountModel].follower_ids componentsSeparatedByString:@","];
+        NSArray* followings = [[AccountModel currentAccountModel].following_ids componentsSeparatedByString:@","];
+        if ([followers containsObject:userModel.mid] && [followings containsObject:userModel.mid]) {
+            blockView.hidden = YES;
+        }else{
+            blockView.hidden = NO;
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -183,6 +215,7 @@
             [[Utils instance]hideProgess];
             if (successful) {
                 sender.selected = NO;
+                [self checkPrivate];
             }else{
                 [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
                 }];
@@ -193,6 +226,7 @@
             [[Utils instance]hideProgess];
             if (successful) {
                 sender.selected = YES;
+                [self checkPrivate];
             }else{
                 [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
                 }];

@@ -8,73 +8,57 @@
 
 #import "ContactCell.h"
 #import "Utils.h"
+#import "APIService.h"
 
 @implementation ContactCell
 
--(void)setupCellWithData:(UserDataModel*)data inSize:(CGSize)size
-{
-    if (!_avatar)
-    {
-        _avatar = [[UIImageView alloc]initWithFrame:CGRectMake(20, 10, size.height - 20, size.height - 20)];
-        [_avatar.layer setCornerRadius:_avatar.frame.size.width/2];
-        [_avatar.layer setMasksToBounds:YES];
-        [_avatar setImage:[UIImage imageNamed:@"avatar"]];
-        [self addSubview:_avatar];
-        
-        _folow = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_folow setFrame:CGRectMake(size.width - 20 - 55, size.height/2 - 10, 55, 20)];
-        [_folow setBackgroundColor:[UIColor colorWithHexString:MAIN_COLOR]];
-        [_folow setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_folow addTarget:self action:@selector(followPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:_folow];
-        
-        _username = [[UILabel alloc]initWithFrame:CGRectMake(_avatar.frame.size.width + _avatar.frame.origin.x + 10, _avatar.frame.origin.y, size.width - (_avatar.frame.size.width + _avatar.frame.origin.x + 10) - (_folow.frame.size.width + 20), _avatar.frame.size.height)];
-        [_username setFont:[UIFont fontWithName:@"PTSans-Bold" size:13.f]];
-        [_username setTextColor:[UIColor colorWithHexString:MAIN_COLOR]];
-        [_username setText:@"User name"];
-        
-        [self addSubview:_username];
-    }
-    if (data)
-    {
-        [_username setText:[NSString stringWithFormat:@"%@ %@", data.first_name, data.last_name]];
+-(void)awakeFromNib{
+    [super awakeFromNib];
+}
+
++(CGFloat)cellHeightWithData:(BaseDataModel *)data{
+    return 50;
+}
+
+-(void)updateUIForDataModel:(BaseDataModel *)model options:(NSDictionary *)params{
+    [self setupCellWithData:model andOptions:params];
+}
+
+-(void)setupCellWithData:(BaseDataModel *)data andOptions:(NSDictionary *)param{
+    if (data) {
+        self.dataModel = data;
+        UserDataModel* userModel = (UserDataModel*)data;
+        CGSize size = CGSizeMake(self.width, 50);
+        [userModel updateObjectForUse:^{
+            if (!_avatar)
+            {
+                _avatar = [[UIImageView alloc]initWithFrame:CGRectMake(20, 10, size.height - 20, size.height - 20)];
+                [_avatar.layer setCornerRadius:_avatar.frame.size.width/2];
+                [_avatar.layer setMasksToBounds:YES];
+                [self addSubview:_avatar];
+                
+                _folow = [UIButton buttonWithType:UIButtonTypeCustom];
+                [_folow setFrame:CGRectMake(size.width - 20 - 55, size.height/2 - 10, 55, 20)];
+                [_folow setBackgroundColor:[UIColor colorWithHexString:MAIN_COLOR]];
+                [_folow setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [_folow addTarget:self action:@selector(followPressed:) forControlEvents:UIControlEventTouchUpInside];
+                [self addSubview:_folow];
+                
+                _username = [[UILabel alloc]initWithFrame:CGRectMake(_avatar.frame.size.width + _avatar.frame.origin.x + 10, _avatar.frame.origin.y, size.width - (_avatar.frame.size.width + _avatar.frame.origin.x + 10) - (_folow.frame.size.width + 20), _avatar.frame.size.height)];
+                [_username setFont:[UIFont fontWithName:@"PTSans-Bold" size:13.f]];
+                [_username setTextColor:[UIColor colorWithHexString:MAIN_COLOR]];
+                [self addSubview:_username];
+            }
+            [_avatar setImage:[UIImage imageNamed:@"avatar"]];
+            [_username setText:userModel.name];
+            
+            _isFollowing = [[AccountModel currentAccountModel].following_ids rangeOfString:userModel.mid].location != NSNotFound;
+            [self updateFollowButton];
+        }];
     }
 }
 
--(void)setFollow:(BOOL)follow withHandler:(followHandler)handler
-{
-    _handler = handler;
-    _isFollowing = follow;
-    NSMutableAttributedString *myString;
-    if (follow)
-    {
-        NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
-        attachment.image = [UIImage imageNamed:@"ic_follow"];
-        NSAttributedString *attachmentString = [NSAttributedString attributedStringWithAttachment:attachment];
-        myString = [[NSMutableAttributedString alloc]initWithAttributedString:attachmentString];
-        
-        [myString appendAttributedString:[[NSAttributedString alloc] initWithString:@"following".localized]];
-        [_folow setBackgroundColor:[UIColor colorWithHexString:MAIN_COLOR]];
-    }
-    else
-    {
-        NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
-        attachment.image = [UIImage imageNamed:@"ic_add"];
-        NSAttributedString *attachmentString = [NSAttributedString attributedStringWithAttachment:attachment];
-        myString = [[NSMutableAttributedString alloc]initWithAttributedString:attachmentString];
-        [myString appendAttributedString:[[NSAttributedString alloc] initWithString:@"follow".localized]];
-        [_folow setBackgroundColor:[UIColor colorWithHexString:@"d9d9d9"]];
-    }
-    [myString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, myString.length)];
-    
-    [myString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"PTSans-Regular" size:10.f] range:NSMakeRange(0, myString.length)];
-    
-    [_folow setAttributedTitle:myString forState:UIControlStateNormal];
-}
-
--(IBAction)followPressed:(id)sender
-{
-    _isFollowing = !_isFollowing;
+-(void)updateFollowButton{
     NSMutableAttributedString *myString;
     if (_isFollowing)
     {
@@ -100,7 +84,35 @@
     [myString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"PTSans-Regular" size:10.f] range:NSMakeRange(0, myString.length)];
     
     [_folow setAttributedTitle:myString forState:UIControlStateNormal];
-    _handler(_isFollowing);
+}
+
+
+-(IBAction)followPressed:(id)sender
+{
+    UserDataModel* userModel = (UserDataModel*)self.dataModel;
+    if (_isFollowing) {
+        [[APIService shareAPIService]setUnFollowWithUser:userModel.mid completion:^(BOOL successful, NSString *error) {
+            if (successful) {
+                _isFollowing = NO;
+                [self updateFollowButton];
+            }else{
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    
+                }];
+            }
+        }];
+    }else{
+        [[APIService shareAPIService]setFollowWithUser:userModel.mid completion:^(BOOL successful, NSString *error) {
+            if (successful) {
+                _isFollowing = YES;
+                [self updateFollowButton];
+            }else{
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    
+                }];
+            }
+        }];
+    }
 }
 
 @end

@@ -90,7 +90,7 @@
                     [[Utils instance]hideProgess];
                     if (successful) {
                         [[FacebookService instance]logout];
-                        [AccountModel currentAccountModel].access_token = @"";
+                        [[AccountModel currentAccountModel] deleteFromDB];
                         [[LeftMenuViewController instance].view removeFromSuperview];
                         [[LeftMenuViewController instance]removeFromParentViewController];
                         [[RightNotificationViewController instance].view removeFromSuperview];

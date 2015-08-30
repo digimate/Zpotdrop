@@ -61,6 +61,8 @@
 "format_min_ago" = "%0.0lf min ago";
 "format_hour_ago" = "%0.0lf hour ago";
 "friend" = "Friend";
+"find_fb_friend" = "Find Facebook friends";
+"find_from_contacts" = "Find people from contacts";
 //MARK: - ***** J *****
 "just_now" = "Just now";
 //MARK: - ***** H *****
@@ -112,6 +114,7 @@
 "privacy_policy" = "Privacy Policy";
 "phone_number" = "Phone Number";
 "permission_missing" = "App can't login if all permissions are not granted";
+"private_profile" = "This user is private";
 //MARK: - ***** R *****
 "request_zpot" = "Request zpot";
 "retry" = "Retry";

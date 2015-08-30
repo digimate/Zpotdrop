@@ -17,8 +17,9 @@
     UISearchBar* _searchZpotBar;
     UITableView* _mTableView;
     CONTACT_MODE _mode;
-    NSArray* _searchResult;
-    NSMutableArray* _follow;
+    NSMutableArray* _searchResult;
+    NSMutableArray* _follower;
+    NSMutableArray* _following;
 }
 @end
 
@@ -28,8 +29,9 @@
 {
     [super viewDidLoad];
     [self.view setBackgroundColor:[UIColor whiteColor]];
-    _follow = [NSMutableArray array];
-    
+    _follower = [NSMutableArray array];
+    _following = [NSMutableArray array];
+    _searchResult = [NSMutableArray array];
     self.title = @"search".localized.uppercaseString;
     _searchZpotBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, self.navigationController.navigationBar.frame.size.height + self.navigationController.navigationBar.frame.origin.y, self.view.width, 40)];
     _searchZpotBar.backgroundColor = [UIColor clearColor];
@@ -53,31 +55,78 @@
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont fontWithName:@"PTSans-Regular" size:16]];
     [self.view addSubview:_searchZpotBar];
     
-    _mTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, _searchZpotBar.frame.size.height + _searchZpotBar.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height - (_searchZpotBar.frame.size.height + _searchZpotBar.frame.origin.y)) style:UITableViewStylePlain];
+    UIView* buttonsView = [[UIView alloc]initWithFrame:CGRectMake(0, _searchZpotBar.y+ _searchZpotBar.height, self.view.width, 80)];
+    buttonsView.backgroundColor = COLOR_SEPEARATE_LINE;
+    [self.view addSubview:buttonsView];
+    
+    UIButton* btnFacebook = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btnFacebook setBackgroundColor:[UIColor whiteColor]];
+    [btnFacebook setTitleEdgeInsets:UIEdgeInsetsMake(0, 8, 0, 0)];
+    [btnFacebook setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+    [btnFacebook setFrame:CGRectMake(0, 4, buttonsView.width, 35)];
+    [[btnFacebook titleLabel]setFont:[UIFont fontWithName:@"PTSans-Regular" size:16]];
+    [btnFacebook setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    [btnFacebook setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
+    [btnFacebook setImage:[UIImage imageNamed:@"ic_facebook2"] forState:UIControlStateNormal];
+    [btnFacebook setTitle:@"find_fb_friend".localized forState:UIControlStateNormal];
+    [btnFacebook setContentEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+    [buttonsView addSubview:btnFacebook];
+    
+    UIButton* btnContacts = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btnContacts setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+    [btnContacts setTitleEdgeInsets:UIEdgeInsetsMake(0, 8, 0, 0)];
+    [btnContacts setBackgroundColor:[UIColor whiteColor]];
+    [btnContacts setFrame:CGRectMake(0, 41, buttonsView.width, 35)];
+    [[btnContacts titleLabel]setFont:[UIFont fontWithName:@"PTSans-Regular" size:16]];
+    [btnContacts setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    [btnContacts setImage:[UIImage imageNamed:@"ic_contact2"] forState:UIControlStateNormal];
+    [btnContacts setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
+    [btnContacts setTitle:@"find_from_contacts".localized forState:UIControlStateNormal];
+    [btnContacts setContentEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+    [buttonsView addSubview:btnContacts];
+    
+    
+    _mTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, buttonsView.y + buttonsView.height, self.view.frame.size.width, self.view.frame.size.height - (buttonsView.y + buttonsView.height)) style:UITableViewStylePlain];
     [_mTableView setDelegate:self];
     [_mTableView setDataSource:self];
     [_mTableView registerClass:[ContactCell class] forCellReuseIdentifier:@"contactCell"];
-    [_mTableView registerClass:[friendCell class] forCellReuseIdentifier:@"friendCell"];
-    [_mTableView registerClass:[listModeCell class] forCellReuseIdentifier:@"listCell"];
     [_mTableView setKeyboardDismissMode:UIScrollViewKeyboardDismissModeInteractive];
     [_mTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.view addSubview:_mTableView];
     
-    [_api getFollowerListOfUser:[AccountModel currentAccountModel].user_id completion:^(NSArray *result, NSString *error) {
-        if (error) {
-            
-        }else{
-            [_follow addObjectsFromArray:result];
+    
+    NSArray* array = [[AccountModel currentAccountModel].follower_ids componentsSeparatedByString:@","];
+    for (NSString* userID in array) {
+        if (userID.length > 1) {
+            UserDataModel* user = (UserDataModel*)[UserDataModel fetchObjectWithID:userID];
+            [_follower addObject:user];
         }
-    }];
+    }
+    array = [[AccountModel currentAccountModel].following_ids componentsSeparatedByString:@","];
+    for (NSString* userID in array) {
+        if (userID.length > 1) {
+            UserDataModel* user = (UserDataModel*)[UserDataModel fetchObjectWithID:userID];
+            [_following addObject:user];
+        }
+    }
+    [_searchResult addObjectsFromArray:_follower];
+    [_searchResult addObjectsFromArray:_following];
 }
 
 #pragma mark - UISearchBarDelegate
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    [_api searchUserWithData:searchBar.text completion:^(BOOL successful, NSArray *result) {
-        _searchResult = result;
+    if (searchBar.text.length > 0) {
+        [_api searchUserWithData:searchBar.text completion:^(BOOL successful, NSArray *result) {
+            [_searchResult removeAllObjects];
+            [_searchResult addObjectsFromArray:result];
+            [_mTableView reloadData];
+        }];
+    }else{
+        [_searchResult removeAllObjects];
+        [_searchResult addObjectsFromArray:_follower];
+        [_searchResult addObjectsFromArray:_following];
         [_mTableView reloadData];
-    }];
+    }
     [searchBar resignFirstResponder];
 }
 
@@ -89,63 +138,22 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_searchResult count] + 3;
+    return [_searchResult count];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row > 2)
-    {
-        return 50.f;
-    }
-    return 35.f;
-}
-
--(BOOL)checkIsFollowing:(UserDataModel*)user
-{
-//    for (PFObject* i in _follow)
-//    {
-//        if ([i[@"followedUser"][@"email"] isEqualToString:user.email])
-//            return YES;
-//    }
-    return NO;
+    return [ContactCell cellHeightWithData:nil];
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row > 2)
-    {
-        ContactCell* cell = [tableView dequeueReusableCellWithIdentifier:@"contactCell" forIndexPath:indexPath];
-        UserDataModel* user = [UserDataModel UserFromParse:_searchResult[(indexPath.row - 3)]];
-        [cell setupCellWithData:user inSize:CGSizeMake(tableView.frame.size.width, 50)];
-        [cell setFollow:[self checkIsFollowing:user] withHandler:^(BOOL setFollow) {
-//            if (setFollow)
-//            {
-//                [_api setFolowWithUser:user.mid completion:^(BOOL successful, NSArray *result) {
-//                }];
-//            }
-//            else
-//            {
-//                [_api setUnFollowWithUser:user.mid completion:^(BOOL successful, NSArray *result) {
-//                }];
-//            }
-        }];
-        return cell;
-    }
-    if (indexPath.row == 0)
-    {
-        friendCell* cell = [tableView dequeueReusableCellWithIdentifier:@"friendCell" forIndexPath:indexPath];
-        [cell faceBookCell];
-    }
-    if (indexPath.row == 1)
-    {
-        friendCell* cell = [tableView dequeueReusableCellWithIdentifier:@"friendCell" forIndexPath:indexPath];
-        [cell contactCell];
-    }
-    listModeCell* cell = [tableView dequeueReusableCellWithIdentifier:@"listCell" forIndexPath:indexPath];
-    [cell setupCellWithMode:_mode inSize:CGSizeMake(tableView.frame.size.width, 35.f) AndHandler:^(CONTACT_MODE mode) {
-        _mode = mode;
-    }];
+    ContactCell* cell = [tableView dequeueReusableCellWithIdentifier:@"contactCell" forIndexPath:indexPath];
+    UserDataModel* user = [_searchResult objectAtIndex:indexPath.row];
+    cell.dataModel.dataDelegate = nil;
+    cell.dataModel = nil;
+    user.dataDelegate = cell;
+    [cell setupCellWithData:user andOptions:nil];
     return cell;
 }
 

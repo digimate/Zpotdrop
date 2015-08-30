@@ -167,6 +167,7 @@
 		BAAE49AB1B779358003BE114 /* SettingSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAAE49A91B779358003BE114 /* SettingSwitchCell.xib */; };
 		BAAFD0841B75F67F009779FF /* ScannedUserAnnoView.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAFD0831B75F67F009779FF /* ScannedUserAnnoView.m */; };
 		BAAFD0871B75F6AF009779FF /* ScannedUserAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = BAAFD0861B75F6AF009779FF /* ScannedUserAnnotation.m */; };
+		BAB3B2261B92D4FD009F6612 /* ic_contact2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAB3B2251B92D4FD009F6612 /* ic_contact2@2x.png */; };
 		BAC5BAB31B92014800CB892F /* ic_facebook2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BAC5BAB21B92014800CB892F /* ic_facebook2@2x.png */; };
 		BAC5BABA1B92114B00CB892F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAC5BAB51B92114B00CB892F /* Bolts.framework */; };
 		BAC5BABB1B92114B00CB892F /* FacebookService.m in Sources */ = {isa = PBXBuildFile; fileRef = BAC5BAB71B92114B00CB892F /* FacebookService.m */; };
@@ -465,6 +466,7 @@
 		BAAFD0831B75F67F009779FF /* ScannedUserAnnoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannedUserAnnoView.m; sourceTree = "<group>"; };
 		BAAFD0851B75F6AF009779FF /* ScannedUserAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScannedUserAnnotation.h; sourceTree = "<group>"; };
 		BAAFD0861B75F6AF009779FF /* ScannedUserAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannedUserAnnotation.m; sourceTree = "<group>"; };
+		BAB3B2251B92D4FD009F6612 /* ic_contact2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_contact2@2x.png"; sourceTree = "<group>"; };
 		BAC5BAB21B92014800CB892F /* ic_facebook2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_facebook2@2x.png"; sourceTree = "<group>"; };
 		BAC5BAB51B92114B00CB892F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		BAC5BAB61B92114B00CB892F /* FacebookService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookService.h; sourceTree = "<group>"; };
@@ -844,6 +846,7 @@
 		0ACD9E491B6F137E004140EE /* Common Resource */ = {
 			isa = PBXGroup;
 			children = (
+				BAB3B2251B92D4FD009F6612 /* ic_contact2@2x.png */,
 				BAC5BAB21B92014800CB892F /* ic_facebook2@2x.png */,
 				BADEF7451B8A07FF00C1F1FD /* ic_add_friend@2x.png */,
 				BADEF7461B8A07FF00C1F1FD /* ic_friended@2x.png */,
@@ -1245,6 +1248,7 @@
 				8C269C4C1B70788800E6835E /* PTC55F.ttf in Resources */,
 				8C269C4F1B70788800E6835E /* PTN77F.ttf in Resources */,
 				BAAE49A11B778607003BE114 /* UserProfileCell.xib in Resources */,
+				BAB3B2261B92D4FD009F6612 /* ic_contact2@2x.png in Resources */,
 				BADEF74D1B8A07FF00C1F1FD /* ic_location_white@2x.png in Resources */,
 				BA2CEBE91B821728000EA360 /* ic_comment_green@2x.png in Resources */,
 				BAC5BAB31B92014800CB892F /* ic_facebook2@2x.png in Resources */,

@@ -180,6 +180,7 @@
     NotificationModel* model = [_notificationData objectAtIndex:indexPath.row];
     NotificationTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"notificationCell" forIndexPath:indexPath];
     cell.dataModel.dataDelegate = nil;
+    cell.dataModel = nil;
     model.dataDelegate = cell;
     [cell setupCellWithData:model andOptions:nil];
     cell.onShowPost = ^(NotificationModel*model){

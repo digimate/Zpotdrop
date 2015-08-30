@@ -8,19 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "UserDataModel.h"
+#import "BaseTableViewCell.h"
 
-typedef void(^followHandler)(BOOL setFollow);
-
-@interface ContactCell : UITableViewCell
+@interface ContactCell : BaseTableViewCell
 {
     UIImageView* _avatar;
     UILabel* _username;
     UIButton* _folow;
-    followHandler _handler;
     BOOL _isFollowing;
 }
-
--(void)setupCellWithData:(UserDataModel*)data inSize:(CGSize)size;
--(void)setFollow:(BOOL)follow withHandler:(followHandler)handler;
 
 @end

@@ -13,11 +13,14 @@
 
 @dynamic access_token;
 @dynamic user_id;
+@dynamic follower_ids,following_ids;
 
 -(void)awakeFromInsert{
     [super awakeFromInsert];
     self.access_token = @"";
     self.user_id = @"";
+    self.following_ids = @"";
+    self.follower_ids = @"";
 }
 
 -(BOOL)isLoggedIn{
@@ -34,5 +37,9 @@
         account.mid = @"zspotdrop6969";
     }
     return account;
+}
+
+-(void)deleteFromDB{
+    [self awakeFromInsert];
 }
 @end

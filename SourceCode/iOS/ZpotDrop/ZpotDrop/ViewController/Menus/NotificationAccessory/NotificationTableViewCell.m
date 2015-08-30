@@ -149,6 +149,13 @@
             [viewButtons addSubview:btnComming];
             buttonWidth = size.height;
         }else if ([notifModel.type isEqualToString:NOTIFICATION_FOLLOW]){
+            //update user follow me
+            NSMutableArray* array = [NSMutableArray arrayWithArray:[[AccountModel currentAccountModel].follower_ids componentsSeparatedByString:@","]];
+            if (![array containsObject:sender.mid]) {
+                [array addObject:sender.mid];
+                [AccountModel currentAccountModel].follower_ids = [array componentsJoinedByString:@","];
+            }
+            
             attStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"notification_follow_format".localized,name,date]];
             NSDictionary* dictName = @{NSForegroundColorAttributeName : COLOR_DARK_GREEN,
                                        NSFontAttributeName : [UIFont fontWithName:@"PTSans-Bold" size:14]};
@@ -164,6 +171,13 @@
             [btnFollow addTarget:self action:@selector(followUser:) forControlEvents:UIControlEventTouchUpInside];
             [viewButtons addSubview:btnFollow];
             buttonWidth = size.height;
+            //check whether me follow this user
+            array = [NSMutableArray arrayWithArray:[[AccountModel currentAccountModel].following_ids componentsSeparatedByString:@","]];
+            if ([array containsObject:sender.mid]) {
+                btnFollow.selected = YES;
+            }else{
+                btnFollow.selected = NO;
+            }
         }else if ([notifModel.type isEqualToString:NOTIFICATION_FB_Friend]){
             attStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"notification_facebook_format".localized,name,date]];
             NSDictionary* dictName = @{NSForegroundColorAttributeName : [UIColor blackColor],

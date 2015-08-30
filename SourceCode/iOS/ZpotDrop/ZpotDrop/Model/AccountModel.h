@@ -17,5 +17,6 @@
 +(AccountModel*)currentAccountModel;
 @property (nonatomic) NSString* access_token;
 @property (nonatomic) NSString* user_id;
-
+@property (nonatomic) NSString* follower_ids;
+@property (nonatomic) NSString* following_ids;
 @end
