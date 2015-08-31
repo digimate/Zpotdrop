@@ -48,10 +48,26 @@
     }];
 }
 
+-(void)requestInfoForMe:(void(^)())completion{
+    [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{@"fields" : @"email,name,birthday,gender"}]
+     startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+         completion();
+     }];
+}
+
+-(BOOL)isLoggedIn{
+    if ([FBSDKAccessToken currentAccessToken]) {
+        return YES;
+    }
+    return NO;
+}
+
 -(void)logout{
     if (!manager) {
         manager = [[FBSDKLoginManager alloc] init];
     }
+    [friendArray removeAllObjects];
+    totalFriendCount = 0;
     [manager logOut];
 }
 
@@ -59,11 +75,14 @@
 -(void)getFriends:(void(^)(NSArray* friends,NSInteger total))callback{
     if (!friendArray) {
         friendArray = [NSMutableArray array];
-    }else{
-        [friendArray removeAllObjects];
     }
-    totalFriendCount = 0;
-    [self getLoopFriendArrayWithToken:nil andCallback:callback];
+    if (friendArray.count > 0) {
+        callback(friendArray,totalFriendCount);
+    }else{
+        totalFriendCount = 0;
+        [self getLoopFriendArrayWithToken:nil andCallback:callback];
+    }
+    
 }
 -(void)getLoopFriendArrayWithToken:(NSString*)token andCallback:(void(^)(NSArray* friends,NSInteger total))callback{
     if (token) {

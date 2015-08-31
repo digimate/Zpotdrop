@@ -11,12 +11,13 @@
 #import "friendCell.h"
 #import "listModeCell.h"
 #import <Parse/Parse.h>
+#import "FacebookFriendViewController.h"
+#import "ContactFriendViewController.h"
 
 @interface SearchViewController() <UISearchBarDelegate>
 {
     UISearchBar* _searchZpotBar;
     UITableView* _mTableView;
-    CONTACT_MODE _mode;
     NSMutableArray* _searchResult;
     NSMutableArray* _follower;
     NSMutableArray* _following;
@@ -70,6 +71,7 @@
     [btnFacebook setImage:[UIImage imageNamed:@"ic_facebook2"] forState:UIControlStateNormal];
     [btnFacebook setTitle:@"find_fb_friend".localized forState:UIControlStateNormal];
     [btnFacebook setContentEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+    [btnFacebook addTarget:self action:@selector(showFacebookFriends) forControlEvents:UIControlEventTouchUpInside];
     [buttonsView addSubview:btnFacebook];
     
     UIButton* btnContacts = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -82,6 +84,7 @@
     [btnContacts setImage:[UIImage imageNamed:@"ic_contact2"] forState:UIControlStateNormal];
     [btnContacts setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
     [btnContacts setTitle:@"find_from_contacts".localized forState:UIControlStateNormal];
+    [btnContacts addTarget:self action:@selector(showContactFriends) forControlEvents:UIControlEventTouchUpInside];
     [btnContacts setContentEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
     [buttonsView addSubview:btnContacts];
     
@@ -111,6 +114,16 @@
     }
     [_searchResult addObjectsFromArray:_follower];
     [_searchResult addObjectsFromArray:_following];
+}
+
+-(void)showContactFriends{
+    ContactFriendViewController* facebookVC = [[ContactFriendViewController alloc]init];
+    [self.navigationController pushViewController:facebookVC animated:YES];
+}
+
+-(void)showFacebookFriends{
+    FacebookFriendViewController* facebookVC = [[FacebookFriendViewController alloc]init];
+    [self.navigationController pushViewController:facebookVC animated:YES];
 }
 
 #pragma mark - UISearchBarDelegate

@@ -24,6 +24,7 @@
 @property (nonatomic, retain) NSNumber* privateProfile;
 @property (nonatomic, retain) NSNumber* enableAllZpot;
 @property (nonatomic, assign) BOOL isFriend;
+@property (nonatomic, retain) NSString* facebook_id;
 -(NSString*)name;
 +(id)UserFromParse:(id)data;
 

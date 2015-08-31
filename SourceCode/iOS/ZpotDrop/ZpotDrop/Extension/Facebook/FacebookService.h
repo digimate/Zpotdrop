@@ -23,4 +23,5 @@
 -(void)login:(void (^)(BOOL result,NSString* error))callback;
 -(void)logout;
 -(void)getFriends:(void(^)(NSArray* friends,NSInteger total))callback;
+-(void)requestInfoForMe:(void(^)())completion;
 @end

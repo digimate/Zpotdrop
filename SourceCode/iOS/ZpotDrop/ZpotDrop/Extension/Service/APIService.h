@@ -79,4 +79,6 @@ typedef void(^dataResponse)(id data, NSString* error);
 -(void)getNotificationFromServerForUser:(NSString*)userID lastestNotifcation:(NotificationModel*)notif completion:(void(^)(NSArray* returnArray,NSString* error))completion;
 -(void)getNotificationFromServerForUser:(NSString*)userID oldestNotifcation:(NotificationModel*)notif completion:(void(^)(NSArray* returnArray,NSString* error))completion;
 -(void)loginUserWithFID:(NSString*)facebookID :(dataResponse)response;
+-(void)updateUserModelWithFacebookID:(NSString*)fid completion:(void(^)(UserDataModel* userModel))completion;
+-(void)findUserWithPhones:(NSArray*)phones emails:(NSArray*)email completion:(void(^)(NSArray* users))completion;
 @end

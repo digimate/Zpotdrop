@@ -613,6 +613,7 @@
     userModel.hometown = user[@"hometown"];
     userModel.enableAllZpot = user[@"enableAllZpot"];
     userModel.privateProfile = user[@"privateProfile"];
+    userModel.facebook_id = user[@"facebook_id"];
     return userModel;
 }
 
@@ -652,7 +653,33 @@
     }];
 }
 
+-(void)findUserWithPhones:(NSArray*)phones emails:(NSArray*)email completion:(void(^)(NSArray* users))completion{
+    PFQuery *query1 = [PFUser query];
+    [query1 whereKey:@"phoneNumber" containedIn:phones];
+    PFQuery *query2 = [PFUser query];
+    [query2 whereKey:@"username" containedIn:email];
+    [[PFQuery orQueryWithSubqueries:@[query1,query2]] findObjectsInBackgroundWithBlock:^(NSArray* objects,NSError* error){
+        NSMutableArray* returnArray = [NSMutableArray array];
+        for (PFUser* user in objects) {
+            UserDataModel* userModel = [self updateUserModel:user.objectId withParse:user];
+            [returnArray addObject:userModel];
+        }
+        completion(returnArray);
+    }];
+}
 #pragma mark - CoreDataModel Update
+-(void)updateUserModelWithFacebookID:(NSString*)fid completion:(void(^)(UserDataModel* userModel))completion{
+    PFQuery *query = [PFUser query];
+    [query whereKey:@"facebook_id" equalTo: fid];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        UserDataModel* userReturn;
+        for (PFUser* user in objects) {
+            userReturn = [self updateUserModel:user.objectId withParse:user];
+        }
+        [[CoreDataService instance]saveContext];
+        completion(userReturn);
+    }];
+}
 
 -(void)updateUserModelWithID:(NSString*)mid completion:(VoidBlock)completion{
     PFQuery *query = [PFUser query];

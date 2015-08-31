@@ -32,7 +32,6 @@
     [[UINavigationBar appearance]setTintColor:[UIColor whiteColor]];
 
     [FBSDKProfile enableUpdatesOnAccessTokenChange:YES];
-    
     return [[FBSDKApplicationDelegate sharedInstance]application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
