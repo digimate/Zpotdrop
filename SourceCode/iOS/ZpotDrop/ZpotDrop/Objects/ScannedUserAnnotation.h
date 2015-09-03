@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
-
-@interface ScannedUserAnnotation : NSObject<MKAnnotation>
+#import "MyAnnotation.h"
+@interface ScannedUserAnnotation : MyAnnotation<MKAnnotation>
 @property(nonatomic,assign)CLLocationCoordinate2D coordinate;
 @property(nonatomic,copy)NSString* title;
+
 @end

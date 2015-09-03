@@ -46,6 +46,7 @@
 "error_empty_zpot_title" = "Please input zpot title";
 "error_empty_zpot_location" = "Please choose a location for zpot";
 "error_send_comment_empty" = "Please input comment";
+"error_password_not_right" = "Your current password is not correct";
 //MARK: - ***** F *****
 "feed" = "Feed";
 "find" = "Find";

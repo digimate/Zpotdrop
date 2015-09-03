@@ -7,6 +7,8 @@
 //
 
 #import "ZpotAnnotationView.h"
+#import "Utils.h"
+#import "UserDataModel.h"
 
 @implementation ZpotAnnotationView
 
@@ -33,12 +35,22 @@
         }
         
         avatarView.image = [UIImage imageNamed:@"avatar"];
-
+        UserDataModel* poster = (UserDataModel*)[UserDataModel fetchObjectWithID:annotation.ownerID];
+        [poster updateObjectForUse:^{
+            if (poster.avatar.length > 0) {
+                avatarView.image = [poster.avatar stringToUIImage];
+            }
+        }];
     }
     return self;
 }
 -(void)setupUIWithAnnotation:(ZpotAnnotation *)annotation{
     UIImageView* avatar = (UIImageView*)[self viewWithTag:121];
-    avatar.image = [UIImage imageNamed:@"avatar"];
+    UserDataModel* poster = (UserDataModel*)[UserDataModel fetchObjectWithID:annotation.ownerID];
+    [poster updateObjectForUse:^{
+        if (poster.avatar.length > 0) {
+            avatar.image = [poster.avatar stringToUIImage];
+        }
+    }];
 }
 @end

@@ -11,7 +11,7 @@
 #import "ScannedUserAnnoView.h"
 #import "ZpotAnnotationView.h"
 #import "FriendRequestZpotCell.h"
-
+#import "MyAnnotation.h"
 @interface FindZpotViewController ()<MKMapViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate>{
     UISearchBar* searchZpotBar;
     UICollectionView* usersCollectionView;
@@ -210,10 +210,13 @@
             ZpotAnnotation* annotation = [[ZpotAnnotation alloc]init];
             annotation.coordinate = randomCoordinate;
             annotation.ownerID = data.user_id;
+            annotation.mid = data.mid;
             [annotationArray addObject:annotation];
         }else{
             ScannedUserAnnotation* annotation = [[ScannedUserAnnotation alloc]init];
             annotation.coordinate = randomCoordinate;
+            annotation.ownerID = data.user_id;
+            annotation.mid = data.mid;
             [annotationArray addObject:annotation];
         }
         
@@ -295,14 +298,34 @@
     return CGSizeMake(usersCollectionView.height, usersCollectionView.height);
 }
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    id data = [scannedUsersData objectAtIndex:indexPath.row];
+    FeedDataModel* data = [scannedUsersData objectAtIndex:indexPath.row];
     ScannedUserCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ScannedUserCell class]) forIndexPath:indexPath];
     [cell setSize:CGSizeMake(60, 60)];
     if ([data isEqual:selectedScannedUser]) {
-        [cell setupCellWithData:nil andOptions:@{@"isSelected":[NSNumber numberWithBool:YES]}];
+        [cell setupCellWithData:data andOptions:@{@"isSelected":[NSNumber numberWithBool:YES]}];
     }else{
-        [cell setupCellWithData:nil andOptions:@{@"isSelected":[NSNumber numberWithBool:NO]}];
+        [cell setupCellWithData:data andOptions:@{@"isSelected":[NSNumber numberWithBool:NO]}];
     }
+    cell.onDeleteCell = ^(BaseDataModel* data){
+        if ([scannedUsersData containsObject:data]) {
+            id deletedAnno;
+            NSInteger index = [scannedUsersData indexOfObject:data];
+            for (id annotation in [Utils instance].mapView.annotations) {
+                if ([annotation isKindOfClass:[MyAnnotation class]]) {
+                    MyAnnotation* anno = (MyAnnotation*)annotation;
+                    if ([anno.mid isEqualToString:data.mid]) {
+                        deletedAnno = anno;
+                        break;
+                    }
+                }
+            }
+            if (deletedAnno) {
+                [[Utils instance].mapView removeAnnotation:deletedAnno];
+            }
+            [scannedUsersData removeObjectAtIndex:index];
+            [usersCollectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:index inSection:0]]];
+        }
+    };
     return cell;
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{

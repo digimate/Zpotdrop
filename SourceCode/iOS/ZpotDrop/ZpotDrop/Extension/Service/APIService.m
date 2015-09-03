@@ -614,6 +614,14 @@
     userModel.enableAllZpot = user[@"enableAllZpot"];
     userModel.privateProfile = user[@"privateProfile"];
     userModel.facebook_id = user[@"facebook_id"];
+    PFFile* avatar = user[@"avatar"];
+    if (avatar) {
+        [avatar getDataInBackgroundWithBlock:^(NSData* data,NSError* error){
+            if (data && data.length > 0) {
+                userModel.avatar = [data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+            }
+        }];
+    }
     return userModel;
 }
 
@@ -638,15 +646,9 @@
 
 -(void)updateUserInfoToServerWithID:(NSString*)userID params:(NSDictionary*)params completion:(void(^)(BOOL success,NSString* error))completion{
     PFUser* user = [PFUser currentUser];
-    user.email = [params objectForKey:@"email"];
-    user[@"firstName"] = [params objectForKey:@"firstName"];
-    user[@"lastName"] = [params objectForKey:@"lastName"];
-    user[@"gender"] = [params objectForKey:@"gender"];
-    user[@"dob"] = [params objectForKey:@"dob"];
-    user[@"phoneNumber"] = [params objectForKey:@"phoneNumber"];
-    user[@"hometown"] = [params objectForKey:@"hometown"];
-    user[@"enableAllZpot"] = [params objectForKey:@"enableAllZpot"];
-    user[@"privateProfile"] = [params objectForKey:@"privateProfile"];
+    for (NSString* key in [params allKeys]) {
+        user[key] = [params objectForKey:key];
+    }
     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         [self updateUserModel:userID withParse:user];
         completion(succeeded,error.description);

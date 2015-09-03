@@ -35,6 +35,9 @@
     [user updateObjectForUse:^{
         [_lblName setText:user.name];
         _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
+        if (user.avatar.length > 0) {
+            _imgvAvatar.image = [user.avatar stringToUIImage];
+        }
     }];
     
 }

@@ -50,6 +50,9 @@
                 [self addSubview:_username];
             }
             [_avatar setImage:[UIImage imageNamed:@"avatar"]];
+            if (userModel.avatar.length > 0) {
+                _avatar.image = [userModel.avatar stringToUIImage];
+            }
             [_username setText:userModel.name];
             
             _isFollowing = [[AccountModel currentAccountModel].following_ids rangeOfString:userModel.mid].location != NSNotFound;

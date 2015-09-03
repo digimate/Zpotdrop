@@ -12,4 +12,10 @@
 -(NSString *)localized{
     return NSLocalizedString(self, nil);
 }
+- (UIImage *)stringToUIImage
+{
+    NSData *data = [[NSData alloc]initWithBase64EncodedString:self options:NSDataBase64DecodingIgnoreUnknownCharacters];
+    
+    return [UIImage imageWithData:data];
+}
 @end

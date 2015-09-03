@@ -15,6 +15,10 @@
     IBOutlet NSLayoutConstraint* _botConstraint;
     IBOutlet NSLayoutConstraint* _leftConstraint;
     IBOutlet NSLayoutConstraint* _rightConstraint;
+    UIView* viewMask;
 }
+@property(nonatomic, retain)BaseDataModel* dataModel;
 -(void)setSelectedUser:(BOOL)isSel withAnimated:(BOOL)flag;
+@property(nonatomic, copy)void(^onDeleteCell)(BaseDataModel* data);
+-(void)updateMask;
 @end

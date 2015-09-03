@@ -42,8 +42,14 @@
     if ([data isKindOfClass:[UserDataModel class]]) {
         self.dataModel = data;
         UserDataModel* user = (UserDataModel*)data;
-        lblName.text = user.name;
         imgvAvatar.image = [UIImage imageNamed:@"avatar"];
+        [user updateObjectForUse:^{
+            lblName.text = user.name;
+            if (user.avatar.length > 0) {
+                imgvAvatar.image = [user.avatar stringToUIImage];
+            }
+        }];
+        
     }
     
 }

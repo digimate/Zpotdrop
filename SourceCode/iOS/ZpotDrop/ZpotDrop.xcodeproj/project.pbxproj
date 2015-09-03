@@ -113,6 +113,7 @@
 		8C50F78A1B735D4800997C06 /* FeedCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C50F7881B735D4800997C06 /* FeedCommentCell.xib */; };
 		8C50F7911B735D7400997C06 /* FeedCommentNotifyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C50F78F1B735D7400997C06 /* FeedCommentNotifyCell.m */; };
 		8C50F7921B735D7400997C06 /* FeedCommentNotifyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8C50F7901B735D7400997C06 /* FeedCommentNotifyCell.xib */; };
+		8CA54CB11B97EE6B00B5B59E /* MyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CA54CB01B97EE6B00B5B59E /* MyAnnotation.m */; };
 		8CA703571B942EEE00E47C79 /* ic_facebook_login@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CA703561B942EEE00E47C79 /* ic_facebook_login@2x.png */; };
 		8CA7035A1B942F1200E47C79 /* FacebookFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CA703591B942F1200E47C79 /* FacebookFriendViewController.m */; };
 		8CA7035D1B943F8E00E47C79 /* ContactFriendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CA7035C1B943F8E00E47C79 /* ContactFriendViewController.m */; };
@@ -385,6 +386,8 @@
 		8C50F78E1B735D7400997C06 /* FeedCommentNotifyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedCommentNotifyCell.h; sourceTree = "<group>"; };
 		8C50F78F1B735D7400997C06 /* FeedCommentNotifyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedCommentNotifyCell.m; sourceTree = "<group>"; };
 		8C50F7901B735D7400997C06 /* FeedCommentNotifyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedCommentNotifyCell.xib; sourceTree = "<group>"; };
+		8CA54CAF1B97EE6B00B5B59E /* MyAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAnnotation.h; sourceTree = "<group>"; };
+		8CA54CB01B97EE6B00B5B59E /* MyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnnotation.m; sourceTree = "<group>"; };
 		8CA703561B942EEE00E47C79 /* ic_facebook_login@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_facebook_login@2x.png"; sourceTree = "<group>"; };
 		8CA703581B942F1200E47C79 /* FacebookFriendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookFriendViewController.h; sourceTree = "<group>"; };
 		8CA703591B942F1200E47C79 /* FacebookFriendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookFriendViewController.m; sourceTree = "<group>"; };
@@ -1005,6 +1008,8 @@
 				8C50F77B1B731F6200997C06 /* ZpotAnnotation.m */,
 				BAAFD0851B75F6AF009779FF /* ScannedUserAnnotation.h */,
 				BAAFD0861B75F6AF009779FF /* ScannedUserAnnotation.m */,
+				8CA54CAF1B97EE6B00B5B59E /* MyAnnotation.h */,
+				8CA54CB01B97EE6B00B5B59E /* MyAnnotation.m */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -1343,6 +1348,7 @@
 				0ACD9DEB1B6918D4004140EE /* BaseViewController.m in Sources */,
 				BAAE49A01B778607003BE114 /* UserProfileCell.m in Sources */,
 				BA0874A91B6FC07200FBFF74 /* CoreDataService.m in Sources */,
+				8CA54CB11B97EE6B00B5B59E /* MyAnnotation.m in Sources */,
 				BA0874AC1B6FC0C800FBFF74 /* zpotdrop.xcdatamodeld in Sources */,
 				0ACD9DD51B68D497004140EE /* SDImageCache.m in Sources */,
 				BAAE49A51B778DC3003BE114 /* SettingDisclosureViewCell.m in Sources */,

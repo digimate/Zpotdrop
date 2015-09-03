@@ -81,12 +81,14 @@
     UIView* _background = [[UIView alloc]initWithFrame:CGRectMake(0, 0, size.width, size.height)];
     [_background setBackgroundColor:[UIColor whiteColor]];
     [_mScrollView addSubview:_background];
-    
     UserDataModel* sender = (UserDataModel*)[UserDataModel fetchObjectWithID:notifModel.sender_id];
     [sender updateObjectForUse:^{
         _avatarImage = [[UIImageView alloc]initWithFrame:CGRectMake(11, 7, size.height - 14, size.height - 14)];
-        [_avatarImage circleWithBorderWidth:0 andColor:nil];
         [_avatarImage setImage:[UIImage imageNamed:@"avatar"]];
+        [_avatarImage circleWithBorderWidth:0 andColor:nil];
+        if (sender.avatar.length > 0) {
+            _avatarImage.image = [sender.avatar stringToUIImage];
+        }
         [_background addSubview:_avatarImage];
         
         _content = [[UILabel alloc]initWithFrame:CGRectMake(_avatarImage.frame.size.width + _avatarImage.frame.origin.x + 5, _avatarImage.frame.origin.y, size.width - (_avatarImage.frame.size.width + _avatarImage.frame.origin.x + 10), size.height - 14)];

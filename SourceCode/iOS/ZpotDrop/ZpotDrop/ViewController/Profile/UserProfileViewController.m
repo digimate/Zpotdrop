@@ -160,6 +160,9 @@
     [userModel updateObjectForUse:^{
         lblName.text = userModel.name;
         [btnHometown setTitle:[NSString stringWithFormat:@"%@,%@",userModel.hometown,[[Utils instance]convertBirthdayToAge:userModel.birthday]] forState:UIControlStateNormal];
+        if (userModel.avatar.length > 0) {
+            imgvAvatar.image = [userModel.avatar stringToUIImage];
+        }
     }];
     
     /*=============User's ZPot=========*/

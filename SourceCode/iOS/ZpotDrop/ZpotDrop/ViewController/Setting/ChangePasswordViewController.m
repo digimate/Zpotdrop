@@ -11,6 +11,7 @@
 
 @interface ChangePasswordViewController ()<UITableViewDataSource,UITableViewDelegate>{
     UITableView* settingTableView;
+    ChangePasswordViewCell* currentCell;
 }
 
 @end
@@ -41,9 +42,61 @@
     [btnSave setTitleColor:[UIColor colorWithRed:133 green:133 blue:133] forState:UIControlStateNormal];
     [btnSave setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
     btnSave.backgroundColor = [UIColor whiteColor];
+    [btnSave addTarget:self action:@selector(changePassword) forControlEvents:UIControlEventTouchUpInside];
     settingTableView.tableFooterView = btnSave;
 
 }
+
+-(void)changePassword{
+    if ([currentCell.oldPassword.text length] < 3)
+    {
+        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_password_length".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            [currentCell.oldPassword setText:@""];
+            [currentCell.oldPassword becomeFirstResponder];
+        }];
+        return;
+    }
+    if ([currentCell.curPasswordTf.text length] < 3)
+    {
+        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_password_length".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            [currentCell.curPasswordTf setText:@""];
+            [currentCell.curPasswordTf becomeFirstResponder];
+        }];
+        return;
+    }
+    
+    if (![currentCell.confirmPassword.text isEqualToString:currentCell.curPasswordTf.text])
+    {
+        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_passwords_not_match".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            [currentCell.confirmPassword setText:@""];
+            [currentCell.confirmPassword becomeFirstResponder];
+        }];
+        return;
+    }
+//    if (![currentCell.oldPassword.text isEqualToString:[PFUser currentUser].password])
+//    {
+//        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_password_not_right".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+//            [currentCell.oldPassword setText:@""];
+//            [currentCell.oldPassword becomeFirstResponder];
+//        }];
+//        return;
+//    }
+    [[Utils instance]showProgressWithMessage:nil];
+    [PFUser currentUser].password = currentCell.curPasswordTf.text;
+    [[PFUser currentUser]saveInBackgroundWithBlock:^(BOOL successful,NSError* error){
+        if (error) {
+            [[Utils instance]hideProgess];
+            [[Utils instance]showAlertWithTitle:@"error_title".localized message:error.localizedDescription yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            }];
+        }else{
+            [[APIService shareAPIService]loginWithData:@{@"email":[PFUser currentUser].email, @"password":currentCell.curPasswordTf.text } :^(id data, NSString *error) {
+                [[Utils instance]hideProgess];
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
+        }
+    }];
+}
+
 -(void)leftMenuOpened{
     [self closeKeyboard];
 }
@@ -89,6 +142,7 @@
     ChangePasswordViewCell* cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ChangePasswordViewCell class]) forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell setupCellWithData:nil andOptions:nil];
+    currentCell = cell;
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

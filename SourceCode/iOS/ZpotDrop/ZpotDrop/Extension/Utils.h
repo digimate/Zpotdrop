@@ -27,6 +27,7 @@
 #import "UINavigationController+Block.h"
 #import "FacebookService.h"
 
+#define degreesToRadians(x) ((x) * M_PI / 180.0)
 #define MAIN_COLOR @"b1cb89"
 
 #define IS_DEBUG 0

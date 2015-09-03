@@ -8,9 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
-
-@interface ZpotAnnotation : NSObject<MKAnnotation>
+#import "MyAnnotation.h"
+@interface ZpotAnnotation : MyAnnotation<MKAnnotation>
 @property(nonatomic,assign)CLLocationCoordinate2D coordinate;
 @property(nonatomic,copy)NSString* title;
-@property(nonatomic,copy)NSString* ownerID;
 @end

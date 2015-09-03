@@ -131,13 +131,13 @@
         if (buttonIndex != [alertView cancelButtonIndex]) {
             NSString* title = [alertView buttonTitleAtIndex:buttonIndex];
             if ([title isEqualToString:@"yes".localized]) {
-                [self updateUserInfoToServer];
+                [self updateAvatarIfNeed];
             }
         }
     }];
 }
 
--(void)updateUserInfoToServer{
+-(void)updateAvatarIfNeed{
     if ([[[userProfile firstName] stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
     {
         [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_first_name".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
@@ -158,8 +158,30 @@
         }];
         return;
     }
-    
-    NSMutableDictionary* params = [NSMutableDictionary dictionary];
+    [self closeKeyboard];
+    [[Utils instance]showProgressWithMessage:@""];
+    if ([userProfile imageChanged]) {
+        UIImage* image = [userProfile imageChanged];
+        PFFile* avatar = [PFFile fileWithData:UIImageJPEGRepresentation(image, 1.0)];
+        [avatar saveInBackgroundWithBlock:^(BOOL success,NSError* error){
+            if (success) {
+                NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObject:avatar forKey:@"avatar"];
+                [self updateUserInfoToServer:params];
+            }else{
+                [[Utils instance]hideProgess];
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:error.description yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                }];
+            }
+        }];
+    }else{
+        [self updateUserInfoToServer:nil];
+    }
+}
+
+-(void)updateUserInfoToServer:(NSMutableDictionary*)params{
+    if (!params) {
+        params = [NSMutableDictionary dictionary];
+    }
     [params setObject:[userProfile firstName] forKey:@"firstName"];
     [params setObject:[userProfile lastName] forKey:@"lastName"];
     [params setObject:[userProfile email] forKey:@"email"];
@@ -168,14 +190,13 @@
     [params setObject:[userProfile phoneNumber] forKey:@"phoneNumber"];
     [params setObject:[NSNumber numberWithBool:enableAllZpot] forKey:@"enableAllZpot"];
     [params setObject:[NSNumber numberWithBool:privateProfile] forKey:@"privateProfile"];
-    [[Utils instance]showProgressWithMessage:@""];
-    [self closeKeyboard];
+    
     [[APIService shareAPIService]updateUserInfoToServerWithID:userData.mid params:params completion:^(BOOL success, NSString *error) {
         [[Utils instance]hideProgess];
         if (success) {
             
         }else{
-            [[Utils instance]showAlertWithTitle:@"error_title".localized message:error.localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
             }];
         }
     }];
@@ -249,6 +270,9 @@
     return NSStringFromClass([UserProfileCell class]);
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0 && indexPath.row == 0 && userProfile) {
+        return  userProfile;
+    }
     BaseTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:[self cellIdentifierForIndexPath:indexPath] forIndexPath:indexPath];
     cell.handler = self;
     [cell removeBorder];

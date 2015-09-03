@@ -96,7 +96,7 @@
     [_leftMenuViewController setupData];
     [_rightMenuViewController setupData];
     ///add PostZpot as Intital View of MainView
-    [_leftMenuViewController changeViewToClass:NSStringFromClass([FeedZpotViewController class])];
+    [_leftMenuViewController changeViewToClass:NSStringFromClass([FindZpotViewController class])];
 }
 
 -(void)showPostView{

@@ -8,6 +8,7 @@
 
 #import "ScannedUserCell.h"
 #import "Utils.h"
+#import "UserDataModel.h"
 
 @implementation ScannedUserCell
 
@@ -17,10 +18,64 @@
     _viewAvatar.layer.masksToBounds = YES;
     _viewAvatar.backgroundColor = COLOR_DARK_GREEN;
     _topConstraint.constant = _leftConstraint.constant = _rightConstraint.constant = _botConstraint.constant = 10;
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeUp:)];
+    swipeRight.numberOfTouchesRequired = 1;
+    [swipeRight setDirection:UISwipeGestureRecognizerDirectionUp];
+    [self addGestureRecognizer:swipeRight];
+
+}
+
+-(void)didSwipeUp:(id)gesture{
+    self.onDeleteCell(self.dataModel);
+}
+
+-(void)updateMask{
+    if (!viewMask) {
+        viewMask = [[UIView alloc]initWithFrame:CGRectMake(_leftConstraint.constant , _topConstraint.constant, self.width - _leftConstraint.constant - _rightConstraint.constant, self.height - _topConstraint.constant - _botConstraint.constant)];
+        [viewMask setBackgroundColor:[COLOR_DARK_GREEN colorWithAlphaComponent:0.7]];
+        [self addSubview:viewMask];
+    }else{
+        viewMask.frame = CGRectMake(_leftConstraint.constant , _topConstraint.constant, self.width - _leftConstraint.constant - _rightConstraint.constant, self.height - _topConstraint.constant - _botConstraint.constant);
+    }
+    //Add mask
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    
+    maskLayer.frame = viewMask.bounds;
+    maskLayer.fillRule = kCAFillRuleEvenOdd;
+    maskLayer.needsDisplayOnBoundsChange = YES;
+    
+    CGFloat maskLayerWidth = maskLayer.bounds.size.width;
+    CGFloat maskLayerHeight = maskLayer.bounds.size.height;
+    CGPoint maskLayerCenter =
+    CGPointMake(maskLayerWidth/2,maskLayerHeight/2);
+    
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    
+    [path moveToPoint:maskLayerCenter];
+    
+    [path addArcWithCenter:maskLayerCenter radius:(maskLayerWidth/2)
+                startAngle:degreesToRadians(-90) endAngle:degreesToRadians(0) clockwise:YES];
+    
+    [path closePath];
+    maskLayer.path = path.CGPath;
+    viewMask.layer.mask = maskLayer;
 }
 
 -(void)setupCellWithData:(BaseDataModel *)data andOptions:(NSDictionary *)param{
-    _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
+    self.dataModel = data;
+    
+    if ([data isKindOfClass:[FeedDataModel class]]) {
+        FeedDataModel* feedModel = (FeedDataModel*)data;
+        UserDataModel* userModel = (UserDataModel*)[UserDataModel fetchObjectWithID:feedModel.user_id];
+        _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
+        [userModel updateObjectForUse:^{
+            if (userModel.avatar.length > 0) {
+                _imgvAvatar.image = [userModel.avatar stringToUIImage];
+            }
+        }];
+        [self updateMask];
+    }
+    
     if (param != nil && [param objectForKey:@"isSelected"]) {
         BOOL isSelected = [[param objectForKey:@"isSelected"] boolValue];
         [self setSelectedUser:isSelected withAnimated:NO];
@@ -34,7 +89,7 @@
     }else{
         _topConstraint.constant = _leftConstraint.constant = _rightConstraint.constant = _botConstraint.constant = 10;
     }
-    
+    [self updateMask];
 //    if (flag) {
 //        [_viewAvatar updateConstraintsIfNeeded];
 //        [UIView animateWithDuration:0.2 animations:^{

@@ -144,8 +144,12 @@
         self.dataModel.dataDelegate = self;
         if (feedData.user_id != nil && feedData.user_id.length > 0) {
             UserDataModel* poster = (UserDataModel*)[UserDataModel fetchObjectWithID:feedData.user_id];
+            _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
             [poster updateObjectForUse:^{
                 _lblName.text = poster.name;
+                if (poster.avatar.length > 0) {
+                    _imgvAvatar.image = [poster.avatar stringToUIImage];
+                }
             }];
         }
         if (feedData.location_id != nil && feedData.location_id.length > 0) {
@@ -160,7 +164,6 @@
             _lblSpotDistance.text = [[Utils instance] distanceBetweenCoor:CLLocationCoordinate2DMake([feedData.latitude doubleValue], [feedData.longitude doubleValue]) andCoor:[Utils instance].locationManager.location.coordinate];
 
         }
-        _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
         //setup comment number
         NSString* commentString;
         if ([feedData.comment_count integerValue] > 1) {

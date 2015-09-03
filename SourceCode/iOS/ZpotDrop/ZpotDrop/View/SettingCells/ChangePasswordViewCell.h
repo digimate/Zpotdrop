@@ -18,5 +18,7 @@
     IBOutlet UITextField* tfNewPasswordConfirm;
     
 }
-
+@property(nonatomic,readonly)UITextField * oldPassword;
+@property(nonatomic,readonly)UITextField * confirmPassword;
+@property(nonatomic,readonly)UITextField * curPasswordTf;
 @end

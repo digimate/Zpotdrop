@@ -10,7 +10,9 @@
 #import "Utils.h"
 
 @implementation ChangePasswordViewCell
-
+@synthesize oldPassword = tfPassword;
+@synthesize confirmPassword = tfNewPasswordConfirm;
+@synthesize curPasswordTf = tfNewPassword;
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];

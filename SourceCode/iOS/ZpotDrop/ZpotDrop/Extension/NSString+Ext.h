@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <UIKit/UIKit.h>
 @interface NSString(Ext)
 -(NSString*)localized;
+- (UIImage *)stringToUIImage;
 @end

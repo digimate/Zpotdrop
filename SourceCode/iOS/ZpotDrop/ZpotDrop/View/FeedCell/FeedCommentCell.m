@@ -58,6 +58,9 @@
         UserDataModel* poster = (UserDataModel*)[UserDataModel fetchObjectWithID:feedComment.user_id];
         [poster updateObjectForUse:^{
             _lblName.text = poster.name;
+            if (poster.avatar.length > 0) {
+                _imgvAvatar.image = [poster.avatar stringToUIImage];
+            }
         }];
         
         if ([feedComment.status isEqualToString:STATUS_SENDING]) {

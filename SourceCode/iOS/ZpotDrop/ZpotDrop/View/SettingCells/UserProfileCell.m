@@ -61,6 +61,9 @@
         imgvAvatar.image = [UIImage imageNamed:@"avatar"];
         AccountModel* model = [AccountModel currentAccountModel];
         UserDataModel* userModel = (UserDataModel*)[UserDataModel fetchObjectWithID:model.user_id];
+        if (userModel.avatar.length > 0) {
+            imgvAvatar.image = [userModel.avatar stringToUIImage];
+        }
         tfFirstName.text = userModel.first_name;
         tfLastName.text = userModel.last_name;
         tfDOB.text = [userModel.birthday stringWithFormat:@"dd/MM/yyyy"];
