@@ -91,10 +91,14 @@
     [query whereKey:@"longitude" greaterThanOrEqualTo:[NSNumber numberWithDouble:topLeft.longitude]];
     [query whereKey:@"longitude" lessThanOrEqualTo:[NSNumber numberWithDouble:botRight.longitude]];
     [query whereKey:@"user_id" notEqualTo:userID];
-    //NSDate* date = [NSDate dateWithTimeIntervalSinceNow:-(60*60)];
-    //[query whereKey:@"createdAt" greaterThanOrEqualTo:date];
+    NSMutableArray* friendID = [NSMutableArray array];
+    [friendID addObjectsFromArray:[[AccountModel currentAccountModel].follower_ids componentsSeparatedByString:@","]];
+    [friendID addObjectsFromArray:[[AccountModel currentAccountModel].following_ids componentsSeparatedByString:@","]];
+    [query whereKey:@"user_id" containedIn:friendID];
+    NSDate* date = [NSDate dateWithTimeIntervalSinceNow:-(60*60)];
+    [query whereKey:@"createdAt" greaterThanOrEqualTo:date];
     //shoud query User table to find Friend Location
-    [query setLimit:API_PAGE];
+    //[query setLimit:API_PAGE];
     [query findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
         if (data) {
             NSMutableArray* returnArray = [NSMutableArray array];
@@ -456,6 +460,7 @@
     user[@"facebook_id"] =[data objectForKey:@"facebook_id"];
     user[@"enableAllZpot"] = [NSNumber numberWithBool:YES];
     user[@"privateProfile"] = [NSNumber numberWithBool:YES];
+    user[@"zpot_all_time"] = [NSDate date];
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         if (succeeded) {
             UserDataModel* userModel = [self updateUserModel:user.objectId withParse:user];;
@@ -614,6 +619,7 @@
     userModel.enableAllZpot = user[@"enableAllZpot"];
     userModel.privateProfile = user[@"privateProfile"];
     userModel.facebook_id = user[@"facebook_id"];
+    userModel.zpot_all_time = user[@"zpot_all_time"];
     PFFile* avatar = user[@"avatar"];
     if (avatar) {
         [avatar getDataInBackgroundWithBlock:^(NSData* data,NSError* error){

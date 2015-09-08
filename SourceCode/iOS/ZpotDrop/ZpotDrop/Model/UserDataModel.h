@@ -25,6 +25,8 @@
 @property (nonatomic, retain) NSNumber* enableAllZpot;
 @property (nonatomic, assign) BOOL isFriend;
 @property (nonatomic, retain) NSString* facebook_id;
+@property (nonatomic, retain) NSDate * zpot_all_time;
+
 -(NSString*)name;
 +(id)UserFromParse:(id)data;
 

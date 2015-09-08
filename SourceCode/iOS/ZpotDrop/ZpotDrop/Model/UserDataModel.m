@@ -14,7 +14,7 @@
 
 @dynamic username,first_name,last_name;
 @dynamic avatar,gender,birthday,email;
-@dynamic hometown,phone,enableAllZpot,privateProfile,facebook_id;
+@dynamic hometown,phone,enableAllZpot,privateProfile,facebook_id,zpot_all_time;
 @synthesize isFriend;
 -(void)awakeFromInsert{
     [super awakeFromInsert];
@@ -30,6 +30,7 @@
     self.privateProfile = [NSNumber numberWithBool:YES];
     self.enableAllZpot = [NSNumber numberWithBool:YES];
     self.facebook_id = @"";
+    self.zpot_all_time = [NSDate date];
 }
 
 -(void)awakeFromFetch{
@@ -38,6 +39,9 @@
     }
     if (self.phone == nil) {
         self.phone = @"";
+    }
+    if (self.zpot_all_time == nil) {
+        self.zpot_all_time = [NSDate date];
     }
     if (self.privateProfile == nil) {
         self.privateProfile = [NSNumber numberWithBool:YES];

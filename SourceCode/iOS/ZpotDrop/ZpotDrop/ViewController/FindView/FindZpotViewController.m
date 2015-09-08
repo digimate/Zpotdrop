@@ -151,14 +151,14 @@
         [[Utils instance]showProgressWithMessage:nil];
         [[APIService shareAPIService] scanAreaForUserID:[AccountModel currentAccountModel].user_id topLeftCoord:topLeft botRightCoord:botRight completion:^(NSArray *data, NSString *error) {
             [[Utils instance]hideProgess];
-            if (data && data.count > 0) {
+            if (error) {
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                }];
+            }else{
                 [scannedUsersData removeAllObjects];
                 [scannedUsersData addObjectsFromArray:data];
                 [self addAnnotationScannedUsers];
                 [usersCollectionView reloadData];
-            }else{
-                [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                }];
             }
             
         }];

@@ -53,8 +53,14 @@
     
     [path moveToPoint:maskLayerCenter];
     
+    FeedDataModel* feedModel = (FeedDataModel*)self.dataModel;
+    double deltaSecond = [[NSDate date] timeIntervalSince1970] - [feedModel.time timeIntervalSince1970];
+    float angle = (deltaSecond * 360.0) / (60*60);
+    if (angle > 360) {
+        angle = 360;
+    }
     [path addArcWithCenter:maskLayerCenter radius:(maskLayerWidth/2)
-                startAngle:degreesToRadians(-90) endAngle:degreesToRadians(0) clockwise:YES];
+                startAngle:degreesToRadians(0-90) endAngle:degreesToRadians(angle-90) clockwise:YES];
     
     [path closePath];
     maskLayer.path = path.CGPath;

@@ -21,7 +21,9 @@
 #import "UserSettingViewController.h"
 
 @interface LeftMenuViewController ()<UITableViewDataSource,UITableViewDelegate>{
-
+    CircleProgressView* progressView;
+    UIButton* zpotdropAllButton;
+    UILabel* lblZpotAll;
 }
 
 @end
@@ -62,7 +64,7 @@
     // ZPOT ALL VIEW
     UIView* zpotdropAllView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _tableView.width, 150)];
     zpotdropAllView.backgroundColor = [UIColor whiteColor];
-    CircleProgressView* progressView = [[CircleProgressView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
+    progressView = [[CircleProgressView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
     progressView.backgroundColor = [UIColor clearColor];
     progressView.trackBackgroundColor = [UIColor colorWithRed:229 green:229 blue:229];
     progressView.trackFillColor = COLOR_DARK_GREEN;
@@ -70,18 +72,19 @@
     progressView.center = CGPointMake(zpotdropAllView.width/2, zpotdropAllView.height/2 - 10);
     [zpotdropAllView addSubview:progressView];
     
-    UIButton* zpotdropAllButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    zpotdropAllButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [zpotdropAllButton setFrame:CGRectMake(0, 0, 86, 86)];
     zpotdropAllButton.center = progressView.center;
     [[zpotdropAllButton titleLabel]setFont:[UIFont fontWithName:@"PTSans-Bold" size:12]];
-    [zpotdropAllButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [zpotdropAllButton setTitleColor:COLOR_DARK_GREEN forState:UIControlStateNormal];
     [zpotdropAllButton setTitleColor:[UIColor colorWithRed:229 green:229 blue:229] forState:UIControlStateDisabled];
     [zpotdropAllButton setTitle:@"zpot_all".localized.uppercaseString forState:UIControlStateNormal];
     zpotdropAllButton.enabled = NO;
     zpotdropAllButton.layer.cornerRadius = zpotdropAllButton.width/2;
+    [zpotdropAllButton addTarget:self action:@selector(zpotAllPressed) forControlEvents:UIControlEventTouchUpInside];
     [zpotdropAllView addSubview:zpotdropAllButton];
     
-    UILabel* lblZpotAll = [[UILabel alloc]initWithFrame:CGRectMake(0, progressView.y + progressView.height, zpotdropAllView.width, 16)];
+    lblZpotAll = [[UILabel alloc]initWithFrame:CGRectMake(0, progressView.y + progressView.height, zpotdropAllView.width, 16)];
     lblZpotAll.textColor = COLOR_DARK_GREEN;
     lblZpotAll.textAlignment = NSTextAlignmentCenter;
     lblZpotAll.font = [UIFont fontWithName:@"PTSans-Regular" size:12];
@@ -95,6 +98,18 @@
     [closeSwipe setNumberOfTouchesRequired:1];
     [closeSwipe setDirection:UISwipeGestureRecognizerDirectionLeft];
     [self.view addGestureRecognizer:closeSwipe];
+}
+
+-(void)zpotAllPressed{
+    AccountModel* currentAccount = [AccountModel currentAccountModel];
+    UserDataModel* currentUser = (UserDataModel*)[UserDataModel fetchObjectWithID:currentAccount.user_id];
+    currentUser.zpot_all_time = [NSDate date];
+    [[APIService shareAPIService]updateUserInfoToServerWithID:currentUser.mid params:@{@"zpot_all_time":currentUser.zpot_all_time} completion:^(BOOL success, NSString *error) {
+        
+    }];
+    [self updateZpotAll];
+    currentSelectedRow = 3;
+    [self.delegate leftmenuChangeViewToClass:NSStringFromClass([FindZpotViewController class])];
 }
 
 -(void)showUserSettings{
@@ -117,6 +132,32 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    [self updateZpotAll];
+}
+
+-(void)updateZpotAll{
+    AccountModel* currentAccount = [AccountModel currentAccountModel];
+    UserDataModel* currentUser = (UserDataModel*)[UserDataModel fetchObjectWithID:currentAccount.user_id];
+    double deltaSecond = [[NSDate date] timeIntervalSince1970] - [currentUser.zpot_all_time timeIntervalSince1970];
+    float progress = deltaSecond / (24*60.0*60.0);
+    if (progress < 0.000001) {
+        progress = 0.000001;
+    }else if (progress >= 0.999999){
+        progress = 0.999999;
+    }
+    progressView.progress = progress;
+    
+    int percent = progress * 100;
+    if (percent >= 100) {
+        [zpotdropAllButton setTitle:@"zpot_all".localized.uppercaseString forState:UIControlStateNormal];
+        zpotdropAllButton.enabled = YES;
+        lblZpotAll.hidden = NO;
+    }else{
+        [zpotdropAllButton setTitle:[NSString stringWithFormat:@"%d%@",percent,@"%"] forState:UIControlStateNormal];
+        zpotdropAllButton.enabled = NO;
+        lblZpotAll.hidden = YES;
+    }
 }
 
 -(void)changeViewToClass:(NSString*)clsString{
