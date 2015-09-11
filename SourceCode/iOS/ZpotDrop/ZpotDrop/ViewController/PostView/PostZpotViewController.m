@@ -177,6 +177,10 @@
         [[Utils instance].mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
     }
     [self removeAppBecomActiveNotification];
+    
+    [_api getSuggestionNameFromCoordinate:[Utils instance].mapView.userLocation.coordinate completion:^(NSArray *locations) {
+        
+    }];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

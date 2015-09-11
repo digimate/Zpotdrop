@@ -10,12 +10,60 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/Extension/Service/APIService.m"
-            timestampString = "461606749.198476"
+            timestampString = "463679478.365069"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "439"
-            endingLineNumber = "439"
-            landmarkName = "-postComment:completion:"
+            startingLineNumber = "453"
+            endingLineNumber = "453"
+            landmarkName = "-checkIsExistUsername:completion:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[APIService checkIsExistUsername:completion:]"
+                  moduleName = "ZpotDrop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nguyenh/workspace/zpotdrop/SourceCode/iOS/ZpotDrop/ZpotDrop/Extension/Service/APIService.m"
+                  timestampString = "463679685.447314"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "453"
+                  endingLineNumber = "453"
+                  offsetFromSymbolStart = "90">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__46-[APIService checkIsExistUsername:completion:]_block_invoke"
+                  moduleName = "ZpotDrop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nguyenh/workspace/zpotdrop/SourceCode/iOS/ZpotDrop/ZpotDrop/Extension/Service/APIService.m"
+                  timestampString = "463679685.447572"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "453"
+                  endingLineNumber = "453"
+                  offsetFromSymbolStart = "42">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZpotDrop/Extension/Service/APIService.m"
+            timestampString = "463679478.365069"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "457"
+            endingLineNumber = "457"
+            landmarkName = "-checkIsExistUsername:completion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,12 +74,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/Extension/Service/APIService.m"
-            timestampString = "461606765.522772"
+            timestampString = "463679478.365069"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "443"
-            endingLineNumber = "443"
-            landmarkName = "-postComment:completion:"
+            startingLineNumber = "461"
+            endingLineNumber = "461"
+            landmarkName = "-createAccountWithData::"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZpotDrop/ViewController/FeedView/FeedZpotViewController.m"
+            timestampString = "463675578.107479"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -42,13 +106,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/Extension/Service/APIService.m"
-            timestampString = "461606814.21458"
+            timestampString = "463679246.287403"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "447"
-            endingLineNumber = "447"
-            landmarkName = "@implementation APIService"
-            landmarkType = "3">
+            startingLineNumber = "1175"
+            endingLineNumber = "1175"
+            landmarkName = "-getSuggestionNameFromCoordinate:completion:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

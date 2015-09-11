@@ -17,6 +17,9 @@
 typedef void(^dataResponse)(id data, NSString* error);
 
 @interface APIService : NSObject
+{
+    AFHTTPRequestOperationManager* _manager;
+}
 /*
  @abstract Get static API instance
  
@@ -81,4 +84,6 @@ typedef void(^dataResponse)(id data, NSString* error);
 -(void)loginUserWithFID:(NSString*)facebookID :(dataResponse)response;
 -(void)updateUserModelWithFacebookID:(NSString*)fid completion:(void(^)(UserDataModel* userModel))completion;
 -(void)findUserWithPhones:(NSArray*)phones emails:(NSArray*)email completion:(void(^)(NSArray* users))completion;
+
+-(void)getSuggestionNameFromCoordinate:(CLLocationCoordinate2D)location completion:(void(^)(NSArray* locations))completion;
 @end

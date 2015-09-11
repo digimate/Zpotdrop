@@ -22,6 +22,20 @@
     });
     return shareObject;
 }
+
+-(id)init
+{
+    self = [super init];
+    if (self)
+    {
+        _manager = [AFHTTPRequestOperationManager manager];
+        _manager.responseSerializer = [AFJSONResponseSerializer serializer];
+        _manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+        [_manager.requestSerializer setTimeoutInterval:10.f];
+        [_manager.requestSerializer setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+    }
+    return self;
+}
 #pragma mark - Location
 -(void)addressFromLocationCoordinate:(CLLocationCoordinate2D)coor completion:(void(^)(NSString* address))completion{
     NSString * language = [[NSLocale preferredLanguages] objectAtIndex:0];
@@ -1153,5 +1167,15 @@
     model.type = parse[@"type"];
     model.time = parse.updatedAt;
     return model;
+}
+
+-(void)getSuggestionNameFromCoordinate:(CLLocationCoordinate2D)location completion:(void(^)(NSArray* locations))completion
+{
+    [_manager GET:@"https://api.foursquare.com/v2/venues/explore" parameters:@{@"oauth_token":@"WMYS4U4MGVNS3AZEEWQJ0UEXSNQ12PPWVFJVXRLICMD5V4WF", @"v":@"20150911", @"ll":[NSString stringWithFormat:@"%.8f,%.8f",location.latitude, location.longitude]} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSMutableArray* locations = [NSMutableArray array];
+        completion(nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        completion(nil);
+    }];
 }
 @end

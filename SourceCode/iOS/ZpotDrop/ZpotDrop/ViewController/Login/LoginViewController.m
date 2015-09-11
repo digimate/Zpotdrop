@@ -98,6 +98,7 @@
     _email = [[UITextField alloc]initWithFrame:CGRectMake(_password.frame.origin.x, _password.frame.origin.y - _password.frame.size.height, _password.frame.size.width, _password.frame.size.height)];
     [_email setPlaceholder:@"place_holder_username".localized];
     [_email setTextAlignment:NSTextAlignmentCenter];
+    [_email setKeyboardType:UIKeyboardTypeEmailAddress];
     [_email setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_email setDelegate:self];
     [_email setReturnKeyType:UIReturnKeyNext];
