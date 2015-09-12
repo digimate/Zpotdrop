@@ -75,6 +75,7 @@
 		0ACD9E4E1B6F2067004140EE /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0ACD9E4C1B6F2067004140EE /* icon@2x.png */; };
 		0ACD9E4F1B6F2067004140EE /* name@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0ACD9E4D1B6F2067004140EE /* name@2x.png */; };
 		0ACD9E511B6F2617004140EE /* item_notification@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0ACD9E501B6F2617004140EE /* item_notification@2x.png */; };
+		0AFDBCEE1BA4528400986D68 /* SuggestingLocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AFDBCED1BA4528400986D68 /* SuggestingLocationTableViewCell.m */; };
 		8C269C1E1B7060D200E6835E /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C269C1D1B7060D200E6835E /* Social.framework */; };
 		8C269C201B7060D800E6835E /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C269C1F1B7060D800E6835E /* Accounts.framework */; };
 		8C269C231B7061D700E6835E /* AccountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C269C221B7061D700E6835E /* AccountModel.m */; };
@@ -328,6 +329,8 @@
 		0ACD9E4C1B6F2067004140EE /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		0ACD9E4D1B6F2067004140EE /* name@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "name@2x.png"; sourceTree = "<group>"; };
 		0ACD9E501B6F2617004140EE /* item_notification@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "item_notification@2x.png"; sourceTree = "<group>"; };
+		0AFDBCEC1BA4528400986D68 /* SuggestingLocationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestingLocationTableViewCell.h; sourceTree = "<group>"; };
+		0AFDBCED1BA4528400986D68 /* SuggestingLocationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuggestingLocationTableViewCell.m; sourceTree = "<group>"; };
 		8C269C1D1B7060D200E6835E /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		8C269C1F1B7060D800E6835E /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		8C269C211B7061D700E6835E /* AccountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountModel.h; sourceTree = "<group>"; };
@@ -904,6 +907,15 @@
 			path = "Common Resource";
 			sourceTree = "<group>";
 		};
+		0AFDBCEB1BA4526C00986D68 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				0AFDBCEC1BA4528400986D68 /* SuggestingLocationTableViewCell.h */,
+				0AFDBCED1BA4528400986D68 /* SuggestingLocationTableViewCell.m */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		8C269C381B70774E00E6835E /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -1056,6 +1068,7 @@
 		BA6284291B710BD300399368 /* PostView */ = {
 			isa = PBXGroup;
 			children = (
+				0AFDBCEB1BA4526C00986D68 /* Cell */,
 				BA62842A1B710BE700399368 /* PostZpotViewController.h */,
 				BA62842B1B710BE700399368 /* PostZpotViewController.m */,
 			);
@@ -1343,6 +1356,7 @@
 				0ACD9DCE1B68D497004140EE /* AFURLConnectionOperation.m in Sources */,
 				0ACD9DD91B68D497004140EE /* SDWebImageDownloaderOperation.m in Sources */,
 				0ACD9DD21B68D497004140EE /* NSDate+Helper.m in Sources */,
+				0AFDBCEE1BA4528400986D68 /* SuggestingLocationTableViewCell.m in Sources */,
 				8C50F7891B735D4800997C06 /* FeedCommentCell.m in Sources */,
 				0A9F5AD81B77BA6800C9E0FD /* ContactCell.m in Sources */,
 				0ACD9DEB1B6918D4004140EE /* BaseViewController.m in Sources */,
