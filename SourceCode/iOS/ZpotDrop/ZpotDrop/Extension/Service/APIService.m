@@ -1173,7 +1173,11 @@
 {
     [_manager GET:@"https://api.foursquare.com/v2/venues/explore" parameters:@{@"oauth_token":@"WMYS4U4MGVNS3AZEEWQJ0UEXSNQ12PPWVFJVXRLICMD5V4WF", @"v":@"20150911", @"ll":[NSString stringWithFormat:@"%.8f,%.8f",location.latitude, location.longitude]} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSMutableArray* locations = [NSMutableArray array];
-        completion(nil);
+        for (NSDictionary* i in [[[responseObject objectForKey:@"response"] objectForKey:@"groups"][0] objectForKey:@"items"])
+        {
+            [locations addObject:[[i objectForKey:@"venue"] objectForKey:@"name"]];
+        }
+        completion(locations);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         completion(nil);
     }];

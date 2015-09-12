@@ -177,9 +177,14 @@
         [[Utils instance].mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
     }
     [self removeAppBecomActiveNotification];
-    
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     [_api getSuggestionNameFromCoordinate:[Utils instance].mapView.userLocation.coordinate completion:^(NSArray *locations) {
-        
+        [searchLocationResults addObjectsFromArray:locations];
+        [tableViewLocation reloadData];
     }];
 }
 
@@ -226,6 +231,7 @@
     [searchLocationResults addObjectsFromArray:locationModels];
     [tableViewLocation reloadData];
 }
+
 #pragma mark - UITableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
