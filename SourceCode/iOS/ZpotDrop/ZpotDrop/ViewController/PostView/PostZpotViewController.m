@@ -12,6 +12,7 @@
 #import "LocationDataModel.h"
 #import "LeftMenuViewController.h"
 #import "FeedZpotViewController.h"
+#import "SuggestingLocationTableViewCell.h"
 
 @interface PostZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,CLLocationManagerDelegate,MKMapViewDelegate,UISearchBarDelegate>{
     UIScrollView* _scrollViewContent;
@@ -96,6 +97,7 @@
     tableViewLocation = [[UITableView alloc]initWithFrame:CGRectMake(0, searchLocationBar.y + searchLocationBar.height, self.view.width, _scrollViewContent.height - searchLocationBar.y - searchLocationBar.height) style:UITableViewStylePlain];
     tableViewLocation.separatorStyle = UITableViewCellSeparatorStyleNone;
     [tableViewLocation registerNib:[UINib nibWithNibName:NSStringFromClass([CreateLocationCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([CreateLocationCell class])];
+    [tableViewLocation registerClass:[SuggestingLocationTableViewCell class] forCellReuseIdentifier:@"suggestingLocationCell"];
     tableViewLocation.dataSource = self;
     tableViewLocation.delegate = self;
     [_scrollViewContent addSubview:tableViewLocation];
