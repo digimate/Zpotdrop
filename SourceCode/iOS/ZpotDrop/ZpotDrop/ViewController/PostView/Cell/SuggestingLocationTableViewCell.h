@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^suggestionHandler)(NSString* name);
 @interface SuggestingLocationTableViewCell : UITableViewCell
+{
+    UILabel* _name;
+}
+-(void)setupCellWithData:(NSAttributedString*)attString withHandle:(suggestionHandler)handler;
 
 @end

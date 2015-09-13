@@ -70,7 +70,8 @@
     location[@"address"] = [params objectForKey:@"address"];
     [location saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         if (succeeded) {
-            LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:location.objectId];
+            //LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:location.objectId];
+            LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:[NSString stringWithFormat:@"%f,%f",coor.latitude,coor.longitude]];
             model.name = location[@"name"];
             model.address = location[@"address"];
             model.latitude = location[@"latitude"];
@@ -1171,11 +1172,27 @@
 
 -(void)getSuggestionNameFromCoordinate:(CLLocationCoordinate2D)location completion:(void(^)(NSArray* locations))completion
 {
-    [_manager GET:@"https://api.foursquare.com/v2/venues/explore" parameters:@{@"oauth_token":@"WMYS4U4MGVNS3AZEEWQJ0UEXSNQ12PPWVFJVXRLICMD5V4WF", @"v":@"20150911", @"ll":[NSString stringWithFormat:@"%.8f,%.8f",location.latitude, location.longitude]} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [_manager GET:@"https://api.foursquare.com/v2/venues/explore" parameters:@{@"client_id":@"AZL45K01E4ZJLRTWQ532US3JIZXWFC3S5HWEXKS0UBLN3D0F",@"client_secret":@"QWNYYGOESHVHVLVLOXYULT5D24LWWPDPTNJNLEIHZH30PBXB", @"v":@"20150911", @"ll":[NSString stringWithFormat:@"%.8f,%.8f",location.latitude, location.longitude]} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSMutableArray* locations = [NSMutableArray array];
+        int j = 0;
+        
         for (NSDictionary* i in [[[responseObject objectForKey:@"response"] objectForKey:@"groups"][0] objectForKey:@"items"])
         {
-            [locations addObject:[[i objectForKey:@"venue"] objectForKey:@"name"]];
+            LocationDataModel* locationModel = (LocationDataModel*)[LocationDataModel fetchObjectWithID:[NSString stringWithFormat:@"%d",j++]];
+            locationModel.name = [[i objectForKey:@"venue"] objectForKey:@"name"];
+            locationModel.address = [[[i objectForKey:@"venue"] objectForKey:@"location"] objectForKey:@"address"];
+            locationModel.latitude = [NSNumber numberWithDouble:location.latitude];
+            locationModel.longitude = [NSNumber numberWithDouble:location.longitude];
+            
+            [locations addObject:locationModel];
+            
+//            NSString* name = [[i objectForKey:@"venue"] objectForKey:@"name"];
+//            NSString* address = [[[i objectForKey:@"venue"] objectForKey:@"location"] objectForKey:@"address"];
+//            NSMutableAttributedString* attString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@\n%@", name, address]];
+//            [attString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:13.f] range:NSMakeRange(0, name.length)];
+//            [attString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:13.f] range:NSMakeRange(name.length+1, address.length)];
+//            [locations addObject:attString];
+
         }
         completion(locations);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

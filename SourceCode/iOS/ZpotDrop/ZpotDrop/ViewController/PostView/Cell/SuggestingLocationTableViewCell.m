@@ -20,4 +20,15 @@
     // Configure the view for the selected state
 }
 
+-(void)setupCellWithData:(NSAttributedString*)attString withHandle:(suggestionHandler)handler
+{
+    if (!_name)
+    {
+        _name = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+        [_name setNumberOfLines:2];
+        [self addSubview:_name];
+    }
+    [_name setAttributedText:attString];
+}
+
 @end
