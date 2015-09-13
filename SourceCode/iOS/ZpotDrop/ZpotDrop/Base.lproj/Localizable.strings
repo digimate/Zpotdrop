@@ -116,7 +116,8 @@
 "privacy_policy" = "Privacy Policy";
 "phone_number" = "Phone Number";
 "permission_missing" = "App can't login if all permissions are not granted";
-"private_profile" = "This user is private";
+"private_profile" = "Private profile";
+"private_profile_usage" = "With a private profile, only people you approve can see your drops on Zpotdrop.";
 //MARK: - ***** R *****
 "request_zpot" = "Request zpot";
 "retry" = "Retry";

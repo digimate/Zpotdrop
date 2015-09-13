@@ -248,7 +248,7 @@
         return [UserProfileCell cellHeightWithData:nil];
     }else if (indexPath.section == 1){
         if (indexPath.row == 0) {
-            return [SettingSwitchCell ceilHeigthWithParams:@{@"title":@"private_profile".localized}];
+            return [SettingSwitchCell ceilHeigthWithParams:@{@"title":@"private_profile".localized,@"switch":[NSNumber numberWithBool:enableAllZpot],@"subtitle":@"private_profile_usage".localized}];
         }
         return [SettingSwitchCell ceilHeigthWithParams:@{@"title":@"enable_all_zpot".localized,@"subtitle":@"enable_all_zpot_usage".localized}];
     }else if (indexPath.section == 2){
@@ -288,7 +288,9 @@
         }
     }else if (indexPath.section == 1){
         if (indexPath.row == 0) {
-            dict = @{@"title":@"private_profile".localized,@"switch":[NSNumber numberWithBool:privateProfile]};
+            dict = @{@"title":@"private_profile".localized,@"switch":[NSNumber numberWithBool:enableAllZpot],@"subtitle":@"private_profile_usage".localized};
+            
+            //dict = @{@"title":@"private_profile".localized,@"switch":[NSNumber numberWithBool:privateProfile]};
             [(SettingSwitchCell*)cell setOnSwitchChanged:^(BOOL flag) {
                 privateProfile = flag;
             }];
