@@ -12,7 +12,6 @@
 #import "LocationDataModel.h"
 #import "LeftMenuViewController.h"
 #import "FeedZpotViewController.h"
-#import "SuggestingLocationTableViewCell.h"
 
 @interface PostZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,CLLocationManagerDelegate,MKMapViewDelegate,UISearchBarDelegate>{
     UIScrollView* _scrollViewContent;
@@ -97,14 +96,13 @@
     tableViewLocation = [[UITableView alloc]initWithFrame:CGRectMake(0, searchLocationBar.y + searchLocationBar.height, self.view.width, _scrollViewContent.height - searchLocationBar.y - searchLocationBar.height) style:UITableViewStylePlain];
     tableViewLocation.separatorStyle = UITableViewCellSeparatorStyleNone;
     [tableViewLocation registerNib:[UINib nibWithNibName:NSStringFromClass([CreateLocationCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([CreateLocationCell class])];
-    [tableViewLocation registerClass:[SuggestingLocationTableViewCell class] forCellReuseIdentifier:@"suggestingLocationCell"];
     tableViewLocation.dataSource = self;
     tableViewLocation.delegate = self;
     [_scrollViewContent addSubview:tableViewLocation];
     [_scrollViewContent setClipsToBounds:YES];
-//    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeKeyboardIfNeed)];
-//    tapGesture.numberOfTapsRequired = 1;
-//    [_scrollViewContent addGestureRecognizer:tapGesture];
+    //    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeKeyboardIfNeed)];
+    //    tapGesture.numberOfTapsRequired = 1;
+    //    [_scrollViewContent addGestureRecognizer:tapGesture];
     
     return self;
 }
@@ -124,9 +122,9 @@
         //Post zpot
         [self closeKeyboardIfNeed];
         NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:@{
-                @"title":[zpotTitleTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]],
-                @"location":[(LocationDataModel*)currentSelectedLocation mid]
-        }];
+                                                                                      @"title":[zpotTitleTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]],
+                                                                                      @"location":[(LocationDataModel*)currentSelectedLocation mid]
+                                                                                      }];
         NSInteger row = [searchLocationResults indexOfObject:currentSelectedLocation];
         currentSelectedLocation = nil;
         [tableViewLocation reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
@@ -135,11 +133,11 @@
         [[APIService shareAPIService]postZpotWithCoordinate:[Utils instance].mapView.userLocation.coordinate params:params completion:^(id data, NSString *error) {
             [[Utils instance]hideProgess];
             if (data) {
-//                FeedDataModel* feedModel = (FeedDataModel*)data;
-//                ZpotAnnotation *annotationPoint = [[ZpotAnnotation alloc] init];
-//                [annotationPoint setCoordinate:CLLocationCoordinate2DMake([feedModel.latitude doubleValue], [feedModel.longitude doubleValue])];
-//                [annotationPoint setTitle:feedModel.title];
-//                [[[Utils instance] mapView] addAnnotation:annotationPoint];
+                //                FeedDataModel* feedModel = (FeedDataModel*)data;
+                //                ZpotAnnotation *annotationPoint = [[ZpotAnnotation alloc] init];
+                //                [annotationPoint setCoordinate:CLLocationCoordinate2DMake([feedModel.latitude doubleValue], [feedModel.longitude doubleValue])];
+                //                [annotationPoint setTitle:feedModel.title];
+                //                [[[Utils instance] mapView] addAnnotation:annotationPoint];
                 [[LeftMenuViewController instance]changeViewToClass:NSStringFromClass([FeedZpotViewController class])];
             }else{
                 [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
@@ -179,15 +177,6 @@
         [[Utils instance].mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
     }
     [self removeAppBecomActiveNotification];
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [_api getSuggestionNameFromCoordinate:[Utils instance].mapView.userLocation.coordinate completion:^(NSArray *locations) {
-        [searchLocationResults addObjectsFromArray:locations];
-        [tableViewLocation reloadData];
-    }];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -233,7 +222,6 @@
     [searchLocationResults addObjectsFromArray:locationModels];
     [tableViewLocation reloadData];
 }
-
 #pragma mark - UITableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;

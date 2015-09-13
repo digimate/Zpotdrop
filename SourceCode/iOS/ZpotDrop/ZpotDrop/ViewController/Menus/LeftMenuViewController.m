@@ -208,6 +208,11 @@
             [btnSetting setTag:69];
             [btnSetting addTarget:self action:@selector(showUserSettings) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:btnSetting];
+            
+            UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showUserSettings)];
+            [tap setNumberOfTapsRequired:1];
+            [tap setNumberOfTouchesRequired:1];
+            [cell addGestureRecognizer:tap];
         }
     }else if (indexPath.row == 1) {
         BOOL selected = indexPath.row == currentSelectedRow;

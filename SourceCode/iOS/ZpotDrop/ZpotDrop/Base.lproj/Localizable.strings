@@ -122,7 +122,7 @@
 "retry" = "Retry";
 //MARK: - ***** S *****
 "search" = "Search";
-"settings" = "Settings";
+"settings" = "SETTING";
 "send" = "Send";
 "search_for_people" = "Search for people";
 "save" = "Save";
