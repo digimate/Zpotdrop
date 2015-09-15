@@ -1,2 +1,0 @@
-# Zpotdrop
-Zpotdrop

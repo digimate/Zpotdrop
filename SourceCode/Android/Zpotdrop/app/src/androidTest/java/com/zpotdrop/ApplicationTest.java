@@ -1,4 +1,4 @@
-package com.gulogulo.zpotdrop;
+package com.zpotdrop;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
