@@ -17,6 +17,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use App\Acme\Models\User;
 use Authorizer;
 use Illuminate\Http\Request;
+use Hashids;
 
 /**
  * Class OAuthController
@@ -126,14 +127,35 @@ class OAuthController extends ApiController
 	 *    )
 	 * )
 	 */
-	public function login($username, $password)
+	public function login(Request $request)
 	{
-		if (\Auth::attempt([
-			'email'    => $username,
-			'password' => $password]))
-		{
+		$this->validate($request, [
+			$this->loginUsername() => 'required', 'password' => 'required',
+		]);
+
+		// If the class is using the ThrottlesLogins trait, we can automatically throttle
+		// the login attempts for this application. We'll key this by the username and
+		// the IP address of the client making these requests into this application.
+		$throttles = $this->isUsingThrottlesLoginsTrait();
+
+		if ($throttles && $this->hasTooManyLoginAttempts($request)) {
+			return $this->sendLockoutResponse($request);
+		}
+
+		$credentials = $this->getCredentials($request);
+
+		if (\Auth::onceBasic($credentials, true)) {
 			return \Auth::id();
 		}
+
+		// If the login attempt was unsuccessful we will increment the number of attempts
+		// to login and redirect the user back to the login form. Of course, when this
+		// user surpasses their maximum number of attempts they will get locked out.
+		if ($throttles) {
+			$this->incrementLoginAttempts($request);
+		}
+
+		return $this->lzResponse->badRequest($this->getFailedLoginMessage());
 	}
 
 	/**
@@ -241,6 +263,11 @@ class OAuthController extends ApiController
 	{
 		$user = $this->create($request->all());
 		if($user){
+			$user->update(
+				[
+					'hash' => Hashids::encode($user->id)
+				]
+			);
 			return $this->lzResponse->success(Authorizer::issueAccessToken());
 		}
 	}
@@ -292,6 +319,7 @@ class OAuthController extends ApiController
 	 */
 	public function logout(Request $request)
 	{
+		parent::getLogout();
 		\Auth::logout();
 		\Session::flush();
 		$delete = \DB::table('oauth_access_tokens')->where('id', '=', $request->get('access_token'))->delete();

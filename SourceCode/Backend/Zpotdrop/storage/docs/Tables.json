@@ -38,6 +38,17 @@
             ]
         },
         {
+            "path": "/tables/notifications",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Notifications table",
+                    "nickname": "notifications",
+                    "type": "Notification"
+                }
+            ]
+        },
+        {
             "path": "/tables/posts",
             "operations": [
                 {
@@ -49,6 +60,17 @@
             ]
         },
         {
+            "path": "/tables/request-zpots",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "RequestZpot table",
+                    "nickname": "requestzpots",
+                    "type": "RequestZpot"
+                }
+            ]
+        },
+        {
             "path": "/tables/users",
             "operations": [
                 {
@@ -56,6 +78,17 @@
                     "summary": "Users table",
                     "nickname": "users",
                     "type": "User"
+                }
+            ]
+        },
+        {
+            "path": "/tables/venues",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Venues table",
+                    "nickname": "venues",
+                    "type": "Venue"
                 }
             ]
         }
@@ -87,6 +120,9 @@
                     "type": "string"
                 },
                 "last_name": {
+                    "type": "string"
+                },
+                "hash": {
                     "type": "string"
                 },
                 "phone_number": {
@@ -175,7 +211,7 @@
             "required": [
                 "id",
                 "status",
-                "venue_name"
+                "venue_id"
             ],
             "properties": {
                 "id": {
@@ -184,14 +220,8 @@
                 "status": {
                     "type": "string"
                 },
-                "venue_name": {
-                    "type": "string"
-                },
-                "venue_lat": {
-                    "type": "float"
-                },
-                "venue_long": {
-                    "type": "float"
+                "venue_id": {
+                    "type": "integer"
                 },
                 "user_id": {
                     "type": "integer"
@@ -220,11 +250,19 @@
             "id": "Like",
             "description": "App\\Models\\Like",
             "required": [
+                "friend_id",
+                "message",
                 "post_id",
                 "user_id"
             ],
             "properties": {
                 "user_id": {
+                    "type": "integer"
+                },
+                "friend_id": {
+                    "type": "integer"
+                },
+                "message": {
                     "type": "integer"
                 },
                 "post_id": {
@@ -265,6 +303,66 @@
                 "deleted_at": {
                     "type": "string",
                     "format": "datetime"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "datetime"
+                }
+            }
+        },
+        "Venue": {
+            "id": "Venue",
+            "description": "App\\Models\\Venue",
+            "required": [
+                "lat",
+                "long",
+                "name",
+                "user_id"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "lat": {
+                    "type": "float"
+                },
+                "long": {
+                    "type": "float"
+                },
+                "deleted_at": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "created_at": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "datetime"
+                }
+            }
+        },
+        "RequestZpot": {
+            "id": "RequestZpot",
+            "description": "App\\Models\\Friend",
+            "required": [
+                "friend_id",
+                "user_id"
+            ],
+            "properties": {
+                "user_id": {
+                    "type": "integer"
+                },
+                "friend_id": {
+                    "type": "integer"
                 },
                 "created_at": {
                     "type": "string",

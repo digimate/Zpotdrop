@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'default' => env('QUEUE_DRIVER', 'sync'),
+    'default' => env('QUEUE_DRIVER', 'beanstalkd'),
 
     /*
     |--------------------------------------------------------------------------
@@ -60,9 +60,9 @@ return [
         'iron' => [
             'driver'  => 'iron',
             'host'    => 'mq-aws-us-east-1.iron.io',
-            'token'   => 'your-token',
-            'project' => 'your-project-id',
-            'queue'   => 'your-queue-name',
+            'token'   => 'BkjLEtlIHp7CAba_8r6SV6iaJU0',
+            'project' => '55bf3475dfc8e80006000038',
+            'queue'   => 'pushmail',
             'encrypt' => true,
         ],
 

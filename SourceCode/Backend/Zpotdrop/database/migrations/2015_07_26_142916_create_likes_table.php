@@ -12,14 +12,22 @@ class CreateLikesTable extends Migration
      */
     public function up()
     {
+	    if (Schema::hasTable('likes'))
+	    {
+		    Schema::drop('likes');
+	    }
         Schema::create('likes', function(Blueprint $table){
-	        $table->integer('user_id')->unsigned();
-	        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-	        $table->integer('post_id')->unsigned();
-	        $table->foreign('post_id')->references('id')->on('users')->onDelete('cascade');
+	        $table->unsignedInteger('user_id');
+	        $table->unsignedInteger('post_id');
 	        $table->softDeletes();
 	        $table->timestamps();
         });
+	    
+	    Schema::table('likes', function($table)
+	    {
+		    $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+		    $table->foreign('post_id')->references('id')->on('users')->onDelete('cascade');
+	    });
     }
 
     /**

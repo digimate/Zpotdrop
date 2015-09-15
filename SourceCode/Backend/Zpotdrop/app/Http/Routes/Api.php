@@ -26,6 +26,11 @@ Route::group(['prefix' => 'api/v1'], function(){
 			$lzResponse = new \App\Acme\Restful\LZResponse();
 			return $lzResponse->success(Authorizer::issueAccessToken());
 		});
+/*
+|--------------------------------------------------------------------------
+| Password
+|--------------------------------------------------------------------------
+*/
 		Route::post('oauth/password/remind', 'PasswordController@remindPassword');
 		Route::get('oauth/password/reset/{token}', [
 			'as' => 'oauth.password.get.reset',
@@ -37,6 +42,7 @@ Route::group(['prefix' => 'api/v1'], function(){
 		]);
 		Route::post('oauth/password/change', [
 			'as' => 'oauth.password.post.change',
+			'middleware' => 'oauth',
 			'uses' => 'PasswordController@postChangePassword'
 		]);
 	});
@@ -108,5 +114,8 @@ Route::group(['prefix' => 'api/v1'], function(){
 		Route::get('tables/posts', 'TableController@posts');
 		Route::get('tables/likes', 'TableController@likes');
 		Route::get('tables/comments', 'TableController@comments');
+		Route::get('tables/venues', 'TableController@venues');
+		Route::get('tables/notifications', 'TableController@notifications');
+		Route::get('tables/request-zpots', 'TableController@requestzpots');
 	});
 });

@@ -15,5 +15,8 @@ Route::get('/', function () {
     return Redirect::to('api-docs');
 });
 
+Route::get('tests/redis', 'TestController@redis');
+Route::get('tests/beanstalk', 'TestController@beanstalk');
+
 include 'Routes/Api.php';
 include 'Routes/Common.php';
