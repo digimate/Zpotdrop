@@ -39,6 +39,7 @@
 -(void)clearMapViewBeforeUsing{
     [[self mapView] removeFromSuperview];
     [[self mapView] removeAnnotations:[[Utils instance] mapView].annotations];
+    [[self mapView] removeOverlays:self.mapView.overlays];
     [self mapView].userInteractionEnabled = YES;
     [self mapView].showsUserLocation = NO;
     [self mapView].zoomEnabled = YES;

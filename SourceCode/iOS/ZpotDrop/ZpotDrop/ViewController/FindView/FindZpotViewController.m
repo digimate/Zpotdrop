@@ -20,6 +20,8 @@
     id selectedScannedUser;
     UITableView* friendsSearchTableView;
     NSMutableArray* searchUsersData;
+    UIButton* btnHere;
+    UIButton* btnThere;
 }
 
 @end
@@ -72,22 +74,36 @@
     [btnScan addTarget:self action:@selector(scanArea:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnScan];
     
+    /*======================Here There=======================*/
+    btnHere = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnHere.frame = CGRectMake(0, btnScan.y - 44, self.view.frame.size.width/2, 44);
+    [btnHere addTopBorderWithHeight:1.0 andColor:COLOR_SEPEARATE_LINE];
+    [btnHere setTitle:@"Here" forState:UIControlStateNormal];
+    [btnHere setTitleColor:COLOR_DARK_GREEN forState:UIControlStateSelected];
+    [btnHere setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    [btnHere addRightBorderWithWidth:1.0 andColor:COLOR_SEPEARATE_LINE];
+    [btnHere addTarget:self action:@selector(changeHereThere:) forControlEvents:UIControlEventTouchUpInside];
+    btnHere.selected = YES;
+    [self.view addSubview:btnHere];
+    
+    btnThere = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnThere.frame = CGRectMake(btnHere.x + btnHere.width, btnHere.y, btnHere.width, btnHere.height);
+    [btnThere addTopBorderWithHeight:1.0 andColor:COLOR_SEPEARATE_LINE];
+    [btnThere setTitle:@"There" forState:UIControlStateNormal];
+    [btnThere setTitleColor:COLOR_DARK_GREEN forState:UIControlStateSelected];
+    [btnThere setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    [btnThere addTarget:self action:@selector(changeHereThere:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btnThere];
+    
     /*======================Users Collection=======================*/
     UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
     [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-    usersCollectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(0, btnScan.y - 60, frame.size.width, 60) collectionViewLayout:layout];
+    usersCollectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(0, btnHere.y - 60, frame.size.width, 60) collectionViewLayout:layout];
     [usersCollectionView setBackgroundColor:[UIColor whiteColor]];
     [usersCollectionView setDataSource:self];
     [usersCollectionView setDelegate:self];
     [usersCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([ScannedUserCell class]) bundle:nil] forCellWithReuseIdentifier:NSStringFromClass([ScannedUserCell class])];
     [self.view addSubview:usersCollectionView];
-    
-    /*======================Move to Current=======================*/
-    UIButton * btnCurrentLocation = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btnCurrentLocation setFrame:CGRectMake(frame.size.width - 40, usersCollectionView.y - 40, 30, 30)];
-    [btnCurrentLocation setImage:[UIImage imageNamed:@"ic_current_location"] forState:UIControlStateNormal];
-    [btnCurrentLocation addTarget:self action:@selector(moveToCurrentLocation) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btnCurrentLocation];
     
     /*======================Friends Search Result=======================*/
     friendsSearchTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, searchZpotBar.height, self.view.width, self.view.height - 64 - searchZpotBar.height) style:UITableViewStylePlain];
@@ -96,6 +112,36 @@
     friendsSearchTableView.dataSource = self;
     friendsSearchTableView.delegate = self;
     friendsSearchTableView.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.5];
+}
+
+-(void)changeHereThere:(UIButton*)sender{
+    if (!sender.isSelected) {
+        sender.selected = YES;
+        if (sender == btnHere) {
+            btnThere.selected = NO;
+        }else{
+            btnHere.selected = NO;
+        }
+        [self updateMapView];
+    }
+}
+
+-(void)updateMapView{
+    [Utils instance].mapView.delegate = self;
+    if (btnHere.isSelected) {
+        [Utils instance].mapView.showsUserLocation = YES;
+        [[Utils instance].mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
+        [Utils instance].mapView.scrollEnabled = NO;
+        [Utils instance].mapView.zoomEnabled = NO;
+    }else{
+        btnHere.selected = NO;
+        [Utils instance].mapView.showsUserLocation = YES;
+        [[Utils instance].mapView setUserTrackingMode:MKUserTrackingModeNone];
+        [Utils instance].mapView.scrollEnabled = YES;
+        [Utils instance].mapView.zoomEnabled = YES;
+        MKCircle *circle = [MKCircle circleWithCenterCoordinate:[Utils instance].mapView.centerCoordinate radius:500];
+        [[Utils instance].mapView addOverlay:circle];
+    }
 }
 
 -(void)moveToCurrentLocation{
@@ -125,13 +171,14 @@
     [self registerOpenRightMenuNotification];
     if ([Utils instance].mapView.superview == nil || ![[Utils instance].mapView.superview isEqual:self.view]) {
         [[Utils instance] clearMapViewBeforeUsing];
-        [Utils instance].mapView.frame = CGRectMake(0, searchZpotBar.height, [UIScreen mainScreen].bounds.size.width, usersCollectionView.y - searchZpotBar.height);
         [Utils instance].mapView.delegate = self;
         [self.view addSubview:[Utils instance].mapView];
         [self.view sendSubviewToBack:[Utils instance].mapView];
     }
     [Utils instance].locationManager.delegate = self;
-    [Utils instance].mapView.showsUserLocation = YES;
+
+    [self updateMapView];
+    
     [self addAnnotationScannedUsers];
 }
 
@@ -140,7 +187,6 @@
     [self removeOpenLeftMenuNotification];
     [self removeOpenRightMenuNotification];
     [Utils instance].locationManager.delegate = nil;
-    [Utils instance].mapView.showsUserLocation = NO;
 }
 
 -(void)scanArea:(UIButton*)sender{
@@ -271,6 +317,14 @@
 -(void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated{
     [self closeKeyboard];
 }
+-(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
+    if (btnThere.isSelected) {
+        [mapView removeOverlays:mapView.overlays];
+        MKCircle *circle = [MKCircle circleWithCenterCoordinate:[Utils instance].mapView.centerCoordinate radius:500];
+        [mapView addOverlay:circle];
+    }
+}
+
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view{
     [mapView deselectAnnotation:view.annotation animated:NO];
     if ([view isKindOfClass:[ZpotAnnotationView class]]) {
@@ -278,12 +332,27 @@
         [[Utils instance]showUserProfile:[UserDataModel fetchObjectWithID:anno.ownerID] fromViewController:self];
     }
 }
+- (MKOverlayView *)mapView:(MKMapView *)map viewForOverlay:(id <MKOverlay>)overlay
+{
+    MKCircleView *circleView = [[MKCircleView alloc] initWithOverlay:overlay];
+    circleView.strokeColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
+    circleView.fillColor = [COLOR_DARK_GREEN colorWithAlphaComponent:0.6];
+    return circleView;
+}
 #pragma mark - UICollectionView
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
 }
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return scannedUsersData.count;
+    NSInteger count = scannedUsersData.count;
+    if (count == 0) {
+        [Utils instance].mapView.frame = CGRectMake(0, searchZpotBar.height, [UIScreen mainScreen].bounds.size.width, usersCollectionView.y - searchZpotBar.height + usersCollectionView.height);
+        collectionView.hidden = YES;
+    }else{
+        [Utils instance].mapView.frame = CGRectMake(0, searchZpotBar.height, [UIScreen mainScreen].bounds.size.width, usersCollectionView.y - searchZpotBar.height);
+        collectionView.hidden = NO;
+    }
+    return count;
 }
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
     return 0;
