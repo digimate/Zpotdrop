@@ -133,6 +133,7 @@
         [[Utils instance].mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
         [Utils instance].mapView.scrollEnabled = NO;
         [Utils instance].mapView.zoomEnabled = NO;
+        [[Utils instance].mapView removeOverlays:[Utils instance].mapView.overlays];
     }else{
         btnHere.selected = NO;
         [Utils instance].mapView.showsUserLocation = YES;
