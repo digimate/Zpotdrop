@@ -53,18 +53,30 @@
     
     [path moveToPoint:maskLayerCenter];
     
-    FeedDataModel* feedModel = (FeedDataModel*)self.dataModel;
-    double deltaSecond = [[NSDate date] timeIntervalSince1970] - [feedModel.time timeIntervalSince1970];
-    float angle = (deltaSecond * 360.0) / (60*60);
-    if (angle > 360) {
-        angle = 360;
+
+    if ([self.dataModel isKindOfClass:[FeedDataModel class]]) {
+        FeedDataModel* feedModel = (FeedDataModel*)self.dataModel;
+        double deltaSecond = [[NSDate date] timeIntervalSince1970] - [feedModel.time timeIntervalSince1970];
+        float angle = (deltaSecond * 360.0) / (60*60);
+        if (angle > 360) {
+            angle = 360;
+        }
+        [path addArcWithCenter:maskLayerCenter radius:(maskLayerWidth/2)
+                    startAngle:degreesToRadians(0-90) endAngle:degreesToRadians(angle-90) clockwise:YES];
+        
+        [path closePath];
+        maskLayer.path = path.CGPath;
+        viewMask.layer.mask = maskLayer;
+    }else{
+        [viewMask setBackgroundColor:[UIColor clearColor]];
+
+        [path addArcWithCenter:maskLayerCenter radius:(maskLayerWidth/2)
+                    startAngle:degreesToRadians(0) endAngle:degreesToRadians(360) clockwise:YES];
+        
+        [path closePath];
+        maskLayer.path = path.CGPath;
+        viewMask.layer.mask = maskLayer;
     }
-    [path addArcWithCenter:maskLayerCenter radius:(maskLayerWidth/2)
-                startAngle:degreesToRadians(0-90) endAngle:degreesToRadians(angle-90) clockwise:YES];
-    
-    [path closePath];
-    maskLayer.path = path.CGPath;
-    viewMask.layer.mask = maskLayer;
 }
 
 -(void)setupCellWithData:(BaseDataModel *)data andOptions:(NSDictionary *)param{
@@ -73,6 +85,15 @@
     if ([data isKindOfClass:[FeedDataModel class]]) {
         FeedDataModel* feedModel = (FeedDataModel*)data;
         UserDataModel* userModel = (UserDataModel*)[UserDataModel fetchObjectWithID:feedModel.user_id];
+        _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
+        [userModel updateObjectForUse:^{
+            if (userModel.avatar.length > 0) {
+                _imgvAvatar.image = [userModel.avatar stringToUIImage];
+            }
+        }];
+        [self updateMask];
+    }else if ([data isKindOfClass:[UserDataModel class]]){
+        UserDataModel* userModel = (UserDataModel*)data;
         _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
         [userModel updateObjectForUse:^{
             if (userModel.avatar.length > 0) {

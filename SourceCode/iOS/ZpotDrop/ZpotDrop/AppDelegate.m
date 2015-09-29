@@ -12,7 +12,7 @@
 #import "Utils.h"
 #import "APIService.h"
 
-@interface AppDelegate ()
+@interface AppDelegate ()<CLLocationManagerDelegate>
 
 @end
 
@@ -21,20 +21,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    if (launchOptions != nil) {
-        // Launched from push notification
-        NSDictionary *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-        NSLog(@"Notification : %@",notification);
-        /*
-         {
-         aps =     {
-                alert = "Tune in for the World Series, tonight at 8pm EDT";
-            };
-            "user_id" = Increment;
-         }
-
-         */
-    }
     
     [Parse enableLocalDatastore];
     [Parse setApplicationId:@"ppZUHCYYoJNe1V6ZpAdJfOzJ6vL6mWKKll3V8MM4" clientKey:@"sBpKO7QEP3jLS73hSoMAB8NyObATl7vlo4e0qLfC"];
@@ -49,6 +35,16 @@
     [[UINavigationBar appearance]setTintColor:[UIColor whiteColor]];
 
     [FBSDKProfile enableUpdatesOnAccessTokenChange:YES];
+    if (launchOptions != nil) {
+        // Launched from push notification
+        NSDictionary *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        NSLog(@"Notification : %@",notification);
+        
+        if ([AccountModel currentAccountModel].isLoggedIn) {
+            [self handleRequestLocation:[notification objectForKey:@"aps"]];
+        }
+    }
+
     return [[FBSDKApplicationDelegate sharedInstance]application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
@@ -58,14 +54,15 @@
     /*
      {
      aps =     {
-        alert = "{
-        \n  \"alert\": \"Tune in for the World Series, tonight at 8pm EDT\",
-        \n  \"user_id\": \"asdas\"
-        \n}";
-        sound = default;
-        };
+     alert = "Tune in for the World Series, tonight at 8pm EDT";
+     };
+     "user_id" = Increment;
      }
+     
      */
+    if ([AccountModel currentAccountModel].isLoggedIn) {
+        [self handleRequestLocation:[userInfo objectForKey:@"aps"]];
+    }
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
@@ -139,4 +136,40 @@
     [[CoreDataService instance]saveContext];
 }
 
+-(void)handleRequestLocation:(NSDictionary*)dict{
+    [[Utils instance]showAlertWithTitle:@"ZpotDrop" message:[dict objectForKey:@"alert"] yesTitle:@"OK" noTitle:@"NO" handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        if (buttonIndex != [alertView cancelButtonIndex]) {
+            
+            if ([[Utils instance] isGPS]){
+                [Utils instance].locationManager.delegate = self;
+                [[Utils instance].locationManager startUpdatingLocation];
+            }else{
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_no_gps".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                }];
+            }
+        }
+    }];
+}
+#pragma mark - CLLocationManagerDelegate
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    if (locations.count > 0) {
+        CLLocation* loc = [locations lastObject];
+        [[APIService shareAPIService]updateUserInfoToServerWithID:[AccountModel currentAccountModel].user_id params:@{@"latitude":@(loc.coordinate.latitude),@"longitude" : @(loc.coordinate.longitude),@"updated_loc":[NSDate date]} completion:^(BOOL success, NSString *error) {
+            
+        }];
+    }
+    [manager stopUpdatingLocation];
+}
+-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
+    [[Utils instance]showAlertWithTitle:@"error_title".localized message:error.description yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+    }];
+    [manager stopUpdatingLocation];
+}
+-(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
+    if (status == kCLAuthorizationStatusAuthorized || status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        [manager startUpdatingLocation];
+    }else{
+        [manager stopUpdatingLocation];
+    }
+}
 @end

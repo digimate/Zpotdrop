@@ -114,18 +114,44 @@
     [query whereKey:@"createdAt" greaterThanOrEqualTo:date];
     //shoud query User table to find Friend Location
     //[query setLimit:API_PAGE];
+    NSMutableArray* returnArray = [NSMutableArray array];
+    __block int count = 2;
     [query findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
+        count--;
         if (data) {
-            NSMutableArray* returnArray = [NSMutableArray array];
             for (PFObject* feedParse in data) {
                 FeedDataModel* feedModel = [self updateFeedFromParse:feedParse];
                 [returnArray addObject:feedModel];
             }
-            completion(returnArray,nil);
-        }else{
+            if (count == 0) {
+                completion(returnArray,nil);
+            }
+        }else if(count == 0){
             completion([NSMutableArray array],error.description);
         }
     }];
+    
+    PFQuery* queryUser = [PFUser query];
+    [queryUser whereKey:@"latitude" greaterThanOrEqualTo:[NSNumber numberWithDouble:botRight.latitude]];
+    [queryUser whereKey:@"latitude" lessThanOrEqualTo:[NSNumber numberWithDouble:topLeft.latitude]];
+    [queryUser whereKey:@"longitude" greaterThanOrEqualTo:[NSNumber numberWithDouble:topLeft.longitude]];
+    [queryUser whereKey:@"longitude" lessThanOrEqualTo:[NSNumber numberWithDouble:botRight.longitude]];
+    [queryUser whereKey:@"objectId" notEqualTo:userID];
+    [queryUser findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
+        count--;
+        if (data) {
+            for (PFUser* userParse in data) {
+                UserDataModel* feedModel = [self updateUserModel:userParse.objectId withParse:userParse];
+                [returnArray addObject:feedModel];
+            }
+            if (count == 0) {
+                completion(returnArray,nil);
+            }
+        }else if(count == 0){
+            completion([NSMutableArray array],error.description);
+        }
+    }];
+
 }
 //send request to get Current Location of this user
 -(void)requestLocationOfUserID:(NSString*)friendID completion:(void(^)(BOOL successful,NSString* error))completion{
@@ -883,18 +909,14 @@
     [query2 whereKey:@"lastName" containsString:userName];
     [query2 whereKey:@"objectId" notEqualTo:[AccountModel currentAccountModel].user_id];
     
-    PFQuery* query = [PFQuery orQueryWithSubqueries:@[query1,query2]];
+    PFQuery* query3 = [PFUser query];
+    [query3 whereKey:@"username" containsString:userName];
+    [query3 whereKey:@"objectId" notEqualTo:[AccountModel currentAccountModel].user_id];
+    
+    PFQuery* query = [PFQuery orQueryWithSubqueries:@[query1,query2,query3]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         for (PFUser* user in objects) {
-            UserDataModel* userModel = (UserDataModel*)[UserDataModel fetchObjectWithID:user.objectId];
-            userModel.email = user.email;
-            userModel.username = user.username;
-            userModel.first_name = user[@"firstName"];
-            userModel.last_name = user[@"lastName"];
-            userModel.gender = user[@"gender"];
-            userModel.birthday = user[@"dob"];
-            userModel.phone = user[@"phoneNumber"];
-            userModel.hometown = user[@"hometown"];
+            UserDataModel* userModel = [self updateUserModel:user.objectId withParse:user];
             [returnArray addObject:userModel];
         }
         [[CoreDataService instance]saveContext];

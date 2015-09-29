@@ -238,35 +238,46 @@
     [friendsSearchTableView reloadData];
 }
 
-#define ARC4RANDOM_MAX      0x100000000
 -(void)addAnnotationScannedUsers{
     [[Utils instance].mapView removeAnnotations:[Utils instance].mapView.annotations];
     //add
     NSMutableArray* annotationArray = [NSMutableArray array];
     for (int i = 0; i < scannedUsersData.count; i++) {
-        FeedDataModel* data = [scannedUsersData objectAtIndex:i];
-        //val is a double between 0 and 1
-//            double xOffset = ((double)arc4random() / ARC4RANDOM_MAX);
-//            double yOffset = ((double)arc4random() / ARC4RANDOM_MAX);
-//            
-//            CLLocationCoordinate2D randomCoordinate = [Utils instance].mapView.userLocation.coordinate;
-//            randomCoordinate.latitude += (xOffset/200.0);
-//            randomCoordinate.longitude += (yOffset/200.0);
-        CLLocationCoordinate2D randomCoordinate = CLLocationCoordinate2DMake([data.latitude doubleValue], [data.longitude doubleValue]);
-        if ([data isEqual:selectedScannedUser]) {
-            ZpotAnnotation* annotation = [[ZpotAnnotation alloc]init];
-            annotation.coordinate = randomCoordinate;
-            annotation.ownerID = data.user_id;
-            annotation.mid = data.mid;
-            [annotationArray addObject:annotation];
+        id data = [scannedUsersData objectAtIndex:i];
+        CLLocationCoordinate2D randomCoordinate;
+        if ([data isKindOfClass:[UserDataModel class]]) {
+            UserDataModel* user = (UserDataModel*)data;
+            randomCoordinate = CLLocationCoordinate2DMake([user.latitude doubleValue], [user.longitude doubleValue]);
+            if ([data isEqual:selectedScannedUser]) {
+                ZpotAnnotation* annotation = [[ZpotAnnotation alloc]init];
+                annotation.coordinate = randomCoordinate;
+                annotation.ownerID = user.mid;
+                annotation.mid = user.mid;
+                [annotationArray addObject:annotation];
+            }else{
+                ScannedUserAnnotation* annotation = [[ScannedUserAnnotation alloc]init];
+                annotation.coordinate = randomCoordinate;
+                annotation.ownerID = user.mid;
+                annotation.mid = user.mid;
+                [annotationArray addObject:annotation];
+            }
         }else{
-            ScannedUserAnnotation* annotation = [[ScannedUserAnnotation alloc]init];
-            annotation.coordinate = randomCoordinate;
-            annotation.ownerID = data.user_id;
-            annotation.mid = data.mid;
-            [annotationArray addObject:annotation];
+            FeedDataModel* model = (FeedDataModel*)data;
+            randomCoordinate = CLLocationCoordinate2DMake([model.latitude doubleValue], [model.longitude doubleValue]);
+            if ([data isEqual:selectedScannedUser]) {
+                ZpotAnnotation* annotation = [[ZpotAnnotation alloc]init];
+                annotation.coordinate = randomCoordinate;
+                annotation.ownerID = model.user_id;
+                annotation.mid = model.mid;
+                [annotationArray addObject:annotation];
+            }else{
+                ScannedUserAnnotation* annotation = [[ScannedUserAnnotation alloc]init];
+                annotation.coordinate = randomCoordinate;
+                annotation.ownerID = model.user_id;
+                annotation.mid = model.mid;
+                [annotationArray addObject:annotation];
+            }
         }
-        
     }
     [[Utils instance].mapView addAnnotations:annotationArray];
 }
@@ -368,7 +379,7 @@
     return CGSizeMake(usersCollectionView.height, usersCollectionView.height);
 }
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    FeedDataModel* data = [scannedUsersData objectAtIndex:indexPath.row];
+    id data = [scannedUsersData objectAtIndex:indexPath.row];
     ScannedUserCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ScannedUserCell class]) forIndexPath:indexPath];
     [cell setSize:CGSizeMake(60, 60)];
     if ([data isEqual:selectedScannedUser]) {
