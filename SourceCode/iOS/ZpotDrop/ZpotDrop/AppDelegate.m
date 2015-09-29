@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import "CoreDataService.h"
 #import "Utils.h"
+#import "APIService.h"
 
 @interface AppDelegate ()
 
@@ -19,6 +20,22 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    if (launchOptions != nil) {
+        // Launched from push notification
+        NSDictionary *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        NSLog(@"Notification : %@",notification);
+        /*
+         {
+         aps =     {
+                alert = "Tune in for the World Series, tonight at 8pm EDT";
+            };
+            "user_id" = Increment;
+         }
+
+         */
+    }
+    
     [Parse enableLocalDatastore];
     [Parse setApplicationId:@"ppZUHCYYoJNe1V6ZpAdJfOzJ6vL6mWKKll3V8MM4" clientKey:@"sBpKO7QEP3jLS73hSoMAB8NyObATl7vlo4e0qLfC"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
@@ -33,6 +50,22 @@
 
     [FBSDKProfile enableUpdatesOnAccessTokenChange:YES];
     return [[FBSDKApplicationDelegate sharedInstance]application:application didFinishLaunchingWithOptions:launchOptions];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    NSLog(@"Notification : %@",userInfo);
+    /*
+     {
+     aps =     {
+        alert = "{
+        \n  \"alert\": \"Tune in for the World Series, tonight at 8pm EDT\",
+        \n  \"user_id\": \"asdas\"
+        \n}";
+        sound = default;
+        };
+     }
+     */
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
@@ -65,6 +98,14 @@
                          stringByReplacingOccurrencesOfString: @"<" withString: @""]
                         stringByReplacingOccurrencesOfString: @">" withString: @""]
                        stringByReplacingOccurrencesOfString: @" " withString: @""] ;
+    [[APIService shareAPIService]updateUserInfoToServerWithID:[AccountModel currentAccountModel].user_id params:@{@"device_token":token} completion:^(BOOL success, NSString *error) {
+        
+    }];
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:deviceToken];
+    currentInstallation[@"user_id"] = [AccountModel currentAccountModel].user_id;
+    [currentInstallation saveInBackground];
+    
 }
 
 #ifdef __IPHONE_8_0

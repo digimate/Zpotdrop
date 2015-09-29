@@ -129,7 +129,22 @@
 }
 //send request to get Current Location of this user
 -(void)requestLocationOfUserID:(NSString*)friendID completion:(void(^)(BOOL successful,NSString* error))completion{
+    UserDataModel* friendModel = (UserDataModel*)[UserDataModel fetchObjectWithID:friendID];
+    UserDataModel* meModel = (UserDataModel*)[UserDataModel fetchObjectWithID:[AccountModel currentAccountModel].user_id];
     
+    [friendModel updateObjectForUse:^{
+        PFQuery *pushQuery = [PFInstallation query];
+        [pushQuery whereKey:@"user_id" equalTo:friendID];
+        
+        NSString * alert = [NSString stringWithFormat:@"%@ want to request your current location", meModel.name];
+        NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                              alert, @"alert",
+                              meModel.mid, @"user_id",
+                              nil];
+        [PFPush sendPushDataToQueryInBackground:pushQuery withData:data block:^(BOOL succeeded, NSError *error) {
+            completion(succeeded,error.localizedDescription);
+        }];
+    }];
 }
 
 //
@@ -635,6 +650,11 @@
     userModel.privateProfile = user[@"privateProfile"];
     userModel.facebook_id = user[@"facebook_id"];
     userModel.zpot_all_time = user[@"zpot_all_time"];
+    userModel.device_token = user[@"device_token"];
+    userModel.latitude = user[@"latitude"];
+    userModel.longitude = user[@"longitude"];
+    userModel.updated_loc = user[@"updated_loc"];
+    
     PFFile* avatar = user[@"avatar"];
     if (avatar) {
         [avatar getDataInBackgroundWithBlock:^(NSData* data,NSError* error){

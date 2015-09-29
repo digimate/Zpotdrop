@@ -15,6 +15,7 @@
 @dynamic username,first_name,last_name;
 @dynamic avatar,gender,birthday,email;
 @dynamic hometown,phone,enableAllZpot,privateProfile,facebook_id,zpot_all_time;
+@dynamic latitude,longitude,device_token,updated_loc;
 @synthesize isFriend;
 -(void)awakeFromInsert{
     [super awakeFromInsert];

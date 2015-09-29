@@ -48,6 +48,7 @@
     <entity name="UserDataModel" representedClassName="UserDataModel" syncable="YES">
         <attribute name="avatar" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="birthday" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="device_token" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="enableAllZpot" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="facebook_id" optional="YES" attributeType="String" syncable="YES"/>
@@ -55,9 +56,12 @@
         <attribute name="gender" optional="YES" attributeType="Integer 16" syncable="YES"/>
         <attribute name="hometown" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="last_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="mid" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="privateProfile" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="updated_loc" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="zpot_all_time" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
@@ -67,6 +71,6 @@
         <element name="FeedDataModel" positionX="-54" positionY="18" width="128" height="210"/>
         <element name="LocationDataModel" positionX="-54" positionY="72" width="128" height="120"/>
         <element name="NotificationModel" positionX="-54" positionY="81" width="128" height="150"/>
-        <element name="UserDataModel" positionX="-63" positionY="-18" width="128" height="255"/>
+        <element name="UserDataModel" positionX="-63" positionY="-18" width="128" height="315"/>
     </elements>
 </model>

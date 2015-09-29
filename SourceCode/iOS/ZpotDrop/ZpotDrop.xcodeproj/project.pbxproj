@@ -1580,10 +1580,11 @@
 					"$(PROJECT_DIR)/ZpotDrop/Extension/Facebook",
 				);
 				INFOPLIST_FILE = ZpotDrop/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "1a30ba58-4e8f-4d5d-b6d7-d7be9b84ba3a";
 			};
 			name = Debug;
 		};
@@ -1598,10 +1599,11 @@
 					"$(PROJECT_DIR)/ZpotDrop/Extension/Facebook",
 				);
 				INFOPLIST_FILE = ZpotDrop/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "1a30ba58-4e8f-4d5d-b6d7-d7be9b84ba3a";
 			};
 			name = Release;
 		};

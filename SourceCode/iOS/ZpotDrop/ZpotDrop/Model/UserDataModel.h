@@ -26,7 +26,10 @@
 @property (nonatomic, assign) BOOL isFriend;
 @property (nonatomic, retain) NSString* facebook_id;
 @property (nonatomic, retain) NSDate * zpot_all_time;
-
+@property (nonatomic, retain) NSString* device_token;
+@property (nonatomic, retain) NSNumber * latitude;
+@property (nonatomic, retain) NSNumber * longitude;
+@property (nonatomic, retain) NSDate * updated_loc;
 -(NSString*)name;
 +(id)UserFromParse:(id)data;
 
