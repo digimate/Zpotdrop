@@ -27,12 +27,15 @@
 @end
 
 @implementation FindZpotViewController
-
+@synthesize extendData;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     scannedUsersData = [NSMutableArray array];
     searchUsersData = [NSMutableArray array];
+    if (extendData) {
+        [scannedUsersData addObjectsFromArray:extendData];
+    }
     self.title = @"find".localized.uppercaseString;
     self.view.backgroundColor = [UIColor whiteColor];
     [self setAutomaticallyAdjustsScrollViewInsets:NO];

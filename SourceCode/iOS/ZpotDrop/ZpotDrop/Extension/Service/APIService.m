@@ -954,6 +954,29 @@
      }];
     
 }
+//get zpot all friend
+-(void)getZpotAllFriendListOfUser:(NSString*)data completion:(void(^)(NSArray* result,NSString* error))completion{
+    PFQuery* follow1 = [PFUser query];
+    NSMutableArray* userIDs = [NSMutableArray array];
+    [userIDs addObjectsFromArray:[[AccountModel currentAccountModel].follower_ids componentsSeparatedByString:@","]];
+    [userIDs addObjectsFromArray:[[AccountModel currentAccountModel].following_ids componentsSeparatedByString:@","]];
+    [follow1 whereKey:@"objectId" containedIn:userIDs];
+    [follow1 whereKey:@"enableAllZpot" equalTo:[NSNumber numberWithBool:YES]];
+    
+    [follow1 findObjectsInBackgroundWithBlock:^(NSArray* objects, NSError* error)
+     {
+         NSMutableArray* returnArray = [NSMutableArray array];
+         if (objects && objects.count > 0)
+         {
+             for (PFUser* user in objects) {
+                 UserDataModel* userModel = [self updateUserModel:user.objectId withParse:user];
+                 [returnArray addObject:userModel];
+             }
+             
+         }
+         completion(returnArray, error.description);
+     }];
+}
 
 //users follow me
 -(void)countFollowersForUserID:(NSString*)userID completion:(void(^)(NSInteger count,NSString* error))completion{
@@ -984,7 +1007,6 @@
             completion(@[], error.description);
         }
     }];
-    
 }
 
 -(void)getFollowMe:(void(^)(NSArray* result,NSString* error))completion

@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface FindZpotViewController : BaseViewController
-
+@property(nonatomic,retain)NSArray* extendData;
 @end

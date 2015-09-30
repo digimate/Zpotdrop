@@ -260,6 +260,20 @@
     }
 }
 
+-(void)leftmenuZpotAll{
+    [self closeLeftMenu];
+    [[Utils instance]showProgressWithMessage:nil];
+    [[APIService shareAPIService]getZpotAllFriendListOfUser:[AccountModel currentAccountModel].user_id completion:^(NSArray *result, NSString *error) {
+        [self.navigationController popToRootViewControllerAnimated:NO];
+        FindZpotViewController* postViewController = [[FindZpotViewController alloc]init];
+        postViewController.extendData = result;
+        [self.navigationController pushViewController:postViewController animated:NO];
+        postViewController.navigationItem.leftBarButtonItem = self.navigationItem.leftBarButtonItem;
+        postViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+        [[Utils instance]hideProgess];
+    }];
+}
+
 -(void)closeLeftMenu
 {
     [self openMenu];

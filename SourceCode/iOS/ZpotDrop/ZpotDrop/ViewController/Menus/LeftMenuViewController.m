@@ -109,7 +109,7 @@
     }];
     [self updateZpotAll];
     currentSelectedRow = 3;
-    [self.delegate leftmenuChangeViewToClass:NSStringFromClass([FindZpotViewController class])];
+    [self.delegate leftmenuZpotAll];
 }
 
 -(void)showUserSettings{
@@ -140,7 +140,7 @@
     AccountModel* currentAccount = [AccountModel currentAccountModel];
     UserDataModel* currentUser = (UserDataModel*)[UserDataModel fetchObjectWithID:currentAccount.user_id];
     double deltaSecond = [[NSDate date] timeIntervalSince1970] - [currentUser.zpot_all_time timeIntervalSince1970];
-    float progress = deltaSecond / (24*60.0*60.0);
+    float progress = roundf(deltaSecond) / (24*60.0*60.0);
     if (progress < 0.000001) {
         progress = 0.000001;
     }else if (progress >= 0.999999){
@@ -148,7 +148,7 @@
     }
     progressView.progress = progress;
     
-    int percent = progress * 100;
+    int percent = ceilf(progress * 100);
     if (percent >= 100) {
         [zpotdropAllButton setTitle:@"zpot_all".localized.uppercaseString forState:UIControlStateNormal];
         zpotdropAllButton.enabled = YES;

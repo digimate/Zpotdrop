@@ -86,4 +86,5 @@ typedef void(^dataResponse)(id data, NSString* error);
 -(void)findUserWithPhones:(NSArray*)phones emails:(NSArray*)email completion:(void(^)(NSArray* users))completion;
 
 -(void)getSuggestionNameFromCoordinate:(CLLocationCoordinate2D)location completion:(void(^)(NSArray* locations))completion;
+-(void)getZpotAllFriendListOfUser:(NSString*)data completion:(void(^)(NSArray* result,NSString* error))completion;
 @end

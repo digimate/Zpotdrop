@@ -13,7 +13,8 @@
 
 -(void)leftmenuChangeViewToClass:(NSString*)clsString;
 -(void)closeLeftMenu;
-
+@optional
+-(void)leftmenuZpotAll;
 @end
 @interface LeftMenuViewController : BaseViewController{
     UITableView* _tableView;
