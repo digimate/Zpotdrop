@@ -226,7 +226,7 @@
 		0A9F5ADD1B77C64000C9E0FD /* ic_add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_add@2x.png"; sourceTree = "<group>"; };
 		0A9F5AE11B77C94E00C9E0FD /* ic_follow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_follow@2x.png"; sourceTree = "<group>"; };
 		0A9F5AE31B77CBF300C9E0FD /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
-		0ACD9D631B68B767004140EE /* ZpotDrop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZpotDrop.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0ACD9D631B68B767004140EE /* Zpotdrop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zpotdrop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ACD9D671B68B767004140EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0ACD9D681B68B767004140EE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0ACD9D6A1B68B767004140EE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -607,7 +607,7 @@
 		0ACD9D641B68B767004140EE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0ACD9D631B68B767004140EE /* ZpotDrop.app */,
+				0ACD9D631B68B767004140EE /* Zpotdrop.app */,
 				0ACD9D7C1B68B767004140EE /* ZpotDropTests.xctest */,
 			);
 			name = Products;
@@ -1186,7 +1186,7 @@
 			);
 			name = ZpotDrop;
 			productName = ZpotDrop;
-			productReference = 0ACD9D631B68B767004140EE /* ZpotDrop.app */;
+			productReference = 0ACD9D631B68B767004140EE /* Zpotdrop.app */;
 			productType = "com.apple.product-type.application";
 		};
 		0ACD9D7B1B68B767004140EE /* ZpotDropTests */ = {
@@ -1573,18 +1573,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Nguyen Huynh (7FUP56PPJC)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZpotDrop/Extension/Parse",
 					"$(PROJECT_DIR)/ZpotDrop/Extension/Facebook",
 				);
 				INFOPLIST_FILE = ZpotDrop/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1a30ba58-4e8f-4d5d-b6d7-d7be9b84ba3a";
+				PRODUCT_NAME = Zpotdrop;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -1592,18 +1594,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Nguyen Huynh (7FUP56PPJC)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZpotDrop/Extension/Parse",
 					"$(PROJECT_DIR)/ZpotDrop/Extension/Facebook",
 				);
 				INFOPLIST_FILE = ZpotDrop/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1a30ba58-4e8f-4d5d-b6d7-d7be9b84ba3a";
+				PRODUCT_NAME = Zpotdrop;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

@@ -102,6 +102,7 @@
     [_email setFont:[UIFont fontWithName:@"PTSans-Regular" size:20.f]];
     [_email setDelegate:self];
     [_email setReturnKeyType:UIReturnKeyNext];
+    [_email setAutocapitalizationType:UITextAutocapitalizationTypeNone];
     [_mScrollView addSubview:_email];
     
     UILabel* line1 = [[UILabel alloc]initWithFrame:CGRectMake(0, _email.frame.size.height - 1, _email.frame.size.width, 1)];
