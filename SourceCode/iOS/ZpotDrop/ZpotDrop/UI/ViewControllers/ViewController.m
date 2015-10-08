@@ -33,7 +33,7 @@
     }else{
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginSucceed) name:KEY_LOGIN_SUCCEED object:nil];
         
-        LoginViewController* lg = [[LoginViewController alloc]init];
+        LoginViewController* lg = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
         BaseNavigationController* navigation = [[BaseNavigationController alloc] initWithRootViewController:lg];
         navigation.navigationBar.tintColor = [UIColor lightGrayColor];
         navigation.navigationBar.barTintColor = [UIColor lightGrayColor];

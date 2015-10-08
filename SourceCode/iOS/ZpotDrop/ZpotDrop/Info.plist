@@ -42,6 +42,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenSans-Light.ttf</string>
+		<string>OpenSans-Bold.ttf</string>
 		<string>PTS76F.ttf</string>
 		<string>PTS75F.ttf</string>
 		<string>PTS56F.ttf</string>

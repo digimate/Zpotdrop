@@ -10,14 +10,7 @@
 
 @interface LoginViewController : BaseViewController <UITextFieldDelegate>
 {
-    UIScrollView* _mScrollView;
-    UIImageView* _icon;
-    UILabel* _welcome;
-    UIImageView* _name;
-    UITextField* _email;
-    UITextField* _password;
-    UIButton* _continue;
-    UIButton* _signup;
-    UIButton* _forgot;
+    IBOutlet UITextField* _email;
+    IBOutlet UITextField* _password;
 }
 @end
