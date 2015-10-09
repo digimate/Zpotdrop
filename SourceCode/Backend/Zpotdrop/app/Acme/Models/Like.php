@@ -27,14 +27,7 @@ namespace App\Acme\Models;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Like whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Like whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Like whereUpdatedAt($value)
- * @SWG\Model (
- *    id="Like",
- * 	@SWG\Property(name="user_id", type="integer", required=true),
- * 	@SWG\Property(name="post_id", type="integer", required=true),
- *  @SWG\Property(name="deleted_at", type="string",format="datetime"),
- *  @SWG\Property(name="created_at", type="string",format="datetime"),
- *  @SWG\Property(name="updated_at", type="string",format="datetime"),
- * )
+ *
  */
 class Like extends BaseModel
 {

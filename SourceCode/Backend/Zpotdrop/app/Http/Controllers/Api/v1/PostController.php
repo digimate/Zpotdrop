@@ -14,41 +14,30 @@ use App\Acme\Models\Like;
 use App\Acme\Models\Post;
 use App\Acme\Transformers\PostTransformer;
 
-/**
- * @SWG\Resource(
- *    apiVersion="1.0",
- *    resourcePath="Posts",
- *    description="show/edit/destroy/feed/like/comment",
- *    produces="['application/json']"
- * )
- */
 class PostController extends ApiController
 {
 	/**
-	 * @SWG\Api(
+	 * @SWG\GET(
 	 *    path="/posts/list",
-	 *      @SWG\Operation(
-	 *        method="GET",
-	 *        summary="Get post list",
+     *   summary="Get posts",
+     *   tags={"Posts"},
 	 *      @SWG\Parameter(
 	 *			name="page",
 	 *			description="Page index: 1,2,3,4",
-	 *			paramType="query",
+	 *			in="query",
 	 *      	required=true,
-	 *      	allowMultiple=false,
 	 *      	type="integer"
 	 *      	),
 	 *      @SWG\Parameter(
 	 *			name="limit",
 	 *			description="Number of post want to get",
-	 *			paramType="query",
+	 *			in="query",
 	 *      	required=true,
-	 *      	allowMultiple=false,
 	 *      	type="integer"
 	 *      	),
-	 *		@SWG\ResponseMessage(code=200, message="Detail of post"),
-	 *      @SWG\ResponseMessage(code=400, message="Bad request")
-	 *    )
+	 *		@SWG\Response(response=200, description="Detail of post"),
+	 *      @SWG\Response(response=400, description="Bad request")
+	 *
 	 * )
 	 */
 	public function index()
@@ -61,22 +50,20 @@ class PostController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\GET(
 	 *    path="/posts/{id}/show",
-	 *      @SWG\Operation(
-	 *        method="GET",
-	 *        summary="Get detail post",
+     *   summary="Get detail post",
+     *   tags={"Posts"},
 	 *     @SWG\Parameter(
 	 *			name="id",
 	 *			description="ID of Post",
-	 *			paramType="query",
+	 *			in="query",
 	 *      	required=true,
-	 *      	allowMultiple=false,
 	 *      	type="integer"
 	 *      	),
-	 *		@SWG\ResponseMessage(code=200, message="Detail of post"),
-	 *      @SWG\ResponseMessage(code=400, message="Bad request")
-	 *    )
+	 *		@SWG\Response(response=200, description="Detail of post"),
+	 *      @SWG\Response(response=400, description="Bad request")
+	 *
 	 * )
 	 */
 	public function show($id)
@@ -85,14 +72,13 @@ class PostController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\GET(
 	 *    path="/posts/edit",
-	 *      @SWG\Operation(
-	 *        method="GET",
-	 *        summary="Show detail post",
-	 *		@SWG\ResponseMessage(code=200, message="Post detail"),
-	 *      @SWG\ResponseMessage(code=400, message="Bad request")
-	 *    )
+     *   summary="Show detail post",
+     *   tags={"Posts"},
+	 *		@SWG\Response(response=200, description="Post detail"),
+	 *      @SWG\Response(response=400, description="Bad request")
+	 *
 	 * )
 	 */
 	public function edit()
@@ -100,22 +86,20 @@ class PostController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\DELETE(
 	 *    path="/posts/{id}/destroy",
-	 *      @SWG\Operation(
-	 *        method="DELETE",
-	 *        summary="Delete a post",
+     *   summary="Delete a post",
+     *   tags={"Posts"},
 	 *      @SWG\Parameter(
 	 *			name="id",
 	 *			description="ID of post!",
-	 *			paramType="query",
+	 *			in="query",
 	 *      	required=true,
-	 *      	allowMultiple=false,
 	 *      	type="integer"
 	 *      	),
-	 *		@SWG\ResponseMessage(code=200, message="Successful"),
-	 *      @SWG\ResponseMessage(code=400, message="Bad request")
-	 *    )
+	 *		@SWG\Response(response=200, description="Successful"),
+	 *      @SWG\Response(response=400, description="Bad request")
+	 *
 	 * )
 	 */
 	public function destroy($id)
@@ -123,22 +107,20 @@ class PostController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\POST(
 	 *    path="/posts/{id}/like",
-	 *      @SWG\Operation(
-	 *        method="POST",
-	 *        summary="Like a post",
+     *   summary="Like a post",
+     *   tags={"Posts"},
 	 *      @SWG\Parameter(
 	 *			name="id",
 	 *			description="ID of post!",
-	 *			paramType="query",
+	 *			in="query",
 	 *      	required=true,
-	 *      	allowMultiple=false,
 	 *      	type="integer"
 	 *      	),
-	 *		@SWG\ResponseMessage(code=200, message="Successful"),
-	 *      @SWG\ResponseMessage(code=400, message="Bad request")
-	 *    )
+	 *		@SWG\Response(response=200, description="Successful"),
+	 *      @SWG\Response(response=400, description="Bad request")
+	 *
 	 * )
 	 */
 	public function like($id)
@@ -150,30 +132,27 @@ class PostController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\POST(
 	 *    path="/posts/{id}/comment",
-	 *      @SWG\Operation(
-	 *        method="POST",
-	 *        summary="Comment a post",
+     *   summary="Comment a post",
+     *   tags={"Posts"},
 	 *      @SWG\Parameter(
 	 *			name="id",
 	 *			description="ID of post!",
-	 *			paramType="query",
+	 *			in="query",
 	 *      	required=true,
-	 *      	allowMultiple=false,
 	 *      	type="integer"
 	 *      	),
 	 *      @SWG\Parameter(
 	 *			name="message",
 	 *			description="Message",
-	 *			paramType="query",
+	 *			in="query",
 	 *      	required=true,
-	 *      	allowMultiple=false,
 	 *      	type="string"
 	 *      	),
-	 *		@SWG\ResponseMessage(code=200, message="Successful"),
-	 *      @SWG\ResponseMessage(code=400, message="Bad request")
-	 *    )
+	 *		@SWG\Response(response=200, description="Successful"),
+	 *      @SWG\Response(response=400, description="Bad request")
+	 *
 	 * )
 	 */
 	public function comment($id)

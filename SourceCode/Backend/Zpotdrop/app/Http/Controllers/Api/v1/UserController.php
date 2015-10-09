@@ -20,33 +20,23 @@ use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * @SWG\Resource(
- *    apiVersion="1.0",
- *    resourcePath="Users",
- *    description="show/edit/update/follow/unfollow/feeds",
- *    produces="['application/json']"
- * )
- */
 class UserController extends ApiController
 {
 	/**
-	 * @SWG\Api(
+	 * @SWG\POST(
 	 *    path="/users/profile/{id}/show",
-	 *      @SWG\Operation(
-	 *        method="POST",
-	 *        summary="Get detail profile of ID",
+     *   summary="Get detail profile of ID",
+     *   tags={"Users"},
 	 *     @SWG\Parameter(
 	 *			name="id",
 	 *			description="ID of user",
-	 *			paramType="query",
+	 *			in="query",
 	 *      	required=true,
-	 *      	allowMultiple=false,
 	 *      	type="integer"
 	 *      	),
-	 *		@SWG\ResponseMessage(code=200, message="Profile of user"),
-	 *      @SWG\ResponseMessage(code=400, message="Bad request")
-	 *    )
+	 *		@SWG\Response(response=200, description="Profile of user"),
+	 *      @SWG\Response(response=400, description="Bad request")
+	 *    
 	 * )
 	 */
 	public function show($id)
@@ -60,13 +50,12 @@ class UserController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\POST(
 	 *    path="/users/profile/edit",
-	 *      @SWG\Operation(
-	 *        method="POST",
-	 *        summary="Show detail profile for edit",
-	 *		@SWG\ResponseMessage(code=200, message="Profile of current user"),
-	 *    )
+     *   summary="Show detail profile for edit",
+     *   tags={"Users"},
+	 *		@SWG\Response(response=200, description="Profile of current user"),
+	 *
 	 * )
 	 */
 	public function edit()
@@ -75,14 +64,13 @@ class UserController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\PATCH(
 	 *    path="/users/profile/update",
-	 *      @SWG\Operation(
-	 *        method="PATCH",
-	 *        summary="Update profile of current user",
-	 *		@SWG\ResponseMessage(code=200, message="Update profile successful"),
-	 *      @SWG\ResponseMessage(code=400, message="Bad request")
-	 *    )
+     *   summary="Update profile of current user",
+     *   tags={"Users"},
+	 *		@SWG\Response(response=200, description="Update profile successful"),
+	 *      @SWG\Response(response=400, description="Bad request")
+	 *
 	 * )
 	 */
 	public function update(UserUpdateRequest $request)
@@ -106,22 +94,20 @@ class UserController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\POST(
 	 *    path="/users/friends/{friend_id}/follow",
-	 *      @SWG\Operation(
-	 *        method="POST",
-	 *        summary="Follow a friend",
+     *   summary="Follow a friend",
+     *   tags={"Users"},
 	 *      @SWG\Parameter(
 	 *			name="friend_id",
 	 *			description="ID of friend!",
-	 *			paramType="query",
+	 *			in="query",
 	 *      	required=true,
-	 *      	allowMultiple=false,
 	 *      	type="integer"
 	 *      	),
-	 *		@SWG\ResponseMessage(code=200, message="Register successful"),
-	 *      @SWG\ResponseMessage(code=400, message="Bad request")
-	 *    )
+	 *		@SWG\Response(response=200, description="Register successful"),
+	 *      @SWG\Response(response=400, description="Bad request")
+	 *
 	 * )
 	 */
 	public function follow($friend_id)
@@ -129,22 +115,20 @@ class UserController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\POST(
 	 *    path="/users/friends/{friend_id}/un-follow",
-	 *      @SWG\Operation(
-	 *        method="POST",
-	 *        summary="unFollow a friend",
+     *   summary="unFollow a friend",
+     *   tags={"Users"},
 	 *      @SWG\Parameter(
 	 *			name="friend_id",
 	 *			description="ID of friend!",
-	 *			paramType="query",
+	 *			in="query",
 	 *      	required=true,
-	 *      	allowMultiple=false,
 	 *      	type="integer"
 	 *      	),
-	 *		@SWG\ResponseMessage(code=200, message="Register successful"),
-	 *      @SWG\ResponseMessage(code=400, message="Bad request")
-	 *    )
+	 *		@SWG\Response(response=200, description="Register successful"),
+	 *      @SWG\Response(response=400, description="Bad request")
+	 *
 	 * )
 	 */
 	public function unFollow($friend_id)
@@ -152,30 +136,27 @@ class UserController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\GET(
 	 *    path="/users/feeds",
-	 *      @SWG\Operation(
-	 *        method="GET",
-	 *        summary="Get feeds",
+     *   summary="Get feeds",
+     *   tags={"Users"},
 	 *      @SWG\Parameter(
 	 *			name="page",
 	 *			description="Page index",
-	 *			paramType="query",
+	 *			in="query",
 	 *      	required=true,
-	 *      	allowMultiple=false,
 	 *      	type="integer"
 	 *      	),
 	 *      @SWG\Parameter(
 	 *			name="limit",
 	 *			description="Maximum number of items want to get",
-	 *			paramType="query",
+	 *			in="query",
 	 *      	required=true,
-	 *      	allowMultiple=false,
 	 *      	type="integer"
 	 *      	),
-	 *		@SWG\ResponseMessage(code=200, message="Feeds list"),
-	 *      @SWG\ResponseMessage(code=400, message="Bad request")
-	 *    )
+	 *		@SWG\Response(response=200, description="Feeds list"),
+	 *      @SWG\Response(response=400, description="Bad request")
+	 *
 	 * )
 	 */
 	public function feeds($friend_id)

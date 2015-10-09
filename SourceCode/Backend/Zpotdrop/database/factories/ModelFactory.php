@@ -40,7 +40,7 @@ $factory->define(App\Acme\Models\Friend::class, function(Faker\Generator $faker)
 $factory->define(App\Acme\Models\Post::class, function (Faker\Generator $faker) {
 	return [
 		'status'            => $faker->sentence,
-		'venue_id'          => rand(0, 10),
+		'venue_id'          => rand(1, 10),
 		'user_id'           => rand(1, 10),
 	];
 });

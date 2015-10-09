@@ -22,8 +22,8 @@ class LZConstant
 
 	const ACTIVE_YES        = 1;
 	const ACTIVE_NO         = 0;
-	const ACTIVE_MSG_ARR    = [
-		Constant::ACTIVE_YES    => 'Yes',
-		Constant::ACTIVE_NO     => 'No'
+	static $ACTIVE_MSG_ARR    = [
+        LZConstant::ACTIVE_YES    => 'Yes',
+        LZConstant::ACTIVE_NO     => 'No'
 	];
 }

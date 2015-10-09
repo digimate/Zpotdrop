@@ -14,15 +14,6 @@ namespace App\Acme\Models;
 /**
  * App\Models\Friend
  *
- * @SWG\Model (
- *    id="Friend",
- * 	@SWG\Property(name="id", type="integer", required=true),
- * 	@SWG\Property(name="user_id", type="integer", required=true),
- * 	@SWG\Property(name="friend_id", type="integer", required=true),
- *  @SWG\Property(name="is_friend", type="integer", description="not friend: 0, friend: 1"),
- *  @SWG\Property(name="created_at", type="string",format="datetime"),
- *  @SWG\Property(name="updated_at", type="string",format="datetime"),
- * )
  * @property integer $user_id
  * @property integer $friend_id
  * @property boolean $is_friend

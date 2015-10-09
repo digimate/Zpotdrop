@@ -15,16 +15,6 @@ namespace App\Acme\Models;
 /**
  * App\Models\Venue
  *
- * @SWG\Model (
- *    id="Venue",
- * 	@SWG\Property(name="name", type="string", required=true),
- * 	@SWG\Property(name="user_id", type="integer", required=true),
- * 	@SWG\Property(name="lat", type="float", required=true),
- * 	@SWG\Property(name="long", type="float", required=true),
- *  @SWG\Property(name="deleted_at", type="string",format="datetime"),
- *  @SWG\Property(name="created_at", type="string",format="datetime"),
- *  @SWG\Property(name="updated_at", type="string",format="datetime"),
- * )
  * @property integer $id 
  * @property string $name 
  * @property integer $user_id 

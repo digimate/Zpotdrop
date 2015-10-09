@@ -15,7 +15,7 @@ return [
 	|
 	*/
 
-	'driver' => env('MAIL_DRIVER', 'smtp'),
+	'driver' => env('MAIL_DRIVER', 'mailgun'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return [
 	*/
 
 	'from' => [
-		'address' => '408771e2ccd2608da@mailtrap.io',
+		'address' => 'postmaster@sandbox63c02e8951ae49fcb17048e410eb57a9.mailgun.org',
 		'name' => 'ZpotDrop'
 	],
 

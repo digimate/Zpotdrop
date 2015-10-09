@@ -18,24 +18,14 @@ use App\Acme\Models\RequestZpot;
 use App\Acme\Models\User;
 use App\Acme\Models\Venue;
 
-/**
- * @SWG\Resource(
- *    apiVersion="1.0",
- *    resourcePath="Tables",
- *    description="Detail fields of each table",
- *    produces="['application/json']"
- * )
- */
 class TableController extends ApiController
 {
 	/**
-	 * @SWG\Api(
+	 * @SWG\GET(
 	 *    path="/tables/users",
-	 *      @SWG\Operation(
-	 *        method="GET",
-	 *        summary="Users table",
-	 *        type="User",
-	 *    )
+     *   summary="Users table",
+     *   tags={"Tables"},
+     * 	 @SWG\Response(response=200, description="")
 	 * )
 	 */
 	public function users()
@@ -44,13 +34,11 @@ class TableController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\GET(
 	 *    path="/tables/friends",
-	 *      @SWG\Operation(
-	 *        method="GET",
-	 *        summary="Friends table",
-	 *        type="Friend",
-	 *    )
+     *   summary="Friend table",
+     *   tags={"Tables"},
+     * 	 @SWG\Response(response=200, description="")
 	 * )
 	 */
 	public function friends()
@@ -59,13 +47,11 @@ class TableController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\GET(
 	 *    path="/tables/posts",
-	 *      @SWG\Operation(
-	 *        method="GET",
-	 *        summary="Posts table",
-	 *        type="Post",
-	 *    )
+     *   summary="Post table",
+     *   tags={"Tables"},
+     * 	 @SWG\Response(response=200, description="")
 	 * )
 	 */
 	public function posts()
@@ -74,13 +60,11 @@ class TableController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\GET(
 	 *    path="/tables/likes",
-	 *      @SWG\Operation(
-	 *        method="GET",
-	 *        summary="Likes table",
-	 *        type="Like",
-	 *    )
+     *   summary="Like table",
+     *   tags={"Tables"},
+     * 	 @SWG\Response(response=200, description="")
 	 * )
 	 */
 	public function likes()
@@ -90,13 +74,11 @@ class TableController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\GET(
 	 *    path="/tables/comments",
-	 *      @SWG\Operation(
-	 *        method="GET",
-	 *        summary="Comments table",
-	 *        type="Comment",
-	 *    )
+     *   summary="Comment table",
+     *   tags={"Tables"},
+     * 	 @SWG\Response(response=200, description="")
 	 * )
 	 */
 	public function comments()
@@ -106,13 +88,11 @@ class TableController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\GET(
 	 *    path="/tables/venues",
-	 *      @SWG\Operation(
-	 *        method="GET",
-	 *        summary="Venues table",
-	 *        type="Venue",
-	 *    )
+     *   summary="Venue table",
+     *   tags={"Tables"},
+     * 	 @SWG\Response(response=200, description="")
 	 * )
 	 */
 	public function venues()
@@ -121,13 +101,11 @@ class TableController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\GET(
 	 *    path="/tables/notifications",
-	 *      @SWG\Operation(
-	 *        method="GET",
-	 *        summary="Notifications table",
-	 *        type="Notification",
-	 *    )
+     *   summary="Notification table",
+     *   tags={"Tables"},
+     * 	 @SWG\Response(response=200, description="")
 	 * )
 	 */
 	public function notifications()
@@ -136,13 +114,11 @@ class TableController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\GET(
 	 *    path="/tables/request-zpots",
-	 *      @SWG\Operation(
-	 *        method="GET",
-	 *        summary="RequestZpot table",
-	 *        type="RequestZpot",
-	 *    )
+     *   summary="RequestZpot table",
+     *   tags={"Tables"},
+     * 	 @SWG\Response(response=200, description="")
 	 * )
 	 */
 	public function requestzpots()

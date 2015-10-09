@@ -95,7 +95,7 @@ return [
     |
     */
 
-    'log' => 'single',
+    'log' => 'daily',
 
     /*
     |--------------------------------------------------------------------------
@@ -152,6 +152,7 @@ return [
 	    Intervention\Image\ImageServiceProvider::class,
 	    LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class,
 	    LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class,
+        #LucaDegasperi\OAuth2Server\Support\AbstractMigration::class,
 	    \Davibennun\LaravelPushNotification\LaravelPushNotificationServiceProvider::class,
 	    \Vinkla\Hashids\HashidsServiceProvider::class,
 	    /*

@@ -18,5 +18,6 @@ Route::get('/', function () {
 Route::get('tests/redis', 'TestController@redis');
 Route::get('tests/beanstalk', 'TestController@beanstalk');
 
+Route::get('/register/verify/{token}', ['as' =>  'frontend.register.verify', 'uses' => 'Api\v1\OAuthController@confirmRegister']);
 include 'Routes/Api.php';
 include 'Routes/Common.php';

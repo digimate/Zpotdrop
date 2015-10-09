@@ -28,6 +28,9 @@ class UserTransformer extends Transformer
 	 */
 	protected $availableIncludes = [];
 
+    protected $viewArr = ['id', 'email', 'avatar', 'first_name', 'last_name', 'birthday', 'gender', 'phone_number',
+                          'home_town', 'is_private', 'is_enable_all_zpot', 'lat', 'long', 'status'];
+
 	/**
 	 * UserTransformer constructor.
 	 */
@@ -43,7 +46,7 @@ class UserTransformer extends Transformer
 	 */
 	public function transform(User $user)
 	{
-		$arrUser = $user->toArray();
+		$arrUser = array_only($user->toArray(), $this->viewArr);
 		return $arrUser;
 	}
 }

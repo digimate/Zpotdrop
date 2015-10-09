@@ -36,18 +36,7 @@ namespace App\Acme\Models;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereUpdatedAt($value)
- * @SWG\Model (
- *    id="Post",
- * 	@SWG\Property(name="id", type="integer", required=true),
- * 	@SWG\Property(name="status", type="string", required=true),
- * 	@SWG\Property(name="venue_id", type="integer", required=true),
- * 	@SWG\Property(name="user_id", type="integer"),
- * 	@SWG\Property(name="likes_count", type="integer"),
- * 	@SWG\Property(name="comments_count", type="integer"),
- *  @SWG\Property(name="deleted_at", type="string",format="datetime"),
- *  @SWG\Property(name="created_at", type="string",format="datetime"),
- *  @SWG\Property(name="updated_at", type="string",format="datetime"),
- * )
+ *
  */
 class Post extends BaseModel
 {

@@ -13,30 +13,6 @@ use Vinkla\Hashids\HashidsServiceProvider;
 /**
  * App\Models\User
  *
- * @SWG\Model (
- *    id="User",
- * 	@SWG\Property(name="id", type="integer", required=true),
- * 	@SWG\Property(name="email", type="string", required=true),
- * 	@SWG\Property(name="password", type="string", required=true),
- *  @SWG\Property(name="avatar", type="string"),
- * 	@SWG\Property(name="first_name", type="string", required=true),
- * 	@SWG\Property(name="last_name", type="string"),
- * 	@SWG\Property(name="hash", type="string"),
- * 	@SWG\Property(name="phone_number", type="string"),
- * 	@SWG\Property(name="home_town", type="string"),
- *  @SWG\Property(name="birthday", type="string", format="date"),
- *  @SWG\Property(name="is_private", type="boolean"),
- *  @SWG\Property(name="is_enable_all_zpot", type="boolean"),
- *  @SWG\Property(name="lat", type="float"),
- *  @SWG\Property(name="long", type="float"),
- *  @SWG\Property(name="status", type="integer", description="1: active, 0: inactive"),
- *  @SWG\Property(name="device_id", type="string"),
- *  @SWG\Property(name="device_name", type="string"),
- *  @SWG\Property(name="device_type", type="integer"),
- *  @SWG\Property(name="remember_token", type="string"),
- *  @SWG\Property(name="created_at", type="string",format="datetime"),
- *  @SWG\Property(name="updated_at", type="string",format="datetime"),
- * )
  * @property integer $id
  * @property string $email
  * @property string $password
@@ -107,14 +83,15 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 		'phone_number',
 		'home_town',
 		'birthday',
+        'status',
 		'is_private',
 		'is_enable_all_zpot',
 		'lat',
 		'long',
-		'status',
 		'device_id',
 		'device_name',
-		'device_type'
+		'device_type',
+        'hash'
 	];
 
 	/**
@@ -124,6 +101,22 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
+    public static $rule = [
+        'email'         => 'required|email|max:255|unique:users',
+        'password'      => 'required|min:6',
+        'avatar'        => 'mimes:jpeg,png',
+        'first_name'    => 'required|max:255',
+        'last_name'     => 'required|max:255',
+        'phone_number'  => 'max:20|min:6|unique:users',
+        'is_private'    => 'integer|in:0,1',
+        'is_enable_all_zpot'=> 'integer|in:0,1',
+        'lat'           => 'float',
+        'long'          => 'float',
+        'birthday'      => 'date|date_format:d-m-Y',
+        'gender'        => 'required|integer|in:0,1,2',
+        'device_type'   => 'required|integer|in:0,1',
+        'device_id'     => 'required'
+    ];
 	/*
 	 * Status of user
 	 * @default: 1: active
@@ -139,6 +132,12 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 	const DEVICE_TYPE_IOS       = 0;
 	const DEVICE_TYPE_ANDROID   = 1;
 	const DEVICE_TYPE_WEB       = 2;
+
+    const PROFILE_PRIVATE = 0;
+    const PROFILE_PUBLIC = 1;
+
+    const ZPOT_ALL_ENABLE = 1;
+    const ZPOT_ALL_DISABLE = 0;
 
 	/**
 	 * Update the model in the database.

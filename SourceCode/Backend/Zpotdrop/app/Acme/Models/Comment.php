@@ -27,16 +27,7 @@ namespace App\Acme\Models;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Comment whereMessage($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Comment whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Comment whereUpdatedAt($value)
- * 
- *  * @SWG\Model (
- *    id="Comment",
- * 	@SWG\Property(name="user_id", type="integer", required=true),
- * 	@SWG\Property(name="post_id", type="integer", required=true),
- * 	@SWG\Property(name="message", type="string", required=true),
- *  @SWG\Property(name="deleted_at", type="string",format="datetime"),
- *  @SWG\Property(name="created_at", type="string",format="datetime"),
- *  @SWG\Property(name="updated_at", type="string",format="datetime"),
- * )
+ *
  */
 class Comment extends BaseModel
 {

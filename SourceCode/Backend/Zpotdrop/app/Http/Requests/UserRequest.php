@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Acme\Models\User;
 use Illuminate\Contracts\Validation\Validator;
 
 class UserRequest extends Request
@@ -23,20 +24,7 @@ class UserRequest extends Request
      */
     public function rules()
     {
-        return [
-	        'email'         => 'required|email|max:255|unique:users',
-	        'password'      => 'required|min:6',
-	        'avatar'        => 'mimes:jpeg,png',
-	        'first_name'    => 'required|max:255',
-	        'last_name'     => 'required|max:255',
-	        'phone_number'  => 'max:20|min:6|unique:users',
-	        'is_private'    => 'integer|in:0,1',
-	        'is_enable_all_zpot'=> 'integer|in:0,1',
-	        'lat'           => 'float',
-	        'long'          => 'float',
-	        'birthday'      => 'date|date_format:d-m-Y',
-	        'gender'        => 'required|integer|in:0,1,2',
-        ];
+        return User::$rule;
     }
 
 	/**

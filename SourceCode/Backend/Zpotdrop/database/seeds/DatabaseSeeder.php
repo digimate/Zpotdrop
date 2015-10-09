@@ -15,11 +15,7 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
 
         // $this->call(UserTableSeeder::class);
-		DB::table('oauth_clients')->insert([
-			'id'        => 's6BhdRkqt3',
-			'secret'    => '7Fjfp0ZBr1KtDRbnfVdmIw',
-			'name'      => 'mobile'
-		]);
+		
 
 	    /*user table*/
 	    factory('App\Acme\Models\User', 10)->create();

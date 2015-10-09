@@ -18,14 +18,6 @@ use Illuminate\Mail\Message;
 use Validator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * @SWG\Resource(
- *    apiVersion="1.0",
- *    resourcePath="/Oauth",
- *    description="oauth2.0",
- *    produces="['application/json']"
- * )
- */
 class PasswordController extends ApiController
 {
     /*
@@ -57,49 +49,44 @@ class PasswordController extends ApiController
 	 * @return \Illuminate\Http\Response
 	 */
 	/**
-	 * @SWG\Api(
+	 * @SWG\POST(
 	 *    path="/oauth/password/remind",
-	 *      @SWG\Operation(
-	 *        method="POST",
-	 *        summary="Remind password",
+     *   summary="Remind password",
+     *   tags={"OAuth"},
 	 *      @SWG\Parameter(
 	 *			name="grant_type",
 	 *			description="Grant type for Oauth2.0: password/refresh_token",
-	 *			paramType="header",
+	 *			in="formData",
 	 *      		required=true,
-	 *      		allowMultiple=false,
 	 *      		type="string",
-	 * 	            defaultValue="password",
+	 * 	            default="password",
 	 *      	),
 	 *      @SWG\Parameter(
 	 *			name="client_id",
 	 *			description="Client id: s6BhdRkqt3",
-	 *			paramType="form",
+	 *			in="formData",
 	 *      		required=true,
-	 *      		allowMultiple=false,
 	 *      		type="string",
-	 *              defaultValue="s6BhdRkqt3"
+	 *              default="s6BhdRkqt3"
 	 *      	),
 	 *      @SWG\Parameter(
 	 *			name="client_secret",
 	 *			description="Client secret: 7Fjfp0ZBr1KtDRbnfVdmIw",
-	 *			paramType="form",
+	 *			in="formData",
 	 *      		required=true,
-	 *      		allowMultiple=false,
 	 *      		type="string",
-	 *              defaultValue="7Fjfp0ZBr1KtDRbnfVdmIw"
+	 *              default="7Fjfp0ZBr1KtDRbnfVdmIw"
 	 *      	),
 	 *      @SWG\Parameter(
 	 *			name="email",
 	 *			description="Email",
-	 *			paramType="form",
+	 *			in="formData",
 	 *      		required=true,
-	 *      		allowMultiple=false,
 	 *      		type="string",
-	 *              defaultValue="pisun2@gmail.com"
+	 *              default="pisun2@gmail.com"
 	 *      	),
-	 *		@SWG\ResponseMessage(code=200, message="Message sent to your email!"),
-	 *      @SWG\ResponseMessage(code=400, message="Bad request")
+	 *		@SWG\Response(response=200, description="Message sent to your email!"),
+	 *      @SWG\Response(response=400, description="Bad request")
 	 *    )
 	 * )
 	 */
@@ -170,57 +157,51 @@ class PasswordController extends ApiController
 	}
 
 	/**
-	 * @SWG\Api(
+	 * @SWG\POST(
 	 *    path="/oauth/password/change",
-	 *      @SWG\Operation(
-	 *        method="POST",
-	 *        summary="Request change password",
+     *   summary="Remind password",
+     *   tags={"OAuth"},
 	 *      @SWG\Parameter(
 	 *			name="grant_type",
 	 *			description="Grant type for Oauth2.0: password/refresh_token",
-	 *			paramType="header",
+	 *			in="formData",
 	 *      		required=true,
-	 *      		allowMultiple=false,
 	 *      		type="string",
-	 * 	            defaultValue="password",
+	 * 	            default="password",
 	 *      	),
 	 *      @SWG\Parameter(
 	 *			name="client_id",
 	 *			description="Client id: s6BhdRkqt3",
-	 *			paramType="form",
+	 *			in="formData",
 	 *      		required=true,
-	 *      		allowMultiple=false,
 	 *      		type="string",
-	 *              defaultValue="s6BhdRkqt3"
+	 *              default="s6BhdRkqt3"
 	 *      	),
 	 *      @SWG\Parameter(
 	 *			name="client_secret",
 	 *			description="Client secret: 7Fjfp0ZBr1KtDRbnfVdmIw",
-	 *			paramType="form",
+	 *			in="formData",
 	 *      		required=true,
-	 *      		allowMultiple=false,
 	 *      		type="string",
-	 *              defaultValue="7Fjfp0ZBr1KtDRbnfVdmIw"
+	 *              default="7Fjfp0ZBr1KtDRbnfVdmIw"
 	 *      	),
 	 *      @SWG\Parameter(
 	 *			name="access_token",
 	 *			description="Access token",
-	 *			paramType="form",
+	 *			in="formData",
 	 *      		required=true,
-	 *      		allowMultiple=false,
 	 *      		type="string"
 	 *      	),
 	 *      @SWG\Parameter(
 	 *			name="password",
 	 *			description="Password",
-	 *			paramType="form",
+	 *			in="formData",
 	 *      		required=true,
-	 *      		allowMultiple=false,
 	 *      		type="string",
-	 *              defaultValue="1234567"
+	 *              default="1234567"
 	 *      	),
-	 *		@SWG\ResponseMessage(code=200, message="Password changed!"),
-	 *      @SWG\ResponseMessage(code=400, message="Bad request")
+	 *		@SWG\Response(response=200, description="Password changed!"),
+	 *      @SWG\Response(response=400, description="Bad request")
 	 *    )
 	 * )
 	 */
