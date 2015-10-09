@@ -362,7 +362,23 @@ class OAuthController extends ApiController
 		return $this->lzResponse->badRequest(['Check your access_token again!!']);
 	}
 
+    /**
+     * @param Request $request
+     * @param $token
+     * @return \Illuminate\View\View
+     */
     public function confirmRegister(Request $request, $token) {
-
+        $code = UserMailVerify::where('code', $token)->first();
+        $error = 0;
+        if ( !$code || (strtotime($code->expired_at) < Time::getDateTime()->getTimestamp()) ) {
+            $message = trans('mail.token_expired');
+            $error = 1;
+        } else {
+            \DB::table('users')->where('id', $code->user_id)
+                ->update(['status' => User::STATUS_ACTIVE]);
+            $code->delete();
+            $message = trans('mail.active_success');
+        }
+        return view('auth.active-account', ['error' => $error, 'message' => $message]);
     }
 }
