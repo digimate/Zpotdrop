@@ -6,3 +6,4 @@ Homestead.yaml
 tests/_output/*
 /storage/docs
 /public/vendor
+.idea
