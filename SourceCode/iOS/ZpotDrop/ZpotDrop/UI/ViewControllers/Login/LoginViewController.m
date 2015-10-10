@@ -114,7 +114,7 @@
 //            }];
 //        }
 //    }];
-    ForgetPasswordViewController* vc = [[ForgetPasswordViewController alloc]init];
+    ForgetPasswordViewController* vc = [self.storyboard instantiateViewControllerWithIdentifier:@"ForgetPasswordViewController"];//[[ForgetPasswordViewController alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

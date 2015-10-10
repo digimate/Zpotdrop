@@ -9,11 +9,7 @@
 #import "BaseViewController.h"
 
 @interface ForgetPasswordViewController : BaseViewController{
-    UIScrollView* _mScrollView;
-    UIImageView* _icon;
-    
-    UITextField* _email;
-    UIButton* _continue;
+    IBOutlet UITextField* _email;
 }
 
 @end
