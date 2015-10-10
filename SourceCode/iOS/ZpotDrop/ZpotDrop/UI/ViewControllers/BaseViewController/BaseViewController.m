@@ -91,4 +91,11 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"firstAttribute = %d AND firstItem = %@ AND secondItem = %@", attribute, first, second];
     return [[self.view.constraints filteredArrayUsingPredicate:predicate] firstObject];
 }
+
+
+#pragma mark - Public
+
+- (IBAction)goBack:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 @end

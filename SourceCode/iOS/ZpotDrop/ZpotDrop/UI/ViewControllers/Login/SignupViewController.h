@@ -10,12 +10,12 @@
 
 @interface SignupViewController : BaseViewController <UITextFieldDelegate>
 {
-    UIScrollView* _mScrollView;
-    UIImageView* _icon;
+//    UIScrollView* _mScrollView;
+//    UIImageView* _icon;
     
-    UITextField* _email;
-    UITextField* _password;
-    UITextField* _confirm;
-    UIButton* _continue;
+    IBOutlet UITextField* _email;
+    IBOutlet UITextField* _password;
+    IBOutlet UITextField* _confirm;
+//    UIButton* _continue;
 }
 @end

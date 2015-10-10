@@ -980,16 +980,16 @@
 			isa = PBXGroup;
 			children = (
 				B4D09EB71BC5801E008B180A /* BaseViewController */,
+				B4D09EC41BC5801E008B180A /* Login */,
 				B4D09EBC1BC5801E008B180A /* FeedView */,
 				B4D09EC11BC5801E008B180A /* FindView */,
-				B4D09EC41BC5801E008B180A /* Login */,
-				B4D09ECD1BC5801E008B180A /* MainViewController.h */,
-				B4D09ECE1BC5801E008B180A /* MainViewController.m */,
 				B4D09ECF1BC5801E008B180A /* Menus */,
 				B4D09ED71BC5801E008B180A /* PostView */,
 				B4D09EDD1BC5801E008B180A /* Profile */,
 				B4D09EE01BC5801E008B180A /* Search */,
 				B4D09EE71BC5801E008B180A /* Setting */,
+				B4D09ECD1BC5801E008B180A /* MainViewController.h */,
+				B4D09ECE1BC5801E008B180A /* MainViewController.m */,
 				B4D09EEC1BC5801E008B180A /* ViewController.h */,
 				B4D09EED1BC5801E008B180A /* ViewController.m */,
 			);

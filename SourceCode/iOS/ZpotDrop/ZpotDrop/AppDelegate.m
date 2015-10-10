@@ -27,12 +27,12 @@
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     [[CoreDataService instance] setDatabaseName:@"zpotdrop"];
     
-    [[UINavigationBar appearance]setBarTintColor:[UIColor colorWithHexString:MAIN_COLOR]];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexString:MAIN_COLOR]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{
         NSForegroundColorAttributeName: [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
         NSFontAttributeName: [UIFont fontWithName:@"PTSans-Regular" size:0.0],
                                                            }];
-    [[UINavigationBar appearance]setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
 
     [FBSDKProfile enableUpdatesOnAccessTokenChange:YES];
     if (launchOptions != nil) {

@@ -87,7 +87,7 @@
 
 - (IBAction)signup:(id)sender
 {
-    SignupViewController* vc = [[SignupViewController alloc]init];
+    SignupViewController* vc = [self.storyboard instantiateViewControllerWithIdentifier:@"SignupViewController"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

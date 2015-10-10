@@ -18,6 +18,7 @@
     APIService* _api;
 }
 
+- (IBAction)goBack:(id)sender;
 -(void)registerKeyboardNotification;
 -(void)removeKeyboardNotification;
 -(void)keyboardShow:(CGRect)frame;
