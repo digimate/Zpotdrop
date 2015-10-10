@@ -23,6 +23,7 @@ use App\Acme\Models\User;
 use Authorizer;
 use Illuminate\Http\Request;
 use Hashids;
+use League\OAuth2\Server\Exception\InvalidCredentialsException;
 
 /**
  * Class OAuthController
@@ -144,6 +145,36 @@ class OAuthController extends ApiController
 	 *      	type="string",
 	 *          default="123456"
 	 *      	),
+     * 	    @SWG\Parameter(
+     *			name="device_id",
+     *			description="Device id",
+     *			in="formData",
+     *      	required=true,
+     *      	type="string",
+     *          default=""
+     *      	),
+     * 	    @SWG\Parameter(
+     *			name="device_type",
+     *			description="Device type : 0 iphone, 1 android",
+     *			in="formData",
+     *      		required=true,
+     *      		type="string",
+     *              default="0"
+     *      	),
+     * 	    @SWG\Parameter(
+     *			name="lat",
+     *			description="Latitude",
+     *			in="formData",
+     *      	type="string",
+     *          default=""
+     *      	),
+     * 	    @SWG\Parameter(
+     *			name="long",
+     *			description="Longitude",
+     *			in="formData",
+     *      	type="string",
+     *          default=""
+     *      	),
 	 *		@SWG\Response(response=200, description="Login successful"),
 	 *      @SWG\Response(response=400, description="Bad request")
 	 * )
@@ -151,7 +182,12 @@ class OAuthController extends ApiController
 	public function login(Request $request)
 	{
 		$this->validate($request, [
-			$this->loginUsername() => 'required', 'password' => 'required',
+			'username' => 'required',
+            'password' => 'required',
+            'lat' => 'required|numeric',
+            'long'  => 'required|numeric',
+            'device_type' => 'required|integer|in:0,1',
+            'device_id' => 'required'
 		]);
 
 		// If the class is using the ThrottlesLogins trait, we can automatically throttle
@@ -163,12 +199,26 @@ class OAuthController extends ApiController
 			return $this->sendLockoutResponse($request);
 		}
 
-		$credentials = $this->getCredentials($request);
+        try {
+            $token = Authorizer::issueAccessToken();
+        } catch(InvalidCredentialsException $ex) {
+            return $this->lzResponse->badRequest($this->getFailedLoginMessage());
+        } catch(\Exception $ex) {
+            \Log::error($ex->getMessage(), $ex->getTrace());
+            return $this->lzResponse->badRequest($this->getFailedLoginMessage());
+        }
 
-		if (\Auth::onceBasic($credentials, true)) {
-			return \Auth::id();
-		}
+        if ($token) {
+            $user = \Auth::user();
+            $user->lat = $request->input('lat');
+            $user->long = $request->input('long');
+            $user->device_id = $request->input('device_id');
+            $user->device_type = $request->input('device_type');
+            $user->save();
 
+            $transformer = new UserTransformer();
+            return $this->lzResponse->success(array_merge($token, $transformer->transform($user)));
+        }
 		// If the login attempt was unsuccessful we will increment the number of attempts
 		// to login and redirect the user back to the login form. Of course, when this
 		// user surpasses their maximum number of attempts they will get locked out.
@@ -184,13 +234,13 @@ class OAuthController extends ApiController
         $credentials = [
             'email'    => $username,
             'password' => $password,
+            'status'   => 1
         ];
-
-        if (\Auth::once($credentials, true)) {
+        if (\Auth::once($credentials)) {
             return \Auth::id();
         }
 
-        return $this->lzResponse->badRequest($this->getFailedLoginMessage());
+        return false;
     }
 
 
@@ -288,6 +338,22 @@ class OAuthController extends ApiController
      *      		required=true,
      *      		type="string",
      *              default="0"
+     *      	),
+     * 	    @SWG\Parameter(
+     *			name="lat",
+     *			description="Latitude",
+     *			in="formData",
+     *      	required=true,
+     *      	type="string",
+     *          default=""
+     *      	),
+     * 	    @SWG\Parameter(
+     *			name="long",
+     *			description="Longitude",
+     *			in="formData",
+     *      	required=true,
+     *      	type="string",
+     *          default=""
      *      	),
      *   @SWG\Response(
      *     response=200,

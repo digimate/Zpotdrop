@@ -22,10 +22,10 @@ Route::group(['prefix' => 'api/v1'], function(){
 			'as' => 'oauth.register',
 			'uses' => 'OAuthController@register'
 		]);
-		Route::post('oauth/login', function() {
-			$lzResponse = new \App\Acme\Restful\LZResponse();
-			return $lzResponse->success(Authorizer::issueAccessToken());
-		});
+		Route::post('oauth/login', [
+            'as' => 'oauth.login',
+            'uses' => 'OAuthController@login'
+        ]);
 /*
 |--------------------------------------------------------------------------
 | Password
