@@ -60,11 +60,11 @@
             [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_exist_email".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
             }];
         }else{
-            CompleteSignupViewController* vc = [[CompleteSignupViewController alloc]init];
+    CompleteSignupViewController* vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CompleteSignupViewController"];
             vc.data = [NSMutableDictionary dictionaryWithObjects:@[_email.text, _password.text] forKeys:@[@"email", @"password"]];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }];
-  
+
 }
 @end

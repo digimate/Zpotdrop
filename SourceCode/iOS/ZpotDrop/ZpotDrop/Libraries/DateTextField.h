@@ -14,7 +14,9 @@
     NSDate* _pickerDate;
 }
 
--(id)initWithFrame:(CGRect)frame date:(NSDate*)date andDisplayFormat:(NSString*)format;
+- (void)setDate:(NSDate *)date format:(NSString *)format;
+- (void)setDate:(NSDate *)date;
+- (void)setFormat:(NSString *)format;
 -(NSDate*)getDate;
 -(NSString*)getDateStringWithFormat:(NSString*)format;
 @end

@@ -11,20 +11,18 @@
 
 @interface CompleteSignupViewController : BaseViewController <UITextFieldDelegate>
 {
-    UIScrollView* _mScrollView;
-    UIImageView* _icon;
+    IBOutlet UITextField* _firstName;
+    IBOutlet UITextField* _lastName;
+    IBOutlet UITextField* _phoneNumber;
+    IBOutlet DateTextField* _dob;
+    IBOutlet UISlider* _genderSlider;
     
-    UITextField* _firstName;
-    UITextField* _lastName;
-    UITextField* _phoneNumber;
-    DateTextField* _dob;
-    UIButton* _male;
-    UIButton* _female;
+    IBOutlet UIButton *_male;
+    IBOutlet UIButton *_female;
     
     UIButton* _complete;
     BOOL _gender; //YES: male, NO: female
     NSDate* _dobData;
-    UISlider* _genderSlider;
 }
 
 @property (nonatomic, retain) NSMutableDictionary* data;
