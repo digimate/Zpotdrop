@@ -64,15 +64,30 @@ class OauthCest
 		]);
 	}
 
+
 	public function loginWithEmailSuccess(ApiTester $I)
 	{
+        $form = array_merge($this->oauth_form, [
+            'username'  => $this->email,
+            'password'  => '123456',
+            'email'     => $this->email,
+            'first_name'=> 'Phu',
+            'last_name' => 'Nguyen',
+            'birthday'  => '17-03-1988',
+            'gender'    => '0',
+            'phone_number' => '',
+        ]);
+        $I->sendPOST($this->endpoint . 'register', $form);
+
+
+        $user = \App\Acme\Models\User::where('email', $this->email)->first();
+        $user->status = 1;
+        $user->save();
+
 		$form = array_merge($this->oauth_form,
 			[
 				'username'  => $this->email,
 				'password'  => '123456',
-                'grant_type' => 'password',
-                'device_id' => '2255625855',
-                'device_type' => 0
 			]);
 		$I->sendPOST($this->endpoint . 'login', $form);
 		$I->seeResponseCodeIs(200);
@@ -87,9 +102,6 @@ class OauthCest
 			[
 				'username'  => $this->email,
 				'password'  => 'dasdsdad',
-                'grant_type' => 'password',
-                'device_id' => '2255625855',
-                'device_type' => 0
 			]);
 		$I->sendPOST($this->endpoint . 'login', $form);
 		$I->comment($I->grabResponse());

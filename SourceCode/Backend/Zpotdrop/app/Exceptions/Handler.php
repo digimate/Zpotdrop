@@ -54,7 +54,7 @@ class Handler extends ExceptionHandler
                 return $lzResponse->json();
             } else {
                 \Log::error($e->getMessage(), $e->getTrace());
-                return $lzResponse->error(LZResponse::HTTP_INTERNAL_SERVER_ERROR);
+                return $lzResponse->error($e->getCode(), $e->getMessage());
             }
         }
         return parent::render($request, $e);
