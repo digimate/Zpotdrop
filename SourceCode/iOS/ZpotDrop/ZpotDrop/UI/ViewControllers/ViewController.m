@@ -12,6 +12,7 @@
 #import "MainViewController.h"
 #import "BaseNavigationController.h"
 #import "Utils.h"
+#import "CoreDataService.h"
 
 @interface ViewController ()
 
@@ -60,6 +61,7 @@
 
 -(void)loginSucceed{
     [AccountModel currentAccountModel].access_token = @"1";
+    [[CoreDataService instance] saveContext];
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 @end

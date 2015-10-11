@@ -101,7 +101,9 @@
 
 -(void)showPostView{
     [self.navigationController popToRootViewControllerAnimated:NO];
-    PostZpotViewController* postViewController = [[PostZpotViewController alloc]init];
+    
+    UIStoryboard *postSB = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
+    PostZpotViewController* postViewController = [postSB instantiateViewControllerWithIdentifier:@"PostZpotViewController"];//[[PostZpotViewController alloc]init];
     [self.navigationController pushViewController:postViewController animated:NO];
     postViewController.navigationItem.leftBarButtonItem = self.navigationItem.leftBarButtonItem;
     postViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;

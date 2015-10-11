@@ -8,6 +8,9 @@
 
 #import "BaseViewController.h"
 
-@interface PostZpotViewController : BaseViewController
-
+@interface PostZpotViewController : BaseViewController {
+    IBOutlet UIButton *btnAddText;
+    IBOutlet UIButton *btnAddFriends;
+    IBOutlet UIButton *btnAddImage;
+}
 @end

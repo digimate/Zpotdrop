@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.tedmate.ZpotDrop</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -25,16 +25,21 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb650801331689892</string>
+				<string>fb468622933320724</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>FacebookAppID</key>
-	<string>650801331689892</string>
+	<string>468622933320724</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSLocationUsageDescription</key>
 	<string>ZpotDrop would like to use your location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -42,6 +47,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenSans-Light.ttf</string>
+		<string>MyriadPro-Regular.otf</string>
 		<string>OpenSans-Bold.ttf</string>
 		<string>PTS76F.ttf</string>
 		<string>PTS75F.ttf</string>
@@ -70,9 +76,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key><true/>
-    </dict>
 </dict>
 </plist>

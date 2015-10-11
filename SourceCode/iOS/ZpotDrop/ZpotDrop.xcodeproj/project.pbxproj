@@ -27,6 +27,8 @@
 		B409868B1BC6C74A00BC0678 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B40986851BC6C74A00BC0678 /* TPKeyboardAvoidingScrollView.m */; };
 		B409868C1BC6C74A00BC0678 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = B40986871BC6C74A00BC0678 /* TPKeyboardAvoidingTableView.m */; };
 		B409868D1BC6C74A00BC0678 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B40986891BC6C74A00BC0678 /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
+		B469DFDD1BCA1162007CD700 /* Post.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B469DFDC1BCA1162007CD700 /* Post.storyboard */; settings = {ASSET_TAGS = (); }; };
+		B469DFDF1BCAB5DE007CD700 /* MyriadPro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B469DFDE1BCAB5DE007CD700 /* MyriadPro-Regular.otf */; settings = {ASSET_TAGS = (); }; };
 		B4D09F391BC5801E008B180A /* AccountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D09DFD1BC5801D008B180A /* AccountModel.m */; };
 		B4D09F3A1BC5801E008B180A /* BaseDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D09DFF1BC5801D008B180A /* BaseDataModel.m */; };
 		B4D09F3B1BC5801E008B180A /* FeedCommentDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D09E011BC5801D008B180A /* FeedCommentDataModel.m */; };
@@ -248,6 +250,8 @@
 		B40986881BC6C74A00BC0678 /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
 		B40986891BC6C74A00BC0678 /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
 		B41C8D361BC6BDBF002685FA /* ZDConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDConstant.h; sourceTree = "<group>"; };
+		B469DFDC1BCA1162007CD700 /* Post.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Post.storyboard; sourceTree = "<group>"; };
+		B469DFDE1BCAB5DE007CD700 /* MyriadPro-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MyriadPro-Regular.otf"; sourceTree = "<group>"; };
 		B4D09DFC1BC5801D008B180A /* AccountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountModel.h; sourceTree = "<group>"; };
 		B4D09DFD1BC5801D008B180A /* AccountModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountModel.m; sourceTree = "<group>"; };
 		B4D09DFE1BC5801D008B180A /* BaseDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseDataModel.h; sourceTree = "<group>"; };
@@ -891,6 +895,7 @@
 		B4D09E801BC5801E008B180A /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				B469DFDE1BCAB5DE007CD700 /* MyriadPro-Regular.otf */,
 				B409867F1BC6C4FF00BC0678 /* OpenSans-Bold.ttf */,
 				B4D09E811BC5801E008B180A /* OpenSans-Light.ttf */,
 				B4D09E821BC5801E008B180A /* PTC55F.ttf */,
@@ -962,6 +967,7 @@
 			isa = PBXGroup;
 			children = (
 				B4D09EB41BC5801E008B180A /* Main.storyboard */,
+				B469DFDC1BCA1162007CD700 /* Post.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -1372,6 +1378,7 @@
 				B4D09FA21BC5801E008B180A /* item_menu@2x.png in Resources */,
 				B4D09F831BC5801E008B180A /* ic_add_friend@2x.png in Resources */,
 				B4D09F881BC5801E008B180A /* ic_comment_s@2x.png in Resources */,
+				B469DFDF1BCAB5DE007CD700 /* MyriadPro-Regular.otf in Resources */,
 				B4D09FCE1BC5801E008B180A /* FriendRequestZpotCell.xib in Resources */,
 				B4D09F8D1BC5801E008B180A /* ic_facebook@2x.png in Resources */,
 				BA62840E1B70F0B300399368 /* Localizable.strings in Resources */,
@@ -1414,6 +1421,7 @@
 				B4D09FCA1BC5801E008B180A /* FeedNormalViewCell.xib in Resources */,
 				B4D09F901BC5801E008B180A /* ic_find@2x.png in Resources */,
 				B4D09FCC1BC5801E008B180A /* FeedSelectedViewCell.xib in Resources */,
+				B469DFDD1BCA1162007CD700 /* Post.storyboard in Resources */,
 				B4D09FDD1BC5801E008B180A /* ChangePasswordViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1680,6 +1688,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ZpotDrop;
 				PRODUCT_NAME = Zpotdrop;
 				PROVISIONING_PROFILE = "";
 			};
@@ -1703,6 +1712,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ZpotDrop;
 				PRODUCT_NAME = Zpotdrop;
 				PROVISIONING_PROFILE = "";
 			};

@@ -12,6 +12,7 @@
 #import "LocationDataModel.h"
 #import "LeftMenuViewController.h"
 #import "FeedZpotViewController.h"
+#import "UIColor+HexColors.h"
 
 @interface PostZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,CLLocationManagerDelegate,MKMapViewDelegate,UISearchBarDelegate>{
     UIScrollView* _scrollViewContent;
@@ -30,82 +31,94 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"post".localized.uppercaseString;
-    // Do any additional setup after loading the view.
+    [self setupUI];
 }
 
--(instancetype)init{
-    self = [super init];
+
+- (void)setupUI {
+    btnAddText.layer.borderWidth    = 0.5;
+    btnAddText.layer.borderColor    = [UIColor colorWithHexString:@"e9e9e9"].CGColor;
     
-    self.view.backgroundColor = [UIColor whiteColor];
-    [self setAutomaticallyAdjustsScrollViewInsets:NO];
-    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
-        self.edgesForExtendedLayout = UIRectEdgeNone;
-    }
+    btnAddFriends.layer.borderWidth = 0.5;
+    btnAddFriends.layer.borderColor = [UIColor colorWithHexString:@"e9e9e9"].CGColor;
     
-    searchLocationResults = [NSMutableArray array];
-    CGRect frame = [UIScreen mainScreen].bounds;
-    frame.size.height -= 64;
-    _scrollViewContent = [[UIScrollView alloc]initWithFrame:frame];
-    [self.view addSubview:_scrollViewContent];
-    /*======================View Input Location's Title=======================*/
-    UIView* zpotTitleView = [[UIView alloc]initWithFrame:CGRectMake(0, 180, self.view.frame.size.width, 44)];
-    [_scrollViewContent addSubview:zpotTitleView];
-    [zpotTitleView addBorderWithFrame:CGRectMake(0, zpotTitleView.height - 1.0, zpotTitleView.width, 1) color:COLOR_SEPEARATE_LINE];
-    
-    zpotTitleTextField = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, zpotTitleView.frame.size.width - 75, zpotTitleView.height)];
-    zpotTitleTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    zpotTitleTextField.font = [UIFont fontWithName:@"PTSans-Regular" size:16];
-    zpotTitleTextField.textColor = [UIColor blackColor];
-    zpotTitleTextField.placeholder = @"place_holder_zpot_drop_post".localized;
-    [zpotTitleTextField setBorderStyle:UITextBorderStyleNone];
-    zpotTitleTextField.delegate = self;
-    zpotTitleTextField.returnKeyType = UIReturnKeyDone;
-    [zpotTitleView addSubview:zpotTitleTextField];
-    
-    UIButton* btnPostZpot = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnPostZpot.backgroundColor = COLOR_DARK_GREEN;
-    btnPostZpot.titleLabel.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
-    [btnPostZpot setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btnPostZpot setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
-    [btnPostZpot setFrame:CGRectMake(zpotTitleView.frame.size.width-60, 0, 60, zpotTitleView.height)];
-    [btnPostZpot setTitle:@"post".localized.uppercaseString forState:UIControlStateNormal];
-    [btnPostZpot addTarget:self action:@selector(postNewZpot:) forControlEvents:UIControlEventTouchUpInside];
-    [zpotTitleView addSubview:btnPostZpot];
-    /*======================View Search Location=======================*/
-    searchLocationBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, zpotTitleView.y + zpotTitleView.height, self.view.width, 40)];
-    searchLocationBar.delegate = self;
-    searchLocationBar.enablesReturnKeyAutomatically = NO;
-    searchLocationBar.backgroundColor = [UIColor clearColor];
-    searchLocationBar.barTintColor = [UIColor clearColor];
-    searchLocationBar.backgroundImage = [[UIImage alloc]init];
-    [searchLocationBar setImage:[UIImage imageNamed:@"ic_search"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-    [searchLocationBar addBorderWithFrame:CGRectMake(0, searchLocationBar.height - 1.0, searchLocationBar.width, 1) color:COLOR_SEPEARATE_LINE];
-    searchLocationBar.placeholder = @"place_holder_search_location".localized;
-    NSDictionary *placeholderAttributes = @{
-                                            NSForegroundColorAttributeName: [UIColor colorWithRed:219 green:219 blue:219],
-                                            NSFontAttributeName: [UIFont fontWithName:@"PTSans-Regular" size:14],
-                                            };
-    
-    NSAttributedString *attributedPlaceholder = [[NSAttributedString alloc] initWithString:searchLocationBar.placeholder
-                                                                                attributes:placeholderAttributes];
-    
-    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setAttributedPlaceholder:attributedPlaceholder];
-    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont fontWithName:@"PTSans-Regular" size:16]];
-    [_scrollViewContent addSubview:searchLocationBar];
-    /*======================Locations Result Table=======================*/
-    tableViewLocation = [[UITableView alloc]initWithFrame:CGRectMake(0, searchLocationBar.y + searchLocationBar.height, self.view.width, _scrollViewContent.height - searchLocationBar.y - searchLocationBar.height) style:UITableViewStylePlain];
-    tableViewLocation.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [tableViewLocation registerNib:[UINib nibWithNibName:NSStringFromClass([CreateLocationCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([CreateLocationCell class])];
-    tableViewLocation.dataSource = self;
-    tableViewLocation.delegate = self;
-    [_scrollViewContent addSubview:tableViewLocation];
-    [_scrollViewContent setClipsToBounds:YES];
-    //    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeKeyboardIfNeed)];
-    //    tapGesture.numberOfTapsRequired = 1;
-    //    [_scrollViewContent addGestureRecognizer:tapGesture];
-    
-    return self;
+    btnAddImage.layer.borderWidth   = 0.5;
+    btnAddImage.layer.borderColor   = [UIColor colorWithHexString:@"e9e9e9"].CGColor;
 }
+
+//-(instancetype)init{
+//    self = [super init];
+//    
+//    self.view.backgroundColor = [UIColor whiteColor];
+//    [self setAutomaticallyAdjustsScrollViewInsets:NO];
+//    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
+//        self.edgesForExtendedLayout = UIRectEdgeNone;
+//    }
+//    
+//    searchLocationResults = [NSMutableArray array];
+//    CGRect frame = [UIScreen mainScreen].bounds;
+//    frame.size.height -= 64;
+//    _scrollViewContent = [[UIScrollView alloc]initWithFrame:frame];
+//    [self.view addSubview:_scrollViewContent];
+//    /*======================View Input Location's Title=======================*/
+//    UIView* zpotTitleView = [[UIView alloc]initWithFrame:CGRectMake(0, 180, self.view.frame.size.width, 44)];
+//    [_scrollViewContent addSubview:zpotTitleView];
+//    [zpotTitleView addBorderWithFrame:CGRectMake(0, zpotTitleView.height - 1.0, zpotTitleView.width, 1) color:COLOR_SEPEARATE_LINE];
+//    
+//    zpotTitleTextField = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, zpotTitleView.frame.size.width - 75, zpotTitleView.height)];
+//    zpotTitleTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    zpotTitleTextField.font = [UIFont fontWithName:@"PTSans-Regular" size:16];
+//    zpotTitleTextField.textColor = [UIColor blackColor];
+//    zpotTitleTextField.placeholder = @"place_holder_zpot_drop_post".localized;
+//    [zpotTitleTextField setBorderStyle:UITextBorderStyleNone];
+//    zpotTitleTextField.delegate = self;
+//    zpotTitleTextField.returnKeyType = UIReturnKeyDone;
+//    [zpotTitleView addSubview:zpotTitleTextField];
+//    
+//    UIButton* btnPostZpot = [UIButton buttonWithType:UIButtonTypeCustom];
+//    btnPostZpot.backgroundColor = COLOR_DARK_GREEN;
+//    btnPostZpot.titleLabel.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
+//    [btnPostZpot setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [btnPostZpot setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+//    [btnPostZpot setFrame:CGRectMake(zpotTitleView.frame.size.width-60, 0, 60, zpotTitleView.height)];
+//    [btnPostZpot setTitle:@"post".localized.uppercaseString forState:UIControlStateNormal];
+//    [btnPostZpot addTarget:self action:@selector(postNewZpot:) forControlEvents:UIControlEventTouchUpInside];
+//    [zpotTitleView addSubview:btnPostZpot];
+//    /*======================View Search Location=======================*/
+//    searchLocationBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, zpotTitleView.y + zpotTitleView.height, self.view.width, 40)];
+//    searchLocationBar.delegate = self;
+//    searchLocationBar.enablesReturnKeyAutomatically = NO;
+//    searchLocationBar.backgroundColor = [UIColor clearColor];
+//    searchLocationBar.barTintColor = [UIColor clearColor];
+//    searchLocationBar.backgroundImage = [[UIImage alloc]init];
+//    [searchLocationBar setImage:[UIImage imageNamed:@"location_icon"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+//    [searchLocationBar addBorderWithFrame:CGRectMake(0, searchLocationBar.height - 1.0, searchLocationBar.width, 1) color:COLOR_SEPEARATE_LINE];
+//    searchLocationBar.placeholder = @"place_holder_search_location".localized;
+//    NSDictionary *placeholderAttributes = @{
+//                                            NSForegroundColorAttributeName: [UIColor colorWithRed:219 green:219 blue:219],
+//                                            NSFontAttributeName: [UIFont fontWithName:@"PTSans-Regular" size:14],
+//                                            };
+//    
+//    NSAttributedString *attributedPlaceholder = [[NSAttributedString alloc] initWithString:searchLocationBar.placeholder
+//                                                                                attributes:placeholderAttributes];
+//    
+//    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setAttributedPlaceholder:attributedPlaceholder];
+//    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont fontWithName:@"PTSans-Regular" size:16]];
+//    [_scrollViewContent addSubview:searchLocationBar];
+//    /*======================Locations Result Table=======================*/
+//    tableViewLocation = [[UITableView alloc]initWithFrame:CGRectMake(0, searchLocationBar.y + searchLocationBar.height, self.view.width, _scrollViewContent.height - searchLocationBar.y - searchLocationBar.height) style:UITableViewStylePlain];
+//    tableViewLocation.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    [tableViewLocation registerNib:[UINib nibWithNibName:NSStringFromClass([CreateLocationCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([CreateLocationCell class])];
+//    tableViewLocation.dataSource = self;
+//    tableViewLocation.delegate = self;
+//    [_scrollViewContent addSubview:tableViewLocation];
+//    [_scrollViewContent setClipsToBounds:YES];
+//    //    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeKeyboardIfNeed)];
+//    //    tapGesture.numberOfTapsRequired = 1;
+//    //    [_scrollViewContent addGestureRecognizer:tapGesture];
+//    
+//    return self;
+//}
 
 -(void)postNewZpot:(UIButton*)sender{
     if (![Utils instance].mapView.userLocationVisible ||  !CLLocationCoordinate2DIsValid([Utils instance].mapView.userLocation.coordinate)) {
@@ -155,41 +168,41 @@
     }
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self registerKeyboardNotification];
-    [self registerOpenLeftMenuNotification];
-    [self registerOpenRightMenuNotification];
-    if ([Utils instance].mapView.superview == nil || ![[Utils instance].mapView.superview isEqual:self.view]) {
-        [[Utils instance] clearMapViewBeforeUsing];
-        [[Utils instance].mapView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 180)];
-        [_scrollViewContent addSubview:[Utils instance].mapView];
-        [Utils instance].mapView.userInteractionEnabled = NO;
-        [[Utils instance] mapView].delegate = self;
-    }
-    if ([[Utils instance] isGPS] == NO) {
-        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_no_gps".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
-        }];
-    }else{
-        [[Utils instance].locationManager setDelegate:self];
-        [[Utils instance].locationManager startUpdatingLocation];
-        [[Utils instance].mapView setShowsUserLocation:YES];
-        [[Utils instance].mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
-    }
-    [self removeAppBecomActiveNotification];
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    [[Utils instance].locationManager stopUpdatingLocation];
-    [[Utils instance].locationManager setDelegate:nil];
-    [self removeKeyboardNotification];
-    [self removeOpenLeftMenuNotification];
-    [self removeOpenRightMenuNotification];
-    [[Utils instance] mapView].delegate = nil;
-    [[Utils instance].mapView setShowsUserLocation:NO];
-    [self removeAppBecomActiveNotification];
-}
+//-(void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//    [self registerKeyboardNotification];
+//    [self registerOpenLeftMenuNotification];
+//    [self registerOpenRightMenuNotification];
+//    if ([Utils instance].mapView.superview == nil || ![[Utils instance].mapView.superview isEqual:self.view]) {
+//        [[Utils instance] clearMapViewBeforeUsing];
+//        [[Utils instance].mapView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 180)];
+//        [_scrollViewContent addSubview:[Utils instance].mapView];
+//        [Utils instance].mapView.userInteractionEnabled = NO;
+//        [[Utils instance] mapView].delegate = self;
+//    }
+//    if ([[Utils instance] isGPS] == NO) {
+//        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_no_gps".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+//        }];
+//    }else{
+//        [[Utils instance].locationManager setDelegate:self];
+//        [[Utils instance].locationManager startUpdatingLocation];
+//        [[Utils instance].mapView setShowsUserLocation:YES];
+//        [[Utils instance].mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
+//    }
+//    [self removeAppBecomActiveNotification];
+//}
+//
+//-(void)viewWillDisappear:(BOOL)animated{
+//    [super viewWillDisappear:animated];
+//    [[Utils instance].locationManager stopUpdatingLocation];
+//    [[Utils instance].locationManager setDelegate:nil];
+//    [self removeKeyboardNotification];
+//    [self removeOpenLeftMenuNotification];
+//    [self removeOpenRightMenuNotification];
+//    [[Utils instance] mapView].delegate = nil;
+//    [[Utils instance].mapView setShowsUserLocation:NO];
+//    [self removeAppBecomActiveNotification];
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
