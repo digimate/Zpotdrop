@@ -16,6 +16,7 @@
 | Dont need Oauth2
 |--------------------------------------------------------------------------
 */
+
 Route::group(['prefix' => 'api/v1'], function(){
 	Route::group(['namespace'=>'Api\v1'], function(){
 		Route::post('oauth/register', [

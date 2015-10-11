@@ -199,14 +199,14 @@ class OAuthController extends ApiController
 			return $this->sendLockoutResponse($request);
 		}
 
-        try {
+//        try {
             $token = Authorizer::issueAccessToken();
-        } catch(InvalidCredentialsException $ex) {
-            return $this->lzResponse->badRequest($this->getFailedLoginMessage());
-        } catch(\Exception $ex) {
-            \Log::error($ex->getMessage(), $ex->getTrace());
-            return $this->lzResponse->badRequest($this->getFailedLoginMessage());
-        }
+//        } catch(InvalidCredentialsException $ex) {
+//            return $this->lzResponse->badRequest($this->getFailedLoginMessage());
+//        } catch(\Exception $ex) {
+//            \Log::error($ex->getMessage(), $ex->getTrace());
+//            return $this->lzResponse->badRequest($this->getFailedLoginMessage());
+//        }
 
         if ($token) {
             $user = \Auth::user();

@@ -2,7 +2,10 @@
 
 namespace App\Exceptions;
 
+use App\Acme\Restful\LZResponse;
 use Exception;
+use League\OAuth2\Server\Exception\AccessDeniedException;
+use League\OAuth2\Server\Exception\InvalidCredentialsException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -39,6 +42,21 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if ($request->is('api/*')) {
+            $lzResponse = new LZResponse();
+            if ($e instanceof AccessDeniedException) {
+                $lzResponse->setMessage($e->getMessage());
+                $lzResponse->setCode(LZResponse::HTTP_UNAUTHORIZED);
+                return $lzResponse->json();
+            } elseif ($e instanceof InvalidCredentialsException) {
+                $lzResponse->setMessage($e->getMessage());
+                $lzResponse->setCode(LZResponse::HTTP_UNAUTHORIZED);
+                return $lzResponse->json();
+            } else {
+                \Log::error($e->getMessage(), $e->getTrace());
+                return $lzResponse->error(LZResponse::HTTP_INTERNAL_SERVER_ERROR);
+            }
+        }
         return parent::render($request, $e);
     }
 }

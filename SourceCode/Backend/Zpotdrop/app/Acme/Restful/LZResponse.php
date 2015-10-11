@@ -352,4 +352,20 @@ class LZResponse{
 		$this->setMessage(self::$statusTexts[self::HTTP_BAD_REQUEST]);
 		return self::json();
 	}
+
+    /**
+     * @param int $code
+     * @param string $message
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function error($code, $message = '')
+    {
+        $this->setCode($code);
+        if (empty($message) && array_key_exists($code, self::$statusTexts)) {
+            $this->setMessage(self::$statusTexts[$code]);
+        } else {
+            $this->setMessage($message);
+        }
+        return self::json();
+    }
 }

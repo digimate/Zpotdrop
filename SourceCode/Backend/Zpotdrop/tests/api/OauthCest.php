@@ -6,6 +6,11 @@ class OauthCest
 	protected $oauth_form = [
 		'client_id'     => 's6BhdRkqt3',
 		'client_secret' => '7Fjfp0ZBr1KtDRbnfVdmIw',
+        'grant_type' => 'password',
+        'device_id' => '2255625855',
+        'device_type' => 0,
+        'lat' => 10,
+        'long' => 12
 	];
 	protected $email = 'pisun34@gmail.com';
 
@@ -29,10 +34,7 @@ class OauthCest
 			'last_name' => 'Nguyen',
 			'birthday'  => '17-03-1988',
 			'gender'    => '0',
-            'grant_type' => 'password',
             'phone_number' => '',
-            'device_id' => '2255625855',
-            'device_type' => 0
 		]);
 		$I->sendPOST($this->endpoint . 'register', $form);
 		$I->seeResponseCodeIs(200);
@@ -61,13 +63,16 @@ class OauthCest
 			'The last name field is required.'
 		]);
 	}
-/*
+
 	public function loginWithEmailSuccess(ApiTester $I)
 	{
 		$form = array_merge($this->oauth_form,
 			[
 				'username'  => $this->email,
-				'password'  => '123456'
+				'password'  => '123456',
+                'grant_type' => 'password',
+                'device_id' => '2255625855',
+                'device_type' => 0
 			]);
 		$I->sendPOST($this->endpoint . 'login', $form);
 		$I->seeResponseCodeIs(200);
@@ -81,13 +86,16 @@ class OauthCest
 		$form = array_merge($this->oauth_form,
 			[
 				'username'  => $this->email,
-				'password'  => 'dasdsdad'
+				'password'  => 'dasdsdad',
+                'grant_type' => 'password',
+                'device_id' => '2255625855',
+                'device_type' => 0
 			]);
 		$I->sendPOST($this->endpoint . 'login', $form);
 		$I->comment($I->grabResponse());
 		$I->cantSeeAuthentication();
-		$I->seeResponseCodeIs(400);
+		$I->seeResponseCodeIs(401);
 		$I->seeResponseIsJson();
-		$I->canSeeResponseContainsJson(['expires_in' => 3600]);
-	}*/
+		$I->canSeeResponseContainsJson(['message' => 'The user credentials were incorrect.']);
+	}
 }
