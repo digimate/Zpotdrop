@@ -46,8 +46,22 @@ class UserTransformer extends Transformer
 	 */
 	public function transform(User $user)
 	{
-        $user->birthday = $user->birthday->format('d-m-Y H:i:s');
+        if (is_object($user->birthday)) {
+            $user->birthday = $user->birthday->format('d-m-Y H:i:s');
+        }
 		$arrUser = array_only($user->toArray(), $this->viewArr);
+        $avatar = $arrUser['avatar'];
+        unset($arrUser['avatar']);
+        $arrUser['avatar_json'] = '';
+        $arrUser['avatar_base64'] = '';
+        if (!empty($avatar)) {
+            $avatar = json_decode($avatar, true);
+            if (is_array($avatar)) {
+                $arrUser['avatar_base64'] = $avatar['base64'];
+                unset($avatar['base64']);
+                $arrUser['avatar_json'] = json_encode($avatar);
+            }
+        }
 		return $arrUser;
 	}
 

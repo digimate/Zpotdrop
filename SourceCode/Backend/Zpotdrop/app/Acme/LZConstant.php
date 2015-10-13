@@ -26,4 +26,5 @@ class LZConstant
         LZConstant::ACTIVE_YES    => 'Yes',
         LZConstant::ACTIVE_NO     => 'No'
 	];
+
 }

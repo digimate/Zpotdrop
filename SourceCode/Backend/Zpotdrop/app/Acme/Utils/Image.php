@@ -1,5 +1,5 @@
 <?php
-namespace Tedmate\Utils;
+namespace App\Acme\Utils;
 class Image
 {
 	const PNG  = 'png';

@@ -1,9 +1,10 @@
 <?php
 namespace App\Acme\Utils\Image;
 
-use Tedmate\Image\Thumbnail;
-use Tedmate\Image\Crop;
-use Tedmate\Utils\Character;
+use App\Acme\Utils\Url;
+use App\Acme\Utils\Image\Thumbnail;
+use App\Acme\Utils\Image\Crop;
+use App\Acme\Utils\Character;
 
 class ResizeImage {
 
@@ -15,14 +16,15 @@ class ResizeImage {
 	* @param int $type: value options [0: normal, 1: avatar]
 	* @return string path
 	*/
-	public static function base64($base64, $width=70, $height=70, $type=0) {
+	public static function base64($base64, $width=70, $height=70, $type='avatar') {
 		$json = Character::base64Decrypt($base64);
 		$image = self::json($json, $width, $height, $type);
 		return $image;
 	}
 	/***/
-	public static function json($json, $width, $height, $type=0) {
+	public static function json($json, $width, $height, $type = 'avatar') {
 		$image = '';
+        $uploadDir = Url::getRootUploadDir();
 		//return $json;
 		try {
 			if(!empty($json)) {
@@ -39,18 +41,18 @@ class ResizeImage {
 				} else {
 					$target = $path . $name . '-' . $width .'x' .$height . $ext;
 				}				
-				if(file_exists(UPLOAD_DIR . '/' . $source)) {
-					if(!file_exists(UPLOAD_DIR . '/' . $target)  ) {
+				if(file_exists($uploadDir . '/' . $source)) {
+					if(!file_exists($uploadDir . '/' . $target)  ) {
 					
 						if($width == $height) {							
-							if(Crop::square(UPLOAD_DIR . '/' . $source, UPLOAD_DIR . '/' . $target, $width, $width)) {
+							if(Crop::square($uploadDir . '/' . $source, $uploadDir . '/' . $target, $width, $width)) {
 								$image = $target;
 							} else {
 								$image = '';
 							}
 						} else {
 						
-							$thumb = new Thumbnail(UPLOAD_DIR . '/' . $source);
+							$thumb = new Thumbnail($uploadDir . '/' . $source);
 							
 							if($width > 0 && $height==0) {
 								$thumb->size_width($width);
@@ -63,7 +65,7 @@ class ResizeImage {
 							$thumb->jpeg_progressive=0;  
 							$thumb->allow_enlarge=false; 
 							$thumb->process(); 
-							$thumb->save(UPLOAD_DIR . '/' . $target);
+							$thumb->save($uploadDir . '/' . $target);
 							if(empty($thumb->error_msg)) {
 								$image = $target;
 							} else {
@@ -86,17 +88,20 @@ class ResizeImage {
 		}
 		
 		if(empty($image)) {
-			if($type == 1) {
-				$image = 'default/no-avatar.png';
-			} else {
-				$image = 'default/error.png';
-			}
+            switch($type) {
+                case 'avatar':
+                    $image = 'default/no-avatar.png';
+                    break;
+                default:
+                    $image = 'default/no-avatar.png';
+            }
 		}
 		return $image;
 	}
 
-    public static function json_thumb($json, $width, $height, $type=0) {
+    public static function json_thumb($json, $width, $height, $type='avatar') {
         $image = '';
+        $uploadDir = Url::getRootUploadDir();
         //return $json;
         try {
             if(!empty($json)) {
@@ -114,18 +119,18 @@ class ResizeImage {
                     $target = $path . $name . 'thumb -' . $width .'x' .$height . $ext;
                     $tmp = $path . $name . 'tmp -' . $width .'x' .$height . $ext;
                 }
-                if(file_exists(UPLOAD_DIR . '/' . $source)) {
-                    if(!file_exists(UPLOAD_DIR . '/' . $target)  ) {
+                if(file_exists($uploadDir . '/' . $source)) {
+                    if(!file_exists($uploadDir . '/' . $target)  ) {
 
                         if($width == $height) {
-                            if(Crop::square(UPLOAD_DIR . '/' . $source, UPLOAD_DIR . '/' . $target, $width, $width)) {
+                            if(Crop::square($uploadDir . '/' . $source, $uploadDir . '/' . $target, $width, $width)) {
                                 $image = $target;
                             } else {
                                 $image = '';
                             }
                         } else {
 
-                            $thumb = new Thumbnail(UPLOAD_DIR . '/' . $source);
+                            $thumb = new Thumbnail($uploadDir . '/' . $source);
 
                             $heightRatio = $hOrigin / $height;
                             $widthRatio  = $wOrigin /  $width;
@@ -144,13 +149,13 @@ class ResizeImage {
                             $thumb->jpeg_progressive=0;
                             $thumb->allow_enlarge=false;
                             $thumb->process();
-                            $thumb->save(UPLOAD_DIR . '/' . $tmp);
+                            $thumb->save($uploadDir . '/' . $tmp);
                             if(empty($thumb->error_msg)) {
-                                $imageSize = getimagesize(UPLOAD_DIR . '/' . $tmp);
+                                $imageSize = getimagesize($uploadDir . '/' . $tmp);
                                 if ($imageSize[0] <= $width && $imageSize[1] <= $height) {
                                     $image = $tmp;
                                 } else {
-                                    if (Crop::cropImage(UPLOAD_DIR . '/' . $tmp, UPLOAD_DIR . '/' . $target, 0, 0, $width, $height)) {
+                                    if (Crop::cropImage($uploadDir . '/' . $tmp, $uploadDir . '/' . $target, 0, 0, $width, $height)) {
                                         $image = $target;
                                     } else {
                                         $image = '';
@@ -177,10 +182,12 @@ class ResizeImage {
         }
 
         if(empty($image)) {
-            if($type == 1) {
-                $image = 'default/no-avatar.png';
-            } else {
-                $image = 'default/error.png';
+            switch($type) {
+                case 'avatar':
+                    $image = 'default/no-avatar.png';
+                    break;
+                default:
+                    $image = 'default/no-avatar.png';
             }
         }
         return $image;
