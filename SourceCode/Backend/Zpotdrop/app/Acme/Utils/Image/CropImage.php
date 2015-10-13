@@ -1,10 +1,9 @@
 <?php
-namespace Tedmate\Image;
+namespace App\Acme\Utils\Image;
 
-use Tedmate\Image\Thumbnail;
-use Tedmate\Image\Crop;
+use App\Acme\Utils\Image\Thumbnail;
+use App\Acme\Utils\Image\Crop;
 use Tedmate\Utils\Character;
-use Tedmate\Utils\Logger;
 
 class CropImage {
 
@@ -152,15 +151,15 @@ class CropImage {
                         ]
                     ];
                 } else {
-                    Logger::finish('CropImage:crop:CropImage:False');
+                    //Logger::finish('CropImage:crop:CropImage:False');
                 }
 
             } else {
-                Logger::finish('CropImage:crop:EmptyJson');
+                //Logger::finish('CropImage:crop:EmptyJson');
             }
 
         } catch(\Exception $e) {
-            Logger::finish('CropImage:crop:Exception', $e);
+            //Logger::finish('CropImage:crop:Exception', $e);
         }
 
         return [

@@ -49,7 +49,7 @@ class PasswordController extends ApiController
 	 * @return \Illuminate\Http\Response
 	 */
 	/**
-	 * @SWG\POST(
+	 * @SWG\Post(
 	 *    path="/oauth/password/remind",
      *   summary="Remind password",
      *   tags={"OAuth"},
@@ -157,7 +157,7 @@ class PasswordController extends ApiController
 	}
 
 	/**
-	 * @SWG\POST(
+	 * @SWG\Post(
 	 *    path="/oauth/password/change",
      *   summary="Remind password",
      *   tags={"OAuth"},

@@ -5,9 +5,9 @@
  * @author     Phung, Truong K <truongkimphung1982@gmail.com>
  * @copyright  Copyright (c) 2015
  */
-namespace Tedmate\Image;
+namespace App\Acme\Utils\Image;
 
-use Tedmate\Utils\Character;
+use App\Acme\Utils\Character;
 
 class Upload {
 
@@ -55,7 +55,7 @@ class Upload {
 	* @param str $name
 	* @return array 
 	*/
-	public static function process($file, $uploadDir = '', $name=null) {		
+	public static function process($file, $rootDir, $uploadDir = '', $name=null) {
 	
 		if (!isset( $file ) || is_null($file['tmp_name']) || empty($file['name']))
 			return ['error'=>self::UPLOAD_FILE_EMPTY];
@@ -69,11 +69,11 @@ class Upload {
 		if (!in_array($file['type'], $types)) {		
 			return ['error'=>self::UPLOAD_ERR_EXTENSION];
 		}
-		if ($file['size'] <= 0 || $file['size'] > IMAGE_MAX_FILE_SIZE) {
-			return ['error'=>self::UPLOAD_ERR_FORM_SIZE];
-		}
+//		if ($file['size'] <= 0 || $file['size'] > IMAGE_MAX_FILE_SIZE) {
+//			return ['error'=>self::UPLOAD_ERR_FORM_SIZE];
+//		}
 		if(empty($uploadDir))
-			$uploadDir = UPLOAD_DIR . '/'. date('Y/m/d');
+			$uploadDir = $rootDir . '/'. date('Y/m/d');
 			
 		if( substr($uploadDir, -1, 1) != '/' ) $uploadDir .= '/';
 		
@@ -101,7 +101,7 @@ class Upload {
 			$height	=  $sizes[1];
 		}	
 
-		$path = str_replace(UPLOAD_DIR . '/', '', $uploadDir);
+		$path = str_replace($rootDir . '/', '', $uploadDir);
 		$data = ['path'=>$path,'name'=>$name,'width'=>$width,'height'=>$height,'ext'=>$extension];
 		$json = @json_encode($data);
 		$base64 = Character::base64Encrypt($json);

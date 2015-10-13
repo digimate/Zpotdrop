@@ -6,7 +6,7 @@
  * Date: 22/06/2015
  * Time: 13:08
  */
-namespace Tedmate\Image;
+namespace App\Acme\Utils\Image;
 
 class Image
 {

@@ -1,10 +1,5 @@
 <?php
-/**
- * This is a class, that a upload image
- * @author     Phung, Truong K <truongkimphung1982@gmail.com>
- * @copyright  Copyright (c) 2015
- */
-namespace Tedmate\Image;
+namespace App\Acme\Utils\Image;
 
 /**
 *This is a class that can process an image on the fly by either generate a thumbnail, apply an watermark to the image, or resize it.
@@ -707,7 +702,7 @@ class Thumbnail {
 
 
 	/**
-	* NOT USED : to do: mezclar imagenes a tamaño original, preservar canal alpha y redimensionar
+	* NOT USED : to do: mezclar imagenes a tamaï¿½o original, preservar canal alpha y redimensionar
 	* Merge multiple images and keep transparency
 	* $i is and array of the images to be merged:
 	* $i[1] will be overlayed over $i[0]

@@ -21,7 +21,7 @@ use App\Acme\Models\Venue;
 class TableController extends ApiController
 {
 	/**
-	 * @SWG\GET(
+	 * @SWG\Get(
 	 *    path="/tables/users",
      *   summary="Users table",
      *   tags={"Tables"},
@@ -34,7 +34,7 @@ class TableController extends ApiController
 	}
 
 	/**
-	 * @SWG\GET(
+	 * @SWG\Get(
 	 *    path="/tables/friends",
      *   summary="Friend table",
      *   tags={"Tables"},
@@ -47,7 +47,7 @@ class TableController extends ApiController
 	}
 
 	/**
-	 * @SWG\GET(
+	 * @SWG\Get(
 	 *    path="/tables/posts",
      *   summary="Post table",
      *   tags={"Tables"},
@@ -60,7 +60,7 @@ class TableController extends ApiController
 	}
 
 	/**
-	 * @SWG\GET(
+	 * @SWG\Get(
 	 *    path="/tables/likes",
      *   summary="Like table",
      *   tags={"Tables"},
@@ -74,7 +74,7 @@ class TableController extends ApiController
 	}
 
 	/**
-	 * @SWG\GET(
+	 * @SWG\Get(
 	 *    path="/tables/comments",
      *   summary="Comment table",
      *   tags={"Tables"},
@@ -88,7 +88,7 @@ class TableController extends ApiController
 	}
 
 	/**
-	 * @SWG\GET(
+	 * @SWG\Get(
 	 *    path="/tables/venues",
      *   summary="Venue table",
      *   tags={"Tables"},
@@ -101,7 +101,7 @@ class TableController extends ApiController
 	}
 
 	/**
-	 * @SWG\GET(
+	 * @SWG\Get(
 	 *    path="/tables/notifications",
      *   summary="Notification table",
      *   tags={"Tables"},
@@ -114,7 +114,7 @@ class TableController extends ApiController
 	}
 
 	/**
-	 * @SWG\GET(
+	 * @SWG\Get(
 	 *    path="/tables/request-zpots",
      *   summary="RequestZpot table",
      *   tags={"Tables"},

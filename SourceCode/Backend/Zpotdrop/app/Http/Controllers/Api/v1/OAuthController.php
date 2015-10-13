@@ -32,18 +32,8 @@ use League\OAuth2\Server\Exception\InvalidCredentialsException;
 /**
  * @SWG\Swagger(
  *  info={
- *     "title": "Swagger Sample App",
- *      "description": "This is a sample server Petstore server.",
- *      "termsOfService": "http://swagger.io/terms/",
- *      "contact": {
- *      "name": "API Support",
- *      "url": "http://www.swagger.io/support",
- *      "email": "support@swagger.io"
- *      },
- *      "license": {
- *      "name": "Apache 2.0",
- *      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
- *      },
+ *     "title": "Zpotdrop Api",
+ *      "description": "",
  *      "version": "1.0.1"
  *   },
  *  basePath="/api/v1",
@@ -101,7 +91,7 @@ class OAuthController extends ApiController
 	}
 
 	/**
-	 * @SWG\POST(
+	 * @SWG\Post(
 	 *    path="/oauth/login",
      *   summary="Login",
      *   tags={"OAuth"},
@@ -245,7 +235,7 @@ class OAuthController extends ApiController
 
 
     /**
-     * @SWG\POST(
+     * @SWG\Post(
      *   path="/oauth/register",
      *   summary="Register new user",
      *   tags={"OAuth"},
@@ -312,6 +302,12 @@ class OAuthController extends ApiController
      *      		required=true,
      *      		type="string",
      *              default="17-03-1988"
+     *      	),
+     * 	    @SWG\Parameter(
+     *			name="phone_number",
+     *			description="Phone's number",
+     *			in="formData",
+     *      		type="string",
      *      	),
      * 	    @SWG\Parameter(
      *			name="gender",

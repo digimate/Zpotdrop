@@ -52,10 +52,11 @@ class LZImage
 	 * @param $file_path
 	 * @return bool
 	 */
-	public static function delete($file_path){
-		if(\File::isFile($file_path) && \File::exists($file_path)){
-			\File::delete($file_path);
-		}
-		return false;
+	public static function delete($image_json){
+//
+//		if(\File::isFile($file_path) && \File::exists($file_path)){
+//			\File::delete($file_path);
+//		}
+//		return false;
 	}
 }

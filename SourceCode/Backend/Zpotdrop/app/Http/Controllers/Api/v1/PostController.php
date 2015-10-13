@@ -17,7 +17,7 @@ use App\Acme\Transformers\PostTransformer;
 class PostController extends ApiController
 {
 	/**
-	 * @SWG\GET(
+	 * @SWG\Get(
 	 *    path="/posts/list",
      *   summary="Get posts",
      *   tags={"Posts"},
@@ -50,7 +50,7 @@ class PostController extends ApiController
 	}
 
 	/**
-	 * @SWG\GET(
+	 * @SWG\Get(
 	 *    path="/posts/{id}/show",
      *   summary="Get detail post",
      *   tags={"Posts"},
@@ -72,7 +72,7 @@ class PostController extends ApiController
 	}
 
 	/**
-	 * @SWG\GET(
+	 * @SWG\Get(
 	 *    path="/posts/edit",
      *   summary="Show detail post",
      *   tags={"Posts"},
@@ -86,7 +86,7 @@ class PostController extends ApiController
 	}
 
 	/**
-	 * @SWG\DELETE(
+	 * @SWG\Delete(
 	 *    path="/posts/{id}/destroy",
      *   summary="Delete a post",
      *   tags={"Posts"},
@@ -107,7 +107,7 @@ class PostController extends ApiController
 	}
 
 	/**
-	 * @SWG\POST(
+	 * @SWG\Post(
 	 *    path="/posts/{id}/like",
      *   summary="Like a post",
      *   tags={"Posts"},
@@ -132,7 +132,7 @@ class PostController extends ApiController
 	}
 
 	/**
-	 * @SWG\POST(
+	 * @SWG\Post(
 	 *    path="/posts/{id}/comment",
      *   summary="Comment a post",
      *   tags={"Posts"},

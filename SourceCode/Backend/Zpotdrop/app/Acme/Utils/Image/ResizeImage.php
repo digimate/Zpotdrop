@@ -1,9 +1,5 @@
 <?php
-/**
-* @author		Phung, Truong K <truongkimphung1982@gmail.com>
-* @copyright	Copyright @ 2015
-*/
-namespace Tedmate\Image;
+namespace App\Acme\Utils\Image;
 
 use Tedmate\Image\Thumbnail;
 use Tedmate\Image\Crop;

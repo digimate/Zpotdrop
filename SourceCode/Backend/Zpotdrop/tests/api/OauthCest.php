@@ -93,7 +93,8 @@ class OauthCest
 		$I->seeResponseCodeIs(200);
 		$I->seeResponseIsJson();
 		$I->expect('see token of this user');
-		$I->seeResponseContainsJson(['expires_in' => 3600]);
+		$I->seeResponseContainsJson(array('data' => array('token_type' => 'Bearer')));
+
 	}
 
 	public function loginWithEmailFail(ApiTester $I)

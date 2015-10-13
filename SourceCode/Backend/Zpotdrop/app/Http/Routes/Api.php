@@ -73,8 +73,7 @@ Route::group([
 | Users
 |--------------------------------------------------------------------------
 */
-	Route::post('users/profile/edit', 'UserController@edit');
-	Route::post('users/profile/{id}/show', 'UserController@show');
+	Route::get('users/profile/{id}/show', 'UserController@show');
 	Route::post('users/profile/update', 'UserController@update');
 
 /*

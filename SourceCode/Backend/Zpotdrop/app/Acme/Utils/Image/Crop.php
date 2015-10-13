@@ -1,10 +1,6 @@
 <?php
-/**
- * This is a class, that a upload image
- * @author     Phung, Truong K <truongkimphung1982@gmail.com>
- * @copyright  Copyright (c) 2015
- */
-namespace Tedmate\Image;
+
+namespace App\Acme\Utils\Image;
 
 define('DESIRED_IMAGE_WIDTH', 130);
 define('DESIRED_IMAGE_HEIGHT', 130);
