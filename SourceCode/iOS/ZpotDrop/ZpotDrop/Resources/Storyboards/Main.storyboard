@@ -76,6 +76,9 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AyT-oh-8KM">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="568" id="9sL-mC-D86"/>
+                                        </constraints>
                                     </view>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="zpotdrop_icon" translatesAutoresizingMaskIntoConstraints="NO" id="KWq-9w-xqp">
                                         <rect key="frame" x="121" y="92" width="78" height="100"/>
@@ -87,7 +90,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zdO-1L-aKW">
                                         <rect key="frame" x="64" y="217" width="192" height="50"/>
                                         <fontDescription key="fontDescription" name="OpenSans-Light" family="Open Sans" pointSize="36"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="zpotdrop_logo" translatesAutoresizingMaskIntoConstraints="NO" id="P0h-zD-i0l">
@@ -288,7 +291,6 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="P0h-zD-i0l" firstAttribute="top" secondItem="zdO-1L-aKW" secondAttribute="bottom" id="5Bd-3q-Lio"/>
-                                    <constraint firstItem="KWq-9w-xqp" firstAttribute="top" secondItem="cZh-Xv-8wf" secondAttribute="top" constant="92" id="7Cs-Nv-OQo"/>
                                     <constraint firstAttribute="centerX" secondItem="g17-Ie-avn" secondAttribute="centerX" id="7WE-o3-1lA"/>
                                     <constraint firstItem="w0S-tr-Hbn" firstAttribute="leading" secondItem="cZh-Xv-8wf" secondAttribute="leading" constant="30" id="9Ky-Ky-awZ"/>
                                     <constraint firstAttribute="bottom" secondItem="AyT-oh-8KM" secondAttribute="bottom" id="B0C-4F-2NV"/>
@@ -317,6 +319,7 @@
                                     <constraint firstAttribute="bottom" secondItem="Uzr-f5-dGi" secondAttribute="bottom" constant="12" id="jUF-Tn-Anf"/>
                                     <constraint firstItem="ZHG-Z1-mEB" firstAttribute="top" secondItem="3lW-Ep-vQO" secondAttribute="bottom" constant="4" id="krm-92-gnO"/>
                                     <constraint firstItem="ZHG-Z1-mEB" firstAttribute="leading" secondItem="cZh-Xv-8wf" secondAttribute="leading" constant="30" id="nfb-c9-gCM"/>
+                                    <constraint firstItem="zdO-1L-aKW" firstAttribute="centerY" secondItem="cZh-Xv-8wf" secondAttribute="centerY" constant="-42" id="orn-2x-ny1"/>
                                     <constraint firstItem="zdO-1L-aKW" firstAttribute="top" secondItem="KWq-9w-xqp" secondAttribute="bottom" constant="25" id="qPm-Db-3LT"/>
                                     <constraint firstItem="Uzr-f5-dGi" firstAttribute="leading" secondItem="cZh-Xv-8wf" secondAttribute="leading" id="shL-r3-EAb"/>
                                     <constraint firstItem="0zX-vo-aaH" firstAttribute="top" secondItem="qIT-9E-G1n" secondAttribute="bottom" constant="10" id="uur-Uu-S6j"/>
@@ -335,6 +338,12 @@
                             <constraint firstItem="AyT-oh-8KM" firstAttribute="width" secondItem="1ca-hf-K1T" secondAttribute="height" multiplier="40:71" id="jSY-pV-8Sh"/>
                             <constraint firstItem="cZh-Xv-8wf" firstAttribute="top" secondItem="xzl-du-2JN" secondAttribute="bottom" id="zmz-eV-2vA"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="YLx-Og-fdt"/>
+                                <exclude reference="jSY-pV-8Sh"/>
+                            </mask>
+                        </variation>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
@@ -606,8 +615,8 @@
                                                 <textInputTraits key="textInputTraits"/>
                                                 <variation key="default">
                                                     <mask key="constraints">
-                                                        <exclude reference="aOD-eG-g8m"/>
                                                         <exclude reference="OZ9-9p-vwj"/>
+                                                        <exclude reference="aOD-eG-g8m"/>
                                                     </mask>
                                                 </variation>
                                             </textField>
@@ -777,6 +786,7 @@
                                             <constraint firstItem="8hS-ie-CS7" firstAttribute="centerX" secondItem="SiH-pP-dAg" secondAttribute="centerX" id="N79-sk-KvG"/>
                                             <constraint firstItem="TV5-Ev-9jq" firstAttribute="leading" secondItem="SiH-pP-dAg" secondAttribute="leading" constant="30" id="Ne3-lp-1fm"/>
                                             <constraint firstItem="3iQ-lV-HOG" firstAttribute="top" secondItem="8hS-ie-CS7" secondAttribute="bottom" constant="7" id="OqT-e7-Ysp"/>
+                                            <constraint firstAttribute="height" constant="568" id="QjC-jO-99z"/>
                                             <constraint firstItem="xjl-5d-gn6" firstAttribute="leading" secondItem="SiH-pP-dAg" secondAttribute="leading" constant="30" id="RhT-20-N7q"/>
                                             <constraint firstAttribute="trailing" secondItem="xjl-5d-gn6" secondAttribute="trailing" constant="30" id="SeQ-LK-pvv"/>
                                             <constraint firstAttribute="trailing" secondItem="20o-ju-23o" secondAttribute="trailing" constant="30" id="XLI-Ba-Mi4"/>
@@ -887,8 +897,8 @@
                                                 <textInputTraits key="textInputTraits"/>
                                                 <variation key="default">
                                                     <mask key="constraints">
-                                                        <exclude reference="dzB-K9-T6j"/>
                                                         <exclude reference="Knr-qK-sUV"/>
+                                                        <exclude reference="dzB-K9-T6j"/>
                                                     </mask>
                                                 </variation>
                                             </textField>
