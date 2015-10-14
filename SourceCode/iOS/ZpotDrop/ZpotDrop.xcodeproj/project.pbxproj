@@ -1320,7 +1320,7 @@
 				TargetAttributes = {
 					0ACD9D621B68B767004140EE = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 33KNUNK842;
+						DevelopmentTeam = 9U2E8DAV5Z;
 					};
 					0ACD9D7B1B68B767004140EE = {
 						CreatedOnToolsVersion = 6.4;
@@ -1690,7 +1690,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ZpotDrop;
 				PRODUCT_NAME = Zpotdrop;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "8e68c8ab-105a-475f-a689-d775ef3e443b";
 			};
 			name = Debug;
 		};
@@ -1714,7 +1714,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ZpotDrop;
 				PRODUCT_NAME = Zpotdrop;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "8e68c8ab-105a-475f-a689-d775ef3e443b";
 			};
 			name = Release;
 		};
