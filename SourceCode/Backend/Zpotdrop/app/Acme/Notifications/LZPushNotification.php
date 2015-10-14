@@ -11,6 +11,8 @@
 
 namespace App\Acme\Notifications;
 
+use App\Acme\Models\Notification;
+use App\Acme\Models\User;
 use PushNotification;
 
 class LZPushNotification
@@ -39,7 +41,7 @@ class LZPushNotification
 			))
 		));
 
-		$collection = PushNotification::app('appNameIOS')
+		$collection = PushNotification::app('deviceIOS')
 			->to($devices)
 			->send($message);
 
@@ -52,4 +54,28 @@ class LZPushNotification
 		$push = PushNotification::app('appNameAndroid');
 		$push->adapter->setAdapterParameters(['sslverifypeer' => false]);
 	}
+
+    public static function push($deviceType, $deviceToken, Notification $notification) {
+        $service = null;
+        switch ($deviceType) {
+            case User::DEVICE_TYPE_IOS:
+                $service = 'deviceIOS';
+                break;
+            case User::DEVICE_TYPE_ANDROID:
+                $service = 'deviceAndroid';
+                break;
+        }
+        if (!$service) {
+            \Log::error(sprintf('DeviceType %s is invalid', $deviceType));
+            return false;
+        }
+
+        $message = PushNotification::Message($notification->message, array(
+            'badge' => 1,
+            'custom' => $notification->toArray()
+        ));
+
+        $collection = PushNotification::app($service)->to($deviceToken)
+                                                     ->send($message);
+    }
 }

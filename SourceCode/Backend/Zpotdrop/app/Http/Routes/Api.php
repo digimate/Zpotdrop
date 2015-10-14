@@ -76,11 +76,20 @@ Route::group([
 	Route::get('users/profile/{id}/show', 'UserController@show');
 	Route::post('users/profile/update', 'UserController@update');
 
-/*
+
+    /*
 |--------------------------------------------------------------------------
-| Friends
+| Follow
 |--------------------------------------------------------------------------
 */
+    Route::post('/users/friends/{friend_id}/follow', 'FollowController@follow');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Friends
+    |--------------------------------------------------------------------------
+    */
 	Route::post('friends/{id}/delete', 'FriendController@delete');
 
 /*

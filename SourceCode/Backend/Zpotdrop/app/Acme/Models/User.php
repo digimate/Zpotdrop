@@ -139,6 +139,19 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
     const ZPOT_ALL_ENABLE = 1;
     const ZPOT_ALL_DISABLE = 0;
 
+    /**
+     * Scope a query to only include active users.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
+
+    public function username() {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 	/**
 	 * Update the model in the database.
 	 *

@@ -65,7 +65,7 @@ class Notification extends BaseModel
 	 *
 	 * @var array
 	 */
-	protected $hidden = ['user_id', 'friend_id', 'post_id', 'deleted_at'];
+	protected $hidden = [];
 
 	const IS_READ           = 1;
 	const IS_UNREAD         = 0;
@@ -74,12 +74,14 @@ class Notification extends BaseModel
 	const ACTION_TYPE_COMMENT   = 1;
 	const ACTION_TYPE_LIKE      = 2;
 	const ACTION_TYPE_FOLLOWING = 3;
+    const ACTION_TYPE_FOLLOW_REQUEST = 4;
 
 	public static $action_messages = [
 		self::ACTION_TYPE_COMING    => 'Is coming to your zpotdrop',
 		self::ACTION_TYPE_COMMENT   => 'Commented on your zpotdrop: %s',
 		self::ACTION_TYPE_LIKE      => 'Liked your zpotdrop',
-		self::ACTION_TYPE_FOLLOWING => 'Started following you'
+		self::ACTION_TYPE_FOLLOWING => 'Started following you',
+        self::ACTION_TYPE_FOLLOW_REQUEST => '{username} wants to follow you.'
 	];
 
 	/*Relations*/

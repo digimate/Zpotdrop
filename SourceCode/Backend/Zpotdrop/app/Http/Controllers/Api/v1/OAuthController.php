@@ -74,7 +74,7 @@ class OAuthController extends ApiController
 		return User::create([
             'first_name'    => $data['first_name'],
             'last_name'     => $data['last_name'],
-            'birthday'      => $data['birthday'],
+            'birthday'      => Carbon::createFromFormat('d-m-Y',$data['birthday']),
 			'email'         => $data['email'],
 			'password'      => bcrypt($data['password']),
             'hash'          => Hash::hexId(),

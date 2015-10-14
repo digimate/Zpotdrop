@@ -16,6 +16,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserRegisterEvent' => [
             'App\Listeners\UserRegisterListener',
         ],
+        'App\Events\UserFollowEvent' => [
+            'App\Listeners\UserFollowPushListener',
+            'App\Listeners\UserFollowUpdateStatusListener'
+        ]
     ];
 
     /**

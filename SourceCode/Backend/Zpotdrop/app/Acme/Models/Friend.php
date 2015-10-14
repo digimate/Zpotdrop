@@ -51,8 +51,10 @@ class Friend extends BaseModel
 	protected $hidden = ['user_id', 'friend_id'];
 
 	/*Friend Flag*/
-	const FRIEND_YES    = 1;
-	const FRIEND_NO     = 0;
+	const FRIEND_YES    = 2;
+    const FRIEND_FOLLOW = 1;
+	const FRIEND_REQUEST     = 0;
+    const FRIEND_NO = -1;
 
 	/*Relations*/
 	public function user(){
