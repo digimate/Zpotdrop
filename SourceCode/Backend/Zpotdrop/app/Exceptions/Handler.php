@@ -54,6 +54,7 @@ class Handler extends ExceptionHandler
                 return $lzResponse->json();
             } else {
                 \Log::error($e->getMessage(), $e->getTrace());
+                throw $e;
                 return $lzResponse->error(500, $e->getMessage());
             }
         }
