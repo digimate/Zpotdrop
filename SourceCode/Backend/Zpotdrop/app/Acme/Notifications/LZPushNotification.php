@@ -55,7 +55,7 @@ class LZPushNotification
 		$push->adapter->setAdapterParameters(['sslverifypeer' => false]);
 	}
 
-    public static function push($deviceType, $deviceToken, Notification $notification) {
+    public static function push($deviceType, $deviceToken, $pushTye, Notification $notification) {
         $service = null;
         switch ($deviceType) {
             case User::DEVICE_TYPE_IOS:
@@ -72,7 +72,7 @@ class LZPushNotification
 
         $message = PushNotification::Message($notification->message, array(
             'badge' => 1,
-            'custom' => $notification->toArray()
+            'custom' => array_merge(['push_type' => $pushTye], $notification->toArray())
         ));
 
         $collection = PushNotification::app($service)->to($deviceToken)

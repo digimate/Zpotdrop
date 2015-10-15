@@ -13,15 +13,17 @@ class UserFollowEvent extends Event
 
     public $user;
     public $friend;
+    public $followType;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(User $user, User $friend)
+    public function __construct(User $user, User $friend, $followType)
     {
         $this->user = $user;
         $this->friend = $friend;
+        $this->followType = $followType;
     }
 
     /**

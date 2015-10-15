@@ -71,17 +71,72 @@ class FollowController extends ApiController
         }
 
         // insert
+        $friendStatus = ($friend->is_private == User::PROFILE_PUBLIC) ? Friend::FRIEND_FOLLOW : Friend::FRIEND_REQUEST;
         $relation = Friend::create([
             'user_id' => $userId,
             'friend_id' => $friend_id,
-            'is_friend' => ($friend->is_private == User::PROFILE_PUBLIC) ? Friend::FRIEND_FOLLOW : Friend::FRIEND_REQUEST
+            'is_friend' => $friendStatus
         ]);
 
         // dispatch event
-        event(new UserFollowEvent($user, $friend));
+        event(new UserFollowEvent($user, $friend, $friendStatus));
 
         return $this->lzResponse->success();
 	}
+
+    /**
+     * @SWG\Post(
+     *    path="/users/friends/{friend_id}/follow/accept",
+     *   summary="Accept Follow request",
+     *   tags={"Users"},
+     *      @SWG\Parameter(
+     *			name="access_token",
+     *			description="access_token",
+     *			in="formData",
+     *      		required=true,
+     *      		type="string",
+     *      	),
+     *      @SWG\Parameter(
+     *			name="friend_id",
+     *			description="ID of friend send request!",
+     *			in="query",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *		@SWG\Response(response=200, description="Register successful"),
+     *      @SWG\Response(response=400, description="Bad request")
+     *
+     * )
+     */
+    public function accept(Request $request, $friend_id)
+    {
+        if (empty($friend_id)) {
+            return $this->lzResponse->badRequest(['friend_id' => trans('user.not_found.friend_id')]);
+        }
+
+        $userId = \Authorizer::getResourceOwnerId();
+
+        if ($userId === $friend_id) {
+            return $this->lzResponse->badRequest();
+        }
+        $user = User::find($userId);
+        $friend = User::where('id', $friend_id)->active()->first();
+        if (!$friend) {
+            return $this->lzResponse->badRequest(['friend_id' => trans('user.not_found.friend_id')]);
+        }
+
+        // update
+        $relation = Friend::where('user_id', $friend_id)->where('friend_id', $userId)->where('is_friend', Friend::FRIEND_REQUEST)
+               ->update(['is_friend' => Friend::FRIEND_FOLLOW]);
+        if(!$relation) {
+            return $this->lzResponse->error(LZResponse::HTTP_CONFLICT, trans('user.record_not_exists'));
+        }
+        // dispatch event
+        event(new UserFollowEvent($friend, $user, Friend::FRIEND_FOLLOW));
+
+        return $this->lzResponse->success();
+    }
+
 
 	/**
 	 * @SWG\Post(
