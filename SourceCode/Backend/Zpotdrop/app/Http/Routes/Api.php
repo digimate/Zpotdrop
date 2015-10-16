@@ -23,6 +23,10 @@ Route::group(['prefix' => 'api/v1'], function(){
 			'as' => 'oauth.register',
 			'uses' => 'OAuthController@register'
 		]);
+        Route::post('oauth/social', [
+            'as' => 'oauth.social',
+            'uses' => 'OAuthController@social'
+        ]);
 		Route::post('oauth/login', [
             'as' => 'oauth.login',
             'uses' => 'OAuthController@login'

@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserFollowEvent' => [
             'App\Listeners\UserFollowPushListener',
             'App\Listeners\UserFollowUpdateStatusListener'
+        ],
+        'App\Events\SocialNetworkLoginEvent' => [
+            'App\Listeners\SocialFriendSignUpNotificationLister'
         ]
     ];
 

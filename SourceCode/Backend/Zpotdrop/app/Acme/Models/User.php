@@ -117,6 +117,28 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
         'device_type'   => 'required|integer|in:0,1',
         'device_id'     => 'required'
     ];
+
+    public static $socialRules = [
+        'username'      => 'required|email|max:255',
+        'email'      => 'required|email|max:255',
+        'password'      => 'min:6',
+        'avatar'        => 'mimes:jpeg,png',
+        'first_name'    => 'required|max:255',
+        'last_name'     => 'required|max:255',
+        'phone_number'  => 'max:20|min:6|unique:users',
+        'is_private'    => 'integer|in:0,1',
+        'is_enable_all_zpot'=> 'integer|in:0,1',
+        'lat'           => 'required|numeric',
+        'long'          => 'required|numeric',
+        'birthday'      => 'date|date_format:d-m-Y',
+        'gender'        => 'required|integer|in:0,1,2',
+        'device_type'   => 'required|integer|in:0,1',
+        'device_id'     => 'required',
+        'uid'           => 'required',
+        'provider'      => 'required|in:facebook',
+        'access_token' => 'required'
+    ];
+
 	/*
 	 * Status of user
 	 * @default: 1: active
