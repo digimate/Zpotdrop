@@ -13,8 +13,10 @@
 #import "LeftMenuViewController.h"
 #import "FeedZpotViewController.h"
 #import "UIColor+HexColors.h"
+#import "LocationService.h"
+#import "SearchLocationViewController.h"
 
-@interface PostZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,CLLocationManagerDelegate,MKMapViewDelegate,UISearchBarDelegate>{
+@interface PostZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,CLLocationManagerDelegate,MKMapViewDelegate,UISearchBarDelegate, SearchLocationViewControllerDelegate>{
     UIScrollView* _scrollViewContent;
     UITextField* zpotTitleTextField;
     UISearchBar* searchLocationBar;
@@ -22,6 +24,10 @@
     UITableView* tableViewLocation;
     id currentSelectedLocation;
     CreateLocationCell* createLocationCell;
+    
+    NSMutableArray *buttonsLocation;
+    NSArray *arrLocation;
+    LocationDataModel *selectedLocation;
 }
 
 @end
@@ -42,8 +48,7 @@
     btnAddFriends.layer.borderWidth = 0.5;
     btnAddFriends.layer.borderColor = [UIColor colorWithHexString:@"e9e9e9"].CGColor;
     
-    btnAddImage.layer.borderWidth   = 0.5;
-    btnAddImage.layer.borderColor   = [UIColor colorWithHexString:@"e9e9e9"].CGColor;
+    consAddTextAndButtonAddText = [NSLayoutConstraint constraintWithItem:vAddText attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:btnAddText attribute:NSLayoutAttributeTop multiplier:1.0 constant:1.0];
 }
 
 //-(instancetype)init{
@@ -125,23 +130,24 @@
         [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_no_gps".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
         }];
     }
-    else if ([zpotTitleTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0) {
+    else if ([tfAddText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0) {
         [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_empty_zpot_title".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
         }];
-    }else if (currentSelectedLocation == nil){
+    }else if (selectedLocation == nil){
         [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_empty_zpot_location".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
         }];
     }else{
         //Post zpot
         [self closeKeyboardIfNeed];
         NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:@{
-                                                                                      @"title":[zpotTitleTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]],
-                                                                                      @"location":[(LocationDataModel*)currentSelectedLocation mid]
+                                                                                      @"title":[tfAddText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]],
+                                                                                      @"location":[selectedLocation mid],
+                                                                                      @"with_userIds":@""
                                                                                       }];
-        NSInteger row = [searchLocationResults indexOfObject:currentSelectedLocation];
-        currentSelectedLocation = nil;
-        [tableViewLocation reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-        zpotTitleTextField.text = nil;
+//        NSInteger row = [searchLocationResults indexOfObject:currentSelectedLocation];
+//        currentSelectedLocation = nil;
+//        [tableViewLocation reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+//        zpotTitleTextField.text = nil;
         [[Utils instance]showProgressWithMessage:nil];
         [[APIService shareAPIService]postZpotWithCoordinate:[Utils instance].mapView.userLocation.coordinate params:params completion:^(id data, NSString *error) {
             [[Utils instance]hideProgess];
@@ -168,41 +174,45 @@
     }
 }
 
-//-(void)viewWillAppear:(BOOL)animated{
-//    [super viewWillAppear:animated];
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
 //    [self registerKeyboardNotification];
-//    [self registerOpenLeftMenuNotification];
-//    [self registerOpenRightMenuNotification];
-//    if ([Utils instance].mapView.superview == nil || ![[Utils instance].mapView.superview isEqual:self.view]) {
-//        [[Utils instance] clearMapViewBeforeUsing];
-//        [[Utils instance].mapView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 180)];
-//        [_scrollViewContent addSubview:[Utils instance].mapView];
-//        [Utils instance].mapView.userInteractionEnabled = NO;
-//        [[Utils instance] mapView].delegate = self;
-//    }
-//    if ([[Utils instance] isGPS] == NO) {
-//        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_no_gps".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
-//        }];
-//    }else{
-//        [[Utils instance].locationManager setDelegate:self];
-//        [[Utils instance].locationManager startUpdatingLocation];
-//        [[Utils instance].mapView setShowsUserLocation:YES];
-//        [[Utils instance].mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
-//    }
-//    [self removeAppBecomActiveNotification];
-//}
-//
-//-(void)viewWillDisappear:(BOOL)animated{
-//    [super viewWillDisappear:animated];
-//    [[Utils instance].locationManager stopUpdatingLocation];
-//    [[Utils instance].locationManager setDelegate:nil];
+    [self registerOpenLeftMenuNotification];
+    [self registerOpenRightMenuNotification];
+    if ([Utils instance].mapView.superview == nil || ![[Utils instance].mapView.superview isEqual:self.view]) {
+        [[Utils instance] clearMapViewBeforeUsing];
+        [vMap addSubview:[Utils instance].mapView];
+        [[Utils instance] mapView].delegate = self;
+        [self fetchLocationsIfPossible];
+    }
+    if ([[Utils instance] isGPS] == NO) {
+        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_no_gps".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        }];
+    }else{
+        [[Utils instance].locationManager setDelegate:self];
+        [[Utils instance].locationManager startUpdatingLocation];
+        [[Utils instance].mapView setShowsUserLocation:YES];
+        [[Utils instance].mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
+    }
+    [self removeAppBecomActiveNotification];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[Utils instance].locationManager stopUpdatingLocation];
+    [[Utils instance].locationManager setDelegate:nil];
 //    [self removeKeyboardNotification];
-//    [self removeOpenLeftMenuNotification];
-//    [self removeOpenRightMenuNotification];
-//    [[Utils instance] mapView].delegate = nil;
-//    [[Utils instance].mapView setShowsUserLocation:NO];
-//    [self removeAppBecomActiveNotification];
-//}
+    [self removeOpenLeftMenuNotification];
+    [self removeOpenRightMenuNotification];
+    [[Utils instance] mapView].delegate = nil;
+    [[Utils instance].mapView setShowsUserLocation:NO];
+    [self removeAppBecomActiveNotification];
+}
+
+- (void)viewDidLayoutSubviews {
+    [[Utils instance].mapView setFrame:vMap.bounds];
+    [self relayoutLocationButtons];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -221,6 +231,220 @@
 -(void)rightMenuOpened{
     [self closeKeyboardIfNeed];
 }
+
+
+#pragma mark - IBAction
+
+- (IBAction)didTouchAddText:(id)sender {
+    if (vAddText.hidden) {
+        [self showViewAddText];
+    } else {
+        [self hideViewAddText];
+    }
+}
+
+- (IBAction)didTouchAddFriends:(id)sender {
+    if (vWith.hidden) {
+        [self showViewWith];
+    } else {
+        [self hideViewWith];
+    }
+}
+
+- (IBAction)didTouchFindLocation:(id)sender {
+    UIStoryboard *sbPost = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
+    SearchLocationViewController *vcSearch = [sbPost instantiateViewControllerWithIdentifier:@"SearchLocationViewController"];
+    vcSearch.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+    vcSearch.delegate = self;
+    [self.navigationController pushViewController:vcSearch animated:YES];
+}
+
+- (IBAction)didTouchDeleteLocation:(id)sender {
+    selectedLocation = nil;
+    [self updateUIFollowSelectedLocation];
+}
+
+- (IBAction)didTouchPost:(id)sender {
+    [self postNewZpot:sender];
+}
+
+
+#pragma mark - Locations
+
+- (void)fetchLocationsIfPossible {
+    if (selectedLocation) {
+        return;
+    }
+    
+    MKMapView *mapView = [Utils instance].mapView;
+    if (mapView.region.span.latitudeDelta < 0.03 && mapView.region.span.longitudeDelta < 0.03) {
+        LocationService *service = [LocationService new];
+        [service searchLocationWithinCoord:mapView.topLeft coor2:mapView.bottomRight completion:^(NSArray *data, NSString *error) {
+            arrLocation = [data copy];
+            [self addLocationButtons];
+        }];
+    } else {
+        arrLocation = nil;
+        [self addLocationButtons];
+    }
+}
+
+- (void)addLocationButtons {
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:10.0];
+    if (buttonsLocation) {
+        for (UIButton *button in buttonsLocation) {
+            [button removeFromSuperview];
+        }
+        [buttonsLocation removeAllObjects];
+    } else {
+        buttonsLocation = [NSMutableArray array];
+    }
+    for (int i = 0; i < arrLocation.count; i++) {
+        LocationDataModel *location = arrLocation[i];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.tag = i;
+        [button setTitle:location.name forState:UIControlStateNormal];
+        [button.titleLabel setFont:font];
+        button.backgroundColor = [UIColor colorWithHexString:@"eeeeee"];
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(didTouchLocation:) forControlEvents:UIControlEventTouchUpInside];
+        [scvMain addSubview:button];
+        [buttonsLocation addObject:button];
+    }
+    [imvLastSeparator removeFromSuperview];
+    if (arrLocation.count > 0) {
+        imvLastSeparator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"separator_pattern"]];
+        [scvMain addSubview:imvLastSeparator];
+    }
+    [self relayoutLocationButtons];
+    
+}
+
+
+- (void)relayoutLocationButtons {
+    if (buttonsLocation == nil || buttonsLocation.count == 0)
+        return;
+    
+    CGFloat buttonHeight = 20;
+    CGFloat buttonBorderPadding = 6;
+    CGFloat buttonSpacing = 6;
+    
+    CGFloat top = 6 + imvSeparator.bottom;
+    CGFloat left = 17;
+    CGFloat right = 17;
+    CGFloat bottom = 6;
+    
+    CGFloat currentTop = top;
+    CGFloat lastMaxX = left;
+    
+    for (UIButton *button in buttonsLocation) {
+        NSString *title = [button titleForState:UIControlStateNormal];
+        UIFont *font = button.titleLabel.font;
+        CGSize size = [Utils getStringBoundingSize:title forWidth:0 withFont:font];
+        button.width = size.width + buttonBorderPadding * 2;
+        button.height = buttonHeight;
+        if (lastMaxX + button.width + right > scvMain.width) {
+            button.top = currentTop + buttonHeight + bottom;
+            button.left = left;
+            currentTop = button.top;
+            lastMaxX = button.right + buttonSpacing;
+        } else {
+            button.top = currentTop;
+            button.left = lastMaxX;
+            lastMaxX = button.right + buttonSpacing;
+        }
+    }
+    
+    imvLastSeparator.width = scvMain.width;
+    imvLastSeparator.top = currentTop + bottom + buttonHeight;
+    
+    scvMain.contentSize = CGSizeMake(scvMain.width, imvLastSeparator.bottom + 10);
+}
+
+
+- (void)updateUIFollowSelectedLocation {
+    if (selectedLocation) {
+        [self updateUIWithSelectedLocation];
+    } else {
+        [self updateUIWithoutSelectedLocation];
+    }
+}
+
+
+- (void)updateUIWithSelectedLocation {
+    lbLocationName.text     = @"";
+    lbLocationAddress.text  = @"";
+    
+    vLocation.hidden = NO;
+    lbLocationName.text                 = selectedLocation.name;
+    lbLocationAddress.attributedText    = [selectedLocation.address attributedStringWithFont:lbLocationAddress.font
+                                                                                       color:lbLocationAddress.textColor
+                                                                                 lineSpacing:0.0];
+    for (UIButton *button in buttonsLocation) {
+        button.hidden = YES;
+    }
+    imvLastSeparator.hidden = YES;
+}
+
+
+- (void)updateUIWithoutSelectedLocation {
+    vLocation.hidden = YES;
+    for (UIButton *button in buttonsLocation) {
+        button.hidden = NO;
+    }
+    imvLastSeparator.hidden = NO;
+}
+
+
+- (void)didTouchLocation:(id)sender {
+    NSInteger index = [(UIButton *)sender tag];
+    selectedLocation = arrLocation[index];
+    [self updateUIFollowSelectedLocation];
+}
+
+
+#pragma mark - Add Text
+
+- (void)showViewAddText {
+    if (!vAddText.hidden) return;
+    vAddText.hidden = NO;
+    [scvMain removeConstraint:consAddTextAndButtonAddText];
+    [scvMain removeConstraint:consAddTextAndWithFriend];
+    [scvMain addConstraint:(vWith.hidden ? consAddTextAndButtonAddText : consAddTextAndWithFriend)];
+}
+
+- (void)hideViewAddText {
+    if (vAddText.hidden) return;
+    vAddText.hidden = YES;
+    [scvMain removeConstraint:consAddTextAndButtonAddText];
+    [scvMain removeConstraint:consAddTextAndWithFriend];
+}
+
+
+#pragma mark - Add friends
+
+- (void)showViewWith {
+    if (!vWith.hidden)
+        return;
+    vWith.hidden = NO;
+    if (!vAddText.hidden) {
+        [scvMain removeConstraint:consAddTextAndButtonAddText];
+        [scvMain addConstraint:consAddTextAndWithFriend];
+    }
+}
+
+- (void)hideViewWith {
+    if (vWith.hidden)
+        return;
+    vWith.hidden = YES;
+    if (!vAddText.hidden) {
+        [scvMain removeConstraint:consAddTextAndWithFriend];
+        [scvMain addConstraint:consAddTextAndButtonAddText];
+    }
+}
+
+
+#pragma mark -
 
 -(void)searchLocationInLocal:(NSString*)key{
     MKMapView* mapView = [[Utils instance] mapView];
@@ -363,6 +587,11 @@
     
 }
 #pragma mark - MKMapViewDelegate
+-(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
+    NSLog(@"Region Did Change");
+    [self fetchLocationsIfPossible];
+}
+
 -(void)changeUserLocationColor{
     MKAnnotationView* annotationView = [[Utils instance].mapView viewForAnnotation:[Utils instance].mapView .userLocation];
     if (annotationView) {
@@ -406,8 +635,8 @@
     [searchBar resignFirstResponder];
     if (searchBar.text.length > 0) {
         MKMapView* mapView = [[Utils instance] mapView];
-        CLLocationCoordinate2D topLeft = MKCoordinateForMapPoint(mapView.visibleMapRect.origin);
-        CLLocationCoordinate2D botRight = MKCoordinateForMapPoint(MKMapPointMake(mapView.visibleMapRect.origin.x + mapView.visibleMapRect.size.width, mapView.visibleMapRect.origin.y + mapView.visibleMapRect.size.height));
+        CLLocationCoordinate2D topLeft = [mapView topLeft];
+        CLLocationCoordinate2D botRight = [mapView bottomRight];
         
         [[Utils instance]showProgressWithMessage:nil];
         [[APIService shareAPIService]searchLocationWithName:searchBar.text withinCoord:topLeft coor2:botRight completion:^(NSArray *data, NSString *error) {
@@ -416,4 +645,13 @@
         }];
     }
 }
+
+
+#pragma mark - SearchLocationViewControllerDelegate
+- (void)searchLocationViewController:(SearchLocationViewController *)viewController didSelectLocation:(LocationDataModel *)location {
+    selectedLocation = location;
+    [self updateUIFollowSelectedLocation];
+}
+
+
 @end

@@ -47,6 +47,8 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenSans-Light.ttf</string>
+		<string>OpenSans-Regular.ttf</string>
+		<string>OpenSans-LightItalic.ttf</string>
 		<string>MyriadPro-Regular.otf</string>
 		<string>OpenSans-Bold.ttf</string>
 		<string>PTS76F.ttf</string>

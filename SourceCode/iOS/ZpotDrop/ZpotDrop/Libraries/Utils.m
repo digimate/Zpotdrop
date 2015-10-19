@@ -55,6 +55,41 @@
     return _sharedInstance;
 }
 
+- (void)addMapViewToView:(UIView *)view {
+    [view addSubview:self.mapView];
+    NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:self.mapView
+                                                           attribute:NSLayoutAttributeTop
+                                                           relatedBy:NSLayoutRelationEqual
+                                                              toItem:view
+                                                           attribute:NSLayoutAttributeTop
+                                                          multiplier:1
+                                                            constant:0];
+    NSLayoutConstraint *left = [NSLayoutConstraint constraintWithItem:self.mapView
+                                                            attribute:NSLayoutAttributeLeft
+                                                            relatedBy:NSLayoutRelationEqual
+                                                               toItem:view
+                                                            attribute:NSLayoutAttributeLeft
+                                                           multiplier:1
+                                                             constant:0];
+    NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:self.mapView
+                                                              attribute:NSLayoutAttributeBottom
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:view
+                                                              attribute:NSLayoutAttributeBottom
+                                                             multiplier:1
+                                                               constant:0];
+    NSLayoutConstraint *right = [NSLayoutConstraint constraintWithItem:self.mapView
+                                                             attribute:NSLayoutAttributeRight
+                                                             relatedBy:NSLayoutRelationEqual
+                                                                toItem:view
+                                                             attribute:NSLayoutAttributeRight
+                                                            multiplier:1
+                                                              constant:0];
+    [view addConstraints:@[top, left, bottom, right]];
+    [view updateConstraintsIfNeeded];
+}
+
+
 -(BOOL)isGPS{
     if (![CLLocationManager locationServicesEnabled]) {
         return NO;
@@ -342,5 +377,133 @@
     [picker dismissViewControllerAnimated:YES completion:^{
         imageCompletion(image);
     }];
+}
+
+
+#pragma mark - Font
++ (CGSize)getStringBoundingSize:(NSString*)string forWidth:(CGFloat)width withFont:(UIFont*)font {
+    
+    CGSize maxSize = CGSizeMake(width, CGFLOAT_MAX);
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
+        // for iOS 6.1 or earlier
+        // temporarily suppress the warning and then turn it back on
+        // since sizeWithFont:constrainedToSize: deprecated on iOS 7 or later
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        maxSize = [string sizeWithFont:font constrainedToSize:maxSize];
+#pragma clang diagnostic pop
+        
+    } else {
+        // for iOS 7 or later
+        maxSize = [string sizeWithAttributes:@{NSFontAttributeName:font}];
+        
+    }
+    return maxSize;
+}
+@end
+
+
+
+@implementation UIView (KalAdditions)
+
+- (CGFloat)left
+{
+    return self.frame.origin.x;
+}
+
+- (void)setLeft:(CGFloat)x
+{
+    CGRect frame = self.frame;
+    frame.origin.x = x;
+    self.frame = frame;
+}
+
+- (CGFloat)right
+{
+    return self.frame.origin.x + self.frame.size.width;
+}
+
+- (void)setRight:(CGFloat)right
+{
+    CGRect frame = self.frame;
+    frame.origin.x = right - frame.size.width;
+    self.frame = frame;
+}
+
+- (CGFloat)top
+{
+    return self.frame.origin.y;
+}
+
+- (void)setTop:(CGFloat)y
+{
+    CGRect frame = self.frame;
+    frame.origin.y = y;
+    self.frame = frame;
+}
+
+- (CGFloat)bottom
+{
+    return self.frame.origin.y + self.frame.size.height;
+}
+
+- (void)setBottom:(CGFloat)bottom
+{
+    CGRect frame = self.frame;
+    frame.origin.y = bottom - frame.size.height;
+    self.frame = frame;
+}
+
+- (CGFloat)width
+{
+    return self.frame.size.width;
+}
+
+- (void)setWidth:(CGFloat)width
+{
+    CGRect frame = self.frame;
+    frame.size.width = width;
+    self.frame = frame;
+}
+
+- (CGFloat)height
+{
+    return self.frame.size.height;
+}
+
+- (void)setHeight:(CGFloat)height
+{
+    CGRect frame = self.frame;
+    frame.size.height = height;
+    self.frame = frame;
+}
+
+@end
+
+
+
+
+@implementation MKMapView (Additions)
+- (CLLocationCoordinate2D)topLeft {
+    return MKCoordinateForMapPoint(self.visibleMapRect.origin);
+}
+
+- (CLLocationCoordinate2D)bottomRight {
+    return MKCoordinateForMapPoint(MKMapPointMake(self.visibleMapRect.origin.x + self.visibleMapRect.size.width, self.visibleMapRect.origin.y + self.visibleMapRect.size.height));
+}
+@end
+
+
+
+@implementation NSString (Attributed)
+- (NSAttributedString *)attributedStringWithFont:(UIFont *)font color:(UIColor *)color lineSpacing:(CGFloat)lineSpacing {
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    [style setLineSpacing:lineSpacing];
+    
+    NSDictionary *fontAttDict = @{NSFontAttributeName : font,
+                                  NSParagraphStyleAttributeName : style,
+                                  NSForegroundColorAttributeName : color};
+    NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:self attributes:fontAttDict];
+    return attString;
 }
 @end

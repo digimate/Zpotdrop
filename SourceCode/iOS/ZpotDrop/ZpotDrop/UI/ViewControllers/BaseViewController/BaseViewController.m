@@ -98,4 +98,17 @@
 - (IBAction)goBack:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+
+#pragma mark -
+
+// Navigation button
+- (void)createBackButton {
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 6, 12)];
+    [btn setImage:[UIImage imageNamed:@"ic_back"] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *btnLeft = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    self.navigationItem.leftBarButtonItem = btnLeft;
+}
+
 @end

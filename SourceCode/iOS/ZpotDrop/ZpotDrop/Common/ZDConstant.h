@@ -9,7 +9,6 @@
 #ifndef ZDConstant_h
 #define ZDConstant_h
 
-
-
+#define API_PAGE_SIZE   20
 
 #endif /* ZDConstant_h */

@@ -76,9 +76,6 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AyT-oh-8KM">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="568" id="9sL-mC-D86"/>
-                                        </constraints>
                                     </view>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="zpotdrop_icon" translatesAutoresizingMaskIntoConstraints="NO" id="KWq-9w-xqp">
                                         <rect key="frame" x="121" y="92" width="78" height="100"/>
@@ -313,6 +310,7 @@
                                     <constraint firstItem="AyT-oh-8KM" firstAttribute="leading" secondItem="cZh-Xv-8wf" secondAttribute="leading" id="Wiz-e8-Zf4"/>
                                     <constraint firstAttribute="centerX" secondItem="zdO-1L-aKW" secondAttribute="centerX" id="YvR-HL-Vs9"/>
                                     <constraint firstAttribute="trailing" secondItem="qIT-9E-G1n" secondAttribute="trailing" constant="30" id="cCY-HL-M0R"/>
+                                    <constraint firstItem="67a-1K-70Q" firstAttribute="top" secondItem="g17-Ie-avn" secondAttribute="bottom" constant="23" id="cKI-Pa-eAT"/>
                                     <constraint firstItem="w0S-tr-Hbn" firstAttribute="top" secondItem="NAB-n9-Jm3" secondAttribute="bottom" constant="4" id="daD-9w-lkv"/>
                                     <constraint firstItem="qIT-9E-G1n" firstAttribute="leading" secondItem="cZh-Xv-8wf" secondAttribute="leading" constant="30" id="fe0-md-h0O"/>
                                     <constraint firstItem="3lW-Ep-vQO" firstAttribute="leading" secondItem="cZh-Xv-8wf" secondAttribute="leading" constant="30" id="iZU-dN-sGT"/>

@@ -397,7 +397,7 @@
             [_commentsData removeAllObjects];
             NSSortDescriptor* sortByTime = [NSSortDescriptor sortDescriptorWithKey:@"time" ascending:YES];
             [returnData sortUsingDescriptors:@[sortByTime]];
-            if (returnData.count < API_PAGE) {
+            if (returnData.count < API_PAGE_SIZE) {
                 canLoadOldComments = NO;
             }
             [_commentsData addObjectsFromArray:returnData];
@@ -413,7 +413,7 @@
         FeedCommentDataModel* comment = _commentsData.firstObject;
         [[APIService shareAPIService]getOldCommentsFromServerForFeedID:feedModel.mid time:comment.time completion:^(NSMutableArray *returnData, NSString *error) {
             if (returnData && returnData.count > 0) {
-                if (returnData.count == API_PAGE) {
+                if (returnData.count == API_PAGE_SIZE) {
                     sender.hidden = NO;
                 }else{
                     canLoadOldComments = NO;

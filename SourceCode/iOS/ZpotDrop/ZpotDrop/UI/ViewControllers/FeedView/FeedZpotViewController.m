@@ -105,7 +105,7 @@
                 }
             }
             [_feedTableView insertRowsAtIndexPaths:insertArrays withRowAnimation:UITableViewRowAnimationBottom];
-            if (returnArray.count == API_PAGE) {
+            if (returnArray.count == API_PAGE_SIZE) {
                 canLoadMore = YES;
             }
         }
@@ -244,7 +244,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row >= API_PAGE-3 && _feedData.count >= API_PAGE && canLoadMore) {
+    if (indexPath.row >= API_PAGE_SIZE-3 && _feedData.count >= API_PAGE_SIZE && canLoadMore) {
         canLoadMore = NO;
         [self loadMoreFeeds];
     }

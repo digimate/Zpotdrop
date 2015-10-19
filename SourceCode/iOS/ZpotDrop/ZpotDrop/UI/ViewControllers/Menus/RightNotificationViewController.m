@@ -130,7 +130,7 @@
         [_tableView reloadData];
     }else{
         [[APIService shareAPIService]getNotificationFromServerForUser:[AccountModel currentAccountModel].user_id oldestNotifcation:oldNotify completion:^(NSArray *returnArray, NSString *error) {
-            if (returnArray.count == API_PAGE) {
+            if (returnArray.count == API_PAGE_SIZE) {
                 canLoadMore = YES;
             }
             [_notificationData addObjectsFromArray:returnArray];
@@ -207,7 +207,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (canLoadMore && _notificationData.count >= API_PAGE && indexPath.row == (_notificationData.count - 2)) {
+    if (canLoadMore && _notificationData.count >= API_PAGE_SIZE && indexPath.row == (_notificationData.count - 2)) {
         canLoadMore = NO;
         [self getMoreNotifcation];
     }

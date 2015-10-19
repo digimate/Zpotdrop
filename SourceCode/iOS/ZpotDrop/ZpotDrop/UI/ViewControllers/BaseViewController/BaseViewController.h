@@ -33,4 +33,7 @@
 -(void)registerAppBecomActiveNotification;
 -(void)appBecomeActive;
 -(void)removeAppBecomActiveNotification;
+
+// Navigation button
+- (void)createBackButton;
 @end

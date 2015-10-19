@@ -19,7 +19,6 @@
 		0ACD9E221B6A89D1004140EE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACD9E211B6A89D1004140EE /* Security.framework */; };
 		0ACD9E241B6A89D9004140EE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACD9E231B6A89D9004140EE /* StoreKit.framework */; };
 		0ACD9E261B6A89FD004140EE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACD9E251B6A89FD004140EE /* SystemConfiguration.framework */; };
-		0ACD9E281B6A8A05004140EE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACD9E271B6A8A05004140EE /* libz.dylib */; };
 		8C269C1E1B7060D200E6835E /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C269C1D1B7060D200E6835E /* Social.framework */; };
 		8C269C201B7060D800E6835E /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C269C1F1B7060D800E6835E /* Accounts.framework */; };
 		B40986801BC6C4FF00BC0678 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B409867F1BC6C4FF00BC0678 /* OpenSans-Bold.ttf */; };
@@ -27,8 +26,18 @@
 		B409868B1BC6C74A00BC0678 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B40986851BC6C74A00BC0678 /* TPKeyboardAvoidingScrollView.m */; };
 		B409868C1BC6C74A00BC0678 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = B40986871BC6C74A00BC0678 /* TPKeyboardAvoidingTableView.m */; };
 		B409868D1BC6C74A00BC0678 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B40986891BC6C74A00BC0678 /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
+		B4408FFC1BCFF05500E3639D /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4408FFB1BCFF05500E3639D /* Realm.framework */; settings = {ASSET_TAGS = (); }; };
+		B4408FFE1BCFF0D500E3639D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B4408FFD1BCFF0D500E3639D /* libc++.tbd */; };
+		B44090001BCFF10800E3639D /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B4408FFF1BCFF10800E3639D /* libsqlite3.tbd */; };
+		B44090021BCFF11000E3639D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B44090011BCFF11000E3639D /* libz.tbd */; };
 		B469DFDD1BCA1162007CD700 /* Post.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B469DFDC1BCA1162007CD700 /* Post.storyboard */; settings = {ASSET_TAGS = (); }; };
 		B469DFDF1BCAB5DE007CD700 /* MyriadPro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B469DFDE1BCAB5DE007CD700 /* MyriadPro-Regular.otf */; settings = {ASSET_TAGS = (); }; };
+		B480D4C21BD212EA001E1CDF /* LocationService.m in Sources */ = {isa = PBXBuildFile; fileRef = B480D4C11BD212EA001E1CDF /* LocationService.m */; settings = {ASSET_TAGS = (); }; };
+		B480D4C41BD341AA001E1CDF /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B480D4C31BD341AA001E1CDF /* OpenSans-LightItalic.ttf */; settings = {ASSET_TAGS = (); }; };
+		B480D4C81BD355A9001E1CDF /* SearchLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B480D4C71BD355A9001E1CDF /* SearchLocationViewController.m */; settings = {ASSET_TAGS = (); }; };
+		B480D4CA1BD35CE7001E1CDF /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B480D4C91BD35CE7001E1CDF /* OpenSans-Regular.ttf */; settings = {ASSET_TAGS = (); }; };
+		B480D4CE1BD368A0001E1CDF /* AddLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B480D4CD1BD368A0001E1CDF /* AddLocationViewController.m */; settings = {ASSET_TAGS = (); }; };
+		B4A1C7831BD4700B008F4685 /* PostAddFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A1C7821BD4700B008F4685 /* PostAddFriendsViewController.m */; settings = {ASSET_TAGS = (); }; };
 		B4D09F391BC5801E008B180A /* AccountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D09DFD1BC5801D008B180A /* AccountModel.m */; };
 		B4D09F3A1BC5801E008B180A /* BaseDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D09DFF1BC5801D008B180A /* BaseDataModel.m */; };
 		B4D09F3B1BC5801E008B180A /* FeedCommentDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D09E011BC5801D008B180A /* FeedCommentDataModel.m */; };
@@ -204,7 +213,6 @@
 		B4D09FE51BC5801E008B180A /* UserProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4D09F361BC5801E008B180A /* UserProfileCell.xib */; };
 		B4D09FE61BC5801E008B180A /* ZpotAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D09F381BC5801E008B180A /* ZpotAnnotationView.m */; };
 		BA0874B41B6FC31300FBFF74 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0874B31B6FC31300FBFF74 /* CoreData.framework */; };
-		BA0874B61B6FC35000FBFF74 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0874B51B6FC35000FBFF74 /* libsqlite3.dylib */; };
 		BA62840E1B70F0B300399368 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BA62840C1B70F0B300399368 /* Localizable.strings */; };
 		BA62842E1B71153400399368 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA62842D1B71153400399368 /* MapKit.framework */; };
 /* End PBXBuildFile section */
@@ -250,8 +258,23 @@
 		B40986881BC6C74A00BC0678 /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
 		B40986891BC6C74A00BC0678 /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
 		B41C8D361BC6BDBF002685FA /* ZDConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDConstant.h; sourceTree = "<group>"; };
+		B4408FFB1BCFF05500E3639D /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		B4408FFD1BCFF0D500E3639D /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		B4408FFF1BCFF10800E3639D /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		B44090011BCFF11000E3639D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B469DFDC1BCA1162007CD700 /* Post.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Post.storyboard; sourceTree = "<group>"; };
 		B469DFDE1BCAB5DE007CD700 /* MyriadPro-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MyriadPro-Regular.otf"; sourceTree = "<group>"; };
+		B480D4C01BD212EA001E1CDF /* LocationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationService.h; sourceTree = "<group>"; };
+		B480D4C11BD212EA001E1CDF /* LocationService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationService.m; sourceTree = "<group>"; };
+		B480D4C31BD341AA001E1CDF /* OpenSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-LightItalic.ttf"; sourceTree = "<group>"; };
+		B480D4C61BD355A9001E1CDF /* SearchLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchLocationViewController.h; sourceTree = "<group>"; };
+		B480D4C71BD355A9001E1CDF /* SearchLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchLocationViewController.m; sourceTree = "<group>"; };
+		B480D4C91BD35CE7001E1CDF /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		B480D4CC1BD368A0001E1CDF /* AddLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddLocationViewController.h; sourceTree = "<group>"; };
+		B480D4CD1BD368A0001E1CDF /* AddLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddLocationViewController.m; sourceTree = "<group>"; };
+		B4A1C7811BD4700B008F4685 /* PostAddFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostAddFriendsViewController.h; sourceTree = "<group>"; };
+		B4A1C7821BD4700B008F4685 /* PostAddFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostAddFriendsViewController.m; sourceTree = "<group>"; };
+		B4A1C7841BD473F2008F4685 /* zpotdrop2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = zpotdrop2.xcdatamodel; sourceTree = "<group>"; };
 		B4D09DFC1BC5801D008B180A /* AccountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountModel.h; sourceTree = "<group>"; };
 		B4D09DFD1BC5801D008B180A /* AccountModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountModel.m; sourceTree = "<group>"; };
 		B4D09DFE1BC5801D008B180A /* BaseDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseDataModel.h; sourceTree = "<group>"; };
@@ -542,14 +565,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B44090021BCFF11000E3639D /* libz.tbd in Frameworks */,
+				B44090001BCFF10800E3639D /* libsqlite3.tbd in Frameworks */,
+				B4408FFE1BCFF0D500E3639D /* libc++.tbd in Frameworks */,
 				B4D09F521BC5801E008B180A /* FBSDKLoginKit.framework in Frameworks */,
 				B4D09F4F1BC5801E008B180A /* Bolts.framework in Frameworks */,
 				BA62842E1B71153400399368 /* MapKit.framework in Frameworks */,
 				8C269C201B7060D800E6835E /* Accounts.framework in Frameworks */,
+				B4408FFC1BCFF05500E3639D /* Realm.framework in Frameworks */,
 				8C269C1E1B7060D200E6835E /* Social.framework in Frameworks */,
-				BA0874B61B6FC35000FBFF74 /* libsqlite3.dylib in Frameworks */,
 				BA0874B41B6FC31300FBFF74 /* CoreData.framework in Frameworks */,
-				0ACD9E281B6A8A05004140EE /* libz.dylib in Frameworks */,
 				0ACD9E261B6A89FD004140EE /* SystemConfiguration.framework in Frameworks */,
 				0ACD9E241B6A89D9004140EE /* StoreKit.framework in Frameworks */,
 				0ACD9E221B6A89D1004140EE /* Security.framework in Frameworks */,
@@ -652,6 +677,41 @@
 			path = TPKeyboardAvoiding;
 			sourceTree = "<group>";
 		};
+		B4408FFA1BCFF05500E3639D /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				B4408FFB1BCFF05500E3639D /* Realm.framework */,
+			);
+			path = Realm;
+			sourceTree = "<group>";
+		};
+		B480D4C51BD35591001E1CDF /* SearchLocation */ = {
+			isa = PBXGroup;
+			children = (
+				B480D4C61BD355A9001E1CDF /* SearchLocationViewController.h */,
+				B480D4C71BD355A9001E1CDF /* SearchLocationViewController.m */,
+			);
+			path = SearchLocation;
+			sourceTree = "<group>";
+		};
+		B480D4CB1BD3688E001E1CDF /* AddLocation */ = {
+			isa = PBXGroup;
+			children = (
+				B480D4CC1BD368A0001E1CDF /* AddLocationViewController.h */,
+				B480D4CD1BD368A0001E1CDF /* AddLocationViewController.m */,
+			);
+			path = AddLocation;
+			sourceTree = "<group>";
+		};
+		B4A1C7801BD46FE7008F4685 /* AddFriends */ = {
+			isa = PBXGroup;
+			children = (
+				B4A1C7811BD4700B008F4685 /* PostAddFriendsViewController.h */,
+				B4A1C7821BD4700B008F4685 /* PostAddFriendsViewController.m */,
+			);
+			path = AddFriends;
+			sourceTree = "<group>";
+		};
 		B4D09DF91BC5801D008B180A /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -701,6 +761,8 @@
 				B4D09E101BC5801D008B180A /* CoreDataService.m */,
 				B4D09E111BC5801D008B180A /* RuleService.h */,
 				B4D09E121BC5801D008B180A /* RuleService.m */,
+				B480D4C01BD212EA001E1CDF /* LocationService.h */,
+				B480D4C11BD212EA001E1CDF /* LocationService.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -708,6 +770,7 @@
 		B4D09E131BC5801D008B180A /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				B4408FFA1BCFF05500E3639D /* Realm */,
 				B40986811BC6C74A00BC0678 /* TPKeyboardAvoiding */,
 				B4D09E141BC5801D008B180A /* AFNetworking */,
 				B4D09E281BC5801E008B180A /* CircleView */,
@@ -895,6 +958,8 @@
 		B4D09E801BC5801E008B180A /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				B480D4C91BD35CE7001E1CDF /* OpenSans-Regular.ttf */,
+				B480D4C31BD341AA001E1CDF /* OpenSans-LightItalic.ttf */,
 				B469DFDE1BCAB5DE007CD700 /* MyriadPro-Regular.otf */,
 				B409867F1BC6C4FF00BC0678 /* OpenSans-Bold.ttf */,
 				B4D09E811BC5801E008B180A /* OpenSans-Light.ttf */,
@@ -1072,6 +1137,9 @@
 		B4D09ED71BC5801E008B180A /* PostView */ = {
 			isa = PBXGroup;
 			children = (
+				B480D4C51BD35591001E1CDF /* SearchLocation */,
+				B480D4CB1BD3688E001E1CDF /* AddLocation */,
+				B4A1C7801BD46FE7008F4685 /* AddFriends */,
 				B4D09ED81BC5801E008B180A /* Cell */,
 				B4D09EDB1BC5801E008B180A /* PostZpotViewController.h */,
 				B4D09EDC1BC5801E008B180A /* PostZpotViewController.m */,
@@ -1253,6 +1321,9 @@
 		B4D09FE71BC58023008B180A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B44090011BCFF11000E3639D /* libz.tbd */,
+				B4408FFF1BCFF10800E3639D /* libsqlite3.tbd */,
+				B4408FFD1BCFF0D500E3639D /* libc++.tbd */,
 				BA62842D1B71153400399368 /* MapKit.framework */,
 				8C269C1F1B7060D800E6835E /* Accounts.framework */,
 				8C269C1D1B7060D200E6835E /* Social.framework */,
@@ -1373,6 +1444,7 @@
 				B4D09F851BC5801E008B180A /* ic_comment@2x.png in Resources */,
 				B4D09FA51BC5801E008B180A /* notification_add@2x.png in Resources */,
 				B4D09FC81BC5801E008B180A /* FeedCommentNotifyCell.xib in Resources */,
+				B480D4CA1BD35CE7001E1CDF /* OpenSans-Regular.ttf in Resources */,
 				B4D09F991BC5801E008B180A /* ic_location_white@2x.png in Resources */,
 				B4D09FA71BC5801E008B180A /* Main.storyboard in Resources */,
 				B4D09FA21BC5801E008B180A /* item_menu@2x.png in Resources */,
@@ -1414,6 +1486,7 @@
 				B4D09F961BC5801E008B180A /* ic_heart_s@2x.png in Resources */,
 				B4D09F6A1BC5801E008B180A /* SVProgressHUD.bundle in Resources */,
 				B4D09FA41BC5801E008B180A /* name@2x.png in Resources */,
+				B480D4C41BD341AA001E1CDF /* OpenSans-LightItalic.ttf in Resources */,
 				B4D09FA31BC5801E008B180A /* item_notification@2x.png in Resources */,
 				B4D09F821BC5801E008B180A /* ic_add@2x.png in Resources */,
 				B4D09F7E1BC5801E008B180A /* PTS75F.ttf in Resources */,
@@ -1470,6 +1543,7 @@
 				B4D09FCF1BC5801E008B180A /* LoadingView.m in Sources */,
 				B4D09FD21BC5801E008B180A /* MenuProfileTableViewCell.m in Sources */,
 				B4D09F411BC5801E008B180A /* APIService.m in Sources */,
+				B480D4C81BD355A9001E1CDF /* SearchLocationViewController.m in Sources */,
 				B4D09FBB1BC5801E008B180A /* ChangePasswordViewController.m in Sources */,
 				B4D09FDA1BC5801E008B180A /* friendCell.m in Sources */,
 				B4D09FC31BC5801E008B180A /* ScannedUserCell.m in Sources */,
@@ -1480,6 +1554,7 @@
 				B4D09F611BC5801E008B180A /* SDWebImagePrefetcher.m in Sources */,
 				B4D09F5F1BC5801E008B180A /* SDWebImageDownloaderOperation.m in Sources */,
 				B4D09F751BC5801E008B180A /* Utils.m in Sources */,
+				B4A1C7831BD4700B008F4685 /* PostAddFriendsViewController.m in Sources */,
 				B4D09FBE1BC5801E008B180A /* MyAnnotation.m in Sources */,
 				B4D09F4A1BC5801E008B180A /* AFURLRequestSerialization.m in Sources */,
 				B4D09F5E1BC5801E008B180A /* SDWebImageDownloader.m in Sources */,
@@ -1506,9 +1581,11 @@
 				B4D09FE21BC5801E008B180A /* SettingSwitchCell.m in Sources */,
 				B4D09FB31BC5801E008B180A /* NotificationTableViewCell.m in Sources */,
 				B4D09F481BC5801E008B180A /* AFSecurityPolicy.m in Sources */,
+				B480D4C21BD212EA001E1CDF /* LocationService.m in Sources */,
 				B4D09F541BC5801E008B180A /* NSString+Ext.m in Sources */,
 				B4D09F3B1BC5801E008B180A /* FeedCommentDataModel.m in Sources */,
 				B4D09FAD1BC5801E008B180A /* CompleteSignupViewController.m in Sources */,
+				B480D4CE1BD368A0001E1CDF /* AddLocationViewController.m in Sources */,
 				B4D09F701BC5801E008B180A /* UINavigationBar+FixedHeightWhenStatusBarHidden.m in Sources */,
 				B4D09FA81BC5801E008B180A /* BaseNavigationController.m in Sources */,
 				B4D09FB41BC5801E008B180A /* RightNotificationViewController.m in Sources */,
@@ -1683,6 +1760,7 @@
 					"$(PROJECT_DIR)/ZpotDrop/Extension/Facebook",
 					"$(PROJECT_DIR)/ZpotDrop/Libraries/Facebook",
 					"$(PROJECT_DIR)/ZpotDrop/Libraries/Parse",
+					"$(PROJECT_DIR)/ZpotDrop/Libraries/Realm",
 				);
 				INFOPLIST_FILE = ZpotDrop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1707,6 +1785,7 @@
 					"$(PROJECT_DIR)/ZpotDrop/Extension/Facebook",
 					"$(PROJECT_DIR)/ZpotDrop/Libraries/Facebook",
 					"$(PROJECT_DIR)/ZpotDrop/Libraries/Parse",
+					"$(PROJECT_DIR)/ZpotDrop/Libraries/Realm",
 				);
 				INFOPLIST_FILE = ZpotDrop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1788,9 +1867,10 @@
 		B4D09E7E1BC5801E008B180A /* zpotdrop.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B4A1C7841BD473F2008F4685 /* zpotdrop2.xcdatamodel */,
 				B4D09E7F1BC5801E008B180A /* zpotdrop.xcdatamodel */,
 			);
-			currentVersion = B4D09E7F1BC5801E008B180A /* zpotdrop.xcdatamodel */;
+			currentVersion = B4A1C7841BD473F2008F4685 /* zpotdrop2.xcdatamodel */;
 			path = zpotdrop.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

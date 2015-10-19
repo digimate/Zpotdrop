@@ -13,6 +13,7 @@
 #import "UserDataModel.h"
 #import <Parse/Parse.h>
 #import "NotificationModel.h"
+#import "ZDConstant.h"
 
 typedef void(^dataResponse)(id data, NSString* error);
 

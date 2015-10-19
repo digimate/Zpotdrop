@@ -22,4 +22,5 @@
 @property (nonatomic, retain) NSNumber * comment_count;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * comming_userIds;
+@property (nonatomic, retain) NSString * with_userIds;
 @end

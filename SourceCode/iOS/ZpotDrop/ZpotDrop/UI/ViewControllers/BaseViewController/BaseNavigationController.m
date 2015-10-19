@@ -16,12 +16,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+    UIFont *font = [UIFont fontWithName:@"OpenSans" size:16];
+    self.navigationBar.titleTextAttributes = @{NSFontAttributeName              : font,
+                                               NSForegroundColorAttributeName   : [UIColor whiteColor]};
 }
 
 @end

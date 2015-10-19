@@ -26,13 +26,13 @@
 #import "FeedDataModel.h"
 #import "UINavigationController+Block.h"
 #import "FacebookService.h"
+#import "ZDConstant.h"
 
 #define degreesToRadians(x) ((x) * M_PI / 180.0)
 #define MAIN_COLOR @"b1cb89"
 
 #define IS_DEBUG 0
 #define DATE_FORMAT_MONTH_IN_LETTER @"MMM dd yyyy"
-#define API_PAGE 20
 
 #define KEY_LOGIN_SUCCEED @"KEY_LOGIN_SUCCEED"
 #define KEY_OPEN_LEFT_MENU @"KEY_OPEN_LEFT_MENU"
@@ -55,6 +55,7 @@
 -(void)hideProgess;
 -(MKMapView*)mapView;
 -(CLLocationManager*)locationManager;
+- (void)addMapViewToView:(UIView *)view;
 -(BOOL)isGPS;
 -(void)showAlertWithTitle:(NSString*)title message:(NSString*)msg yesTitle:(NSString*)okStr noTitle:(NSString*)noStr handler:(UIAlertViewHandler)handler;
 -(void)clearMapViewBeforeUsing;
@@ -67,4 +68,33 @@
 -(void)convertLikeIDsToInfo:(NSArray*)likes completion:(void(^)(NSString* txt,NSArray * rangeArray))completion;
 -(void)convertCommingIDsToInfo:(NSArray*)likes completion:(void(^)(NSString* txt,NSArray * rangeArray))completion;
 -(NSString*)convertBirthdayToAge:(NSDate*)birthday;
+
+// Font
++ (CGSize)getStringBoundingSize:(NSString*)string forWidth:(CGFloat)width withFont:(UIFont*)font;
+@end
+
+
+//
+@interface UIView (KalAdditions)
+
+@property(nonatomic) CGFloat left;
+@property(nonatomic) CGFloat right;
+@property(nonatomic) CGFloat top;
+@property(nonatomic) CGFloat bottom;
+@property(nonatomic) CGFloat width;
+@property(nonatomic) CGFloat height;
+
+@end
+
+
+//
+@interface MKMapView (Additions)
+- (CLLocationCoordinate2D)topLeft;
+- (CLLocationCoordinate2D)bottomRight;
+@end
+
+
+
+@interface NSString (Attributed)
+- (NSAttributedString *)attributedStringWithFont:(UIFont *)font color:(UIColor *)color lineSpacing:(CGFloat)lineSpacing;
 @end

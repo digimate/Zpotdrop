@@ -85,7 +85,7 @@
 
 -(void)searchLocationWithName:(NSString*)name withinCoord:(CLLocationCoordinate2D)topLeft coor2:(CLLocationCoordinate2D)botRight completion:(void(^)(NSArray * data,NSString* error))completion{
     PFQuery* query = [PFQuery queryWithClassName:@"Location" predicate:[NSPredicate predicateWithFormat:@"name BEGINSWITH %@ AND %@ <= latitude AND latitude <= %@ AND %@ <= longitude AND longitude <= %@",name,[NSNumber numberWithDouble:botRight.latitude],[NSNumber numberWithDouble:topLeft.latitude],[NSNumber numberWithDouble:topLeft.longitude],[NSNumber numberWithDouble:botRight.longitude]]];
-    [query setLimit:API_PAGE];
+    [query setLimit:API_PAGE_SIZE];
     [query findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
         for (PFObject* location in data) {
             LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:location.objectId];
@@ -228,7 +228,7 @@
 -(void)getFeedsFromServerForUserID:(NSString*)userID completion:(void(^)(NSMutableArray* returnArray,NSString*error))completion{
     PFQuery* query = [PFQuery queryWithClassName:@"Post"];
     [query whereKey:@"user_id" equalTo:userID];
-    [query setLimit:API_PAGE];
+    [query setLimit:API_PAGE_SIZE];
     [query orderBySortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]];
     [query findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
         if (data) {
@@ -250,7 +250,7 @@
 
 -(void)getOldFeedsFromServer:(NSDate*)time completion:(void(^)(NSMutableArray* returnArray,NSString*error))completion{
     PFQuery* query = [PFQuery queryWithClassName:@"Post"];
-    [query setLimit:API_PAGE];
+    [query setLimit:API_PAGE_SIZE];
     [query orderBySortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]];
     if (time) {
         [query whereKey:@"createdAt" lessThan:time];
@@ -300,6 +300,7 @@
     feedModel.comment_count = parse[@"comment_count"];
     feedModel.like_userIds = parse[@"like_userIds"];
     feedModel.comming_userIds = parse[@"comming_userIds"];
+    feedModel.with_userIds = parse[@"with_userIds"];
     return feedModel;
 }
 
@@ -757,7 +758,7 @@
         for (PFUser* user in objects) {
             [self updateUserModel:user.objectId withParse:user];
         }
-        [[CoreDataService instance]saveContext];
+        [[CoreDataService instance] saveContext];
         completion();
     }];
 }
@@ -792,7 +793,7 @@
 
 -(void)getOldCommentsFromServerForFeedID:(NSString*)fid time:(NSDate*)time completion:(void(^)(NSMutableArray* returnData,NSString* error))completion{
     PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
-    [query setLimit:API_PAGE];
+    [query setLimit:API_PAGE_SIZE];
     [query whereKey:@"post_id" equalTo: fid];
     [query orderBySortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]];
     if (time) {
@@ -1153,7 +1154,7 @@
     if (notif) {
         [query whereKey:@"updatedAt" lessThan:notif.time];
     }
-    [query setLimit:API_PAGE];
+    [query setLimit:API_PAGE_SIZE];
     [query whereKey:@"receiver_id" equalTo:[AccountModel currentAccountModel].user_id];
     [query whereKey:@"sender_id" notEqualTo:[AccountModel currentAccountModel].user_id];
     [query orderBySortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"updatedAt" ascending:NO]];
@@ -1202,7 +1203,7 @@
 }
 -(void)getNotificationFromServerForUser:(NSString*)userID completion:(void(^)(NSArray* returnArray,NSString* error))completion{
     PFQuery* query = [PFQuery queryWithClassName:@"Notification"];
-    [query setLimit:API_PAGE];
+    [query setLimit:API_PAGE_SIZE];
     [query whereKey:@"receiver_id" equalTo:[AccountModel currentAccountModel].user_id];
     [query whereKey:@"sender_id" notEqualTo:[AccountModel currentAccountModel].user_id];
     [query orderBySortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"updatedAt" ascending:NO]];
