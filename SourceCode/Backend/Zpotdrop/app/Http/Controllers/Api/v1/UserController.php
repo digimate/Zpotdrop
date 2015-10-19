@@ -34,7 +34,7 @@ class UserController extends ApiController
 	 *      	),
      *     @SWG\Parameter(
      *			name="Authorization",
-     *			description="Authorization & access_token ex: Bearer rAPoKnrkC87f9ex9oh0WZ1iUMBhLMBHXGrgrWW1f",
+     *			description="Authorization include  Bearer & access_token ex: Bearer rAPoKnrkC87f9ex9oh0WZ1iUMBhLMBHXGrgrWW1f",
      *			in="header",
      *      	required=true,
      *      	type="integer"

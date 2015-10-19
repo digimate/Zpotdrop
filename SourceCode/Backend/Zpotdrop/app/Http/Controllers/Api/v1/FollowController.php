@@ -55,7 +55,7 @@ class FollowController extends ApiController
         $userId = \Authorizer::getResourceOwnerId();
 
         if ($userId === $friend_id) {
-            return $this->lzResponse->badRequest();
+            return $this->lzResponse->badRequest(['user_id' => $userId, 'friend_id' => $friend_id]);
         }
         $user = User::find($userId);
         $friend = User::where('id', $friend_id)->active()->first();
@@ -117,7 +117,7 @@ class FollowController extends ApiController
         $userId = \Authorizer::getResourceOwnerId();
 
         if ($userId === $friend_id) {
-            return $this->lzResponse->badRequest();
+            return $this->lzResponse->badRequest(['user_id' => $userId, 'friend_id' => $friend_id]);
         }
         $user = User::find($userId);
         $friend = User::where('id', $friend_id)->active()->first();
@@ -136,6 +136,52 @@ class FollowController extends ApiController
 
         return $this->lzResponse->success();
     }
+
+
+    /**
+     * @SWG\get(
+     *    path="/users/friends/{friend_id}/check",
+     *   summary="Check Follow a friend",
+     *   tags={"Users"},
+     *     @SWG\Parameter(
+     *			name="Authorization",
+     *			description="Authorization include  Bearer & access_token ex: Bearer rAPoKnrkC87f9ex9oh0WZ1iUMBhLMBHXGrgrWW1f",
+     *			in="header",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *      @SWG\Parameter(
+     *			name="friend_id",
+     *			description="ID of friend!",
+     *			in="query",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *		@SWG\Response(response=200, description="Register successful"),
+     *      @SWG\Response(response=400, description="Bad request")
+     *
+     * )
+     */
+    public function check(Request $request, $friend_id)
+    {
+        $userId = \Authorizer::getResourceOwnerId();
+
+        if ($userId === $friend_id) {
+            return $this->lzResponse->badRequest(['user_id' => $userId, 'friend_id' => $friend_id]);
+        }
+
+
+        // check exists action
+        $relation = \Cache::remember("follow_{$userId}_{$friend_id}", config('custom.cache.long_time'), function() use($userId, $friend_id) {
+            return Friend::where('user_id', $userId)
+                ->where('friend_id', $friend_id)->first();
+        });
+        if(!$relation) {
+            return $this->lzResponse->success(['status' => Friend::FRIEND_NO, 'text' => Friend::getFriendStatusText(Friend::FRIEND_NO)]);
+        }
+        return $this->lzResponse->success(['status' => $relation->is_friend, 'text' => Friend::getFriendStatusText($relation->is_friend)]);
+    }
+
 
 
 	/**

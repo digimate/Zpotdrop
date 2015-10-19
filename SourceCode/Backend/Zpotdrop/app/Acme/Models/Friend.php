@@ -56,6 +56,25 @@ class Friend extends BaseModel
 	const FRIEND_REQUEST     = 0;
     const FRIEND_NO = -1;
 
+    public static function getFriendStatusText($status) {
+        $text = '';
+        switch($status) {
+            case self::FRIEND_NO:
+                $text = 'No';
+                break;
+            case self::FRIEND_REQUEST:
+                $text = 'Request';
+                break;
+            case self::FRIEND_FOLLOW:
+                $text = 'Following';
+                break;
+            case self::FRIEND_YES:
+                $text = 'Friend';
+                break;
+        }
+        return $text;
+    }
+
 	/*Relations*/
 	public function user(){
 		return $this->belongsTo('App\Acme\Models\User', 'user_id');

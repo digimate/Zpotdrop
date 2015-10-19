@@ -95,6 +95,7 @@ Route::group([
 */
     Route::post('/users/friends/{friend_id}/follow', 'FollowController@follow');
     Route::post('/users/friends/{friend_id}/follow/accept', 'FollowController@accept');
+    Route::get('/users/friends/{friend_id}/check', 'FollowController@check');
 
 
     /*

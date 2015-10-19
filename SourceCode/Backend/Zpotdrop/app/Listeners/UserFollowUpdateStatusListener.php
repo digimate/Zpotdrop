@@ -45,6 +45,15 @@ class UserFollowUpdateStatusListener  implements  ShouldQueue
                     Friend::where('user_id', $event->user->id)
                         ->where('friend_id', $event->friend->id)
                         ->update(['is_friend' => Friend::FRIEND_YES]);
+
+                    if (config('custom.cache.enable')) {
+                        $relation->is_friend = Friend::FRIEND_YES;
+                        \Cache::put("follow_{$event->friend->id}_{$event->user->id}", $relation, config('custom.cache.long_time'));
+
+                        $relation->user_id = $event->user->id;
+                        $relation->friend_id = $event->friend->id;
+                        \Cache::put("follow_{$event->user->id}_{$event->friend->id}", $relation, config('custom.cache.long_time'));
+                    }
                 }
             }
 
