@@ -18,6 +18,19 @@ Route::get('/', function () {
 Route::get('tests/redis', 'TestController@redis');
 Route::get('tests/beanstalk', 'TestController@beanstalk');
 
-Route::get('/register/verify/{token}', ['as' =>  'frontend.register.verify', 'uses' => 'Api\v1\OAuthController@confirmRegister']);
+Route::group(['namespace' => 'Api\v1'], function() {
+    Route::get('oauth/register/verify/{token}', ['as' =>  'frontend.register.verify', 'uses' => 'OAuthController@confirmRegister']);
+    Route::get('oauth/password/reset/{token}', [
+        'as' => 'oauth.password.get.reset',
+        'uses' => 'PasswordController@getReset'
+    ]);
+    Route::post('oauth/password/reset', [
+        'as' => 'oauth.password.post.reset',
+        'uses' => 'PasswordController@postReset'
+    ]);
+});
+
+
+
 include 'Routes/Api.php';
 include 'Routes/Common.php';

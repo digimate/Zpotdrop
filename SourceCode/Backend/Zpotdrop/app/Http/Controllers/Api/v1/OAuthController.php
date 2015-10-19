@@ -273,6 +273,11 @@ class OAuthController extends ApiController
                     ]);
                     \DB::commit();
                     \Auth::loginUsingId($user->id);
+
+
+                    event(new SocialNetworkLoginEvent($user, \Request::input('uid'), \Request::input('access_token'), \Request::input('provider') ));
+
+
                     return \Auth::id();
                 }
             } catch(\Exception $e) {
@@ -615,8 +620,6 @@ class OAuthController extends ApiController
             $user->device_id = $request->input('device_id');
             $user->device_type = $request->input('device_type');
             $user->save();
-
-            event(new SocialNetworkLoginEvent($user, $request->input('uid'), $request->input('access_token'), $request->input('provider') ));
 
             $transformer = new UserTransformer();
             return $this->lzResponse->success(array_merge($token, $transformer->transform($user)));

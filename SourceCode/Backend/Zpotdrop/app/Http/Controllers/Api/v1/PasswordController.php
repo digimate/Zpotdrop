@@ -11,6 +11,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Acme\Models\User;
 use App\Jobs\SendReminderEmail;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
@@ -98,9 +99,11 @@ class PasswordController extends ApiController
 			return $this->lzResponse->badRequest($validator->errors()->all());
 		}
 
+        /*
 		$job = (new SendReminderEmail(['email'=>$request->get('email')]))->onQueue('emails');
 		$this->dispatch($job);
-		$job->delete();
+		$job->delete();*/
+        $this->dispatch(new SendReminderEmail(['email' => $request->get('email'), 'status' => User::STATUS_ACTIVE]));
 
 		return $this->lzResponse->success(trans('Password reset link sent to your email!'));
 	}
@@ -130,7 +133,7 @@ class PasswordController extends ApiController
 		$validator = Validator::make($request->all(), [
 			'token' => 'required',
 			'email' => 'required|email',
-			'password' => 'required|confirmed',
+			'password' => 'required|confirmed|min:6',
 		]);
 
 		if($validator->fails()){
@@ -192,6 +195,14 @@ class PasswordController extends ApiController
 	 *      		required=true,
 	 *      		type="string"
 	 *      	),
+     *      @SWG\Parameter(
+     *			name="current_password",
+     *			description="Current Password",
+     *			in="formData",
+     *      		required=true,
+     *      		type="string",
+     *              default="1234567"
+     *      	),
 	 *      @SWG\Parameter(
 	 *			name="password",
 	 *			description="Password",
@@ -210,7 +221,7 @@ class PasswordController extends ApiController
 		if(\Auth::guest()){
 			return $this->lzResponse->unauthorized();
 		}
-		$validator = Validator::make($request->all(), ['password' => 'required|min:6']);
+		$validator = Validator::make($request->all(), ['password' => 'required|min:6', 'current_password' => 'required|min:6|old_password']);
 		if($validator->fails()){
 			return $this->lzResponse->badRequest($validator->errors()->all());
 		}

@@ -37,7 +37,14 @@ Route::group(['prefix' => 'api/v1'], function(){
 |--------------------------------------------------------------------------
 */
 		Route::post('oauth/password/remind', 'PasswordController@remindPassword');
-		Route::get('oauth/password/reset/{token}', [
+
+        Route::post('oauth/password/change', [
+            'as' => 'oauth.password.post.change',
+            'middleware' => 'oauth',
+            'uses' => 'PasswordController@postChangePassword'
+        ]);
+        /* chuyen sang routes.php
+        Route::get('oauth/password/reset/{token}', [
 			'as' => 'oauth.password.get.reset',
 			'uses' => 'PasswordController@getReset'
 		]);
@@ -49,7 +56,7 @@ Route::group(['prefix' => 'api/v1'], function(){
 			'as' => 'oauth.password.post.change',
 			'middleware' => 'oauth',
 			'uses' => 'PasswordController@postChangePassword'
-		]);
+		]);*/
 	});
 });
 
