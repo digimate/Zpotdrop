@@ -605,10 +605,10 @@
             </objects>
             <point key="canvasLocation" x="1201" y="363"/>
         </scene>
-        <!--Post Add Friends View Controller-->
+        <!--ADD FRIENDS-->
         <scene sceneID="f3g-b2-KKe">
             <objects>
-                <viewController id="jb2-iC-wNI" customClass="PostAddFriendsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PostAddFriendsViewController" title="ADD FRIENDS" id="jb2-iC-wNI" customClass="PostAddFriendsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ing-gb-e5l"/>
                         <viewControllerLayoutGuide type="bottom" id="H94-va-MVr"/>
@@ -620,9 +620,12 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gg8-em-Prk">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E5u-bA-M6k" userLabel="Separator">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="E5u-bA-M6k" userLabel="Separator">
                                         <rect key="frame" x="0.0" y="41" width="320" height="1"/>
                                         <color key="backgroundColor" red="0.90980392156862744" green="0.9137254901960784" blue="0.91764705882352937" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="h0H-gQ-f8k"/>
+                                        </constraints>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_find" translatesAutoresizingMaskIntoConstraints="NO" id="KVF-zR-76q">
                                         <rect key="frame" x="14" y="15" width="10" height="10"/>
@@ -638,14 +641,20 @@
                                         </constraints>
                                         <color key="textColor" red="0.078431372549019607" green="0.12549019607843137" blue="0.16078431372549018" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="OpenSans-Light" family="Open Sans" pointSize="13"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="jb2-iC-wNI" id="lXY-j4-9rM"/>
+                                        </connections>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="E5u-bA-M6k" firstAttribute="leading" secondItem="Gg8-em-Prk" secondAttribute="leading" id="KmI-9M-02t"/>
+                                    <constraint firstAttribute="trailing" secondItem="E5u-bA-M6k" secondAttribute="trailing" id="P7e-GE-3ae"/>
                                     <constraint firstItem="8hf-aG-LZT" firstAttribute="top" secondItem="Gg8-em-Prk" secondAttribute="top" constant="5" id="Toe-70-Fkl"/>
                                     <constraint firstItem="KVF-zR-76q" firstAttribute="leading" secondItem="Gg8-em-Prk" secondAttribute="leading" constant="14" id="TsJ-op-LPP"/>
                                     <constraint firstAttribute="trailing" secondItem="8hf-aG-LZT" secondAttribute="trailing" constant="10" id="dlm-di-c6C"/>
+                                    <constraint firstAttribute="bottom" secondItem="E5u-bA-M6k" secondAttribute="bottom" constant="1" id="dq7-29-QPs"/>
                                     <constraint firstItem="8hf-aG-LZT" firstAttribute="leading" secondItem="KVF-zR-76q" secondAttribute="trailing" constant="5" id="iye-qZ-nC7"/>
                                     <constraint firstAttribute="height" constant="43" id="nyz-7A-358"/>
                                     <constraint firstItem="KVF-zR-76q" firstAttribute="top" secondItem="Gg8-em-Prk" secondAttribute="top" constant="15" id="vVw-ap-XdO"/>
@@ -654,20 +663,15 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FAz-nj-5k0" customClass="TPKeyboardAvoidingTableView">
                                 <rect key="frame" x="0.0" y="48" width="320" height="520"/>
                                 <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" id="N26-uc-aei">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="5"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="WNc-cm-fXo" customClass="PostAddFriendCell">
-                                        <rect key="frame" x="0.0" y="33" width="320" height="50"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostAddFriendCell" id="WNc-cm-fXo" customClass="PostAddFriendCell">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WNc-cm-fXo" id="zDq-y3-n9M">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar.png" translatesAutoresizingMaskIntoConstraints="NO" id="14H-mf-ges">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar.png" translatesAutoresizingMaskIntoConstraints="NO" id="14H-mf-ges">
                                                     <rect key="frame" x="10" y="9" width="32" height="32"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="32" id="Add-KP-g0e"/>
@@ -700,6 +704,10 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="jb2-iC-wNI" id="pJ1-eX-rr5"/>
+                                    <outlet property="delegate" destination="jb2-iC-wNI" id="KlV-Q8-jz7"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
@@ -716,6 +724,7 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="tblFriend" destination="FAz-nj-5k0" id="YyL-80-djg"/>
                         <outlet property="tfSearchFriend" destination="8hf-aG-LZT" id="tGK-Dr-3Pg"/>
                     </connections>
                 </viewController>

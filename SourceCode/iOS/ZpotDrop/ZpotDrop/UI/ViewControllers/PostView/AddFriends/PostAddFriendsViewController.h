@@ -8,6 +8,16 @@
 
 #import "BaseViewController.h"
 
-@interface PostAddFriendsViewController : BaseViewController
+@class PostAddFriendsViewController;
 
+
+
+@protocol PostAddFriendsViewControllerDelegate <NSObject>
+- (void)postAddFriendsViewController:(PostAddFriendsViewController *)vc didSelectFriends:(NSArray *)users;
+@end
+
+
+
+@interface PostAddFriendsViewController : BaseViewController
+@property (nonatomic, weak) id<PostAddFriendsViewControllerDelegate> delegate;
 @end

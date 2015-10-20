@@ -15,6 +15,7 @@
 #import "UIColor+HexColors.h"
 #import "LocationService.h"
 #import "SearchLocationViewController.h"
+#import "PostAddFriendsViewController.h"
 
 @interface PostZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,CLLocationManagerDelegate,MKMapViewDelegate,UISearchBarDelegate, SearchLocationViewControllerDelegate>{
     UIScrollView* _scrollViewContent;
@@ -244,11 +245,14 @@
 }
 
 - (IBAction)didTouchAddFriends:(id)sender {
-    if (vWith.hidden) {
-        [self showViewWith];
-    } else {
-        [self hideViewWith];
-    }
+    PostAddFriendsViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"PostAddFriendsViewController"];
+    vc.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+    [self.navigationController pushViewController:vc animated:YES];
+//    if (vWith.hidden) {
+//        [self showViewWith];
+//    } else {
+//        [self hideViewWith];
+//    }
 }
 
 - (IBAction)didTouchFindLocation:(id)sender {

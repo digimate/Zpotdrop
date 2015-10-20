@@ -38,6 +38,7 @@
 		B480D4CA1BD35CE7001E1CDF /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B480D4C91BD35CE7001E1CDF /* OpenSans-Regular.ttf */; settings = {ASSET_TAGS = (); }; };
 		B480D4CE1BD368A0001E1CDF /* AddLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B480D4CD1BD368A0001E1CDF /* AddLocationViewController.m */; settings = {ASSET_TAGS = (); }; };
 		B4A1C7831BD4700B008F4685 /* PostAddFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A1C7821BD4700B008F4685 /* PostAddFriendsViewController.m */; settings = {ASSET_TAGS = (); }; };
+		B4BC9E241BD5BA2300EE53AD /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BC9E231BD5BA2300EE53AD /* UserService.m */; settings = {ASSET_TAGS = (); }; };
 		B4D09F391BC5801E008B180A /* AccountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D09DFD1BC5801D008B180A /* AccountModel.m */; };
 		B4D09F3A1BC5801E008B180A /* BaseDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D09DFF1BC5801D008B180A /* BaseDataModel.m */; };
 		B4D09F3B1BC5801E008B180A /* FeedCommentDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D09E011BC5801D008B180A /* FeedCommentDataModel.m */; };
@@ -275,6 +276,8 @@
 		B4A1C7811BD4700B008F4685 /* PostAddFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostAddFriendsViewController.h; sourceTree = "<group>"; };
 		B4A1C7821BD4700B008F4685 /* PostAddFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostAddFriendsViewController.m; sourceTree = "<group>"; };
 		B4A1C7841BD473F2008F4685 /* zpotdrop2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = zpotdrop2.xcdatamodel; sourceTree = "<group>"; };
+		B4BC9E221BD5BA2300EE53AD /* UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserService.h; sourceTree = "<group>"; };
+		B4BC9E231BD5BA2300EE53AD /* UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserService.m; sourceTree = "<group>"; };
 		B4D09DFC1BC5801D008B180A /* AccountModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountModel.h; sourceTree = "<group>"; };
 		B4D09DFD1BC5801D008B180A /* AccountModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountModel.m; sourceTree = "<group>"; };
 		B4D09DFE1BC5801D008B180A /* BaseDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseDataModel.h; sourceTree = "<group>"; };
@@ -763,6 +766,8 @@
 				B4D09E121BC5801D008B180A /* RuleService.m */,
 				B480D4C01BD212EA001E1CDF /* LocationService.h */,
 				B480D4C11BD212EA001E1CDF /* LocationService.m */,
+				B4BC9E221BD5BA2300EE53AD /* UserService.h */,
+				B4BC9E231BD5BA2300EE53AD /* UserService.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1577,6 +1582,7 @@
 				B4D09FE61BC5801E008B180A /* ZpotAnnotationView.m in Sources */,
 				B4D09F601BC5801E008B180A /* SDWebImageManager.m in Sources */,
 				B4D09FBD1BC5801E008B180A /* ViewController.m in Sources */,
+				B4BC9E241BD5BA2300EE53AD /* UserService.m in Sources */,
 				B4D09FA91BC5801E008B180A /* BaseViewController.m in Sources */,
 				B4D09FE21BC5801E008B180A /* SettingSwitchCell.m in Sources */,
 				B4D09FB31BC5801E008B180A /* NotificationTableViewCell.m in Sources */,
