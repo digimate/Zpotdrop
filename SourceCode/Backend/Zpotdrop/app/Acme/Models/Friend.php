@@ -48,7 +48,7 @@ class Friend extends BaseModel
 	 *
 	 * @var array
 	 */
-	protected $hidden = ['user_id', 'friend_id'];
+	protected $hidden = ['created_at', 'user_id', 'friend_id'];
 
 	/*Friend Flag*/
 	const FRIEND_YES    = 2;
@@ -77,10 +77,47 @@ class Friend extends BaseModel
 
 	/*Relations*/
 	public function user(){
-		return $this->belongsTo('App\Acme\Models\User', 'user_id');
+		return $this->belongsTo('App\Acme\Models\User', 'user_id', 'id');
 	}
 
 	public function friend(){
 		return $this->belongsTo('App\Acme\Models\User', 'friend_id');
 	}
+
+
+    /**
+     * get followers
+     * @param $userId
+     * @param $page
+     * @param $limit
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public static function getFollowers($userId, $page, $limit) {
+        $page = self::setPage($page);
+        $limit = self::setLimit($limit);
+
+        return Friend::with(['user' => function($query) {
+                    $query->addSelect(['id', 'avatar', 'first_name', 'last_name']);
+                }])
+            ->where('friend_id', $userId)->where('is_friend', '>=', Friend::FRIEND_FOLLOW)
+            ->paginate($limit, ['*'], 'page', $page);
+    }
+
+    /**
+     * get followings
+     * @param $userId
+     * @param $page
+     * @param $limit
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public static function getFollowings($userId, $page, $limit) {
+        $page = self::setPage($page);
+        $limit = self::setLimit($limit);
+
+        return Friend::with(['friend' => function($query) {
+            $query->addSelect(['id', 'avatar', 'first_name', 'last_name']);
+        }])
+            ->where('user_id', $userId)->where('is_friend', '>=', Friend::FRIEND_FOLLOW)
+            ->paginate($limit, ['*'], 'page', $page);
+    }
 }

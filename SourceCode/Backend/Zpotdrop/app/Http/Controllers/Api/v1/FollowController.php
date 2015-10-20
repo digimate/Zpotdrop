@@ -18,6 +18,7 @@ use App\Acme\Models\Notification;
 use App\Acme\Models\User;
 use App\Acme\Notifications\LZPushNotification;
 use App\Acme\Restful\LZResponse;
+use App\Acme\Transformers\FriendTransformer;
 use App\Acme\Transformers\UserTransformer;
 use App\Acme\Utils\Image\Upload;
 use App\Events\UserFollowEvent;
@@ -183,6 +184,90 @@ class FollowController extends ApiController
     }
 
 
+    /**
+     * @SWG\get(
+     *    path="/users/friends/followers",
+     *   summary="Get followers",
+     *   tags={"Users"},
+     *     @SWG\Parameter(
+     *			name="Authorization",
+     *			description="Authorization include  Bearer & access_token ex: Bearer rAPoKnrkC87f9ex9oh0WZ1iUMBhLMBHXGrgrWW1f",
+     *			in="header",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *      @SWG\Parameter(
+     *			name="page",
+     *			description="Page index: 1,2,3,4",
+     *			in="query",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *      @SWG\Parameter(
+     *			name="limit",
+     *			description="Number of post want to get : min=1 ; max=500",
+     *			in="query",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *		@SWG\Response(response=200, description="Register successful"),
+     *      @SWG\Response(response=400, description="Bad request")
+     *
+     * )
+     */
+    public function followers(Request $request)
+    {
+        $userId = \Authorizer::getResourceOwnerId();
+        $page = $request->get('page', 1);
+        $limit = $request->get('limit');
+
+        $followers = Friend::getFollowers($userId, $page, $limit);
+
+        return $this->lzResponse->successTransformArrayModelsWithPagination($followers, new FriendTransformer());
+    }
+
+
+    /**
+     * @SWG\get(
+     *    path="/users/friends/followings",
+     *   summary="Get followings",
+     *   tags={"Users"},
+     *     @SWG\Parameter(
+     *			name="Authorization",
+     *			description="Authorization include  Bearer & access_token ex: Bearer rAPoKnrkC87f9ex9oh0WZ1iUMBhLMBHXGrgrWW1f",
+     *			in="header",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *      @SWG\Parameter(
+     *			name="page",
+     *			description="Page index: 1,2,3,4",
+     *			in="query",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *      @SWG\Parameter(
+     *			name="limit",
+     *			description="Number of post want to get : min=1 ; max=500",
+     *			in="query",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *		@SWG\Response(response=200, description="Register successful"),
+     *      @SWG\Response(response=400, description="Bad request")
+     *
+     * )
+     */
+    public function followings(Request $request)
+    {
+        $userId = \Authorizer::getResourceOwnerId();
+        $page = $request->get('page', 1);
+        $limit = $request->get('limit');
+
+        $followers = Friend::getFollowings($userId, $page, $limit);
+
+        return $this->lzResponse->successTransformArrayModelsWithPagination($followers, new FriendTransformer());
+    }
 
 	/**
 	 * @SWG\Post(

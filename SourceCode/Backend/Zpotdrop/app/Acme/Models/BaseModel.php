@@ -19,4 +19,26 @@ use Illuminate\Database\Eloquent\Model;
  */
 class BaseModel extends Model
 {
+    public static function getMaxLimit() {
+        return config('custom.pagination.limit_max');
+    }
+
+    public static function getMinLimit() {
+        return config('custom.pagination.limit_min');
+    }
+
+    public static function setLimit($limit) {
+        $maxLimit = self::getMaxLimit();
+        if ($limit < 0 || $limit > $maxLimit) {
+            $limit = $maxLimit;
+        }
+        return $limit;
+    }
+
+    public static function setPage($page) {
+        if ($page < 0) {
+            $page = 1;
+        }
+        return $page;
+    }
 }
