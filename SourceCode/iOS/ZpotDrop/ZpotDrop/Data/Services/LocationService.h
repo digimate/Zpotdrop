@@ -23,4 +23,6 @@
 - (void)searchLocationAroundLocation:(CLLocation *)location
                             withName:(NSString *)name
                           completion:(void(^)(NSArray * data,NSString* error))completion;
+- (void)searchLocationWithName:(NSString *)name
+                    completion:(void(^)(NSArray * data,NSString* error))completion;
 @end

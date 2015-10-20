@@ -107,14 +107,14 @@
                                         </constraints>
                                     </imageView>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ic2-6m-6FR">
-                                        <rect key="frame" x="0.0" y="202" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="200" width="320" height="44"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add text" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NQl-Dx-zSM">
                                                 <rect key="frame" x="15" y="7" width="290" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="Nd6-NS-5uj"/>
                                                 </constraints>
-                                                <color key="textColor" red="0.078431372549019607" green="0.12549019607843137" blue="0.16078431372549018" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.72941176470588232" green="0.73725490196078436" blue="0.74117647058823533" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="OpenSans-Light" family="Open Sans" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
@@ -137,10 +137,10 @@
                                         </constraints>
                                     </view>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Vo-R9-SkR">
-                                        <rect key="frame" x="0.0" y="246" width="320" height="32"/>
+                                        <rect key="frame" x="0.0" y="244" width="320" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="llK-Ti-lPm">
-                                                <rect key="frame" x="15" y="2" width="290" height="28"/>
+                                                <rect key="frame" x="15" y="3" width="290" height="28"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="With - ">
                                                         <attributes>
@@ -161,8 +161,8 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="llK-Ti-lPm" secondAttribute="trailing" constant="15" id="852-Rq-ZKn"/>
-                                            <constraint firstItem="llK-Ti-lPm" firstAttribute="top" secondItem="8Vo-R9-SkR" secondAttribute="top" constant="2" id="MmN-R1-R0h"/>
-                                            <constraint firstAttribute="bottom" secondItem="llK-Ti-lPm" secondAttribute="bottom" constant="2" id="VnC-Nl-JNc"/>
+                                            <constraint firstItem="llK-Ti-lPm" firstAttribute="top" secondItem="8Vo-R9-SkR" secondAttribute="top" constant="3" id="MmN-R1-R0h"/>
+                                            <constraint firstAttribute="bottom" secondItem="llK-Ti-lPm" secondAttribute="bottom" constant="3" id="VnC-Nl-JNc"/>
                                             <constraint firstItem="llK-Ti-lPm" firstAttribute="leading" secondItem="8Vo-R9-SkR" secondAttribute="leading" constant="15" id="yzx-8Y-5eG"/>
                                         </constraints>
                                     </view>

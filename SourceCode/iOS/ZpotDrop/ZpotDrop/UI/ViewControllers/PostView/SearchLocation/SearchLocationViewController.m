@@ -86,18 +86,15 @@
     }
     
     LocationService *service = [LocationService new];
-    CLLocation *loc = [Utils instance].locationManager.location;
-    if (loc) {
-        [service searchLocationAroundLocation:loc withName:text completion:^(NSArray *data, NSString *error) {
-            if (self.tfSearchName.text.length == 0) {
-                [self clearLocationList];
-                return;
-            }
-            self.arrLocation = data;
-            self.selectedIndex = NSNotFound;
-            [self.tblLocation reloadData];
-        }];
-    }
+    [service searchLocationWithName:text completion:^(NSArray *data, NSString *error) {
+        if (self.tfSearchName.text.length == 0) {
+            [self clearLocationList];
+            return;
+        }
+        self.arrLocation = data;
+        self.selectedIndex = NSNotFound;
+        [self.tblLocation reloadData];
+    }];
 }
 
 - (void)clearLocationList {

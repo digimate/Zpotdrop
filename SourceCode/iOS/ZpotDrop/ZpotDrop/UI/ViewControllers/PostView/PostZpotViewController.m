@@ -17,7 +17,7 @@
 #import "SearchLocationViewController.h"
 #import "PostAddFriendsViewController.h"
 
-@interface PostZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,CLLocationManagerDelegate,MKMapViewDelegate,UISearchBarDelegate, SearchLocationViewControllerDelegate>{
+@interface PostZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,CLLocationManagerDelegate,MKMapViewDelegate,UISearchBarDelegate, SearchLocationViewControllerDelegate, PostAddFriendsViewControllerDelegate>{
     UIScrollView* _scrollViewContent;
     UITextField* zpotTitleTextField;
     UISearchBar* searchLocationBar;
@@ -29,6 +29,9 @@
     NSMutableArray *buttonsLocation;
     NSArray *arrLocation;
     LocationDataModel *selectedLocation;
+    
+    //Add Friends
+    NSArray *withFriends;
 }
 
 @end
@@ -247,12 +250,9 @@
 - (IBAction)didTouchAddFriends:(id)sender {
     PostAddFriendsViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"PostAddFriendsViewController"];
     vc.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+    vc.delegate = self;
+    [vc addSelectedFriends:withFriends];
     [self.navigationController pushViewController:vc animated:YES];
-//    if (vWith.hidden) {
-//        [self showViewWith];
-//    } else {
-//        [self hideViewWith];
-//    }
 }
 
 - (IBAction)didTouchFindLocation:(id)sender {
@@ -280,17 +280,22 @@
         return;
     }
     
-    MKMapView *mapView = [Utils instance].mapView;
-    if (mapView.region.span.latitudeDelta < 0.03 && mapView.region.span.longitudeDelta < 0.03) {
+    if (![Utils instance].locationManager.location) {
+        return;
+    }
+    
+//    MKMapView *mapView = [Utils instance].mapView;
+//    if (mapView.region.span.latitudeDelta < 0.03 && mapView.region.span.longitudeDelta < 0.03) {
         LocationService *service = [LocationService new];
-        [service searchLocationWithinCoord:mapView.topLeft coor2:mapView.bottomRight completion:^(NSArray *data, NSString *error) {
+        [service searchLocationAroundLocation:[Utils instance].locationManager.location completion:^(NSArray *data, NSString *error) {
+//        [service searchLocationWithinCoord:mapView.topLeft coor2:mapView.bottomRight completion:^(NSArray *data, NSString *error) {
             arrLocation = [data copy];
             [self addLocationButtons];
         }];
-    } else {
-        arrLocation = nil;
-        [self addLocationButtons];
-    }
+//    } else {
+//        arrLocation = nil;
+//        [self addLocationButtons];
+//    }
 }
 
 - (void)addLocationButtons {
@@ -447,6 +452,41 @@
     }
 }
 
+- (void)updateFriends:(NSArray *)users {
+    if (users == nil || users.count == 0) {
+        withFriends = nil;
+        [self hideViewWith];
+        return;
+    }
+    
+    withFriends = [users copy];
+    
+    NSMutableArray *arrUserName = [NSMutableArray array];
+    for (UserDataModel *user in users) {
+        [arrUserName addObject:user.name];
+    }
+    NSString *strFriendNames = [arrUserName componentsJoinedByString:@", "];
+
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    [style setLineSpacing:0];
+    NSDictionary *fontAttDictWith = @{NSFontAttributeName : [UIFont fontWithName:@"OpenSans-Light" size:10],
+                                      NSParagraphStyleAttributeName : style,
+                                      NSForegroundColorAttributeName : [UIColor colorWithHexString:@"cdcecf"]};
+    NSAttributedString *strWith = [[NSAttributedString alloc] initWithString:@"With - " attributes:fontAttDictWith];
+    
+    NSDictionary *fontAttDictFriends = @{NSFontAttributeName : [UIFont fontWithName:@"OpenSans-Bold" size:10],
+                                         NSParagraphStyleAttributeName : style,
+                                         NSForegroundColorAttributeName : [UIColor colorWithHexString:@"babcbd"]};
+    NSAttributedString *strFriends = [[NSAttributedString alloc] initWithString:strFriendNames attributes:fontAttDictFriends];
+
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] init];
+    [string appendAttributedString:strWith];
+    [string appendAttributedString:strFriends];
+    lbWith.attributedText = string;
+    
+    [self showViewWith];
+}
+
 
 #pragma mark -
 
@@ -578,22 +618,22 @@
 }
 #pragma mark - CLLocationDelegate
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
-    if (createLocationCell && createLocationCell.address.length == 0) {
-        CLLocation* loc = [locations lastObject];
-        CLLocationCoordinate2D coor = [loc coordinate];
-        [[Utils instance].mapView setCenterCoordinate:coor];
-        [[APIService shareAPIService]addressFromLocationCoordinate:coor completion:^(NSString *address) {
-            if (createLocationCell && address) {
-                [createLocationCell setAddress:address];
-            }
-        }];
-    }
-    
+//    if (createLocationCell && createLocationCell.address.length == 0) {
+//        CLLocation* loc = [locations lastObject];
+//        CLLocationCoordinate2D coor = [loc coordinate];
+//        [[Utils instance].mapView setCenterCoordinate:coor];
+//        [[APIService shareAPIService] addressFromLocationCoordinate:coor completion:^(NSString *address) {
+//            if (createLocationCell && address) {
+//                [createLocationCell setAddress:address];
+//            }
+//        }];
+//    }
+    [self fetchLocationsIfPossible];
 }
 #pragma mark - MKMapViewDelegate
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
     NSLog(@"Region Did Change");
-    [self fetchLocationsIfPossible];
+//    [self fetchLocationsIfPossible];
 }
 
 -(void)changeUserLocationColor{
@@ -657,5 +697,10 @@
     [self updateUIFollowSelectedLocation];
 }
 
+
+#pragma mark - PostAddFriendsViewControllerDelegate
+- (void)postAddFriendsViewController:(PostAddFriendsViewController *)vc didSelectFriends:(NSArray *)users {
+    [self updateFriends:users];
+}
 
 @end

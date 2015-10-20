@@ -74,4 +74,24 @@
     [self searchLocationWithName:name withinCoord:topLeft coor2:bottomRight completion:completion];
     
 }
+
+
+- (void)searchLocationWithName:(NSString *)name
+                    completion:(void(^)(NSArray * data,NSString* error))completion
+{
+    PFQuery* query = [PFQuery queryWithClassName:@"Location" predicate:[NSPredicate predicateWithFormat:@"name BEGINSWITH %@",name]];
+    [query setLimit:API_PAGE_SIZE];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * data, NSError* error){
+        NSMutableArray *arrLocation = [NSMutableArray array];
+        for (PFObject* location in data) {
+            LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:location.objectId];
+            model.name = location[@"name"];
+            model.address = location[@"address"];
+            model.latitude = location[@"latitude"];
+            model.longitude = location[@"longitude"];
+            [arrLocation addObject:model];
+        }
+        completion(arrLocation, error.description);
+    }];
+}
 @end

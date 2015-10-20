@@ -20,4 +20,5 @@
 
 @interface PostAddFriendsViewController : BaseViewController
 @property (nonatomic, weak) id<PostAddFriendsViewControllerDelegate> delegate;
+- (void)addSelectedFriends:(NSArray *)users;
 @end

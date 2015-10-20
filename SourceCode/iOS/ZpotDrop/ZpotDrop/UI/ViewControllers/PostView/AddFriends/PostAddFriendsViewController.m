@@ -42,10 +42,45 @@
 
 @implementation PostAddFriendsViewController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _arrSelectedFriends = [NSMutableArray array];        
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        _arrSelectedFriends = [NSMutableArray array];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self createBackButton];
     [self fetchFriendList];
+    self.tblFriend.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+}
+
+
+#pragma mark - Override
+
+- (void)goBack:(id)sender {
+    [self.delegate postAddFriendsViewController:self didSelectFriends:self.arrSelectedFriends];
+    [super goBack:sender];
+}
+
+
+#pragma mark - Public
+
+- (void)addSelectedFriends:(NSArray *)users {
+    if (!users || users.count == 0) return;
+    [self.arrSelectedFriends addObjectsFromArray:users];
 }
 
 
@@ -56,7 +91,6 @@
     [service getFolloweeOfUserId:[AccountModel currentAccountModel].user_id completion:^(NSArray *users, NSError *error) {
         self.arrFriends = [users copy];
         self.arrFilteredFriends = [users copy];
-        self.arrSelectedFriends = [NSMutableArray array];
         [self.tblFriend reloadData];
     }];
 }
