@@ -16,6 +16,7 @@
 #import "LocationService.h"
 #import "SearchLocationViewController.h"
 #import "PostAddFriendsViewController.h"
+#import "UserService.h"
 
 @interface PostZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,CLLocationManagerDelegate,MKMapViewDelegate,UISearchBarDelegate, SearchLocationViewControllerDelegate, PostAddFriendsViewControllerDelegate>{
     UIScrollView* _scrollViewContent;
@@ -143,10 +144,12 @@
     }else{
         //Post zpot
         [self closeKeyboardIfNeed];
+        
+        NSString *withUserIds = [UserService getUserIdListFromUsers:withFriends];
         NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:@{
                                                                                       @"title":[tfAddText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]],
                                                                                       @"location":[selectedLocation mid],
-                                                                                      @"with_userIds":@""
+                                                                                      @"with_userIds": withUserIds
                                                                                       }];
 //        NSInteger row = [searchLocationResults indexOfObject:currentSelectedLocation];
 //        currentSelectedLocation = nil;

@@ -8,6 +8,7 @@
 
 #import "UserService.h"
 #import <Parse/Parse.h>
+#import "UserDataModel.h"
 
 @implementation UserService
 - (void)getFolloweeOfUserId:(NSString *)userId
@@ -33,6 +34,7 @@
      }];
 }
 
+
 - (void)getUserInArrayId:(NSArray *)arrId completion:(void (^) (NSArray *users, NSError *error))completion
 {
     PFQuery* userQuery = [PFUser query];
@@ -49,7 +51,21 @@
 }
 
 
++ (NSString *)getUserIdListFromUsers:(NSArray *)users {
+    if (!users) {
+        return @"";
+    }
+    
+    NSMutableArray *arrUserId = [NSMutableArray array];
+    for (UserDataModel *user in users) {
+        [arrUserId addObject:user.mid];
+    }
+    return [arrUserId componentsJoinedByString:@","];
+}
+
+
 #pragma mark -
+
 - (UserDataModel*)updateUserModel:(NSString*)uid withParse:(PFUser*)user{
     UserDataModel* userModel = (UserDataModel*)[UserDataModel fetchObjectWithID:uid];
     userModel.email = user.email;

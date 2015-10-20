@@ -203,6 +203,7 @@
     feedParse[@"user_id"] = [PFUser currentUser].objectId;
     feedParse[@"location_id"] = [params objectForKey:@"location"];
     feedParse[@"title"] = [params objectForKey:@"title"];
+    feedParse[@"with_userIds"] = [params objectForKey:@"with_userIds"];
     feedParse[@"like_count"] = @(0);
     feedParse[@"comment_count"] = @(0);
     feedParse[@"like_userIds"] = @"";

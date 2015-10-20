@@ -12,4 +12,9 @@
 @interface UserService : NSObject
 - (void)getFolloweeOfUserId:(NSString *)userId
                  completion:(void (^) (NSArray *users, NSError *error))completion;
+
+- (void)getUserInArrayId:(NSArray *)arrId
+              completion:(void (^) (NSArray *users, NSError *error))completion;
+
++ (NSString *)getUserIdListFromUsers:(NSArray *)users;
 @end
