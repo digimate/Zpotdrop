@@ -11,7 +11,7 @@
 #import "FeedSelectedViewCell.h"
 #import "FeedCommentViewController.h"
 
-@interface FeedZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>{
+@interface FeedZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate, UIScrollViewDelegate>{
     UITableView* _feedTableView;
     //UIView* _commentPostView;
     //UITextView* _tvComment;
@@ -24,6 +24,8 @@
     //NSLayoutConstraint* mLayoutBottom;
     FeedSelectedViewCell* feedSelectedCell;
     BOOL canLoadMore;
+    UIButton *_newDropButton;
+    UIButton *_postButton;
 }
 
 @end
@@ -65,7 +67,28 @@
 //    mLayoutComposeHeight = [self constraintForAttribute:NSLayoutAttributeHeight firstItem:_commentPostView secondItem:nil];
 //    mLayoutComposeHeight.constant = 0;
 //    mLayoutBottom = [self constraintForAttribute:NSLayoutAttributeBottom firstItem:self.view secondItem:_commentPostView];
-//    
+//
+    // New drop
+    int newDropButtonWidth = 86;
+    int newDropButtonHeight = 22;
+    _newDropButton = [[UIButton alloc] initWithFrame:CGRectMake((CGRectGetWidth(self.view.frame) - newDropButtonWidth) / 2, 5, newDropButtonWidth, newDropButtonHeight)];
+    _newDropButton.layer.borderWidth = 1.0f;
+    _newDropButton.layer.borderColor = [[UIColor colorWithRed:85.0f/255.0f green:85.0f/255.0f blue:85.0f/255.0f alpha:1.0f] CGColor];
+    [_newDropButton setBackgroundColor:[UIColor colorWithRed:255.0f/255.0f green:255.0f blue:255.0f alpha:0.5f]];
+    [_newDropButton setTitle:@"New Drop" forState:UIControlStateNormal];
+    [_newDropButton setTitleColor:[UIColor colorWithRed:85.0f/255.0f green:85.0f/255.0f blue:85.0f/255.0f alpha:1.0f] forState:UIControlStateNormal];
+    _newDropButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:10];
+    [_newDropButton addTarget:self action:@selector(newDropButtonDidTouch:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_newDropButton];
+    
+    // Post Button
+    int postButtonWidth = 78;
+    int postButtonHeight = 78;
+    _postButton = [[UIButton alloc] initWithFrame:CGRectMake((CGRectGetWidth(self.view.frame) - postButtonWidth) / 2, (CGRectGetHeight(self.view.frame) - postButtonHeight - 10 - 64), postButtonWidth, postButtonHeight)];
+    [_postButton setBackgroundImage:[UIImage imageNamed:@"ic_feed_post"] forState:UIControlStateNormal];
+    [_postButton addTarget:self action:@selector(postButtonDidTouch:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_postButton];
+    
     [self getFeedsFromServer];
 }
 
@@ -249,4 +272,31 @@
         [self loadMoreFeeds];
     }
 }
+
+#pragma mark - ScrollView Delegate
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+    [UIView animateWithDuration:0.3f animations:^{
+        _newDropButton.alpha = 0.0f;
+        _postButton.alpha = 0.0f;
+    }];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    [UIView animateWithDuration:0.3f animations:^{
+        _newDropButton.alpha = 1.0f;
+        _postButton.alpha = 1.0f;
+    }];
+}
+
+#pragma mark - Event Handler
+
+- (IBAction)newDropButtonDidTouch:(id)sender {
+    NSLog(@"should load new posts here");
+}
+
+- (IBAction)postButtonDidTouch:(id)sender {
+    NSLog(@"should post new drop here :)");
+}
+
 @end

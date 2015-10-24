@@ -114,15 +114,20 @@
         [[Utils instance] mapView].userInteractionEnabled = YES;
         [[Utils instance] mapView].scrollEnabled = NO;
         [[Utils instance] mapView].zoomEnabled = YES;
-        CLLocationCoordinate2D startCoord = CLLocationCoordinate2DMake(10.784693, 106.684585);
+        
+//        CLLocationCoordinate2D startCoord = CLLocationCoordinate2DMake(10.784693, 106.684585);
+        CLLocationCoordinate2D startCoord = CLLocationCoordinate2DMake([feedData.latitude doubleValue], [feedData.longitude doubleValue]);
         MKCoordinateRegion adjustedRegion = [[[Utils instance] mapView] regionThatFits:MKCoordinateRegionMakeWithDistance(startCoord, 400, 400)];
         [[[Utils instance] mapView] removeAnnotations:[[Utils instance] mapView].annotations];
         [[[Utils instance] mapView] setRegion:adjustedRegion animated:NO];
         [[Utils instance] mapView].delegate = self;
+       
         //add annotation
         ZpotAnnotation *annotationPoint = [[ZpotAnnotation alloc] init];
         [annotationPoint setCoordinate:startCoord];
         [annotationPoint setTitle:_lblZpotTitle.text];
+        [annotationPoint setOwnerID:feedData.user_id];
+        [annotationPoint setMid:feedData.mid];
         [[[Utils instance] mapView] addAnnotation:annotationPoint];
         
         [_commentsData removeAllObjects];
@@ -446,7 +451,7 @@
     static NSString *const kAnnotationIdentifier = @"ZpotMapAnnotation";
     ZpotAnnotationView *annotationView = (ZpotAnnotationView *)
     [mapView dequeueReusableAnnotationViewWithIdentifier:kAnnotationIdentifier];
-    if (! annotationView) {
+    if (!annotationView) {
         annotationView = [[ZpotAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:kAnnotationIdentifier];
     }
     [annotationView setAnnotation:annotation];
