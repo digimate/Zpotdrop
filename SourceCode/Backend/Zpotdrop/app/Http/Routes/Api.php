@@ -124,6 +124,21 @@ Route::group([
 		'as' => 'api.posts.like',
 		'uses' => 'PostController@like'
 	]);
+
+    /*
+|--------------------------------------------------------------------------
+| Location
+|--------------------------------------------------------------------------
+*/
+    //Route::post('/users/friends/{friend_id}/follow', 'FollowController@follow');
+    Route::post('/geo/location', [
+        'as' => 'api.location.add',
+        'uses' => 'LocationController@add'
+    ]);
+    Route::get('/geo/locations', [
+        'as' => 'api.location.search',
+        'uses' => 'LocationController@locations'
+    ]);
 });
 
 /*

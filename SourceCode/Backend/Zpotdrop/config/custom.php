@@ -14,4 +14,7 @@ return [
         'limit_min' => 1,
         'limit_max'  => 500,
     ],
+    'geo' => [
+        'distance' => 1, // 1km
+    ]
 ];

@@ -27,7 +27,7 @@ class BaseModel extends Model
         return config('custom.pagination.limit_min');
     }
 
-    public static function setLimit($limit) {
+    public static function getLimit($limit) {
         $maxLimit = self::getMaxLimit();
         if ($limit < 0 || $limit > $maxLimit) {
             $limit = $maxLimit;
@@ -35,10 +35,17 @@ class BaseModel extends Model
         return $limit;
     }
 
-    public static function setPage($page) {
+    public static function getPage($page) {
         if ($page < 0) {
             $page = 1;
         }
         return $page;
+    }
+
+    public static function getDistance($distance) {
+        if ($distance > 0) {
+            return $distance;
+        }
+        return config('custom.geo.distance');
     }
 }

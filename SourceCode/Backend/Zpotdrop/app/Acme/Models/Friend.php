@@ -19,13 +19,6 @@ namespace App\Acme\Models;
  * @property boolean $is_friend
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \App\Models\User $user
- * @property-read \App\Models\User $friend
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Friend whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Friend whereFriendId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Friend whereIsFriend($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Friend whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Friend whereUpdatedAt($value)
  */
 class Friend extends BaseModel
 {
@@ -93,8 +86,8 @@ class Friend extends BaseModel
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public static function getFollowers($userId, $page, $limit) {
-        $page = self::setPage($page);
-        $limit = self::setLimit($limit);
+        $page = self::getPage($page);
+        $limit = self::getLimit($limit);
 
         return Friend::with(['user' => function($query) {
                     $query->addSelect(['id', 'avatar', 'first_name', 'last_name']);
@@ -111,8 +104,8 @@ class Friend extends BaseModel
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public static function getFollowings($userId, $page, $limit) {
-        $page = self::setPage($page);
-        $limit = self::setLimit($limit);
+        $page = self::getPage($page);
+        $limit = self::getLimit($limit);
 
         return Friend::with(['friend' => function($query) {
             $query->addSelect(['id', 'avatar', 'first_name', 'last_name']);

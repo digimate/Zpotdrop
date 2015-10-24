@@ -21,7 +21,8 @@
         "iron-io/iron_mq": "^2.0",
         "davibennun/laravel-push-notification": "dev-laravel5",
         "vinkla/hashids": "^2.0",
-        "codeception/codeception": "2.1.3"
+        "codeception/codeception": "2.1.3",
+        "fadion/bouncy": "dev-l5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

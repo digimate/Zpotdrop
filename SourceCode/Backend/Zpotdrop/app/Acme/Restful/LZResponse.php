@@ -316,6 +316,24 @@ class LZResponse{
         return $this->json();
     }
 
+
+    public function successTransformArrayModelsWithElasticPagination($pagination, Transformer $transformer, $currentPage, $limit, $message='OK'){
+        $data['paginator'] = [
+            'total_count' => $pagination->total(),
+            'total_pages' => ceil($pagination->total()/$limit),
+            'current_page' => $currentPage
+        ];
+
+        $resource = new Fractal\Resource\Collection($pagination, $transformer);
+        $result = $this->fractal->createData($resource)->toArray();
+        $data['items'] = $result['data'];
+        unset($result);
+
+        $this->setData($data);
+        $this->setMessage($message);
+        return $this->json();
+    }
+
 	/**
 	 * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
 	 */
