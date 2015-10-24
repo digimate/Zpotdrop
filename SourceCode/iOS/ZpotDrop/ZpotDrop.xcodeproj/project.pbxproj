@@ -1762,8 +1762,6 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/ZpotDrop/Extension/Parse",
-					"$(PROJECT_DIR)/ZpotDrop/Extension/Facebook",
 					"$(PROJECT_DIR)/ZpotDrop/Libraries/Facebook",
 					"$(PROJECT_DIR)/ZpotDrop/Libraries/Parse",
 					"$(PROJECT_DIR)/ZpotDrop/Libraries/Realm",
@@ -1787,8 +1785,6 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/ZpotDrop/Extension/Parse",
-					"$(PROJECT_DIR)/ZpotDrop/Extension/Facebook",
 					"$(PROJECT_DIR)/ZpotDrop/Libraries/Facebook",
 					"$(PROJECT_DIR)/ZpotDrop/Libraries/Parse",
 					"$(PROJECT_DIR)/ZpotDrop/Libraries/Realm",
