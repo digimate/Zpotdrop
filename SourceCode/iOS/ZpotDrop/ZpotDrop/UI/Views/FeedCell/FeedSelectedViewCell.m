@@ -62,7 +62,6 @@
     
     [_btnComming addTarget:self action:@selector(sendCommingNotify:) forControlEvents:UIControlEventTouchUpInside];
     [_btnLike addTarget:self action:@selector(likeFeed:) forControlEvents:UIControlEventTouchUpInside];
-    [self addBorderWithFrame:CGRectMake(0, [FeedSelectedViewCell cellHeightWithData:nil]-5.0, self.width, 5.0) color:[UIColor colorWithRed:242 green:242 blue:242]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -219,6 +218,8 @@
         
         s = [_lblNumberLikes sizeThatFits:CGSizeMake(MAXFLOAT, _lblNumberLikes.height)];
         _lblNumberLikesWidth.constant = ceilf(s.width);
+        
+        [self addBorderWithFrame:CGRectMake(0, [FeedSelectedViewCell cellHeightWithData:data]-5.0, self.width, 5.0) color:[UIColor colorWithRed:242 green:242 blue:242]];
     }
 }
 
