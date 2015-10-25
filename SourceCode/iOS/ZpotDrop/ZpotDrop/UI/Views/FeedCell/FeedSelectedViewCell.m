@@ -62,6 +62,7 @@
     
     [_btnComming addTarget:self action:@selector(sendCommingNotify:) forControlEvents:UIControlEventTouchUpInside];
     [_btnLike addTarget:self action:@selector(likeFeed:) forControlEvents:UIControlEventTouchUpInside];
+    [self addBorderWithFrame:CGRectMake(0, [FeedSelectedViewCell cellHeightWithData:nil]-5.0, self.width, 5.0) color:[UIColor colorWithRed:242 green:242 blue:242]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -301,7 +302,11 @@
 }
 
 +(CGFloat)cellHeightWithData:(BaseDataModel *)data{
-    return 472;
+    int commentCount = [[(FeedDataModel *)data comment_count] intValue];
+    if (commentCount > 0) {
+        return 472;
+    }
+    return 332;
 }
 
 -(void)likeFeed:(UIButton*)sender{
@@ -520,4 +525,5 @@
     }
     return nil;
 }
+
 @end
