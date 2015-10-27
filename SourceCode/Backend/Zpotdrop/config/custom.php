@@ -13,6 +13,7 @@ return [
     'pagination' => [
         'limit_min' => 1,
         'limit_max'  => 500,
+        'limit_default' => 50
     ],
     'geo' => [
         'distance' => 1, // 1km

@@ -26,12 +26,12 @@ class PostTransformer extends Transformer
 	 *
 	 * @var array
 	 */
-	protected $availableIncludes = ['user'];
+	protected $availableIncludes = [];
 
 	/**
 	 * @var array
 	 */
-	protected $defaultIncludes = ['user'];
+	protected $defaultIncludes = [];
 
 	/**
 	 * UserTransformer constructor.

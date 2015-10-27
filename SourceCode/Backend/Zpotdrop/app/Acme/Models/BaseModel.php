@@ -30,7 +30,7 @@ class BaseModel extends Model
     public static function getLimit($limit) {
         $maxLimit = self::getMaxLimit();
         if ($limit < 0 || $limit > $maxLimit) {
-            $limit = $maxLimit;
+            $limit = config('custom.pagination.limit_default');
         }
         return $limit;
     }

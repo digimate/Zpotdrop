@@ -91,6 +91,9 @@ class Friend extends BaseModel
 
         return Friend::with(['user' => function($query) {
                     $query->addSelect(['id', 'avatar', 'first_name', 'last_name']);
+                    $query->orderBy('follower_count', 'desc');
+                    $query->orderBy('first_name', 'asc');
+                    $query->orderBy('id', 'asc');
                 }])
             ->where('friend_id', $userId)->where('is_friend', '>=', Friend::FRIEND_FOLLOW)
             ->paginate($limit, ['*'], 'page', $page);
@@ -109,6 +112,9 @@ class Friend extends BaseModel
 
         return Friend::with(['friend' => function($query) {
             $query->addSelect(['id', 'avatar', 'first_name', 'last_name']);
+            $query->orderBy('follower_count', 'desc');
+            $query->orderBy('first_name', 'asc');
+            $query->orderBy('id', 'asc');
         }])
             ->where('user_id', $userId)->where('is_friend', '>=', Friend::FRIEND_FOLLOW)
             ->paginate($limit, ['*'], 'page', $page);

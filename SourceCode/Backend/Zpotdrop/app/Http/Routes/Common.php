@@ -38,3 +38,11 @@ Route::get('common/image/base64', ['as'=>'common.imagebase64', function(\Illumin
     $img = Image::make(config('custom.upload_dir').'/'.$imagePath);
     return $img->response();
 }]);
+
+Route::get('terms-of-use', ['as' => 'terms_of_use', function(\Illuminate\Http\Request $request) {
+    return view('common.terms-of-use');
+}]);
+
+Route::get('privacy-policy', ['as' => 'privacy_policy', function(\Illuminate\Http\Request $request) {
+    return view('common.privacy-policy');
+}]);

@@ -10,6 +10,7 @@
 */
 
 namespace App\Acme\Models;
+use Fadion\Bouncy\BouncyTrait;
 
 /**
  * Class Post
@@ -24,22 +25,11 @@ namespace App\Acme\Models;
  * @property string $deleted_at
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \App\Models\User $user
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Like[] $likes
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereStatus($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereVenueId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereLikesCount($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereCommentsCount($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Post whereUpdatedAt($value)
  *
  */
 class Post extends BaseModel
 {
+    use BouncyTrait;
 	/**
 	 * The database table used by the model.
 	 *
@@ -54,10 +44,14 @@ class Post extends BaseModel
 	 */
 	protected $fillable = [
 		'status',
-		'venue_id',
+		'location_id',
 		'user_id',
-		'likes',
-		'comments'
+		'likes_count',
+		'comments_count',
+        'cmin_count',
+        'lat',
+        'long',
+        'with_tags'
 	];
 
 	/**
@@ -65,7 +59,39 @@ class Post extends BaseModel
 	 *
 	 * @var array
 	 */
-	protected $hidden = ['user_id', 'post_id', 'deleted_at'];
+	protected $hidden = ['geo_point','deleted_at'];
+
+    public static $rule = [
+        'content'       => 'required|max:255',
+        'lat'           => 'required|numeric',
+        'long'          => 'required|numeric',
+        'location_id'   => 'numeric|min:1',
+    ];
+
+    /**
+     * elasticsearch mapping
+     * @var array
+     */
+    protected $mappingProperties = array(
+        "geo_point" => [
+            "type" => "geo_point",
+            "analyzer" => "stop",
+            "stopwords" => [","]
+        ]
+    );
+
+    /**
+     * Save the model to the database.
+     *
+     * @param  array  $options
+     * @return bool
+     */
+    public function save(array $options = [])
+    {
+        $this->setAttribute('geo_point', "{$this->getAttribute('lat')}, {$this->getAttribute('long')}" );
+        return parent::save($options);
+    }
+
 
 	/*Relations*/
 	/**
@@ -79,8 +105,8 @@ class Post extends BaseModel
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
-	public function venue(){
-		return $this->belongsTo('App\Acme\Models\Venue', 'venue_id');
+	public function location(){
+		return $this->belongsTo('App\Acme\Models\Location', 'location_id');
 	}
 
 	/**
@@ -99,28 +125,22 @@ class Post extends BaseModel
 		return $this->hasMany('App\Acme\Models\Like', 'post_id');
 	}
 
-	/*Repository*/
-	/**
-	 * @param $id
-	 */
-	public function makeLike($id)
-	{
-		$post = Post::find($id);
-		if($post){
-			$post->likes_count += 1;
-			$post->save();
-		}
-	}
 
-	/**
-	 * @param $id
-	 */
-	public function makeComment($id)
-	{
-		$post = Post::find($id);
-		if($post){
-			$post->comments_count += 1;
-			$post->save();
-		}
-	}
+    public static function getNewFeeds($userId, $page, $limit) {
+        $page = self::getPage($page);
+        $limit = self::getLimit($limit);
+
+        $friends = Friend::where('user_id', $userId)->lists('is_friend', 'friend_id'); // array([friend_id => is_friend])
+        $friends = $friends->toArray();
+
+        $posts = Post::with(['user' => function($query) {
+            $query->addSelect(['id', 'avatar', 'first_name', 'last_name']);
+        }, 'location' => function($query) {
+
+        }])
+            ->whereIn('user_id', array_keys($friends))
+            ->orderBy('created_at', 'desc')
+            ->paginate($limit, ['*'], 'page', $page);
+        return ['posts' => $posts, 'friends' => $friends];
+    }
 }

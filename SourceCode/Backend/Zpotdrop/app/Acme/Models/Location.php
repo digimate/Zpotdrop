@@ -46,7 +46,7 @@ class Location extends BaseModel
 	 *
 	 * @var array
 	 */
-	protected $hidden = ['created_at', 'deleted_at', 'updated_at'];
+	protected $hidden = ['created_at', 'deleted_at', 'updated_at', 'geo_point', 'user_id'];
 
     public static $rule = [
         'lat'           => 'required|numeric',

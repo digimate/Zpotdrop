@@ -112,7 +112,11 @@ Route::group([
 | Posts
 |--------------------------------------------------------------------------
 */
-	Route::post('posts/list', [
+    Route::post('posts/create', [
+        'as' => 'api.post.add',
+        'uses' => 'PostController@add'
+    ]);
+	Route::get('posts/list', [
 		'as' => 'api.posts.list',
 		'uses' => 'PostController@index'
 	]);
