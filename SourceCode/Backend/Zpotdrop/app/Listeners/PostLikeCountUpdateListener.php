@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Acme\Models\Like;
 use App\Acme\Models\Post;
-use App\Events\LikePostEvent;
+use App\Events\PostLikeEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -26,9 +26,9 @@ class PostLikeCountUpdateListener implements ShouldQueue
      * @param  LikePostEvent  $event
      * @return void
      */
-    public function handle(LikePostEvent $event)
+    public function handle(PostLikeEvent $event)
     {
         $count = $event->actionType == Like::LIKE ? 1 : -1;
-        Post::increment('likes_count', $count);
+        Post::where('id', $event->postId)->increment('likes_count', $count);
     }
 }

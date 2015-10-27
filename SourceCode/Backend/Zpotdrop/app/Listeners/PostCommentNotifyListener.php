@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Acme\Models\Notification;
 use App\Acme\Models\User;
 use App\Acme\Notifications\LZPushNotification;
-use App\Events\CommentPostEvent;
+use App\Events\PostCommentEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -27,7 +27,7 @@ class PostCommentNotifyListener implements ShouldQueue
      * @param  CommentPostEvent  $event
      * @return void
      */
-    public function handle(CommentPostEvent $event)
+    public function handle(PostCommentEvent $event)
     {
         \DB::transaction(function() use ($event) {
             $user = User::find($event->userId);

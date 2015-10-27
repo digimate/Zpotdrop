@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Acme\Models\Like;
 use App\Acme\Models\Post;
-use App\Events\LikePostEvent;
+use App\Events\PostLikeEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Acme\Models\Notification;
@@ -26,10 +26,10 @@ class PostLikeNotifyListener implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  LikePostEvent  $event
+     * @param  PostLikeEvent  $event
      * @return void
      */
-    public function handle(LikePostEvent $event)
+    public function handle(PostLikeEvent $event)
     {
         if ($event->actionType == Like::LIKE) {
             \DB::transaction(function() use ($event) {

@@ -23,6 +23,7 @@ use App\Acme\Transformers\PostTransformer;
 use App\Events\PostComingEvent;
 use App\Events\PostCommentEvent;
 use App\Events\PostLikeEvent;
+use App\Http\Requests\CommentRequest;
 use App\Http\Requests\PostRequest;
 use App\Jobs\IndexPostCreate;
 use App\Jobs\UpdateUserDropWhenCreatePost;
@@ -260,13 +261,9 @@ class PostController extends ApiController
     public function unLike($id)
     {
         $userId = \Authorizer::getResourceOwnerId();
-        $like = Like::where('user_id', $userId)->where('post_id', $id)->first();
-        if (!$like) {
-            return $this->lzResponse->success();
+        if (Like::where('user_id', $userId)->where('post_id', $id)->delete()) {
+            event(new PostLikeEvent($userId, $id, Like::UNLIKE));
         }
-        $like->delete();
-
-        event(new PostLikeEvent($userId, $id, Like::UNLIKE));
         return $this->lzResponse->success();
     }
 
@@ -351,7 +348,7 @@ class PostController extends ApiController
 	 *
 	 * )
 	 */
-	public function comment(Request $request, $id)
+	public function comment(CommentRequest $request, $id)
 	{
         $post = Post::find($id);
         if (!$post) {
@@ -360,7 +357,7 @@ class PostController extends ApiController
         $userId = \Authorizer::getResourceOwnerId();
         $relationShip = Friend::where('user_id', $userId)
                             ->where('friend_id', $post->user_id)->first();
-        if ($relationShip || $relationShip->is_friend < Friend::FRIEND_YES) {
+        if ($userId != $post->user_id && (!$relationShip || $relationShip->is_friend < Friend::FRIEND_YES)) {
             return $this->lzResponse->badRequest(['id' => trans('post.user_not_permission')]);
         }
 
@@ -456,7 +453,8 @@ class PostController extends ApiController
         $userId = \Authorizer::getResourceOwnerId();
         $relationShip = Friend::where('user_id', $userId)
             ->where('friend_id', $post->user_id)->first();
-        if ($relationShip || $relationShip->is_friend < Friend::FRIEND_YES) {
+
+        if ($userId != $post->user_id && (!$relationShip || $relationShip->is_friend < Friend::FRIEND_YES)) {
             return $this->lzResponse->badRequest(['id' => trans('post.user_not_permission')]);
         }
 

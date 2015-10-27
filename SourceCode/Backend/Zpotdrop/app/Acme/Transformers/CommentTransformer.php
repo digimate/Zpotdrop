@@ -10,9 +10,8 @@
 */
 
 namespace App\Acme\Transformers;
+use App\Acme\Models\Comment;
 
-
-use App\Acme\Models\Post;
 
 /**
  * Class UserTransformer

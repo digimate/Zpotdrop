@@ -12,7 +12,7 @@ class CommentRequest extends Request
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,8 @@ class CommentRequest extends Request
     public function rules()
     {
         return [
-            //
+            //'id' => 'required|numeric|min:0',
+            'message' => 'required'
         ];
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Acme\Models\Post;
-use App\Events\CommentPostEvent;
+use App\Events\PostCommentEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -25,8 +25,8 @@ class PostCommentCountUpdateListener implements ShouldQueue
      * @param  CommentPostEvent  $event
      * @return void
      */
-    public function handle(CommentPostEvent $event)
+    public function handle(PostCommentEvent $event)
     {
-        Post::increment('comments_count', 1);
+        Post::where('id', $event->post->id)->increment('comments_count', 1);
     }
 }

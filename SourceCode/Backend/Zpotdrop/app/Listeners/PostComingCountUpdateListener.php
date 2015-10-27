@@ -29,6 +29,6 @@ class PostComingCountUpdateListener implements ShouldQueue
     public function handle(PostComingEvent $event)
     {
         $count = $event->actionType == PostComing::COMING ? 1 : -1;
-        Post::increment('cmin_count', $count);
+        Post::where('id', $event->post->id)->increment('cmin_count', $count);
     }
 }

@@ -80,11 +80,9 @@ class Comment extends BaseModel
 
         return Comment::with(['user' => function($query) {
             $query->addSelect(['id', 'avatar', 'first_name', 'last_name']);
-            $query->orderBy('follower_count', 'desc');
-            $query->orderBy('first_name', 'asc');
-            $query->orderBy('id', 'asc');
         }])
             ->where('post_id', $postId)
+            ->orderBy('created_at', 'desc')->orderBy('id', 'desc')
             ->paginate($limit, ['*'], 'page', $page);
     }
 }
