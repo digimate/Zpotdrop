@@ -8,5 +8,8 @@
 
 return [
     'follow' => '{username} started following you.',
-    'follow_request' => '{username} wants to follow you.'
+    'follow_request' => '{username} wants to follow you.',
+    'comment' => '{username} left a comment on your drop: {comment_content}',
+    'like' => '{username} liked your drop',
+    'coming' => '{username} is coming to your drop.'
 ];

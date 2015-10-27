@@ -124,11 +124,40 @@ Route::group([
 		'as' => 'api.posts.show',
 		'uses' => 'PostController@show'
 	]);
+
+    //likes
+    Route::get('posts/{id}/likes', [
+        'as' => 'api.posts.likes',
+        'uses' => 'PostController@likes'
+    ]);
 	Route::post('posts/{id}/like', [
 		'as' => 'api.posts.like',
 		'uses' => 'PostController@like'
 	]);
+    Route::post('posts/{id}/unlike', [
+        'as' => 'api.posts.unlike',
+        'uses' => 'PostController@unLike'
+    ]);
 
+    // comment
+    Route::get('posts/{id}/comments', [
+        'as' => 'api.posts.comments',
+        'uses' => 'PostController@comments'
+    ]);
+    Route::post('posts/{id}/comment', [
+        'as' => 'api.posts.comment',
+        'uses' => 'PostController@comment'
+    ]);
+
+    // coming
+    Route::get('posts/{id}/comings', [
+        'as' => 'api.posts.comings',
+        'uses' => 'PostController@comings'
+    ]);
+    Route::post('posts/{id}/coming', [
+        'as' => 'api.posts.coming',
+        'uses' => 'PostController@coming'
+    ]);
     /*
 |--------------------------------------------------------------------------
 | Location

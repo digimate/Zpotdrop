@@ -22,6 +22,18 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\SocialNetworkLoginEvent' => [
             'App\Listeners\SocialFriendSignUpNotificationLister'
+        ],
+        'App\Events\PostCommentEvent' => [
+            'App\Listeners\PostCommentCountUpdateListener',
+            'App\Listeners\PostCommentNotifyListener'
+        ],
+        'App\Events\PostLikeEvent' => [
+            'App\Listeners\PostLikeCountUpdateListener',
+            'App\Listeners\PostLikeNotifyListener'
+        ],
+        'App\Events\PostComingEvent' => [
+            'App\Listeners\PostComingCountUpdateListener',
+            'App\Listeners\PostComingNotifyListener'
         ]
     ];
 

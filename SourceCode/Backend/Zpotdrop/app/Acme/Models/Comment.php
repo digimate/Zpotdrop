@@ -54,17 +54,8 @@ class Comment extends BaseModel
 	 *
 	 * @var array
 	 */
-	protected $hidden = ['user_id', 'post_id', 'deleted_at'];
+	protected $hidden = ['deleted_at', 'updated_at'];
 
-	/**
-	 * @param array $options
-	 */
-	protected function finishSave(array $options)
-	{
-		/*get post and make comment ++*/
-		$post = new Post();
-		$post->makeComment($this->getAttribute('post_id'));
-	}
 
 	/*Relations*/
 	public function user(){
@@ -74,4 +65,26 @@ class Comment extends BaseModel
 	public function post(){
 		return $this->belongsTo('App\Acme\Models\Post', 'post_id');
 	}
+
+
+    /**
+     * @param $postId
+     * @param $page
+     * @param $limit
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public static function getCommentsOfPost($postId, $page, $limit) {
+        $page = self::getPage($page);
+        $limit = self::getLimit($limit);
+
+
+        return Comment::with(['user' => function($query) {
+            $query->addSelect(['id', 'avatar', 'first_name', 'last_name']);
+            $query->orderBy('follower_count', 'desc');
+            $query->orderBy('first_name', 'asc');
+            $query->orderBy('id', 'asc');
+        }])
+            ->where('post_id', $postId)
+            ->paginate($limit, ['*'], 'page', $page);
+    }
 }

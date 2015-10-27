@@ -12,33 +12,16 @@
 namespace App\Acme\Models;
 
 
-/**
- * App\Models\Like
- *
- * @property integer $user_id
- * @property integer $post_id
- * @property string $deleted_at
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property-read \App\Models\User $user
- * @property-read \App\Models\Post $post
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Like whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Like wherePostId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Like whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Like whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Like whereUpdatedAt($value)
- *
- */
-class Like extends BaseModel
+class PostComing extends BaseModel
 {
-    const LIKE = 1;
-    const UNLIKE = -1;
+    const COMING = 1;
+    const UNCOMING = -1;
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'likes';
+	protected $table = 'post_cmins';
 
 	/**
 	 * The attributes that are mass assignable.
@@ -47,7 +30,8 @@ class Like extends BaseModel
 	 */
 	protected $fillable = [
 		'user_id',
-		'post_id'
+		'post_id',
+        'status'
 	];
 
 	/**
@@ -55,7 +39,7 @@ class Like extends BaseModel
 	 *
 	 * @var array
 	 */
-	protected $hidden = ['user_id', 'post_id', 'deleted_at'];
+	protected $hidden = ['updated_at', 'deleted_at'];
 
 	/*Relations*/
 	public function user(){
@@ -65,15 +49,7 @@ class Like extends BaseModel
 	public function post(){
 		return $this->belongsTo('App\Acme\Models\Post', 'post_id');
 	}
-	
-	/*Repository*/
-	public function exist($user_id, $post_id)
-	{
-		if(Like::wherePostId($post_id)->whereUserId($user_id)->first()){
-			return true;
-		}
-		return false;
-	}
+
 
     /**
      * @param $postId
@@ -81,18 +57,18 @@ class Like extends BaseModel
      * @param $limit
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public static function getLikeOfPost($postId, $page, $limit) {
+    public static function getComingUsersOfPost($postId, $page, $limit) {
         $page = self::getPage($page);
         $limit = self::getLimit($limit);
 
 
-        return Like::with(['user' => function($query) {
+        return PostComing::with(['user' => function($query) {
             $query->addSelect(['id', 'avatar', 'first_name', 'last_name']);
             $query->orderBy('follower_count', 'desc');
             $query->orderBy('first_name', 'asc');
             $query->orderBy('id', 'asc');
         }])
             ->where('post_id', $postId)
-            ->paginate($limit, ['*'], 'page', $page);
+            ->paginate($limit, ['created_at', 'user_id'], 'page', $page);
     }
 }

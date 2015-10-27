@@ -2,15 +2,14 @@
 
 namespace App\Listeners;
 
-use App\Acme\Models\Friend;
 use App\Acme\Models\Notification;
 use App\Acme\Models\User;
 use App\Acme\Notifications\LZPushNotification;
-use App\Events\UserFollowEvent;
+use App\Events\CommentPostEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class UserFollowPushListener implements  ShouldQueue
+class PostCommentNotifyListener implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -25,20 +24,26 @@ class UserFollowPushListener implements  ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  UserFollowEvent  $event
+     * @param  CommentPostEvent  $event
      * @return void
      */
-    public function handle(UserFollowEvent $event)
+    public function handle(CommentPostEvent $event)
     {
         \DB::transaction(function() use ($event) {
-            $message = ($event->followType == Friend::FRIEND_FOLLOW) ? trans('notification.follow') : trans('notification.follow_request');
-            $message = str_replace(['{username}'], [$event->user->username()], $message);
+            $user = User::find($event->userId);
+            $notifyUser = User::find($event->post->user_id);
+            if (!$user) {
+                return;
+            }
+            $message = trans('notification.comment');
+            $message = str_replace(['{username}', '{comment_content}'], [$user->username(), $event->comment->message], $message);
 
             $notification = Notification::create([
-               'user_id' => $event->user->id,
-                'friend_id' => $event->friend->id,
+                'user_id' => $user->id,
+                'friend_id' => $event->post->user_id,
+                'post_id' => $event->post->id,
                 'message' => $message,
-                'action_type' => ($event->followType == Friend::FRIEND_FOLLOW) ? Notification::ACTION_TYPE_FOLLOWING : Notification::ACTION_TYPE_FOLLOW_REQUEST,
+                'action_type' => Notification::ACTION_TYPE_COMMENT,
                 'is_read' => Notification::IS_UNREAD
             ]);
 
@@ -47,7 +52,7 @@ class UserFollowPushListener implements  ShouldQueue
                     $customData = [
                         'push_type' => $notification->action_type
                     ];
-                    LZPushNotification::push($event->friend->device_type, $event->friend->device_id, $customData, $notification);
+                    LZPushNotification::push($notifyUser->device_type, $notifyUser->device_id, $customData, $notification);
                 } catch( \Exception $ex) {
                     \Log::error($ex->getMessage(), $ex->getTrace());
                 }
