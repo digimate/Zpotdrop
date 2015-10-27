@@ -126,6 +126,10 @@ Route::group([
 	]);
 
     //likes
+    Route::get('posts/{id}/like/check', [
+        'as' => 'api.post.like.check',
+        'uses' => 'PostController@isLike'
+    ]);
     Route::get('posts/{id}/likes', [
         'as' => 'api.posts.likes',
         'uses' => 'PostController@likes'
@@ -150,6 +154,10 @@ Route::group([
     ]);
 
     // coming
+    Route::get('posts/{id}/coming/check', [
+    'as' => 'api.post.coming.check',
+        'uses' => 'PostController@isComing'
+    ]);
     Route::get('posts/{id}/comings', [
         'as' => 'api.posts.comings',
         'uses' => 'PostController@comings'

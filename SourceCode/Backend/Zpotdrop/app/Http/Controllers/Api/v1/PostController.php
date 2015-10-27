@@ -264,11 +264,12 @@ class PostController extends ApiController
         if (Like::where('user_id', $userId)->where('post_id', $id)->delete()) {
             event(new PostLikeEvent($userId, $id, Like::UNLIKE));
         }
+
         return $this->lzResponse->success();
     }
 
     /**
-     * @SWG\get(
+     * @SWG\Get(
      *    path="/posts/{id}/likes",
      *   summary="Get user likes",
      *   tags={"Posts"},
@@ -315,6 +316,43 @@ class PostController extends ApiController
         return $this->lzResponse->successTransformArrayModelsWithPagination($likes, new LikeTransformer());
     }
 
+    /**
+     * @SWG\Get(
+     *    path="/posts/{id}/like/check",
+     *   summary="Check like",
+     *   tags={"Posts"},
+     *     @SWG\Parameter(
+     *			name="Authorization",
+     *			description="Authorization include  Bearer & access_token ex: Bearer rAPoKnrkC87f9ex9oh0WZ1iUMBhLMBHXGrgrWW1f",
+     *			in="header",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *      @SWG\Parameter(
+     *			name="id",
+     *			description="Post's id",
+     *			in="query",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *		@SWG\Response(response=200, description="Register successful"),
+     *      @SWG\Response(response=400, description="Bad request")
+     *
+     * )
+     */
+    public function isLike(Request $request, $id)
+    {
+        $userId = \Authorizer::getResourceOwnerId();
+        // check exists action
+        $like = \Cache::remember("like_{$userId}_{$id}", config('custom.cache.long_time'), function() use($userId, $id) {
+            return Like::where('user_id', $userId)
+                ->where('post_id', $id)->select(['created_at'])->first();
+        });
+        if(!$like) {
+            return $this->lzResponse->success(['status' => Like::UNLIKE]);
+        }
+        return $this->lzResponse->success(['status' => Like::LIKE]);
+    }
 
 
 	/**
@@ -372,7 +410,7 @@ class PostController extends ApiController
 	}
 
     /**
-     * @SWG\get(
+     * @SWG\Get(
      *    path="/posts/{id}/comments",
      *   summary="Get comments of the special post",
      *   tags={"Posts"},
@@ -470,7 +508,7 @@ class PostController extends ApiController
 
 
     /**
-     * @SWG\get(
+     * @SWG\Get(
      *    path="/posts/{id}/comings",
      *   summary="Get coming users of the special post",
      *   tags={"Posts"},
@@ -515,5 +553,43 @@ class PostController extends ApiController
         $comings = PostComing::getComingUsersOfPost($id, $page, $limit);
 
         return $this->lzResponse->successTransformArrayModelsWithPagination($comings, new PostComingTransformer());
+    }
+
+    /**
+     * @SWG\Get(
+     *    path="/posts/{id}/coming/check",
+     *   summary="Check is coming",
+     *   tags={"Posts"},
+     *     @SWG\Parameter(
+     *			name="Authorization",
+     *			description="Authorization include  Bearer & access_token ex: Bearer rAPoKnrkC87f9ex9oh0WZ1iUMBhLMBHXGrgrWW1f",
+     *			in="header",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *      @SWG\Parameter(
+     *			name="id",
+     *			description="Post's id",
+     *			in="query",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *		@SWG\Response(response=200, description="Register successful"),
+     *      @SWG\Response(response=400, description="Bad request")
+     *
+     * )
+     */
+    public function isComing(Request $request, $id)
+    {
+        $userId = \Authorizer::getResourceOwnerId();
+        // check exists action
+        $coming = \Cache::remember("coming_{$userId}_{$id}", config('custom.cache.long_time'), function() use($userId, $id) {
+            return PostComing::where('user_id', $userId)
+                ->where('post_id', $id)->select(['created_at'])->first();
+        });
+        if(!$coming) {
+            return $this->lzResponse->success(['status' => PostComing::UNCOMING]);
+        }
+        return $this->lzResponse->success(['status' => PostComing::COMING]);
     }
 }

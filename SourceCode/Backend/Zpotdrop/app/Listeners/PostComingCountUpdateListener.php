@@ -30,5 +30,8 @@ class PostComingCountUpdateListener implements ShouldQueue
     {
         $count = $event->actionType == PostComing::COMING ? 1 : -1;
         Post::where('id', $event->post->id)->increment('cmin_count', $count);
+        if (config('custom.cache.enable')) {
+            \Cache::forget("coming_{$event->userId}_{$event->post->id}");
+        }
     }
 }

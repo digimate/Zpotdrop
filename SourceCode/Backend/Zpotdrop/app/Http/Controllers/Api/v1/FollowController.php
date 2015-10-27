@@ -140,7 +140,7 @@ class FollowController extends ApiController
 
 
     /**
-     * @SWG\get(
+     * @SWG\Get(
      *    path="/users/friends/{friend_id}/check",
      *   summary="Check Follow a friend",
      *   tags={"Users"},
@@ -185,7 +185,7 @@ class FollowController extends ApiController
 
 
     /**
-     * @SWG\get(
+     * @SWG\Get(
      *    path="/users/friends/followers",
      *   summary="Get followers",
      *   tags={"Users"},

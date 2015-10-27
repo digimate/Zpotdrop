@@ -30,5 +30,9 @@ class PostLikeCountUpdateListener implements ShouldQueue
     {
         $count = $event->actionType == Like::LIKE ? 1 : -1;
         Post::where('id', $event->postId)->increment('likes_count', $count);
+        if (config('custom.cache.enable')) {
+            \Cache::forget("like_{$event->userId}_{$event->postId}");
+        }
+
     }
 }
