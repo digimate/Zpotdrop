@@ -24,7 +24,9 @@ class AnswerZpotRequest extends Request
     {
         return [
             'notification_id' => 'required|numeric|min:0',
-            'answer' => 'required|integer|in:0,1'
+            'answer' => 'required|integer|in:0,1',
+            'lat' => 'numeric|required_if:answer,1',
+            'long' => 'numeric|required_if:answer,1',
         ];
     }
 }

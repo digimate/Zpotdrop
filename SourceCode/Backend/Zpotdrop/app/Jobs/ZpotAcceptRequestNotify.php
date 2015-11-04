@@ -30,6 +30,9 @@ class ZpotAcceptRequestNotify extends Job implements SelfHandling, ShouldQueue
      */
     public function handle()
     {
+        $this->notification->is_read = Notification::IS_READ;
+        $this->notification->save();
+
         $user = User::find($this->notification->user_id);
         $friend = User::find($this->notification->friend_id);
 

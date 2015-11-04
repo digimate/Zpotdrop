@@ -118,6 +118,18 @@ class ZpotController extends ApiController
 	 *      	required=true,
 	 *      	type="integer"
 	 *      	),
+     *      @SWG\Parameter(
+     *			name="lat",
+     *			description="Latitude",
+     *			in="formData",
+     *      	type="string"
+     *      	),
+     *      @SWG\Parameter(
+     *			name="long",
+     *			description="Longitude",
+     *			in="formData",
+     *      	type="string"
+     *      	),
 	 *		@SWG\Response(response=200, description="Successful"),
 	 *      @SWG\Response(response=400, description="Bad request")
 	 *
@@ -131,10 +143,18 @@ class ZpotController extends ApiController
         if (!$notification) {
             return $this->lzResponse->badRequest();
         }
-        $notification->is_read = Notification::IS_READ;
-        $notification->save();
+        /*$notification->is_read = Notification::IS_READ;
+        $notification->save();*/
+
         if ($answer == 1) {
+            User::where('id', \Authorizer::getResourceOwnerId())->update([
+                'lat' => $request->input('lat'),
+                'long' => $request->input('long')
+            ]);
             $this->dispatch(new ZpotAcceptRequestNotify($notification));
+        } else {
+            $notification->is_read = Notification::IS_READ;
+            $notification->save();
         }
 
 		return $this->lzResponse->success();
