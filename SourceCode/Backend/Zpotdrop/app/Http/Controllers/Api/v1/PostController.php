@@ -104,7 +104,7 @@ class PostController extends ApiController
             'user_id' => \Authorizer::getResourceOwnerId()
         ]);
         $this->dispatch(new UpdateUserDropWhenCreatePost(\Authorizer::getResourceOwnerId(), $post->lat, $post->long));
-        $this->dispatch(new IndexPostCreate($post));
+        //$this->dispatch(new IndexPostCreate($post));
         return $this->lzResponse->successTransformModel($post, new PostTransformer());
     }
 
@@ -143,8 +143,9 @@ class PostController extends ApiController
 	{
         $page = $request->input('page', 1);
         $limit = $request->input('limit');
+        $userId = \Authorizer::getResourceOwnerId();
 
-		$results = Post::getNewFeeds(\Authorizer::getResourceOwnerId(), $page, $limit);
+		$results = Post::getNewFeeds($userId, $page, $limit);
 
         // format data
         $posts = $results['posts'];
@@ -162,35 +163,13 @@ class PostController extends ApiController
             if (isset($items[$key]['user']) ) {
                 if (array_key_exists($post->user->id, $friends)) {
                     $items[$key]['user']['friend_status'] = $friends[$post->user->id];
-                } else {
+                } elseif ($post->user_id != $userId) {
                     $items[$key]['user']['friend_status'] = Friend::FRIEND_NO;
                 }
             }
         }
         $data['items'] = $items;
 		return $this->lzResponse->success($data);
-	}
-
-	/**
-	 * @SWG\Get(
-	 *    path="/posts/{id}/show",
-     *   summary="Get detail post",
-     *   tags={"Posts"},
-	 *     @SWG\Parameter(
-	 *			name="id",
-	 *			description="ID of Post",
-	 *			in="query",
-	 *      	required=true,
-	 *      	type="integer"
-	 *      	),
-	 *		@SWG\Response(response=200, description="Detail of post"),
-	 *      @SWG\Response(response=400, description="Bad request")
-	 *
-	 * )
-	 */
-	public function show($id)
-	{
-
 	}
 
 
@@ -393,11 +372,14 @@ class PostController extends ApiController
             return $this->lzResponse->badRequest(['id' => trans('post.post_not_exist')]);
         }
         $userId = \Authorizer::getResourceOwnerId();
+
+        /*
         $relationShip = Friend::where('user_id', $userId)
                             ->where('friend_id', $post->user_id)->first();
         if ($userId != $post->user_id && (!$relationShip || $relationShip->is_friend < Friend::FRIEND_YES)) {
             return $this->lzResponse->badRequest(['id' => trans('post.user_not_permission')]);
         }
+        */
 
         $comment = Comment::create([
             'user_id' => $userId,
@@ -489,12 +471,15 @@ class PostController extends ApiController
             return $this->lzResponse->badRequest(['id' => trans('post.post_not_exist')]);
         }
         $userId = \Authorizer::getResourceOwnerId();
+
+        /*
         $relationShip = Friend::where('user_id', $userId)
             ->where('friend_id', $post->user_id)->first();
 
         if ($userId != $post->user_id && (!$relationShip || $relationShip->is_friend < Friend::FRIEND_YES)) {
             return $this->lzResponse->badRequest(['id' => trans('post.user_not_permission')]);
         }
+        */
 
         $coming = PostComing::create([
             'user_id' => $userId,

@@ -11,6 +11,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Acme\Models\Post;
 use App\Acme\Models\User;
 use App\Jobs\SendReminderEmail;
 use Illuminate\Foundation\Auth\ResetsPasswords;

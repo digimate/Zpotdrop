@@ -80,7 +80,7 @@ class LocationController extends ApiController
 	public function add(LocationRequest $request)
 	{
         $location = Location::create(array_merge($request->only(['name', 'address', 'lat', 'long']), ['user_id' => \Authorizer::getResourceOwnerId()]));
-        $this->dispatch(new IndexRegisterLocation($location));
+        //$this->dispatch(new IndexRegisterLocation($location));
         return $this->lzResponse->successTransformModel($location, new LocationTransformer());
 	}
 

@@ -119,4 +119,51 @@ class Friend extends BaseModel
             ->where('user_id', $userId)->where('is_friend', '>=', Friend::FRIEND_FOLLOW)
             ->paginate($limit, ['*'], 'page', $page);
     }
+
+
+
+    public static function getFriends($userId, $keyword, &$page, &$limit) {
+        $page = self::getPage($page);
+        $limit = self::getLimit($limit);
+        $offset = ($page - 1) * $limit;
+
+        $friendIds = Friend::where('user_id', $userId)->where('is_friend', Friend::FRIEND_YES)->lists('friend_id');
+        $params = [
+            'query' => [
+                "filtered" => [
+                    'filter' => [
+                        'terms' => [
+                            "id" => $friendIds
+                        ]
+                    ],
+                ]
+            ],
+            "sort" => [
+                ['follower_count' => ['order' => 'desc']]
+            ],
+            'from' => $offset,
+            'size' => $limit
+        ];
+
+        if (!empty($keyword)) {
+            $params['query']['filtered']['query'] = [
+                'multi_match' => [
+                    'query' => $keyword,
+                    'fields' => ['username'],
+                    "fuzziness" => "AUTO"
+                ]
+                /*'fuzzy' => array(
+                    'name' => array(
+                        'value' => $keyword,
+                        'fuzziness' => 0
+                    )
+                )*/
+            ];
+        }
+
+        $results = User::search($params);
+        return $results;
+    }
+
+
 }

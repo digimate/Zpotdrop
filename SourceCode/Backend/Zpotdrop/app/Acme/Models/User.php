@@ -3,6 +3,7 @@
 namespace App\Acme\Models;
 
 use Carbon\Carbon;
+use Fadion\Bouncy\BouncyTrait;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -33,34 +34,12 @@ use Vinkla\Hashids\HashidsServiceProvider;
  * @property string $remember_token
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereEmail($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User wherePassword($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereAvatar($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereFirstName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereLastName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereHash($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User wherePhoneNumber($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereHomeTown($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereIsPrivate($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereIsEnableAllZpot($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereLat($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereLong($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereStatus($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereDeviceId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereDeviceName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereDeviceType($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereRememberToken($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereUpdatedAt($value)
  * @property string $birthday
- * @method static \Illuminate\Database\Query\Builder|\App\Models\User whereBirthday($value)
- * @property boolean $gender 
- * @method static \Illuminate\Database\Query\Builder|\App\Acme\Models\User whereGender($value)
+ * @property boolean $gender
  */
 class User extends BaseModel implements AuthenticatableContract, CanResetPasswordContract
 {
-	use Authenticatable, CanResetPassword;
+	use BouncyTrait, Authenticatable, CanResetPassword;
 
 	/**
 	 * The database table used by the model.
@@ -100,6 +79,135 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 	 * @var array
 	 */
 	protected $hidden = ['password', 'remember_token'];
+
+    /**
+     * elastic-search mapping
+     * @var array
+     */
+    protected $mappingProperties = array(
+        'id' => [
+            'type' => 'long',
+            'analyzer' => 'standard'
+        ],
+        'email' => [
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ],
+        'avatar' => [
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ],
+        'hash' => [
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ],
+        'birthday' => [
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ],
+        'gender' => [
+            'type' => 'integer',
+            'analyzer' => 'standard'
+        ],
+        'phone_number' => [
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ],
+        'home_town' => [
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ],
+        'is_private' => [
+            'type' => 'integer',
+            'analyzer' => 'standard'
+        ],
+        'is_enable_all_zpot' => [
+            'type' => 'integer',
+            'analyzer' => 'standard'
+        ],
+        'lat' => [
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ],
+        'long' => [
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ],
+        "geo_point" => [
+            "type" => "geo_point",
+            "analyzer" => "stop",
+            "stopwords" => [","]
+        ],
+        'first_name' => [
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ],
+        'last_name' => [
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ],
+        'username' => [
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ],
+        'follower_count' => [
+            'type' => 'integer',
+            'analyzer' => 'standard'
+        ],
+        'following_count' => [
+            'type' => 'integer',
+            'analyzer' => 'standard'
+        ],
+        'drop_count' => [
+            'type' => 'integer',
+            'analyzer' => 'standard'
+        ],
+        'status' => [
+            'type' => 'integer',
+            'analyzer' => 'standard'
+        ],
+        'device_id' => [
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ],
+        'device_type' => [
+            'type' => 'integer',
+            'analyzer' => 'standard'
+        ],
+        'created_at' => [
+            'type' => 'string'
+        ]
+    );
+
+    /**
+     * elastic document data
+     * @return array
+     */
+    public function documentFields()
+    {
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'geo_point' => $this->lat . ", " . $this->long,
+            'username' => $this->first_name . ' ' . $this->last_name,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'avatar' => $this->avatar,
+            'hash' => $this->hash,
+            'birthday' => $this->birthday,
+            'gender' => $this->gender,
+            'phone_number' => $this->phone_number,
+            'home_town' => $this->home_town,
+            'is_private' => $this->is_private,
+            'follower_count' => $this->follower_count,
+            'following_count' => $this->following_count,
+            'drop_count' => $this->drop_count,
+            'status' => $this->status,
+            'device_id' => $this->device_id,
+            'device_type' => $this->device_type,
+            'created_at' => $this->created_at
+        ];
+    }
 
     public static $rule = [
         'email'         => 'required|email|max:255|unique:users',
@@ -155,8 +263,9 @@ class User extends BaseModel implements AuthenticatableContract, CanResetPasswor
 	const DEVICE_TYPE_ANDROID   = 1;
 	const DEVICE_TYPE_WEB       = 2;
 
-    const PROFILE_PRIVATE = 0;
-    const PROFILE_PUBLIC = 1;
+    // theo db, is_private=1
+    const PROFILE_PRIVATE = 1;
+    const PROFILE_PUBLIC = 0;
 
     const ZPOT_ALL_ENABLE = 1;
     const ZPOT_ALL_DISABLE = 0;

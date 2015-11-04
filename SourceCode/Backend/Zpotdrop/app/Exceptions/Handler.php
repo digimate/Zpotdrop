@@ -41,7 +41,7 @@ class Handler extends ExceptionHandler
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $e)
-    {
+    {throw $e;
         if ($request->is('api/*')) {
             $lzResponse = new LZResponse();
             if ($e instanceof AccessDeniedException) {

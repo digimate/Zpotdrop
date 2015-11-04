@@ -269,52 +269,52 @@ class FollowController extends ApiController
         return $this->lzResponse->successTransformArrayModelsWithPagination($followers, new FriendTransformer());
     }
 
-	/**
-	 * @SWG\Post(
-	 *    path="/users/friends/{friend_id}/un-follow",
-     *   summary="unFollow a friend",
+    /**
+     * @SWG\get(
+     *    path="/users/friends",
+     *   summary="Get friends",
      *   tags={"Users"},
-	 *      @SWG\Parameter(
-	 *			name="friend_id",
-	 *			description="ID of friend!",
-	 *			in="query",
-	 *      	required=true,
-	 *      	type="integer"
-	 *      	),
-	 *		@SWG\Response(response=200, description="Register successful"),
-	 *      @SWG\Response(response=400, description="Bad request")
-	 *
-	 * )
-	 */
-	public function unFollow($friend_id)
-	{
-	}
+     *     @SWG\Parameter(
+     *			name="Authorization",
+     *			description="Authorization include  Bearer & access_token ex: Bearer rAPoKnrkC87f9ex9oh0WZ1iUMBhLMBHXGrgrWW1f",
+     *			in="header",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *      @SWG\Parameter(
+     *			name="keyword",
+     *			description="keyword",
+     *			in="query",
+     *      	type="integer"
+     *      	),
+     *      @SWG\Parameter(
+     *			name="page",
+     *			description="Page index: 1,2,3,4",
+     *			in="query",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *      @SWG\Parameter(
+     *			name="limit",
+     *			description="Number of post want to get : min=1 ; max=500",
+     *			in="query",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *		@SWG\Response(response=200, description="Register successful"),
+     *      @SWG\Response(response=400, description="Bad request")
+     *
+     * )
+     */
+    public function friends(Request $request)
+    {
+        $userId = \Authorizer::getResourceOwnerId();
+        $page = $request->get('page', 1);
+        $limit = $request->get('limit');
+        $keyword = $request->get('keyword');
 
-	/**
-	 * @SWG\Get(
-	 *    path="/users/feeds",
-     *   summary="Get feeds",
-     *   tags={"Users"},
-	 *      @SWG\Parameter(
-	 *			name="page",
-	 *			description="Page index",
-	 *			in="query",
-	 *      	required=true,
-	 *      	type="integer"
-	 *      	),
-	 *      @SWG\Parameter(
-	 *			name="limit",
-	 *			description="Maximum number of items want to get",
-	 *			in="query",
-	 *      	required=true,
-	 *      	type="integer"
-	 *      	),
-	 *		@SWG\Response(response=200, description="Feeds list"),
-	 *      @SWG\Response(response=400, description="Bad request")
-	 *
-	 * )
-	 */
-	public function feeds($friend_id)
-	{
-	}
+        $results = Friend::getFriends($userId, $keyword, $page, $limit);
+
+        return $this->lzResponse->successTransformArrayModelsWithElasticPagination($results, new UserTransformer(), $page, $limit);
+    }
 }

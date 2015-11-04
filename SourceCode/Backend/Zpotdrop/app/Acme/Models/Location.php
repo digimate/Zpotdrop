@@ -34,19 +34,50 @@ class Location extends BaseModel
 	protected $fillable = ['name', 'address', 'lat', 'long', 'user_id'];
 
     protected $mappingProperties = array(
+        'id' => [
+            'type' => 'long',
+            'analyzer' => 'standard'
+        ],
+        'name' => [
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ],
+        'address' => [
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ],
+        'lat' => [
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ],
+        'long' => [
+            'type' => 'string',
+            'analyzer' => 'standard'
+        ],
         "geo_point" => [
             "type" => "geo_point",
             "analyzer" => "stop",
             "stopwords" => [","]
         ]
     );
+    public function documentFields()
+    {
+        return [
+            'id' => $this->id,
+            'geo_point' => $this->lat . ", " . $this->long,
+            'name' => $this->name,
+            'address' => $this->address,
+            'lat' => $this->lat,
+            'long' => $this->long
+        ];
+    }
 
 	/**
 	 * The attributes excluded from the model's JSON form.
 	 *
 	 * @var array
 	 */
-	protected $hidden = ['created_at', 'deleted_at', 'updated_at', 'geo_point', 'user_id'];
+	protected $hidden = ['deleted_at', 'updated_at', 'geo_point', 'user_id'];
 
     public static $rule = [
         'lat'           => 'required|numeric',
@@ -57,18 +88,17 @@ class Location extends BaseModel
 
     /**
      * Save the model to the database.
-     *
+     * neu override save, can phai override ke thua ham save trong BouncyTrait
      * @param  array  $options
      * @return bool
      */
-    public function save(array $options = [])
+   /* public function save(array $options = [])
     {
-        $this->setAttribute('geo_point', "{$this->getAttribute('lat')}, {$this->getAttribute('long')}" );
         return parent::save($options);
-    }
+    }*/
 
 
-    public static function getLocations($keyword, $distance, $lat, $long, $page, $limit) {
+    public static function getLocations($keyword, $distance, $lat, $long, &$page, &$limit) {
         $page = self::getPage($page);
         $limit = self::getLimit($limit);
         $offset = ($page - 1) * $limit;
@@ -112,8 +142,15 @@ class Location extends BaseModel
             $params['query']['filtered']['query'] = [
                 'multi_match' => [
                     'query' => $keyword,
-                    'fields' => ['name', 'address']
+                    'fields' => ['name', 'address'],
+                    "fuzziness" => "AUTO"
                 ]
+                /*'fuzzy' => array(
+                    'name' => array(
+                        'value' => $keyword,
+                        'fuzziness' => 0
+                    )
+                )*/
             ];
         }
 

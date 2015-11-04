@@ -13,7 +13,7 @@
 
 /*
 |--------------------------------------------------------------------------
-| Dont need Oauth2
+| Don't need Oauth2
 |--------------------------------------------------------------------------
 */
 
@@ -98,6 +98,7 @@ Route::group([
     Route::get('/users/friends/{friend_id}/check', 'FollowController@check');
     Route::get('/users/friends/followers', 'FollowController@followers');
     Route::get('/users/friends/followings', 'FollowController@followings');
+    Route::get('/users/friends', 'FollowController@friends');
 
 
     /*

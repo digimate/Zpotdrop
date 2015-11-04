@@ -31,6 +31,7 @@ class UserTransformer extends Transformer
     protected $viewArr = ['id', 'email', 'avatar', 'first_name', 'last_name', 'birthday', 'gender', 'phone_number',
                           'home_town', 'is_private', 'is_enable_all_zpot', 'lat', 'long', 'status', 'follower_count', 'following_count', 'drop_count'];
 
+    protected $privateView = ['id', 'avatar', 'first_name', 'last_name', 'is_private', 'follower_count', 'following_count', 'drop_count'];
 	/**
 	 * UserTransformer constructor.
 	 */
@@ -44,12 +45,22 @@ class UserTransformer extends Transformer
 	 *
 	 * @return array
 	 */
-	public function transform(User $user)
+	public function transform($user)
 	{
         if (is_object($user->birthday)) {
             $user->birthday = $user->birthday->format('d-m-Y H:i:s');
         }
-		$arrUser = array_only($user->toArray(), $this->viewArr);
+
+        if ($user instanceof User) {
+            $user = $user->toArray();
+        }
+
+        if ($user['is_private'] == User::PROFILE_PUBLIC) {
+            $arrUser = array_only($user, $this->viewArr);
+        } else {
+            $arrUser = array_only($user, $this->privateView);
+        }
+
         $avatar = $arrUser['avatar'];
         unset($arrUser['avatar']);
         $arrUser['avatar_json'] = '';
