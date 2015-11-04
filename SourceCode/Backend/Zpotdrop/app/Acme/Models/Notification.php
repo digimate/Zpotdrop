@@ -57,7 +57,8 @@ class Notification extends BaseModel
 		'post_id',
 		'message',
 		'action_type',
-		'is_read'
+		'is_read',
+        'params'
 	];
 
 	/**
@@ -75,6 +76,9 @@ class Notification extends BaseModel
 	const ACTION_TYPE_LIKE      = 2;
 	const ACTION_TYPE_FOLLOWING = 3;
     const ACTION_TYPE_FOLLOW_REQUEST = 4;
+    const ACTION_TYPE_ZPOT_REQUEST = 5;
+    const ACTION_TYPE_ZPOT_ALL = 6;
+    const ACTION_TYPE_ZPOT_ACCEPT = 7;
 
 	public static $action_messages = [
 		self::ACTION_TYPE_COMING    => 'Is coming to your zpotdrop',

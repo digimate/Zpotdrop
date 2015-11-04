@@ -121,7 +121,13 @@ class Friend extends BaseModel
     }
 
 
-
+    /**
+     * @param $userId
+     * @param $keyword
+     * @param $page
+     * @param $limit
+     * @return \Fadion\Bouncy\ElasticCollection
+     */
     public static function getFriends($userId, $keyword, &$page, &$limit) {
         $page = self::getPage($page);
         $limit = self::getLimit($limit);

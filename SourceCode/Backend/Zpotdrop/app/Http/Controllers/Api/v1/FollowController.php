@@ -1,12 +1,12 @@
 <?php
 /*
 |--------------------------------------------------------------------------
-| UsersController.php
+| FollowController.php
 |--------------------------------------------------------------------------
-| @Author     : John Nguyen
-| @Email      : pisun2@gmail.com
-| @Copyright  : © 2015 LeapZone.
-| @Date       : 7/26/15 - 1:45 PM
+| @Author     : Nhieu Nguyen
+| @Email      : nhieunguyenkhtn@gmail.com
+| @Copyright  : © 2015 ZpotDrop.
+| @Date       :
 */
 
 namespace App\Http\Controllers\Api\v1;

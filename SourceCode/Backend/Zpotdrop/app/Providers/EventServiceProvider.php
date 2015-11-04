@@ -34,7 +34,7 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\PostComingEvent' => [
             'App\Listeners\PostComingCountUpdateListener',
             'App\Listeners\PostComingNotifyListener'
-        ]
+        ],
     ];
 
     /**

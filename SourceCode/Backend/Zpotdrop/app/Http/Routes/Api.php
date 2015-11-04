@@ -181,6 +181,22 @@ Route::group([
         'as' => 'api.location.search',
         'uses' => 'LocationController@locations'
     ]);
+
+/*
+|--------------------------------------------------------------------------
+| Zpot
+|--------------------------------------------------------------------------
+*/
+
+    Route::post('/zpot/users/{id}/request', [
+        'as' => 'api.zpot.request',
+        'uses' => 'ZpotController@request'
+    ]);
+    Route::post('/zpot/users/answer', [
+        'as' => 'api.zpot.answer',
+        'uses' => 'ZpotController@answer'
+    ]);
+
 });
 
 /*
