@@ -43,7 +43,7 @@ class BaseModel extends Model
     }
 
     public static function getDistance($distance) {
-        if ($distance > 0) {
+        if ($distance && $distance > 0) {
             return $distance;
         }
         return config('custom.geo.distance');

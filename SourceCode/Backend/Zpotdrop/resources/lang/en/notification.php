@@ -12,5 +12,8 @@ return [
     'comment' => '{username} left a comment on your drop: {comment_content}',
     'like' => '{username} liked your drop',
     'coming' => '{username} is coming to your drop.',
-    'zpot' => '{username} wants to zpot you!'
+    'zpot' => '{username} wants to zpot you!',
+    'zpot_all' => 'You zpotted all your friends',
+    'tag' => '{username} tagged you in a drop.',
+    'notification_not_found' => 'This notification does not find'
 ];

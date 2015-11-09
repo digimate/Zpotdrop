@@ -135,6 +135,7 @@ class Friend extends BaseModel
 
         $friendIds = Friend::where('user_id', $userId)->where('is_friend', Friend::FRIEND_YES)->lists('friend_id');
         $params = [
+            //"_source" => ["id", "avatar", 'is_private'],
             'query' => [
                 "filtered" => [
                     'filter' => [
@@ -171,5 +172,59 @@ class Friend extends BaseModel
         return $results;
     }
 
+
+    /**
+     * Scan zpot
+     * @param $userId
+     * @param $keyword
+     * @param $page
+     * @param $limit
+     * @return \Fadion\Bouncy\ElasticCollection
+     */
+    public static function scan($userId, $lat, $long, $distance) {
+
+        $friendIds = Friend::where('user_id', $userId)->where('is_friend', Friend::FRIEND_YES)->lists('friend_id');
+        $params = [
+            "_source" => ["id", "first_name", "last_name", 'device_id', 'device_type'],
+            'query' => [
+                "filtered" => [
+                    'query' => [
+                        'terms' => [
+                            "id" => $friendIds
+                        ]
+                    ],
+                    'filter' => [
+                        'geo_distance' => [
+                            "distance" => "{$distance}km",
+                            "geo_point" => [
+                                'lat' => $lat,
+                                'lon' => $long
+                            ]
+                        ],
+                    ],
+                ]
+            ],
+            "sort" => [[
+                "_geo_distance" => [
+                    "geo_point" => [
+                        "lat" =>  $lat,
+                        "lon" => $long
+                    ],
+                    "order" =>         "asc",
+                    "unit" =>          "km",
+                    "distance_type" => "plane"
+                ]
+            ]],
+        ];
+
+        $results = User::search($params);
+        return $results;
+    }
+
+
+    public static function zpotAll($userId) {
+        $friendIds = Friend::where('user_id', $userId)->where('is_friend', Friend::FRIEND_YES)->lists('friend_id');
+        //$user
+    }
 
 }

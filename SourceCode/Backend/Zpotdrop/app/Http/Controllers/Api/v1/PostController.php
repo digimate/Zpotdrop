@@ -13,6 +13,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Acme\Models\Comment;
 use App\Acme\Models\Friend;
 use App\Acme\Models\Like;
+use App\Acme\Models\Notification;
 use App\Acme\Models\Post;
 use App\Acme\Models\PostComing;
 use App\Acme\Models\User;
@@ -26,6 +27,8 @@ use App\Events\PostLikeEvent;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\PostRequest;
 use App\Jobs\IndexPostCreate;
+use App\Jobs\LogUserAction;
+use App\Jobs\TagUserNotify;
 use App\Jobs\UpdateUserDropWhenCreatePost;
 use Illuminate\Http\Request;
 
@@ -77,7 +80,7 @@ class PostController extends ApiController
      *      	required=true,
      *      	type="string"
      *      	),
-     *		@SWG\Response(response=200, description="Register successful"),
+     *		@SWG\Response(response=200, description="successful"),
      *      @SWG\Response(response=400, description="Bad request")
      *
      * )
@@ -88,23 +91,29 @@ class PostController extends ApiController
         if ($userTags) {
             $userTags = explode(",", $userTags);
             if (is_array($userTags) && count($userTags) > 0) {
-                $users = User::whereIn('id', $userTags)->active()->select(['id', 'first_name', 'last_name'])->get();
+                $users = User::whereIn('id', $userTags)->active()->select(['id', 'first_name', 'last_name', 'device_id', 'device_type'])->get();
                 $userTags = json_encode($users);
                 unset($users);
             } else {
                 $userTags = '';
             }
         }
+
+        $userId = \Authorizer::getResourceOwnerId();
         $post = Post::create([
             'status' => $request->input('content'),
             'location_id' => $request->input('location_id'),
             'lat' => $request->input('lat'),
             'long' => $request->input('long'),
             'with_tags' => $userTags,
-            'user_id' => \Authorizer::getResourceOwnerId()
+            'user_id' => $userId
         ]);
         $this->dispatch(new UpdateUserDropWhenCreatePost(\Authorizer::getResourceOwnerId(), $post->lat, $post->long));
         //$this->dispatch(new IndexPostCreate($post));
+        if (!empty($userTags)) {
+            $this->dispatch(new TagUserNotify(json_decode($userTags, true), $userId));
+        }
+        $this->dispatch(new LogUserAction($userId, Notification::ACTION_TYPE_COMMENT));
         return $this->lzResponse->successTransformModel($post, new PostTransformer());
     }
 
@@ -134,7 +143,7 @@ class PostController extends ApiController
 	 *      	required=true,
 	 *      	type="integer"
 	 *      	),
-	 *		@SWG\Response(response=200, description="Detail of post"),
+	 *		@SWG\Response(response=200, description="List of post"),
 	 *      @SWG\Response(response=400, description="Bad request")
 	 *
 	 * )
@@ -171,6 +180,39 @@ class PostController extends ApiController
         $data['items'] = $items;
 		return $this->lzResponse->success($data);
 	}
+
+    /**
+     * @SWG\Get(
+     *    path="/posts/{id}",
+     *   summary="Get post detail",
+     *   tags={"Posts"},
+     *     @SWG\Parameter(
+     *			name="Authorization",
+     *			description="Authorization include  Bearer & access_token ex: Bearer rAPoKnrkC87f9ex9oh0WZ1iUMBhLMBHXGrgrWW1f",
+     *			in="header",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *      @SWG\Parameter(
+     *			name="id",
+     *			description="Post's ID",
+     *			in="query",
+     *      	required=true,
+     *      	type="integer"
+     *      	),
+     *		@SWG\Response(response=200, description="Detail of post"),
+     *      @SWG\Response(response=400, description="Bad request")
+     *
+     * )
+     */
+    public function detail(Request $request, $id)
+    {
+        $post = Post::getDetail($id);
+        if (!$post) {
+            return $this->lzResponse->badRequest(['id' => trans('Be not found')]);
+        }
+        return $this->lzResponse->successTransformModel($post, new PostTransformer());
+    }
 
 
 	/**

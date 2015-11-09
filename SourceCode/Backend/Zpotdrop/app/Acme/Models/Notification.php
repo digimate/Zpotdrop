@@ -79,6 +79,7 @@ class Notification extends BaseModel
     const ACTION_TYPE_ZPOT_REQUEST = 5;
     const ACTION_TYPE_ZPOT_ALL = 6;
     const ACTION_TYPE_ZPOT_ACCEPT = 7;
+    const ACTION_TYPE_TAG_USER = 8;
 
 	public static $action_messages = [
 		self::ACTION_TYPE_COMING    => 'Is coming to your zpotdrop',
@@ -101,4 +102,20 @@ class Notification extends BaseModel
 	{
 		return $this->belongsTo('App\Acme\Models\User', 'friend_id');
 	}
+
+    /**
+     * Get notifications
+     * @param $userId
+     * @param $page
+     * @param $limit
+     * @return mixed
+     */
+    public static function getNotifications($userId, $page, $limit) {
+        $page = self::getPage($page);
+        $limit = self::getLimit($limit);
+
+        return Notification::where('friend_id', $userId)
+                            ->orderBy('created_at', 'desc')
+                            ->paginate($limit, ['*'], 'page', $page);
+    }
 }

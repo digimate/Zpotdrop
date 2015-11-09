@@ -11,7 +11,6 @@
 
 namespace App\Acme\Transformers;
 use App\Acme\Models\Friend;
-use App\Acme\Models\Like;
 use App\Acme\Models\PostComing;
 
 

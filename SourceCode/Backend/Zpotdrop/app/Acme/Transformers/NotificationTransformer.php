@@ -11,14 +11,13 @@
 
 namespace App\Acme\Transformers;
 
-
-use App\Acme\Models\Location;
+use App\Acme\Models\Notification;
 
 /**
- * Class LocationTransformer
+ * Class NotificationTransformer
  * @package App\Models\Transformers
  */
-class LocationTransformer extends Transformer
+class NotificationTransformer extends Transformer
 {
 
 	/**
@@ -27,8 +26,6 @@ class LocationTransformer extends Transformer
 	 * @var array
 	 */
 	protected $availableIncludes = [];
-
-    protected $viewArr = ['id', 'name', 'address', 'lat', 'long'];
 
 	/**
 	 * UserTransformer constructor.
@@ -43,11 +40,11 @@ class LocationTransformer extends Transformer
 	 *
 	 * @return array
 	 */
-	public function transform($location)
+	public function transform($notification)
 	{
-        if ($location instanceof Location) {
-            $location = $location->toArray();
+        if ($notification instanceof Notification) {
+            $notification = $notification->toArray();
         }
-		return array_only($location, $this->viewArr);
+		return $notification;
 	}
 }

@@ -121,9 +121,9 @@ Route::group([
 		'as' => 'api.posts.list',
 		'uses' => 'PostController@index'
 	]);
-	Route::post('posts/{id}/show', [
-		'as' => 'api.posts.show',
-		'uses' => 'PostController@show'
+	Route::get('posts/{id}', [
+		'as' => 'api.posts.detail',
+		'uses' => 'PostController@detail'
 	]);
 
     //likes
@@ -195,6 +195,28 @@ Route::group([
     Route::post('/zpot/users/answer', [
         'as' => 'api.zpot.answer',
         'uses' => 'ZpotController@answer'
+    ]);
+    Route::post('/zpot/scan', [
+        'as' => 'api.zpot.scan',
+        'uses' => 'ZpotController@scan'
+    ]);
+    Route::get('/zpot/zpotall/check', [
+        'as' => 'api.zpot.all.check',
+        'uses' => 'ZpotController@zpotAllCheck'
+    ]);
+
+/*
+|--------------------------------------------------------------------------
+| Notification
+|--------------------------------------------------------------------------
+*/
+    Route::get('/notifications/list', [
+        'as' => 'api.notifications.list',
+        'uses' => 'NotificationController@getNotifications'
+    ]);
+    Route::post('/notifications/{id}/read', [
+        'as' => 'api.notifications.read',
+        'uses' => 'NotificationController@markRead'
     ]);
 
 });

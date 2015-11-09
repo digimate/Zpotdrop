@@ -243,12 +243,12 @@ class Post extends BaseModel
 
 
     /**
-     * get feeds from following
-     * @param $userId
-     * @param $page
-     * @param $limit
-     * @return array
-     */
+ * get feeds from following
+ * @param $userId
+ * @param $page
+ * @param $limit
+ * @return array
+ */
     public static function getNewFeeds($userId, $page, $limit) {
         $page = self::getPage($page);
         $limit = self::getLimit($limit);
@@ -265,5 +265,20 @@ class Post extends BaseModel
             ->orderBy('created_at', 'desc')
             ->paginate($limit, ['*'], 'page', $page);
         return ['posts' => $posts, 'friends' => $friends];
+    }
+
+
+    /**
+     * get post detail
+     * @param $postId
+     * @return array
+     */
+    public static function getDetail($postId) {
+        return Post::with(['user' => function($query) {
+            $query->addSelect(['id', 'avatar', 'first_name', 'last_name', 'is_private']);
+        }, 'location' => function($query) {
+
+        }])
+            ->where('id', $postId)->first();
     }
 }
