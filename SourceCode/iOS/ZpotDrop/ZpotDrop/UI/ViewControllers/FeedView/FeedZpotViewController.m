@@ -99,14 +99,14 @@
     completion(returnArray);
 }
 
--(void)getFeedsFromServer{
+-(void)getFeedsFromServer {
     [[Utils instance]showProgressWithMessage:nil];
     [[APIService shareAPIService]getFeedsFromServer:^(NSMutableArray *returnArray, NSString *error) {
         [[Utils instance]hideProgess];
         if (error) {
             [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
             }];
-        }else{
+        } else{
             [_feedData removeAllObjects];
             [_feedData addObjectsFromArray:returnArray];
             [_feedTableView reloadData];
@@ -211,11 +211,12 @@
         if (model != cell.dataModel) {
             cell.dataModel.dataDelegate = nil;
             cell.dataModel = nil;
-            [cell setupCellWithData:model andOptions:nil];
+//            [cell setupCellWithData:model andOptions:nil];
         }
         if (!selectedData) {
             feedSelectedCell = nil;
         }
+        [cell setupCellWithData:model andOptions:nil];
         
         feedSelectedCell = (FeedSelectedViewCell*)cell;
         FeedZpotViewController* weak = weakObject(self);

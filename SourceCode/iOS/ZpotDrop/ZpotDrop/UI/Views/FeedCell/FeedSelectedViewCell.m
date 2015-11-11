@@ -96,8 +96,10 @@
             NSString* distance = [[Utils instance] distanceWithMoveTimeBetweenCoor:CLLocationCoordinate2DMake([feedData.latitude doubleValue], [feedData.longitude doubleValue]) andCoor:[Utils instance].locationManager.location.coordinate];
             _lblZpotInfo.text = distance;
         }
-
-        _btnComming.enabled = ![feedData.user_id isEqualToString:[AccountModel currentAccountModel].user_id];
+        
+        if (feedData.comming_userIds != nil && feedData.comming_userIds.length > 0) {
+            NSLog(@"feedData.comming_userIds: %@", feedData.comming_userIds);
+        }
         
         _lblZpotTitle.text = feedData.title;
         _lblZpotTime.text = [[Utils instance]convertDateToRecent:feedData.time];
