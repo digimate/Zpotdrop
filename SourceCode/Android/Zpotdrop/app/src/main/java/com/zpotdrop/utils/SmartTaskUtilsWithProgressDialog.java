@@ -4,25 +4,22 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
-public class TaskUtils extends AsyncTask<Void, Void, Void> {
+public class SmartTaskUtilsWithProgressDialog extends AsyncTask<Void, Void, Void> {
 
     private ProgressDialog progressDialog;
     private Context context;
     private String message;
     private boolean isShowProgressDialog = true;
 
-    public TaskUtils(Context context, String message) {
+    public SmartTaskUtilsWithProgressDialog(Context context, String message) {
         this.context = context;
         this.setMessage(message);
     }
 
-    public TaskUtils(Context pContext) {
-        context = pContext;
-    }
-
-    public TaskUtils(Context pContext, boolean isShowProgressDialog) {
-        context = pContext;
+    public SmartTaskUtilsWithProgressDialog(Context context, String message, boolean isShowProgressDialog) {
+        this.context = context;
         this.isShowProgressDialog = isShowProgressDialog;
+        this.message = message;
     }
 
     protected void onPreExecute() {

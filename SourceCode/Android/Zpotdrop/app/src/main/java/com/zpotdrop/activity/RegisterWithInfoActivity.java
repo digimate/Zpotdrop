@@ -7,5 +7,5 @@ package com.zpotdrop.activity;
 /**
  * @author phuc.tran
  */
-public class MainActivity {
+public class RegisterWithInfoActivity {
 }
