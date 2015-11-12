@@ -1,4 +1,4 @@
-package com.zpotdrop;
+package com.zpotdrop.app;
 
 import android.app.Application;
 

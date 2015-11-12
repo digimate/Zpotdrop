@@ -1,9 +1,11 @@
-package com.zpotdrop;
+package com.zpotdrop.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.zpotdrop.R;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -30,12 +30,21 @@ public class SmartRestClient {
     private String response;
     private int responseCode;
     private String url;
+    private Context context;
 
     public SmartRestClient(String url) {
         this.url = url;
         params = new ArrayList<NameValuePair>();
         headers = new ArrayList<NameValuePair>();
     }
+
+//	private static SmartRestClient instance = null;
+//	public static SmartRestClient getInstance(){
+//		if(instance == null) {
+//			instance = new SmartRestClient();
+//		}
+//		return instance;
+//	}
 
     private static String getB64Auth() {
         String source = "tixel" + ":" + "COjzm22H";
@@ -87,6 +96,7 @@ public class SmartRestClient {
     }
 
     public void execute(RequestMethod method, Context ctx) throws Exception {
+        this.context = ctx;
         switch (method) {
             case GET: {
                 // add parameters
@@ -135,7 +145,7 @@ public class SmartRestClient {
     }
 
     public void executeRequest(HttpUriRequest request) {
-        HttpClient httpClient = HTTPUtils.getNewHttpClient(url.startsWith(HTTPS_STRING));
+        HttpClient httpClient = HTTPUtils.getNewHttpClient(this.context, url.startsWith(HTTPS_STRING));
         HttpResponse httpResponse = null;
 
         try {

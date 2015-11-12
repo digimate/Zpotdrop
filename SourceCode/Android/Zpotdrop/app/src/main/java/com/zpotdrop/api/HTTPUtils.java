@@ -1,5 +1,7 @@
 package com.zpotdrop.api;
 
+import android.content.Context;
+
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
@@ -19,7 +21,7 @@ public class HTTPUtils {
      * @param isHTTPS
      * @return
      */
-    public static HttpClient getNewHttpClient(boolean isHTTPS) {
+    public static HttpClient getNewHttpClient(Context context, boolean isHTTPS) {
         try {
             if (!isHTTPS) {
                 return getNewHttpClient();
@@ -27,7 +29,7 @@ public class HTTPUtils {
             KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
             trustStore.load(null, null);
             SSLSocketFactory sf = new CustomSSLSocketFactory(trustStore);
-            sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            sf.setHostnameVerifier(SSLSocketFactory.STRICT_HOSTNAME_VERIFIER);
 
             HttpParams params = new BasicHttpParams();
             SchemeRegistry registry = new SchemeRegistry();
