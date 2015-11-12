@@ -50,6 +50,7 @@
     _lblZpotTime.text = nil;
     _btnLike.enabled = YES;
     _btnLike.userInteractionEnabled = YES;
+    _btnComming.selected = NO;
     [_btnLike addTarget:self action:@selector(likeFeed:) forControlEvents:UIControlEventTouchUpInside];
     [self addBorderWithFrame:CGRectMake(0, [FeedNormalViewCell cellHeightWithData:nil]-5.0, self.width, 5.0) color:[UIColor colorWithRed:242 green:242 blue:242]];
 }
@@ -193,7 +194,7 @@
         _lblNumberLikesWidth.constant = ceilf(s.width);
         
         _btnLike.selected = ([feedData.like_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
-        _btnComming.selected = ([feedData.comming_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
+        _btnComming.selected = (feedData.comming_userIds && [feedData.comming_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
         _btnComming.enabled = ![feedData.user_id isEqualToString:[AccountModel currentAccountModel].user_id];
     }
 }

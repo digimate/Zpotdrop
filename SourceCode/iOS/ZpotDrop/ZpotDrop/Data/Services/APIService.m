@@ -418,7 +418,7 @@
             
             
             NSString* likeIDs = parseObject[@"comming_userIds"];
-            if ([likeIDs rangeOfString:[AccountModel currentAccountModel].user_id].location == NSNotFound) {
+            if (!likeIDs || [likeIDs rangeOfString:[AccountModel currentAccountModel].user_id].location == NSNotFound) {
                 if (likeIDs && likeIDs.length > 0) {
                     likeIDs = [NSString stringWithFormat:@"%@,%@",likeIDs,[AccountModel currentAccountModel].user_id];
                 }else{

@@ -34,6 +34,7 @@
     [_btnComming setTitle:@"comming".localized forState:UIControlStateNormal];
     [_btnComming setTitle:@"comminged".localized forState:UIControlStateSelected];
     [_btnComming setTitleColor:COLOR_DARK_GREEN forState:UIControlStateSelected];
+    _btnComming.selected = NO;
     
     self.selectionStyle = UITableViewCellSeparatorStyleNone;
     [_lblZpotTitle setWidth:(_lblZpotTitle.width + (self.width - 320))];
@@ -95,10 +96,6 @@
         if ([Utils instance].isGPS) {
             NSString* distance = [[Utils instance] distanceWithMoveTimeBetweenCoor:CLLocationCoordinate2DMake([feedData.latitude doubleValue], [feedData.longitude doubleValue]) andCoor:[Utils instance].locationManager.location.coordinate];
             _lblZpotInfo.text = distance;
-        }
-        
-        if (feedData.comming_userIds != nil && feedData.comming_userIds.length > 0) {
-            NSLog(@"feedData.comming_userIds: %@", feedData.comming_userIds);
         }
         
         _lblZpotTitle.text = feedData.title;
@@ -191,7 +188,8 @@
         
         [self loadComments];
         _btnLike.selected = ([feedData.like_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
-        _btnComming.selected = ([feedData.comming_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
+        _btnComming.selected = (feedData.comming_userIds && [feedData.comming_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
+        _btnComming.enabled = ![feedData.user_id isEqualToString:[AccountModel currentAccountModel].user_id];
         
         //setup comment number
         NSString* commentString;
