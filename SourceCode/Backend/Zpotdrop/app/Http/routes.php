@@ -34,3 +34,4 @@ Route::group(['namespace' => 'Api\v1'], function() {
 
 include 'Routes/Api.php';
 include 'Routes/Common.php';
+include 'Routes/Frontend.php';

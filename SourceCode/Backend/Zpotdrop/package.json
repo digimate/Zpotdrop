@@ -5,6 +5,11 @@
   },
   "dependencies": {
     "laravel-elixir": "^2.0.0",
-    "bootstrap-sass": "^3.0.0"
+    "bootstrap-sass": "^3.0.0",
+    "express": "3.3.8",
+    "redis": "^2.2.5",
+    "socket.io": "^0.9.17",
+    "underscore": "^1.8.3",
+    "validator": "^4.2.1"
   }
 }

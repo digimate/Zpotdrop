@@ -24,8 +24,8 @@ abstract class Request extends FormRequest
 	 */
 	protected function failedValidation(Validator $validator)
 	{
-		if(self::ajax()){
-			throw new HttpResponseException($this->lzResponse->badRequest($validator->errors()->all()));
+		if(self::ajax() || self::is('api/*')){
+			throw new HttpResponseException($this->lzResponse->badRequest($this->formatErrors($validator)));
 		}
 		parent::failedValidation($validator);
 	}

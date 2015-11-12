@@ -219,6 +219,22 @@ Route::group([
         'uses' => 'NotificationController@markRead'
     ]);
 
+
+/*
+|--------------------------------------------------------------------------
+| Chat
+|--------------------------------------------------------------------------
+*/
+
+    Route::get('/chat/rooms', [
+        'as' => 'api.chat.rooms',
+        'uses' => 'ChatController@getRooms'
+    ]);
+    Route::post('/chat/room/create', [
+        'as' => 'api.chat.room.create',
+        'uses' => 'ChatController@createRoom'
+    ]);
+
 });
 
 /*

@@ -19,6 +19,6 @@ class Hash
 	* @return string
 	*/
 	public static function hexId() {
-		return substr(md5(microtime().uniqid() ), 0, 24);
+		return md5(microtime().uniqid() );
 	}
 }
