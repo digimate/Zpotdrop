@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015 Zpotdrop. All rights reserved.
+  -->
+
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#b2cc8a</color>
+    <color name="colorPrimaryDark">#b1cb89</color>
+    <!--<color name="colorAccent">#FF4081</color>-->
+    <color name="colorAccent">#b1cb89</color>
+
+    <color name="bg_chat_bubble_gray">#e6e6e6</color>
+    <color name="text_gray">#c9c9c9</color>
+    <color name="text_black">#1d1d1b</color>
 </resources>

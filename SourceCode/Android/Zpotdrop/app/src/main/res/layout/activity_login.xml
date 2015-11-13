@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2015 Zpotdrop. All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/logo" />
+
+            <TextView
+                android:id="@+id/tv_welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:gravity="center"
+                android:text="@string/welcome_to"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_welcome" />
+
+            <ImageView
+                android:id="@+id/iv_text_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/text_logo" />
+
+            <EditText
+                android:id="@+id/edt_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_to_border_normal"
+                android:layout_marginRight="@dimen/margin_to_border_normal"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:gravity="center"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/text_gray" />
+
+            <EditText
+                android:id="@+id/edt_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_to_border_normal"
+                android:layout_marginRight="@dimen/margin_to_border_normal"
+                android:layout_marginTop="@dimen/margin_small"
+                android:gravity="center"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:textColor="@color/text_gray" />
+
+            <TextView
+                android:id="@+id/tv_continue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:gravity="center"
+                android:text="@string/continue_text"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_to_border_normal"
+                android:layout_marginRight="@dimen/margin_to_border_normal"
+                android:layout_marginTop="@dimen/margin_large"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/text_gray" />
+
+                <TextView
+                    android:id="@+id/tv_or"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_extra_small"
+                    android:layout_marginRight="@dimen/margin_extra_small"
+                    android:text="@string/or"
+                    android:textColor="@color/text_gray" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/text_gray" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_login_with_fb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_facebook"
+                android:drawablePadding="@dimen/margin_extra_small"
+                android:text="@string/login_with_facebook"
+                android:textColor="@color/text_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:layout_marginLeft="@dimen/margin_normal"
+                android:layout_marginRight="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_large"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_not_yet_on_zd"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/not_yet_on_zpotdrop"
+                    android:textColor="@color/text_gray" />
+
+                <TextView
+                    android:id="@+id/tv_forgot_password"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@string/forgot_password"
+                    android:textColor="@color/text_gray" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>
