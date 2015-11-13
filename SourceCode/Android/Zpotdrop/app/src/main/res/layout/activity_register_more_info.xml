@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2015 Zpotdrop. All rights reserved.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_normal"
+                android:src="@drawable/logo" />
+
+            <EditText
+                android:id="@+id/edt_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_to_border_normal"
+                android:layout_marginRight="@dimen/margin_to_border_normal"
+                android:layout_marginTop="@dimen/margin_extra_large"
+                android:gravity="center"
+                android:hint="@string/first_name"
+                android:inputType="textCapWords"
+                android:textColor="@color/text_gray" />
+
+            <EditText
+                android:id="@+id/edt_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_to_border_normal"
+                android:layout_marginRight="@dimen/margin_to_border_normal"
+                android:layout_marginTop="@dimen/margin_small"
+                android:gravity="center"
+                android:hint="@string/last_name"
+                android:inputType="textCapWords"
+                android:textColor="@color/text_gray" />
+
+            <EditText
+                android:id="@+id/edt_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_to_border_normal"
+                android:layout_marginRight="@dimen/margin_to_border_normal"
+                android:layout_marginTop="@dimen/margin_small"
+                android:gravity="center"
+                android:hint="@string/phone_number"
+                android:inputType="phone"
+                android:textColor="@color/text_gray" />
+
+            <EditText
+                android:id="@+id/edt_dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_to_border_normal"
+                android:layout_marginRight="@dimen/margin_to_border_normal"
+                android:layout_marginTop="@dimen/margin_small"
+                android:gravity="center"
+                android:hint="@string/date_of_birdth"
+                android:inputType="date"
+                android:textColor="@color/text_gray" />
+
+            <!--<com.zpotdrop.view.ComboSeekBar-->
+            <!--android:id="@+id/combo_seek_bar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="@dimen/margin_extra_large"-->
+            <!--android:layout_marginRight="@dimen/margin_extra_large"-->
+            <!--android:layout_marginTop="@dimen/margin_normal"-->
+            <!--cbs:myColor="@color/colorPrimary" />-->
+
+            <TextView
+                android:id="@+id/tv_sign_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_normal"
+                android:gravity="center"
+                android:text="@string/sign_up"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_bold" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_normal"
+        android:drawableLeft="@drawable/ic_back"
+        android:drawablePadding="@dimen/margin_extra_small"
+        android:gravity="center_vertical"
+        android:text="@string/back"
+        android:textColor="@color/text_gray" />
+
+</RelativeLayout>

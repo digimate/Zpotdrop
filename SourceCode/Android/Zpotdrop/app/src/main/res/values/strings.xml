@@ -15,4 +15,20 @@
     <string name="login_with_facebook">Login with Facebook</string>
     <string name="not_yet_on_zpotdrop">Not yet on zpotdrop?</string>
     <string name="forgot_password">Forgot password?</string>
+
+    <!--REGISTER-->
+    <string name="password_again">Password again</string>
+    <string name="back">Back</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="phone_number">Phone number</string>
+    <string name="date_of_birdth">Date of birth</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="private_gender">Private</string>
+    <string name="sign_up">Sign up</string>
+
+    <!--FORGOT PASSWORD-->
+    <string name="forgot_password_bold">Forgot password</string>
+    <string name="send">Send</string>
 </resources>

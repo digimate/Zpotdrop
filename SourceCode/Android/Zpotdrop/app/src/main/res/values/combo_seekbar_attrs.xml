@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2015 Zpotdrop. All rights reserved.
+  -->
+
+<resources>
+
+    <declare-styleable name="ComboSeekBar">
+        <attr name="multiline" format="boolean" />
+        <attr name="myColor" format="color" />
+        <attr name="textSize" format="dimension" />
+    </declare-styleable>
+
+</resources>

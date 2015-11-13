@@ -4,6 +4,7 @@
 
 package com.zpotdrop.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import com.zpotdrop.utils.DeviceManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
     private final int LOGO_WIDTH = 155;
@@ -83,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         /**
          * Adjust text logo size
          */
-        int textLogoWidth = DeviceManager.getScreenWidth(this) / 2;
+        int textLogoWidth = (int) (DeviceManager.getScreenWidth(this) * 0.4f);
         int textLogoHeight = (int) ((1.0f * textLogoWidth / TEXT_LOGO_WIDTH) * TEXT_LOGO_HEIGHT);
         ivTextLogoZD.getLayoutParams().width = textLogoWidth;
         ivTextLogoZD.getLayoutParams().height = textLogoHeight;
@@ -98,6 +100,34 @@ public class LoginActivity extends AppCompatActivity {
         tvLoginWithFacebook.setTypeface(ZpotdropApp.openSansLight);
         tvNotYetOnZD.setTypeface(ZpotdropApp.openSansLight);
         tvForgotPassword.setTypeface(ZpotdropApp.openSansLight);
+    }
+
+    @OnClick(R.id.tv_not_yet_on_zd)
+    void openRegisterPage() {
+        openNewPage(RegisterActivity.class);
+    }
+
+    @OnClick(R.id.tv_forgot_password)
+    void openForgotPasswordPage() {
+        openNewPage(ForgotPasswordActivity.class);
+    }
+
+    @OnClick(R.id.tv_continue)
+    void openMainPage() {
+        openNewPage(MainActivity.class);
+    }
+
+    /**
+     * Open new activity
+     *
+     * @param activityClass The class of activity that will be opened
+     */
+    private void openNewPage(Class activityClass) {
+        Intent intent = new Intent(this, activityClass);
+        startActivity(intent);
+
+        // Animation when transforming screens
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 }
 

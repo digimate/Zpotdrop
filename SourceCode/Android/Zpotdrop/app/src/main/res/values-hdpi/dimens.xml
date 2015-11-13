@@ -3,7 +3,7 @@
   -->
 
 <resources>
-    <dimen name="text_size_welcome">35sp</dimen>
+    <dimen name="text_size_welcome">30sp</dimen>
     <dimen name="welcome_padding">10dp</dimen>
     <dimen name="padding_edit_text">10dp</dimen>
     <dimen name="margin_normal">15dp</dimen>
@@ -12,5 +12,5 @@
     <dimen name="margin_large">20dp</dimen>
     <dimen name="margin_extra_large">25dp</dimen>
     <dimen name="margin_to_border_normal">20dp</dimen>
-    <dimen name="text_size_bold">20sp</dimen>
+    <dimen name="text_size_bold">18sp</dimen>
 </resources>

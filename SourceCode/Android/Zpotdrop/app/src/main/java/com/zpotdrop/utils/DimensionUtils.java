@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2015 Zpotdrop. All rights reserved.
+ */
+
 package com.zpotdrop.utils;
 
 import android.content.Context;
@@ -15,17 +19,29 @@ public class DimensionUtils {
      * @param context The context where the conversion is being made
      * @return
      */
-    public static float convertDpToPixel(float dp, Context context) {
+    public static float dpToPixel(float dp, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float px = dp * (metrics.densityDpi / 160f);
         return px;
     }
 
-    public static float convertPixelsToDp(float px, Context context) {
+    public static float pixelsToDp(float px, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float dp = px / (metrics.densityDpi / 160f);
         return dp;
+    }
+
+    /**
+     * Convert pixel to sp
+     *
+     * @param context
+     * @param px
+     * @return
+     */
+    public static float pixelsToSp(Context context, float px) {
+        float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
+        return px / scaledDensity;
     }
 }

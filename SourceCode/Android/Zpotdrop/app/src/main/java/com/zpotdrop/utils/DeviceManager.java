@@ -1,8 +1,14 @@
+/*
+ * Copyright (c) 2015 Zpotdrop. All rights reserved.
+ */
+
 package com.zpotdrop.utils;
 
 import android.content.Context;
 import android.graphics.Point;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 import android.view.Display;
 import android.view.WindowManager;
@@ -94,5 +100,21 @@ public class DeviceManager {
     public static Location getPhoneLocation() {
         Location location = null;
         return location;
+    }
+
+    /**
+     * Check if the device is connected to internet
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isConnectedToInternet(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
     }
 }

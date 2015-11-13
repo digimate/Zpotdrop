@@ -1,0 +1,16 @@
+<!--
+  ~ Copyright (c) 2015 Zpotdrop. All rights reserved.
+  -->
+
+<resources>
+    <dimen name="text_size_welcome">40sp</dimen>
+    <dimen name="welcome_padding">15dp</dimen>
+    <dimen name="padding_edit_text">15dp</dimen>
+    <dimen name="margin_normal">20dp</dimen>
+    <dimen name="margin_small">15dp</dimen>
+    <dimen name="margin_extra_small">10dp</dimen>
+    <dimen name="margin_large">25dp</dimen>
+    <dimen name="margin_extra_large">30dp</dimen>
+    <dimen name="margin_to_border_normal">30dp</dimen>
+    <dimen name="text_size_bold">22sp</dimen>
+</resources>
