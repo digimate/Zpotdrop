@@ -1,12 +1,18 @@
+/*
+ * Copyright (c) 2015 Zpotdrop. All rights reserved.
+ */
+
 package com.zpotdrop.utils;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.zpotdrop.view.ZProgressHUD;
+
 public class SmartTaskUtilsWithProgressDialog extends AsyncTask<Void, Void, Void> {
 
-    private ProgressDialog progressDialog;
+    ZProgressHUD progressDialog;// = ZProgressHUD.getInstance(context);
+    //private ProgressDialog progressDialog;
     private Context context;
     private String message;
     private boolean isShowProgressDialog = true;
@@ -25,7 +31,8 @@ public class SmartTaskUtilsWithProgressDialog extends AsyncTask<Void, Void, Void
     protected void onPreExecute() {
         super.onPreExecute();
         if (isShowProgressDialog) {
-            progressDialog = new ProgressDialog(context);
+            progressDialog = ZProgressHUD.getInstance(context);
+            progressDialog.setSpinnerType(ZProgressHUD.SIMPLE_ROUND_SPINNER);
             progressDialog.setMessage(message);
             progressDialog.show();
         }

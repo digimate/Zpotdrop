@@ -14,4 +14,7 @@
     <color name="text_black">#1d1d1b</color>
 
     <color name="white">#ffffff</color>
+
+    <color name="datepicker_primary">#b2cc8a</color>
+    <color name="datepicker_primary_dark">#b1cb89</color>
 </resources>

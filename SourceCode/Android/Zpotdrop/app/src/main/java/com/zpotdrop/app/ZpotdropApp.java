@@ -15,6 +15,8 @@ public class ZpotdropApp extends Application {
     public static Typeface openSansLight;
     public static Typeface openSansBold;
 
+    public static String DATE_FORMAT = "dd-MM-yyyy";
+
     @Override
     public void onCreate() {
         super.onCreate();

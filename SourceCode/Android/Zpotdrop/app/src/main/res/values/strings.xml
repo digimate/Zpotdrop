@@ -27,8 +27,24 @@
     <string name="female">Female</string>
     <string name="private_gender">Private</string>
     <string name="sign_up">Sign up</string>
+    <string-array name="genders">
+        <item>Male</item>
+        <item>Private</item>
+        <item>Female</item>
+    </string-array>
 
     <!--FORGOT PASSWORD-->
     <string name="forgot_password_bold">Forgot password</string>
     <string name="send">Send</string>
+
+    <!--LEFT MENU-->
+    <string name="settings">SETTINGS</string>
+    <string name="feed">FEED</string>
+    <string name="post">POST</string>
+    <string name="find">FIND</string>
+    <string name="chat">CHAT</string>
+    <string name="search">SEARCH</string>
+    <string name="all_zpot">ALL ZPOT</string>
+    <string name="msg_zpot_all">Now click to zpot all your friends.</string>
+    <string name="activate_all_zpots">ACTIVATE ALL ZPOTS TO USE</string>
 </resources>

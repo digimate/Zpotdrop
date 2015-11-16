@@ -69,6 +69,8 @@
                 android:layout_marginLeft="@dimen/margin_to_border_normal"
                 android:layout_marginRight="@dimen/margin_to_border_normal"
                 android:layout_marginTop="@dimen/margin_small"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:gravity="center"
                 android:hint="@string/date_of_birdth"
                 android:inputType="date"
@@ -82,6 +84,14 @@
             <!--android:layout_marginRight="@dimen/margin_extra_large"-->
             <!--android:layout_marginTop="@dimen/margin_normal"-->
             <!--cbs:myColor="@color/colorPrimary" />-->
+
+            <com.zpotdrop.view.MultiStateToggleButton
+                android:id="@+id/toggle_genders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_to_border_normal"
+                android:layout_marginRight="@dimen/margin_to_border_normal"
+                android:layout_marginTop="@dimen/margin_normal"></com.zpotdrop.view.MultiStateToggleButton>
 
             <TextView
                 android:id="@+id/tv_sign_up"

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2015 Zpotdrop. All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="0.5dp"
+    android:layout_marginLeft="@dimen/menu_left_margin"
+    android:background="@color/text_gray"
+    android:orientation="vertical">
+
+</LinearLayout>

@@ -13,4 +13,12 @@
     <dimen name="margin_extra_large">25dp</dimen>
     <dimen name="margin_to_border_normal">20dp</dimen>
     <dimen name="text_size_bold">18sp</dimen>
+    <dimen name="menu_left_margin">30dp</dimen>
+
+    <dimen name="drawer_width">240dp</dimen>
+    <dimen name="avatar_size">100dp</dimen>
+    <dimen name="avatar_border">3dp</dimen>
+    <dimen name="zpot_all_progress_size">110dp</dimen>
+    <dimen name="zpot_all_progress_text_size">20sp</dimen>
+    <dimen name="zpot_all_progress_stroke_size">3sp</dimen>
 </resources>

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2015 Zpotdrop. All rights reserved.
+ */
+
 apply plugin: 'com.android.application'
 
 android {
@@ -35,4 +39,6 @@ dependencies {
         transitive = true
     }
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile 'com.github.jaydeep17:datetimepicker:0.0.4'
 }
