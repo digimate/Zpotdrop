@@ -8,6 +8,7 @@
     <color name="colorPrimaryDark">#b1cb89</color>
     <!--<color name="colorAccent">#FF4081</color>-->
     <color name="colorAccent">#b1cb89</color>
+    <color name="primary_transparent_50">#ccb2cc8a</color>
 
     <color name="bg_chat_bubble_gray">#e6e6e6</color>
     <color name="text_gray">#c9c9c9</color>
@@ -17,4 +18,6 @@
 
     <color name="datepicker_primary">#b2cc8a</color>
     <color name="datepicker_primary_dark">#b1cb89</color>
+
+    <color name="divider">#f6f6f6</color>
 </resources>

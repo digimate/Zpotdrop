@@ -10,7 +10,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,7 +30,7 @@
                     android:id="@+id/iv_avatar"
                     android:layout_width="@dimen/avatar_size"
                     android:layout_height="@dimen/avatar_size"
-                    android:src="@drawable/ic_launcher"
+                    android:src="@drawable/ic_avatar"
                     app:civ_border_color="@color/colorPrimary"
                     app:civ_border_width="@dimen/avatar_border" />
 
@@ -53,7 +54,7 @@
             <include
                 layout="@layout/menu_divider"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
+                android:layout_height="1dp"
                 android:layout_marginLeft="@dimen/menu_left_margin"
                 android:layout_marginTop="@dimen/margin_extra_large" />
 
@@ -66,7 +67,7 @@
                 android:drawablePadding="@dimen/margin_small"
                 android:gravity="center_vertical"
                 android:text="@string/feed"
-                android:textSize="@dimen/text_size_bold" />
+                android:textSize="@dimen/menu_left_text_size" />
 
             <include layout="@layout/menu_divider" />
 
@@ -79,7 +80,7 @@
                 android:drawablePadding="@dimen/margin_small"
                 android:gravity="center_vertical"
                 android:text="@string/post"
-                android:textSize="@dimen/text_size_bold" />
+                android:textSize="@dimen/menu_left_text_size" />
 
             <include layout="@layout/menu_divider" />
 
@@ -92,7 +93,7 @@
                 android:drawablePadding="@dimen/margin_small"
                 android:gravity="center_vertical"
                 android:text="@string/find"
-                android:textSize="@dimen/text_size_bold" />
+                android:textSize="@dimen/menu_left_text_size" />
 
             <include layout="@layout/menu_divider" />
 
@@ -105,7 +106,7 @@
                 android:drawablePadding="@dimen/margin_small"
                 android:gravity="center_vertical"
                 android:text="@string/chat"
-                android:textSize="@dimen/text_size_bold" />
+                android:textSize="@dimen/menu_left_text_size" />
 
             <include layout="@layout/menu_divider" />
 
@@ -118,7 +119,7 @@
                 android:drawablePadding="@dimen/margin_small"
                 android:gravity="center_vertical"
                 android:text="@string/search"
-                android:textSize="@dimen/text_size_bold" />
+                android:textSize="@dimen/menu_left_text_size" />
 
             <include layout="@layout/menu_divider" />
 
@@ -129,12 +130,19 @@
                 android:layout_marginBottom="@dimen/margin_extra_large"
                 android:layout_marginTop="@dimen/margin_extra_small"
                 android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <com.zpotdrop.view.CircularProgressBar
                     android:id="@+id/zpot_all_progress"
                     android:layout_width="@dimen/zpot_all_progress_size"
                     android:layout_height="@dimen/zpot_all_progress_size" />
+
+                <TextView
+                    android:id="@+id/tv_zpot_all_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/msg_zpot_all"
+                    android:textColor="@color/text_gray" />
 
             </LinearLayout>
 

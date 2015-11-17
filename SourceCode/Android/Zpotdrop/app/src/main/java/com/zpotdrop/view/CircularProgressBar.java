@@ -139,11 +139,11 @@ public class CircularProgressBar extends View {
         metrics = context.getResources().getDisplayMetrics();
 
         if (typefaceIcon == null) {
-            typefaceIcon = ZpotdropApp.openSansRegular;
+            typefaceIcon = ZpotdropApp.openSansBold;
         }
 
         if (typefaceNumber == null) {
-            typefaceNumber = ZpotdropApp.openSansRegular;
+            typefaceNumber = ZpotdropApp.openSansBold;
         }
 
         int padding = dpToPixel(8);
@@ -183,7 +183,7 @@ public class CircularProgressBar extends View {
         //textSize = dpToPixel(width / 4);
 
         paintCircle.setStrokeWidth(stroke);
-        paintProgress.setStrokeWidth(stroke + 1);
+        paintProgress.setStrokeWidth(stroke * 2);
 
         paintText.setTextSize(textSize);
 

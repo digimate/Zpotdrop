@@ -12,13 +12,17 @@
     <dimen name="margin_large">20dp</dimen>
     <dimen name="margin_extra_large">25dp</dimen>
     <dimen name="margin_to_border_normal">20dp</dimen>
-    <dimen name="text_size_bold">18sp</dimen>
     <dimen name="menu_left_margin">30dp</dimen>
 
-    <dimen name="drawer_width">240dp</dimen>
+    <dimen name="text_size_bold">18sp</dimen>
+    <dimen name="menu_left_text_size">15sp</dimen>
+    <dimen name="profile_drops_number_text_size">18sp</dimen>
+    <dimen name="profile_drops_text_size">11sp</dimen>
+
+    <dimen name="drawer_width">280dp</dimen>
     <dimen name="avatar_size">100dp</dimen>
     <dimen name="avatar_border">3dp</dimen>
     <dimen name="zpot_all_progress_size">110dp</dimen>
     <dimen name="zpot_all_progress_text_size">20sp</dimen>
-    <dimen name="zpot_all_progress_stroke_size">3sp</dimen>
+    <dimen name="zpot_all_progress_stroke_size">1dp</dimen>
 </resources>

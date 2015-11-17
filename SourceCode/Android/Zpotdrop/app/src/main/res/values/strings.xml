@@ -47,4 +47,14 @@
     <string name="all_zpot">ALL ZPOT</string>
     <string name="msg_zpot_all">Now click to zpot all your friends.</string>
     <string name="activate_all_zpots">ACTIVATE ALL ZPOTS TO USE</string>
+
+    <!--PROFILE-->
+    <string name="drop_capital">DROP</string>
+    <string name="drops_capital">DROPS</string>
+    <string name="followers_capital">FOLLOWERS</string>
+    <string name="follower_capital">FOLLOWER</string>
+    <string name="following_capital">FOLLOWING</string>
+    <string name="followings_capital">FOLLOWINGS</string>
+    <string name="msg_private_user">This user is private</string>
+
 </resources>

@@ -4,7 +4,6 @@
 
 package com.zpotdrop.view;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -65,6 +64,13 @@ public class ZProgressHUD extends Dialog {
         return instance;
     }
 
+    public static void destroy() {
+        if (instance != null) {
+            instance.dismiss();
+            instance = null;
+        }
+    }
+
     public OnDialogDismiss getOnDialogDismiss() {
         return onDialogDismiss;
     }
@@ -89,7 +95,6 @@ public class ZProgressHUD extends Dialog {
         }
 
         adProgressSpinner = (AnimationDrawable) ivProgressSpinner.getDrawable();
-
     }
 
     public void setMessage(String message) {
@@ -103,11 +108,11 @@ public class ZProgressHUD extends Dialog {
 
     @Override
     public void show() {
-        if (!((Activity) context).isFinishing()) {
+        //if (!((Activity) context).isFinishing()) {
             super.show();
-        } else {
-            instance = null;
-        }
+        //} else {
+        //   instance = null;
+        // }
     }
 
     public void dismissWithSuccess() {

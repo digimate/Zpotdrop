@@ -4,7 +4,6 @@
 
 package com.zpotdrop.view;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -12,11 +11,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zpotdrop.R;
+import com.zpotdrop.activity.MainActivity;
 import com.zpotdrop.app.ZpotdropApp;
+import com.zpotdrop.fragment.ProfileFragment;
 import com.zpotdrop.utils.DeviceManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -43,8 +45,9 @@ public class LeftMenu extends LinearLayout {
     CircularProgressBar zpotAllProgress;
     @Bind(R.id.lnl_zpot_all_wrapper)
     LinearLayout zpotAllWrapper;
+    @Bind(R.id.tv_zpot_all_msg)
+    TextView tvMsgZpotAll;
     private Context context;
-    private ObjectAnimator progressBarAnimator;
 
     public LeftMenu(Context context) {
         super(context);
@@ -71,29 +74,35 @@ public class LeftMenu extends LinearLayout {
     }
 
     private void setupUI() {
-        int avatarSize = DeviceManager.getScreenWidth(this.context) / 3;
+        int avatarSize = (int) (DeviceManager.getScreenWidth(this.context) * 0.4f);
         ivAvatar.getLayoutParams().width = avatarSize;
         ivAvatar.getLayoutParams().height = avatarSize;
 
         tvUsername.setTypeface(ZpotdropApp.openSansBold);
         tvSettings.setTypeface(ZpotdropApp.openSansLight);
 
-        tvFeed.setTypeface(ZpotdropApp.openSansLight);
-        tvPost.setTypeface(ZpotdropApp.openSansLight);
-        tvFind.setTypeface(ZpotdropApp.openSansLight);
-        tvChat.setTypeface(ZpotdropApp.openSansLight);
-        tvSearch.setTypeface(ZpotdropApp.openSansLight);
+        tvFeed.setTypeface(ZpotdropApp.openSansRegular);
+        tvPost.setTypeface(ZpotdropApp.openSansRegular);
+        tvFind.setTypeface(ZpotdropApp.openSansRegular);
+        tvChat.setTypeface(ZpotdropApp.openSansRegular);
+        tvSearch.setTypeface(ZpotdropApp.openSansRegular);
+        tvMsgZpotAll.setTypeface(ZpotdropApp.openSansLight);
 
         zpotAllProgress.setProgressColor(context.getResources().getColor(R.color.colorPrimary));
-        zpotAllProgress.setProgressCircleBackground(context.getResources().getColor(R.color.text_gray));
+        zpotAllProgress.setProgressCircleBackground(context.getResources().getColor(R.color.divider));
         zpotAllProgress.setState(CircularProgressBar.STATE_PROGRESS);
         zpotAllProgress.setTextColor(context.getResources().getColor(R.color.text_gray));
         zpotAllProgress.setTextSize((int) context.getResources().getDimension(R.dimen.zpot_all_progress_text_size));
         zpotAllProgress.setStroke((int) context.getResources().getDimension(R.dimen.zpot_all_progress_stroke_size));
         zpotAllProgress.setProgress(20);
 
-        zpotAllWrapper.getLayoutParams().height = (int) (zpotAllProgress.getLayoutParams().height + context.getResources().getDimension(R.dimen.margin_extra_large));
+        zpotAllWrapper.getLayoutParams().height = (int) (zpotAllProgress.getLayoutParams().height + context.getResources().getDimension(R.dimen.margin_extra_large) + context.getResources().getDimension(R.dimen.margin_extra_small));
     }
 
+    @OnClick(R.id.tv_settings)
+    void openProfilePage() {
+        ((MainActivity) this.context).closeLeftMenu();
+        ((MainActivity) this.context).replaceFragment(ProfileFragment.getInstance(), null);
+    }
 
 }
