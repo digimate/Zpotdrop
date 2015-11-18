@@ -49,6 +49,7 @@
     <string name="activate_all_zpots">ACTIVATE ALL ZPOTS TO USE</string>
 
     <!--PROFILE-->
+    <string name="profile">PROFILE</string>
     <string name="drop_capital">DROP</string>
     <string name="drops_capital">DROPS</string>
     <string name="followers_capital">FOLLOWERS</string>

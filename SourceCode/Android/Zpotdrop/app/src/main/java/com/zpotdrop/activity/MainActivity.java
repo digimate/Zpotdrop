@@ -16,6 +16,7 @@ import android.view.Gravity;
 import com.zpotdrop.R;
 import com.zpotdrop.fragment.ProfileFragment;
 import com.zpotdrop.utils.SmartTaskUtilsWithProgressDialog;
+import com.zpotdrop.view.Header;
 import com.zpotdrop.view.LeftMenu;
 import com.zpotdrop.view.ZProgressHUD;
 
@@ -31,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String BACK_STACK_FIND = "find";
     public static final String BACK_STACK_CHAT = "chat";
     public static final String BACK_STACK_SEARCH = "search";
+
+    @Bind(R.id.header)
+    Header header;
+
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @Bind(R.id.left_drawer)
@@ -105,6 +110,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void setHeaderTitle(String title) {
+        header.setTitle(title);
+    }
     //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.

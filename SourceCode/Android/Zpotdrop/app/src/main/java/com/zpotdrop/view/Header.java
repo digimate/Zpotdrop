@@ -7,16 +7,26 @@ package com.zpotdrop.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.zpotdrop.R;
+import com.zpotdrop.app.ZpotdropApp;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
  * @author phuc.tran
  */
 public class Header extends RelativeLayout {
+    @Bind(R.id.iv_menu)
+    ImageView ivMenu;
+    @Bind(R.id.iv_notifications)
+    ImageView ivNotifications;
+    @Bind(R.id.tv_title)
+    TextView tvTitle;
     private Context context;
 
     public Header(Context context) {
@@ -24,7 +34,7 @@ public class Header extends RelativeLayout {
 
         this.context = context;
 
-        View view = inflate(context, R.layout.left_menu, this);
+        View view = inflate(context, R.layout.header, this);
 
         ButterKnife.bind(view);
 
@@ -36,7 +46,7 @@ public class Header extends RelativeLayout {
 
         this.context = context;
 
-        View view = inflate(context, R.layout.left_menu, this);
+        View view = inflate(context, R.layout.header, this);
 
         ButterKnife.bind(view);
 
@@ -44,6 +54,10 @@ public class Header extends RelativeLayout {
     }
 
     private void setupUI() {
+        tvTitle.setTypeface(ZpotdropApp.openSansRegular);
+    }
 
+    public void setTitle(String title) {
+        tvTitle.setText(title);
     }
 }

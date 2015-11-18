@@ -23,6 +23,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.zpotdrop.R;
+import com.zpotdrop.activity.MainActivity;
 import com.zpotdrop.app.ZpotdropApp;
 import com.zpotdrop.utils.DeviceManager;
 
@@ -94,6 +95,8 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setupUI() {
+        ((MainActivity) this.getActivity()).setHeaderTitle(this.getActivity().getResources().getString(R.string.profile));
+
         int avatarSize = (int) (DeviceManager.getScreenWidth(this.getActivity()) * 0.4f);
         ivAvatar.getLayoutParams().width = avatarSize;
         ivAvatar.getLayoutParams().height = avatarSize;
