@@ -15,7 +15,7 @@
         android:layout_margin="@dimen/margin_normal"
         android:src="@drawable/ic_menu" />
 
-    <TextView
+    <com.zpotdrop.view.RegularTextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

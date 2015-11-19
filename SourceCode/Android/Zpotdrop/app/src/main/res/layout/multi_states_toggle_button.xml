@@ -11,14 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
+        <com.zpotdrop.view.LightTextView
             android:id="@+id/tv_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/male"
             android:textColor="@color/colorPrimary" />
 
-        <TextView
+        <com.zpotdrop.view.LightTextView
             android:id="@+id/tv_center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             android:text="@string/private_gender"
             android:textColor="@color/colorPrimary" />
 
-        <TextView
+        <com.zpotdrop.view.LightTextView
             android:id="@+id/tv_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

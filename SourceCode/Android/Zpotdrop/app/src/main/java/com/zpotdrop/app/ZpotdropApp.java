@@ -37,47 +37,5 @@ public class ZpotdropApp extends Application {
     public void onTerminate() {
         super.onTerminate();
     }
-
-    //    private void initParse() {
-//        //ParseObject.registerSubclass(User.class);
-//        //ParseObject.registerSubclass(Comment.class);
-//
-//
-//        // Enable Local Datastore
-//        Parse.enableLocalDatastore(this);
-//
-//        Parse.initialize(this, APPLICATION_ID, CLIENT_KEY);
-//        ParseFacebookUtils.initialize(getApplicationContext());
-//
-//        ParsePush.subscribeInBackground("global", new SaveCallback() {
-//            @Override
-//            public void done(ParseException e) {
-//                if (e == null) {
-//                    SmartLog.error(ZpotdropApp.class, "successfully subscribed to the broadcast channel.");
-//                } else {
-//                    SmartLog.error(ZpotdropApp.class, e.getMessage());
-//                }
-//            }
-//        });
-//
-//        ParseACL defaultACL = new ParseACL();
-//        defaultACL.setPublicReadAccess(true);
-//        defaultACL.setPublicWriteAccess(true);
-//        ParseACL.setDefaultACL(defaultACL, true);
-//
-//        ParseInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
-//            @Override
-//            public void done(ParseException e) {
-//                if (e == null) {
-//                    SmartLog.error(ZpotdropApp.class, "installed");
-//                } else {
-//                    SmartLog.error(ZpotdropApp.class, e.getMessage());
-//                }
-//            }
-//        });
-//
-//        ParseUser.enableRevocableSessionInBackground();
-//    }
-
 }
 

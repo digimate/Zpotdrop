@@ -35,7 +35,7 @@
                     app:civ_border_color="@color/colorPrimary"
                     app:civ_border_width="@dimen/avatar_border" />
 
-                <TextView
+                <com.zpotdrop.view.BoldTextView
                     android:id="@+id/tv_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                     android:textColor="@color/text_gray"
                     android:textSize="@dimen/text_size_bold" />
 
-                <TextView
+                <com.zpotdrop.view.LightTextView
                     android:id="@+id/tv_settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.zpotdrop.view.RegularTextView
                     android:id="@+id/tv_menu_feed"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.zpotdrop.view.RegularTextView
                     android:id="@+id/tv_menu_post"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.zpotdrop.view.RegularTextView
                     android:id="@+id/tv_menu_find"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.zpotdrop.view.RegularTextView
                     android:id="@+id/tv_menu_chat"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -177,7 +177,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.zpotdrop.view.RegularTextView
                     android:id="@+id/tv_menu_search"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -213,7 +213,7 @@
                     android:layout_width="@dimen/zpot_all_progress_size"
                     android:layout_height="@dimen/zpot_all_progress_size" />
 
-                <TextView
+                <com.zpotdrop.view.LightTextView
                     android:id="@+id/tv_zpot_all_msg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

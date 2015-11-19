@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zpotdrop.R;
-import com.zpotdrop.app.ZpotdropApp;
 import com.zpotdrop.utils.DeviceManager;
 
 import butterknife.Bind;
@@ -61,14 +60,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         int logoHeight = (int) ((1.0f * logoWidth / LOGO_WIDTH) * LOGO_HEIGHT);
         ivLogoZD.getLayoutParams().width = logoWidth;
         ivLogoZD.getLayoutParams().height = logoHeight;
-
-        /**
-         * Set fonts for other texts & inputs
-         */
-        tvBack.setTypeface(ZpotdropApp.openSansLight);
-        edtEmail.setTypeface(ZpotdropApp.openSansLight);
-        tvForgotPassword.setTypeface(ZpotdropApp.openSansBold);
-        tvSend.setTypeface(ZpotdropApp.openSansBold);
     }
 
     /**

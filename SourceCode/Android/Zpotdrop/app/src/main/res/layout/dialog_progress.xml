@@ -45,7 +45,7 @@
                 android:visibility="gone" />
         </LinearLayout>
 
-        <TextView
+        <com.zpotdrop.view.LightTextView
             android:id="@+id/textview_message"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

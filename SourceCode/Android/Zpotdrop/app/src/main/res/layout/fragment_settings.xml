@@ -24,7 +24,6 @@
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/margin_normal"
-                android:paddingRight="@dimen/margin_normal"
                 android:paddingTop="@dimen/margin_normal">
 
                 <LinearLayout
@@ -36,30 +35,34 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:orientation="vertical">
 
                         <LinearLayout
                             android:id="@+id/lnl_first_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingBottom="@dimen/margin_small"
-                            android:paddingTop="@dimen/margin_small">
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <com.zpotdrop.view.RegularTextView
                                 android:id="@+id/tv_first_name"
+                                style="@android:style/TextAppearance.Widget.EditText"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/margin_small"
+                                android:layout_marginTop="@dimen/margin_small"
                                 android:layout_weight="1"
-                                android:text="@string/first_name_settings" />
+                                android:text="@string/first_name_settings"
+                                android:textColor="@color/text_gray" />
 
-                            <EditText
+                            <com.zpotdrop.view.LightEditText
                                 android:id="@+id/edt_first_name"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:background="@android:color/transparent" />
+                                android:background="@android:color/transparent"
+                                android:textColor="@color/text_gray" />
 
                         </LinearLayout>
 
@@ -69,23 +72,27 @@
                             android:id="@+id/lnl_last_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingBottom="@dimen/margin_small"
-                            android:paddingTop="@dimen/margin_small">
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <com.zpotdrop.view.RegularTextView
                                 android:id="@+id/tv_last_name"
+                                style="@android:style/TextAppearance.Widget.EditText"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/margin_small"
+                                android:layout_marginTop="@dimen/margin_small"
                                 android:layout_weight="1"
-                                android:text="@string/last_name_settings" />
+                                android:text="@string/last_name_settings"
+                                android:textColor="@color/text_gray" />
 
-                            <EditText
+                            <com.zpotdrop.view.LightEditText
                                 android:id="@+id/edt_last_name"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:background="@android:color/transparent" />
+                                android:background="@android:color/transparent"
+                                android:textColor="@color/text_gray" />
 
                         </LinearLayout>
 
@@ -95,33 +102,36 @@
                             android:id="@+id/lnl_hometown"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingBottom="@dimen/margin_small"
-                            android:paddingTop="@dimen/margin_small">
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <com.zpotdrop.view.RegularTextView
                                 android:id="@+id/tv_hometown"
+                                style="@android:style/TextAppearance.Widget.EditText"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/margin_small"
+                                android:layout_marginTop="@dimen/margin_small"
                                 android:layout_weight="1"
-                                android:text="@string/hometown" />
+                                android:text="@string/hometown"
+                                android:textColor="@color/text_gray" />
 
-                            <EditText
+                            <com.zpotdrop.view.LightEditText
                                 android:id="@+id/edt_hometown"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:background="@android:color/transparent" />
+                                android:background="@android:color/transparent"
+                                android:textColor="@color/text_gray" />
 
                         </LinearLayout>
-
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
@@ -133,7 +143,7 @@
                             app:civ_border_color="@color/colorPrimary"
                             app:civ_border_width="@dimen/avatar_border" />
 
-                        <TextView
+                        <com.zpotdrop.view.LightTextView
                             android:id="@+id/tv_edit_picture"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -146,6 +156,124 @@
                 </LinearLayout>
 
                 <include layout="@layout/line_horizontal" />
+
+                <LinearLayout
+                    android:id="@+id/lnl_dob"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.zpotdrop.view.RegularTextView
+                        android:id="@+id/tv_dob"
+                        style="@android:style/TextAppearance.Widget.EditText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_small"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:layout_weight="1"
+                        android:text="@string/date_of_birth_settings"
+                        android:textColor="@color/text_gray" />
+
+                    <com.zpotdrop.view.LightEditText
+                        android:id="@+id/edt_dob"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/text_gray" />
+
+                </LinearLayout>
+
+                <include layout="@layout/line_horizontal" />
+
+                <LinearLayout
+                    android:id="@+id/lnl_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.zpotdrop.view.RegularTextView
+                        android:id="@+id/tv_email"
+                        style="@android:style/TextAppearance.Widget.EditText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_small"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:layout_weight="1"
+                        android:text="@string/email_settings"
+                        android:textColor="@color/text_gray" />
+
+                    <com.zpotdrop.view.LightEditText
+                        android:id="@+id/edt_email"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:background="@android:color/transparent"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/text_gray" />
+
+                </LinearLayout>
+
+                <include layout="@layout/line_horizontal" />
+
+                <LinearLayout
+                    android:id="@+id/lnl_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.zpotdrop.view.RegularTextView
+                        android:id="@+id/tv_phone"
+                        style="@android:style/TextAppearance.Widget.EditText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_small"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:layout_weight="1"
+                        android:text="@string/phone_settings"
+                        android:textColor="@color/text_gray" />
+
+                    <com.zpotdrop.view.LightEditText
+                        android:id="@+id/edt_phone"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:background="@android:color/transparent"
+                        android:inputType="phone"
+                        android:textColor="@color/text_gray" />
+
+                </LinearLayout>
+
+                <include layout="@layout/line_horizontal" />
+
+                <LinearLayout
+                    android:id="@+id/lnl_change_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.zpotdrop.view.RegularTextView
+                        android:id="@+id/tv_change_password"
+                        style="@android:style/TextAppearance.Widget.EditText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_small"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:layout_weight="1"
+                        android:text="@string/change_password"
+                        android:textColor="@color/text_gray" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/margin_small"
+                        android:src="@drawable/ic_gray_arrow_right" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

@@ -26,7 +26,7 @@
                 android:layout_marginTop="@dimen/margin_to_border_normal"
                 android:src="@drawable/logo" />
 
-            <TextView
+            <com.zpotdrop.view.LightTextView
                 android:id="@+id/tv_welcome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/text_logo" />
 
-            <EditText
+            <com.zpotdrop.view.LightEditText
                 android:id="@+id/edt_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 android:inputType="textEmailAddress"
                 android:textColor="@color/text_gray" />
 
-            <EditText
+            <com.zpotdrop.view.LightEditText
                 android:id="@+id/edt_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
                 android:inputType="textPassword"
                 android:textColor="@color/text_gray" />
 
-            <TextView
+            <com.zpotdrop.view.BoldTextView
                 android:id="@+id/tv_continue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                     android:layout_weight="1"
                     android:background="@color/text_gray" />
 
-                <TextView
+                <com.zpotdrop.view.LightTextView
                     android:id="@+id/tv_or"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
 
             </LinearLayout>
 
-            <TextView
+            <com.zpotdrop.view.LightTextView
                 android:id="@+id/tv_login_with_fb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
                 android:layout_marginTop="@dimen/margin_large"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.zpotdrop.view.LightTextView
                     android:id="@+id/tv_not_yet_on_zd"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
                     android:text="@string/not_yet_on_zpotdrop"
                     android:textColor="@color/text_gray" />
 
-                <TextView
+                <com.zpotdrop.view.LightTextView
                     android:id="@+id/tv_forgot_password"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

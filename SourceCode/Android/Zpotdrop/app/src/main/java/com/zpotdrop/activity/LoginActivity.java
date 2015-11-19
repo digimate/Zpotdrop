@@ -89,17 +89,6 @@ public class LoginActivity extends AppCompatActivity {
         int textLogoHeight = (int) ((1.0f * textLogoWidth / TEXT_LOGO_WIDTH) * TEXT_LOGO_HEIGHT);
         ivTextLogoZD.getLayoutParams().width = textLogoWidth;
         ivTextLogoZD.getLayoutParams().height = textLogoHeight;
-
-        /**
-         * Set fonts for other texts & inputs
-         */
-        edtEmail.setTypeface(ZpotdropApp.openSansLight);
-        edtPassword.setTypeface(ZpotdropApp.openSansLight);
-        tvContinue.setTypeface(ZpotdropApp.openSansBold);
-        tvOr.setTypeface(ZpotdropApp.openSansLight);
-        tvLoginWithFacebook.setTypeface(ZpotdropApp.openSansLight);
-        tvNotYetOnZD.setTypeface(ZpotdropApp.openSansLight);
-        tvForgotPassword.setTypeface(ZpotdropApp.openSansLight);
     }
 
     @OnClick(R.id.tv_not_yet_on_zd)

@@ -11,14 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.zpotdrop.R;
+import com.zpotdrop.utils.DeviceManager;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * @author phuc.tran
  */
 public class SettingsFragment extends Fragment {
     private static SettingsFragment instance;
+
+    @Bind(R.id.iv_avatar)
+    CircleImageView ivAvatar;
 
     public static SettingsFragment getInstance() {
         if (SettingsFragment.instance == null) {
@@ -39,7 +45,8 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setupUI() {
-
+        ivAvatar.getLayoutParams().width = (int) (DeviceManager.getScreenWidth(this.getActivity()) * 0.28f);
+        ivAvatar.getLayoutParams().height = (int) (DeviceManager.getScreenWidth(this.getActivity()) * 0.28f);
     }
 
 }

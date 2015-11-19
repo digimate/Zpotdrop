@@ -24,7 +24,6 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.zpotdrop.R;
 import com.zpotdrop.activity.MainActivity;
-import com.zpotdrop.app.ZpotdropApp;
 import com.zpotdrop.utils.DeviceManager;
 
 import butterknife.Bind;
@@ -98,7 +97,7 @@ public class ProfileFragment extends Fragment {
     private void setupUI() {
         ((MainActivity) this.getActivity()).setHeaderTitle(this.getActivity().getResources().getString(R.string.profile));
 
-        int avatarSize = (int) (DeviceManager.getScreenWidth(this.getActivity()) * 0.4f);
+        int avatarSize = (int) (DeviceManager.getScreenWidth(this.getActivity()) * 0.35f);
         ivAvatar.getLayoutParams().width = avatarSize;
         ivAvatar.getLayoutParams().height = avatarSize;
 
@@ -109,20 +108,9 @@ public class ProfileFragment extends Fragment {
         ivFollow.getLayoutParams().width = buttonSize;
         ivFollow.getLayoutParams().height = buttonSize;
 
-        tvUsername.setTypeface(ZpotdropApp.openSansBold);
-        tvUserInfo.setTypeface(ZpotdropApp.openSansLight);
-
-        tvDropsNumber.setTypeface(ZpotdropApp.openSansRegular);
         tvDropsNumber.setText("10");
-        tvDrops.setTypeface(ZpotdropApp.openSansRegular);
-
-        tvFollowersNumber.setTypeface(ZpotdropApp.openSansRegular);
         tvFollowersNumber.setText("100");
-        tvFollowers.setTypeface(ZpotdropApp.openSansRegular);
-
-        tvFollowingsNumber.setTypeface(ZpotdropApp.openSansRegular);
         tvFollowingsNumber.setText("1000");
-        tvFollowings.setTypeface(ZpotdropApp.openSansRegular);
     }
 
     private void adjustMapSize() {

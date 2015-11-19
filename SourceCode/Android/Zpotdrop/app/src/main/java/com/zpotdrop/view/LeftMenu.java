@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.zpotdrop.R;
 import com.zpotdrop.activity.MainActivity;
-import com.zpotdrop.app.ZpotdropApp;
 import com.zpotdrop.fragment.FindFragment;
 import com.zpotdrop.fragment.ProfileFragment;
 import com.zpotdrop.fragment.SettingsFragment;
@@ -78,19 +77,9 @@ public class LeftMenu extends LinearLayout {
     }
 
     private void setupUI() {
-        int avatarSize = (int) (DeviceManager.getScreenWidth(this.context) * 0.4f);
+        int avatarSize = (int) (DeviceManager.getScreenWidth(this.context) * 0.35f);
         ivAvatar.getLayoutParams().width = avatarSize;
         ivAvatar.getLayoutParams().height = avatarSize;
-
-        tvUsername.setTypeface(ZpotdropApp.openSansBold);
-        tvSettings.setTypeface(ZpotdropApp.openSansLight);
-
-        tvFeed.setTypeface(ZpotdropApp.openSansRegular);
-        tvPost.setTypeface(ZpotdropApp.openSansRegular);
-        tvFind.setTypeface(ZpotdropApp.openSansRegular);
-        tvChat.setTypeface(ZpotdropApp.openSansRegular);
-        tvSearch.setTypeface(ZpotdropApp.openSansRegular);
-        tvMsgZpotAll.setTypeface(ZpotdropApp.openSansLight);
 
         zpotAllProgress.setProgressColor(context.getResources().getColor(R.color.colorPrimary));
         zpotAllProgress.setProgressCircleBackground(context.getResources().getColor(R.color.divider));

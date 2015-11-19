@@ -100,16 +100,6 @@ public class RegisterMoreInfoActivity extends AppCompatActivity implements DateP
         ivLogoZD.getLayoutParams().height = logoHeight;
 
         /**
-         * Set fonts for other texts & inputs
-         */
-        tvBack.setTypeface(ZpotdropApp.openSansLight);
-        edtFirstName.setTypeface(ZpotdropApp.openSansLight);
-        edtLastName.setTypeface(ZpotdropApp.openSansLight);
-        edtPhoneNumber.setTypeface(ZpotdropApp.openSansLight);
-        edtDOB.setTypeface(ZpotdropApp.openSansLight);
-        tvSignUp.setTypeface(ZpotdropApp.openSansBold);
-
-        /**
          * Gender
          */
         toggleGenders.setSelectedPosition(1);

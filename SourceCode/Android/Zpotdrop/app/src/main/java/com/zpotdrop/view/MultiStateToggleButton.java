@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zpotdrop.R;
-import com.zpotdrop.app.ZpotdropApp;
 import com.zpotdrop.utils.DeviceManager;
 
 import butterknife.Bind;
@@ -57,10 +56,6 @@ public class MultiStateToggleButton extends LinearLayout implements View.OnTouch
 
     private void setupUI() {
         this.setOnTouchListener(this);
-
-        tvLeft.setTypeface(ZpotdropApp.openSansLight);
-        tvCenter.setTypeface(ZpotdropApp.openSansLight);
-        tvRight.setTypeface(ZpotdropApp.openSansLight);
 
         int dotSize = DeviceManager.getScreenWidth(context) / 20;
         ivLeft.getLayoutParams().width = dotSize;

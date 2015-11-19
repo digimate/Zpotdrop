@@ -38,7 +38,7 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
-                <TextView
+                <com.zpotdrop.view.BoldTextView
                     android:id="@+id/tv_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_bold" />
 
-                <TextView
+                <com.zpotdrop.view.LightTextView
                     android:id="@+id/tv_user_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -103,14 +103,14 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <TextView
+                        <com.zpotdrop.view.RegularTextView
                             android:id="@+id/tv_drops_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/white"
                             android:textSize="@dimen/profile_drops_number_text_size" />
 
-                        <TextView
+                        <com.zpotdrop.view.RegularTextView
                             android:id="@+id/tv_drops"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -127,14 +127,14 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <TextView
+                        <com.zpotdrop.view.RegularTextView
                             android:id="@+id/tv_followers_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/white"
                             android:textSize="@dimen/profile_drops_number_text_size" />
 
-                        <TextView
+                        <com.zpotdrop.view.RegularTextView
                             android:id="@+id/tv_followers"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -150,14 +150,14 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <TextView
+                        <com.zpotdrop.view.RegularTextView
                             android:id="@+id/tv_followings_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/white"
                             android:textSize="@dimen/profile_drops_number_text_size" />
 
-                        <TextView
+                        <com.zpotdrop.view.RegularTextView
                             android:id="@+id/tv_followings"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
