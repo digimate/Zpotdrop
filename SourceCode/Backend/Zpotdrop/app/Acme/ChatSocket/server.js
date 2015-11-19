@@ -244,7 +244,7 @@ io.sockets.on('connection', function(socket) {
     //Get chat history
     socket.on('getChatHistoryMessage', function(data){
         db.lrange(conf.rooms + data.room + conf.messages, 0, 20, function(err, messages){
-            socket.emit('chatHistoryMessage', '['+messages+']');
+            socket.in(data.room).emit('chatHistoryMessage', '['+messages+']');
         });
     })
 

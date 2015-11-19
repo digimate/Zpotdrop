@@ -11,6 +11,8 @@
 
 namespace App\Acme\Models;
 use Fadion\Bouncy\BouncyTrait;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 /**
  * App\Models\Friend
@@ -104,7 +106,7 @@ class Location extends BaseModel
         $offset = ($page - 1) * $limit;
         $distance = self::getDistance($distance);
 
-        $params = [
+       /* $params = [
             'query' => [
                 "filtered" => [
                     'filter' => [
@@ -115,12 +117,7 @@ class Location extends BaseModel
                                 'lon' => $long
                             ]
                         ]
-                    ], // and
-                    /*'query' => [
-                        'match' => [
-                            'title' => '',
-                        ]
-                    ]*/
+                    ],
                 ]
             ],
             "sort" => [[
@@ -145,16 +142,46 @@ class Location extends BaseModel
                     'fields' => ['name', 'address'],
                     "fuzziness" => "AUTO"
                 ]
-                /*'fuzzy' => array(
-                    'name' => array(
-                        'value' => $keyword,
-                        'fuzziness' => 0
-                    )
-                )*/
             ];
         }
-
         $results = self::search($params);
-        return $results;
+        */
+
+        $distanceQr = self::getGeoDistanceQuery($lat, $long);
+        $query = Location::select('locations.*', \DB::raw("{$distanceQr} AS distance"));
+
+        if (!empty($keyword)) {
+            $query->where(function($q) use ($keyword) {
+                $q->orWhere('name', 'like', "%{$keyword}%");
+                $q->orWhere('address', 'like', "%{$keyword}%");
+            });
+        }
+
+        $query->having('distance', '<=', $distance);
+
+        //count
+        $queryCount = clone($query);
+        $results = $queryCount->select(\DB::raw("{$distanceQr} AS distance, count(*) as count_number"))->get();
+        $results = $results->toArray();
+        $total = isset($results[0]) ? (int) array_change_key_case((array) $results[0])['count_number'] : 0;
+        unset($queryCount);
+
+        $results = [];
+
+        if ($total > 0) {
+            $query->orderBy('distance', 'asc');
+            $query->orderBy('name', 'asc');
+            $query->limit($limit);
+            $query->offset($offset);
+            $results = $query->get();
+            $results = $results->all();
+        }
+
+
+        return new LengthAwarePaginator($results, $total, $limit, $page, [
+            'path' => Paginator::resolveCurrentPath(),
+            'pageName' => 'page',
+        ]);
+
     }
 }

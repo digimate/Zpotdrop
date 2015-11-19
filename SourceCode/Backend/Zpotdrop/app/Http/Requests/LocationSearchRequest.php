@@ -28,7 +28,7 @@ class LocationSearchRequest extends Request
         return [
             'lat'           => 'required|numeric',
             'long'          => 'required|numeric',
-            'keyword'       => 'required|max:255',
+            'keyword'       => 'max:255',
         ];
     }
 

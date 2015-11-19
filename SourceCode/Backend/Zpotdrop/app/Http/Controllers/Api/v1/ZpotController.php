@@ -213,13 +213,15 @@ class ZpotController extends ApiController
         $userId = \Authorizer::getResourceOwnerId();
 
         $results = Friend::scan($userId, $lat, $long, $distance);
-
-        if ($results->total() > 0) {
+        if ($results)
+            $results = $results->toArray();
+        $total = count($results);
+        if ($total > 0) {
             //var_dump($results->toArray());die;
-            $this->dispatch(new ScanNotify($userId, $results->toArray()));
+            $this->dispatch(new ScanNotify($userId, $results));
         }
         $this->dispatch(new LogUserAction($userId, Notification::ACTION_TYPE_ZPOT_REQUEST));
-        return $this->lzResponse->success(['total' => $results->total()]);
+        return $this->lzResponse->success(['total' => $total]);
     }
 
 

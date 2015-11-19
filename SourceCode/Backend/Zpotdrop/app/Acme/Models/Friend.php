@@ -134,7 +134,7 @@ class Friend extends BaseModel
         $offset = ($page - 1) * $limit;
 
         $friendIds = Friend::where('user_id', $userId)->where('is_friend', Friend::FRIEND_YES)->lists('friend_id');
-        $params = [
+        /*$params = [
             //"_source" => ["id", "avatar", 'is_private'],
             'query' => [
                 "filtered" => [
@@ -159,16 +159,24 @@ class Friend extends BaseModel
                     'fields' => ['username'],
                     "fuzziness" => "AUTO"
                 ]
-                /*'fuzzy' => array(
-                    'name' => array(
-                        'value' => $keyword,
-                        'fuzziness' => 0
-                    )
-                )*/
             ];
         }
 
         $results = User::search($params);
+        */
+
+        $query = User::whereIn('id', $friendIds);
+
+        if (!empty($keyword)) {
+            $query->where(function($q) use($keyword) {
+                $q->orWhere('first_name', 'like', "%{$keyword}%");
+                $q->orWhere('last_name', 'like', "%{$keyword}%");
+            });
+        }
+
+        $query->orderBy('follower_count', 'asc');
+        $query->orderBy('id', 'asc');
+        $results = $query->paginate($limit, ['*'], 'page', $page);
         return $results;
     }
 
@@ -184,7 +192,7 @@ class Friend extends BaseModel
     public static function scan($userId, $lat, $long, $distance) {
 
         $friendIds = Friend::where('user_id', $userId)->where('is_friend', Friend::FRIEND_YES)->lists('friend_id');
-        $params = [
+        /*$params = [
             "_source" => ["id", "first_name", "last_name", 'device_id', 'device_type'],
             'query' => [
                 "filtered" => [
@@ -218,6 +226,27 @@ class Friend extends BaseModel
         ];
 
         $results = User::search($params);
+        */
+        $distanceQr = self::getGeoDistanceQuery($lat, $long);
+        $query = User::select("id", "first_name", "last_name", 'device_id', 'device_type', \DB::raw("{$distanceQr} AS distance"));
+        $query->whereIn('id', $friendIds);
+
+        $query->having('distance', '<=', $distance);
+
+        //count
+        $queryCount = clone($query);
+        $results = $queryCount->select(\DB::raw("{$distanceQr} AS distance, count(*) as count_number"))->get();
+        $results = $results->toArray();
+        $total = isset($results[0]) ? (int) array_change_key_case((array) $results[0])['count_number'] : 0;
+        unset($queryCount);
+
+        $results = null;
+
+        if ($total > 0) {
+            $query->orderBy('distance', 'asc');
+            $query->orderBy('id', 'asc');
+            $results = $query->get();
+        }
         return $results;
     }
 

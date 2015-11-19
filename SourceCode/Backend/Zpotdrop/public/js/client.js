@@ -104,11 +104,14 @@
 
     //get chat message list
     socket.on('chatHistoryMessage', function (data) {
+        console.log('chatHistoryMessage');
+        console.log(data);
         var messages = jQuery.parseJSON(data);
         messages.reverse();
         var $chatbox = $('#body_room_message_' + getCurrentRoom() + ' .body-chat');
         for (var i = 0; i < messages.length; i++) {
-            var type = 'other';
+            addMessage(messages[i]);
+           /* var type = 'other';
             //Check if message from this user or not
             if(messages[i].username == hash){
                 type = 'own';
@@ -116,13 +119,14 @@
 
             // Create element
             $chatbox.append("<div class='w-message " + type + "-mes'><span>"+ messages[i].msg +"</span></div>");
+            */
         };
         // Scroll to bop
-        if($chatbox[0]){
+        /*if($chatbox[0]){
             $chatbox.animate({
                 scrollTop: $chatbox[0].scrollHeight
             }, "fast");
-        }
+        }*/
     });
 
     // ***************************************************************************
@@ -356,6 +360,7 @@
             addRoomTab(roomId, roomName);
             addRoom(roomId);
             socket.emit('subscribe', {'username':USERNAME,'user_id':USER_HASH,'rooms':[roomId]});
+            socket.emit('getChatHistoryMessage', {'room':getCurrentRoom()});
         }
     });
 

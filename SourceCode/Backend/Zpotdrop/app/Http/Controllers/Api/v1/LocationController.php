@@ -153,7 +153,7 @@ class LocationController extends ApiController
 
         $locations = Location::getLocations($keyword, $distance, $latitude, $longitude, $page, $limit);
 
-        return $this->lzResponse->successTransformArrayModelsWithElasticPagination($locations, new LocationTransformer(), $page, $limit);
+        return $this->lzResponse->successTransformArrayModelsWithPagination($locations, new LocationTransformer());
     }
 
 }

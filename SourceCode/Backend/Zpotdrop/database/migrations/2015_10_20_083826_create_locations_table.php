@@ -13,6 +13,8 @@ class CreateLocationsTable extends Migration
      */
     public function up()
     {
+		Schema::dropIfExists($this->table);
+		
         Schema::create($this->table, function(Blueprint $table) {
             $table->increments('id');
             $table->string('name', 255);
@@ -29,7 +31,7 @@ class CreateLocationsTable extends Migration
 
         });
 
-        DB::statement("ALTER TABLE {$this->table} ADD FULLTEXT search(name, address)");
+        //DB::statement("ALTER TABLE {$this->table} ADD FULLTEXT search(name, address)");
     }
 
     /**

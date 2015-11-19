@@ -48,4 +48,10 @@ class BaseModel extends Model
         }
         return config('custom.geo.distance');
     }
+
+    public static function getGeoDistanceQuery($lat, $long) {
+        return "6371  * acos( cos( radians({$lat}) ) * cos( radians( lat ) ) * cos( radians( `long` ) - radians(
+            {$long}) ) + sin( radians({$lat}) ) * sin( radians( lat ) ) ) ";
+    }
+
 }
