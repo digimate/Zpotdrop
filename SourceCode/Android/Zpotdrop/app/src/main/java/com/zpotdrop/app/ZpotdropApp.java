@@ -33,8 +33,12 @@ public class ZpotdropApp extends Application {
         ZpotdropApp.openSansBold = Typeface.createFromAsset(getAssets(), "OpenSans-Bold.ttf");
     }
 
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+    }
 
-//    private void initParse() {
+    //    private void initParse() {
 //        //ParseObject.registerSubclass(User.class);
 //        //ParseObject.registerSubclass(Comment.class);
 //

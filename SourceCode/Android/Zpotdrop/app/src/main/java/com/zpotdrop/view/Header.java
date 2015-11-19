@@ -12,10 +12,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zpotdrop.R;
+import com.zpotdrop.activity.MainActivity;
 import com.zpotdrop.app.ZpotdropApp;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * @author phuc.tran
@@ -59,5 +61,10 @@ public class Header extends RelativeLayout {
 
     public void setTitle(String title) {
         tvTitle.setText(title);
+    }
+
+    @OnClick(R.id.iv_menu)
+    public void toggleLeftMenu() {
+        ((MainActivity) this.context).toggleLeftMenu();
     }
 }

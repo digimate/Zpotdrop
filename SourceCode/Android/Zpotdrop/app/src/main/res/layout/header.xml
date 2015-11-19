@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_margin="@dimen/margin_small"
+        android:layout_margin="@dimen/margin_normal"
         android:src="@drawable/ic_menu" />
 
     <TextView
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_margin="@dimen/margin_small"
+        android:layout_margin="@dimen/margin_normal"
         android:src="@drawable/ic_notifications" />
 
 </RelativeLayout>

@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.zpotdrop.R;
 import com.zpotdrop.activity.MainActivity;
 import com.zpotdrop.app.ZpotdropApp;
+import com.zpotdrop.fragment.FindFragment;
 import com.zpotdrop.fragment.ProfileFragment;
+import com.zpotdrop.fragment.SettingsFragment;
 import com.zpotdrop.utils.DeviceManager;
 
 import butterknife.Bind;
@@ -25,6 +27,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * @author phuc.tran
  */
 public class LeftMenu extends LinearLayout {
+    @Bind(R.id.lnl_profile)
+    LinearLayout lnlProfile;
     @Bind(R.id.iv_avatar)
     CircleImageView ivAvatar;
     @Bind(R.id.tv_username)
@@ -99,10 +103,44 @@ public class LeftMenu extends LinearLayout {
         zpotAllWrapper.getLayoutParams().height = (int) (zpotAllProgress.getLayoutParams().height + context.getResources().getDimension(R.dimen.margin_extra_large) + context.getResources().getDimension(R.dimen.margin_extra_small));
     }
 
-    @OnClick(R.id.tv_settings)
+    @OnClick(R.id.lnl_profile)
     void openProfilePage() {
         ((MainActivity) this.context).closeLeftMenu();
+        ((MainActivity) this.context).setHeaderTitle(getResources().getString(R.string.profile));
         ((MainActivity) this.context).replaceFragment(ProfileFragment.getInstance(), null);
     }
 
+    @OnClick(R.id.tv_settings)
+    void openSettingsPage() {
+        ((MainActivity) this.context).closeLeftMenu();
+        ((MainActivity) this.context).setHeaderTitle(getResources().getString(R.string.settings));
+        ((MainActivity) this.context).replaceFragment(SettingsFragment.getInstance(), null);
+    }
+
+    @OnClick(R.id.tv_menu_feed)
+    void openFeedPage() {
+        ((MainActivity) this.context).closeLeftMenu();
+    }
+
+    @OnClick(R.id.tv_menu_post)
+    void openPostPage() {
+        ((MainActivity) this.context).closeLeftMenu();
+    }
+
+    @OnClick(R.id.tv_menu_find)
+    void openFindPage() {
+        ((MainActivity) this.context).closeLeftMenu();
+        ((MainActivity) this.context).setHeaderTitle(getResources().getString(R.string.find));
+        ((MainActivity) this.context).replaceFragment(FindFragment.getInstance(), null);
+    }
+
+    @OnClick(R.id.tv_menu_chat)
+    void openChatPage() {
+        ((MainActivity) this.context).closeLeftMenu();
+    }
+
+    @OnClick(R.id.tv_menu_search)
+    void openSearchPage() {
+        ((MainActivity) this.context).closeLeftMenu();
+    }
 }

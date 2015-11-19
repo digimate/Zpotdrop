@@ -104,10 +104,31 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    /**
+     * Toggle left menu
+     */
+    public void toggleLeftMenu() {
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            drawerLayout.closeDrawer(Gravity.LEFT);
+        } else {
+            drawerLayout.openDrawer(Gravity.LEFT);
+        }
+    }
+
+    /**
+     * Close left menu
+     */
     public void closeLeftMenu() {
         if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
             drawerLayout.closeDrawer(Gravity.LEFT);
         }
+    }
+
+    /**
+     * Open left menu
+     */
+    public void openLeftMenu() {
+        drawerLayout.openDrawer(Gravity.LEFT);
     }
 
     public void setHeaderTitle(String title) {

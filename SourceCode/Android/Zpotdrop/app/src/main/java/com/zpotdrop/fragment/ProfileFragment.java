@@ -82,12 +82,13 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragement_profile, container, false);
 
         ButterKnife.bind(this, v);
 
         setupMap(savedInstanceState);
+        adjustMapSize();
 
         setupUI();
 
@@ -122,8 +123,6 @@ public class ProfileFragment extends Fragment {
         tvFollowingsNumber.setTypeface(ZpotdropApp.openSansRegular);
         tvFollowingsNumber.setText("1000");
         tvFollowings.setTypeface(ZpotdropApp.openSansRegular);
-
-        adjustMapSize();
     }
 
     private void adjustMapSize() {
@@ -140,16 +139,14 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setupMap(final Bundle savedInstanceState) {
+        if (MapsInitializer.initialize(ProfileFragment.this.getActivity()) != ConnectionResult.SUCCESS) {
+            //Handle the error
+        }
         mapView.onCreate(savedInstanceState);
-
         // Gets to GoogleMap from the MapView and does initialization stuff
         map = mapView.getMap();
         map.getUiSettings().setMyLocationButtonEnabled(false);
         map.setMyLocationEnabled(true);
-
-        if (MapsInitializer.initialize(ProfileFragment.this.getActivity()) != ConnectionResult.SUCCESS) {
-            // Handle the error
-        }
 
         // Updates the location and zoom of the MapView
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(43.1, -87.9), 10);
@@ -158,20 +155,26 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onResume() {
-        mapView.onResume();
+        if (mapView != null) {
+            mapView.onResume();
+        }
         super.onResume();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mapView.onDestroy();
+        if (mapView != null) {
+            mapView.onDestroy();
+        }
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        mapView.onLowMemory();
+        if (mapView != null) {
+            mapView.onLowMemory();
+        }
     }
 
 }
