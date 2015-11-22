@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="PTS55F.ttf">
@@ -34,8 +34,8 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alex Stone" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1E-mi-KOo">
-                        <rect key="frame" x="68" y="52" width="243" height="19"/>
-                        <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="16"/>
+                        <rect key="frame" x="10" y="62" width="301" height="19"/>
+                        <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="12"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -143,12 +143,12 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="puk-5G-ZSn">
-                        <rect key="frame" x="86" y="74" width="10" height="18"/>
+                        <rect key="frame" x="28" y="78" width="10" height="18"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="18" id="iqE-U5-xcb"/>
                             <constraint firstAttribute="width" constant="10" id="jym-I2-Lzv"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="14"/>
+                        <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="9"/>
                         <color key="textColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.66274509800000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -163,12 +163,12 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1BJ-6P-XeG">
-                        <rect key="frame" x="68" y="74" width="10" height="18"/>
+                        <rect key="frame" x="10" y="78" width="10" height="18"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="10" id="L0O-Fb-g6L"/>
                             <constraint firstAttribute="height" constant="18" id="vnm-5s-aZy"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="14"/>
+                        <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="9"/>
                         <color key="textColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.66274509800000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -204,9 +204,9 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="EhC-jw-DcL" secondAttribute="trailing" constant="8" id="0BI-uj-Lzb"/>
-                    <constraint firstItem="1BJ-6P-XeG" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="68" id="4th-37-quN"/>
+                    <constraint firstItem="1BJ-6P-XeG" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="4th-37-quN"/>
                     <constraint firstAttribute="trailing" secondItem="YG4-Vi-Mvg" secondAttribute="trailing" id="8Vx-e7-Hq6"/>
-                    <constraint firstItem="1BJ-6P-XeG" firstAttribute="top" secondItem="x1E-mi-KOo" secondAttribute="bottom" constant="3" id="BGv-QM-V12"/>
+                    <constraint firstItem="1BJ-6P-XeG" firstAttribute="top" secondItem="x1E-mi-KOo" secondAttribute="bottom" constant="-3" id="BGv-QM-V12"/>
                     <constraint firstItem="DRp-uZ-S1a" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="BOh-Rd-wG5"/>
                     <constraint firstItem="42l-bY-Vib" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="ET7-8z-iJE"/>
                     <constraint firstItem="zXe-wI-p6a" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="G0i-T3-3D6"/>
@@ -219,16 +219,16 @@
                     <constraint firstItem="FVB-A0-Fui" firstAttribute="leading" secondItem="rPM-f1-ppd" secondAttribute="trailing" constant="2" id="QVA-Ia-eIb"/>
                     <constraint firstItem="oIZ-h0-LGi" firstAttribute="leading" secondItem="PfW-TF-NcK" secondAttribute="trailing" constant="8" id="RVV-RL-nkd"/>
                     <constraint firstItem="EhC-jw-DcL" firstAttribute="top" secondItem="zXe-wI-p6a" secondAttribute="bottom" constant="4" id="SBG-U6-Tsw"/>
-                    <constraint firstItem="x1E-mi-KOo" firstAttribute="top" secondItem="FVB-A0-Fui" secondAttribute="bottom" constant="4" id="Uip-40-vjR"/>
+                    <constraint firstItem="x1E-mi-KOo" firstAttribute="top" secondItem="FVB-A0-Fui" secondAttribute="bottom" constant="14" id="Uip-40-vjR"/>
                     <constraint firstItem="rPM-f1-ppd" firstAttribute="leading" secondItem="PfW-TF-NcK" secondAttribute="trailing" constant="6" id="W7C-gs-7bf"/>
                     <constraint firstItem="FVB-A0-Fui" firstAttribute="top" secondItem="oIZ-h0-LGi" secondAttribute="bottom" constant="3" id="clj-5v-I97"/>
                     <constraint firstAttribute="trailing" secondItem="x1E-mi-KOo" secondAttribute="trailing" constant="9" id="euY-Gn-oIc"/>
                     <constraint firstItem="PfW-TF-NcK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="jY7-gT-gRx"/>
                     <constraint firstAttribute="trailing" secondItem="zXe-wI-p6a" secondAttribute="trailing" constant="9" id="kEf-RJ-iz2"/>
-                    <constraint firstItem="42l-bY-Vib" firstAttribute="top" secondItem="puk-5G-ZSn" secondAttribute="bottom" constant="4" id="kQv-pC-9ge"/>
-                    <constraint firstItem="42l-bY-Vib" firstAttribute="top" secondItem="1BJ-6P-XeG" secondAttribute="bottom" constant="4" id="lMG-yD-Tud"/>
+                    <constraint firstItem="42l-bY-Vib" firstAttribute="top" secondItem="puk-5G-ZSn" secondAttribute="bottom" id="kQv-pC-9ge"/>
+                    <constraint firstItem="42l-bY-Vib" firstAttribute="top" secondItem="1BJ-6P-XeG" secondAttribute="bottom" id="lMG-yD-Tud"/>
                     <constraint firstAttribute="trailing" secondItem="42l-bY-Vib" secondAttribute="trailing" id="mBr-PN-R1h"/>
-                    <constraint firstItem="x1E-mi-KOo" firstAttribute="leading" secondItem="PfW-TF-NcK" secondAttribute="trailing" constant="8" id="mgh-PF-Pmr"/>
+                    <constraint firstItem="x1E-mi-KOo" firstAttribute="leading" secondItem="PfW-TF-NcK" secondAttribute="trailing" constant="-50" id="mgh-PF-Pmr"/>
                     <constraint firstItem="rPM-f1-ppd" firstAttribute="top" secondItem="oIZ-h0-LGi" secondAttribute="bottom" constant="4" id="nHg-na-Tmt"/>
                     <constraint firstAttribute="bottom" secondItem="DRp-uZ-S1a" secondAttribute="bottom" id="tQR-gI-hTd"/>
                     <constraint firstItem="PfW-TF-NcK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="vOs-mp-Q5x"/>
