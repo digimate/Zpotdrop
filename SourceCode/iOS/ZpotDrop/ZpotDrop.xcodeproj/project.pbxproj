@@ -26,19 +26,19 @@
 		B409868B1BC6C74A00BC0678 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B40986851BC6C74A00BC0678 /* TPKeyboardAvoidingScrollView.m */; };
 		B409868C1BC6C74A00BC0678 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = B40986871BC6C74A00BC0678 /* TPKeyboardAvoidingTableView.m */; };
 		B409868D1BC6C74A00BC0678 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B40986891BC6C74A00BC0678 /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
-		B4408FFC1BCFF05500E3639D /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4408FFB1BCFF05500E3639D /* Realm.framework */; settings = {ASSET_TAGS = (); }; };
+		B4408FFC1BCFF05500E3639D /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4408FFB1BCFF05500E3639D /* Realm.framework */; };
 		B4408FFE1BCFF0D500E3639D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B4408FFD1BCFF0D500E3639D /* libc++.tbd */; };
 		B44090001BCFF10800E3639D /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B4408FFF1BCFF10800E3639D /* libsqlite3.tbd */; };
 		B44090021BCFF11000E3639D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B44090011BCFF11000E3639D /* libz.tbd */; };
-		B469DFDD1BCA1162007CD700 /* Post.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B469DFDC1BCA1162007CD700 /* Post.storyboard */; settings = {ASSET_TAGS = (); }; };
-		B469DFDF1BCAB5DE007CD700 /* MyriadPro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B469DFDE1BCAB5DE007CD700 /* MyriadPro-Regular.otf */; settings = {ASSET_TAGS = (); }; };
-		B480D4C21BD212EA001E1CDF /* LocationService.m in Sources */ = {isa = PBXBuildFile; fileRef = B480D4C11BD212EA001E1CDF /* LocationService.m */; settings = {ASSET_TAGS = (); }; };
-		B480D4C41BD341AA001E1CDF /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B480D4C31BD341AA001E1CDF /* OpenSans-LightItalic.ttf */; settings = {ASSET_TAGS = (); }; };
-		B480D4C81BD355A9001E1CDF /* SearchLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B480D4C71BD355A9001E1CDF /* SearchLocationViewController.m */; settings = {ASSET_TAGS = (); }; };
-		B480D4CA1BD35CE7001E1CDF /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B480D4C91BD35CE7001E1CDF /* OpenSans-Regular.ttf */; settings = {ASSET_TAGS = (); }; };
-		B480D4CE1BD368A0001E1CDF /* AddLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B480D4CD1BD368A0001E1CDF /* AddLocationViewController.m */; settings = {ASSET_TAGS = (); }; };
-		B4A1C7831BD4700B008F4685 /* PostAddFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A1C7821BD4700B008F4685 /* PostAddFriendsViewController.m */; settings = {ASSET_TAGS = (); }; };
-		B4BC9E241BD5BA2300EE53AD /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BC9E231BD5BA2300EE53AD /* UserService.m */; settings = {ASSET_TAGS = (); }; };
+		B469DFDD1BCA1162007CD700 /* Post.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B469DFDC1BCA1162007CD700 /* Post.storyboard */; };
+		B469DFDF1BCAB5DE007CD700 /* MyriadPro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B469DFDE1BCAB5DE007CD700 /* MyriadPro-Regular.otf */; };
+		B480D4C21BD212EA001E1CDF /* LocationService.m in Sources */ = {isa = PBXBuildFile; fileRef = B480D4C11BD212EA001E1CDF /* LocationService.m */; };
+		B480D4C41BD341AA001E1CDF /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B480D4C31BD341AA001E1CDF /* OpenSans-LightItalic.ttf */; };
+		B480D4C81BD355A9001E1CDF /* SearchLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B480D4C71BD355A9001E1CDF /* SearchLocationViewController.m */; };
+		B480D4CA1BD35CE7001E1CDF /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B480D4C91BD35CE7001E1CDF /* OpenSans-Regular.ttf */; };
+		B480D4CE1BD368A0001E1CDF /* AddLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B480D4CD1BD368A0001E1CDF /* AddLocationViewController.m */; };
+		B4A1C7831BD4700B008F4685 /* PostAddFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A1C7821BD4700B008F4685 /* PostAddFriendsViewController.m */; };
+		B4BC9E241BD5BA2300EE53AD /* UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BC9E231BD5BA2300EE53AD /* UserService.m */; };
 		B4D09F391BC5801E008B180A /* AccountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D09DFD1BC5801D008B180A /* AccountModel.m */; };
 		B4D09F3A1BC5801E008B180A /* BaseDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D09DFF1BC5801D008B180A /* BaseDataModel.m */; };
 		B4D09F3B1BC5801E008B180A /* FeedCommentDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D09E011BC5801D008B180A /* FeedCommentDataModel.m */; };
@@ -1396,7 +1396,7 @@
 				TargetAttributes = {
 					0ACD9D621B68B767004140EE = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 9U2E8DAV5Z;
+						DevelopmentTeam = 78FHA7KFE7;
 					};
 					0ACD9D7B1B68B767004140EE = {
 						CreatedOnToolsVersion = 6.4;
@@ -1690,7 +1690,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1712,6 +1713,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "130cfd79-06f6-449b-bf94-14b09a166fb5";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1733,7 +1735,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1748,6 +1751,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "130cfd79-06f6-449b-bf94-14b09a166fb5";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1757,8 +1761,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1770,9 +1774,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ZpotDrop;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zpotdrop.testing;
 				PRODUCT_NAME = Zpotdrop;
-				PROVISIONING_PROFILE = "8e68c8ab-105a-475f-a689-d775ef3e443b";
+				PROVISIONING_PROFILE = "130cfd79-06f6-449b-bf94-14b09a166fb5";
 			};
 			name = Debug;
 		};
@@ -1780,8 +1784,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1793,9 +1797,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ZpotDrop;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zpotdrop.testing;
 				PRODUCT_NAME = Zpotdrop;
-				PROVISIONING_PROFILE = "8e68c8ab-105a-475f-a689-d775ef3e443b";
+				PROVISIONING_PROFILE = "130cfd79-06f6-449b-bf94-14b09a166fb5";
 			};
 			name = Release;
 		};
