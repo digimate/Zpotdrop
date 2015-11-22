@@ -245,6 +245,7 @@
 - (IBAction)didTouchAddText:(id)sender {
     if (vAddText.hidden) {
         [self showViewAddText];
+        
     } else {
         [self hideViewAddText];
     }
@@ -619,6 +620,18 @@
     [textField resignFirstResponder];
     return YES;
 }
+
+- (IBAction)postTextTextFieldValueDidChange:(id)sender {
+    UIFont *textFont;
+    if (tfAddText.text.length > 0) {
+        textFont = [UIFont fontWithName:@"OpenSans-Bold" size:13];
+    } else {
+        textFont = [UIFont fontWithName:@"OpenSans-Light" size:13];
+    }
+    btnAddText.titleLabel.font = textFont;
+    btnAddFriends.titleLabel.font = textFont;
+}
+
 #pragma mark - CLLocationDelegate
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
 //    if (createLocationCell && createLocationCell.address.length == 0) {
