@@ -9,6 +9,8 @@
 #import "LocationService.h"
 #import <Parse/Parse.h>
 #import "LocationDataModel.h"
+#import "Utils.h"
+#import <GoogleMaps/GoogleMaps.h>
 
 @implementation LocationService
 - (void)searchLocationWithinCoord:(CLLocationCoordinate2D)topLeft
@@ -94,4 +96,33 @@
         completion(arrLocation, error.description);
     }];
 }
+
+- (void)getPlacesWithKeyword:(NSString *)keyword completion:(void(^)(NSArray * data, NSString *error))completion {
+
+    MKMapView* mapView = [[Utils instance] mapView];
+    CLLocationCoordinate2D topLeft = [mapView topLeft];
+    CLLocationCoordinate2D botRight = [mapView bottomRight];
+    
+    GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] initWithCoordinate:topLeft
+                                                                       coordinate:botRight];
+    GMSAutocompleteFilter *filter = [[GMSAutocompleteFilter alloc] init];
+    filter.type = kGMSPlacesAutocompleteTypeFilterEstablishment;
+    
+    GMSPlacesClient *_placesClient = [GMSPlacesClient sharedClient];
+    [_placesClient autocompleteQuery:keyword
+                              bounds:bounds
+                              filter:filter
+                            callback:^(NSArray *results, NSError *error) {
+                                completion(results, error.localizedDescription);
+//                                if (error != nil) {
+//                                    NSLog(@"Autocomplete error %@", [error localizedDescription]);
+//                                    return;
+//                                }
+//                                
+//                                for (GMSAutocompletePrediction* result in results) {
+//                                    NSLog(@"Result '%@' with placeID %@", result.attributedFullText.string, result.placeID);
+//                                }
+                            }];
+}
+
 @end

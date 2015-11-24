@@ -25,4 +25,7 @@
                           completion:(void(^)(NSArray * data,NSString* error))completion;
 - (void)searchLocationWithName:(NSString *)name
                     completion:(void(^)(NSArray * data,NSString* error))completion;
+
+- (void)getPlacesWithKeyword:(NSString *)keyword completion:(void(^)(NSArray * data, NSString *error))completion;
+
 @end

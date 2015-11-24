@@ -11,6 +11,7 @@
 #import "CoreDataService.h"
 #import "Utils.h"
 #import "APIService.h"
+@import GoogleMaps;
 
 @interface AppDelegate ()<CLLocationManagerDelegate>
 
@@ -44,6 +45,8 @@
             [self handleRequestLocation:[notification objectForKey:@"aps"]];
         }
     }
+    
+    [GMSServices provideAPIKey:@"AIzaSyDQYtsThC5qIgZUZdKoTWjVQafhFlzJCWw"];
 
     return [[FBSDKApplicationDelegate sharedInstance]application:application didFinishLaunchingWithOptions:launchOptions];
 }

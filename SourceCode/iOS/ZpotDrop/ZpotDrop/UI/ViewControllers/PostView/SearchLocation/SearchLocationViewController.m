@@ -10,6 +10,7 @@
 #import "LocationService.h"
 #import "Utils.h"
 #import "AddLocationViewController.h"
+@import GoogleMaps;
 
 
 @interface LocationCell : UITableViewCell
@@ -24,6 +25,14 @@
     self.lbLocationName.text     = location.name;
     self.lbLocationAddress.text  = location.address;
 }
+
+- (void)setSuggestedPlaces:(GMSAutocompletePrediction *)place {
+    NSString *placeString = [place.attributedFullText string];
+    NSRange firstRange = [placeString rangeOfString:@","];
+    self.lbLocationName.text = [placeString substringWithRange:NSMakeRange(0, firstRange.location)];
+    self.lbLocationAddress.text = [placeString substringFromIndex:self.lbLocationName.text.length+firstRange.length];
+}
+
 @end
 
 
@@ -52,12 +61,36 @@
 
 - (void)goBack:(id)sender {
     if (self.selectedIndex != NSNotFound) {
-        LocationDataModel *selectedLocation = self.arrLocation[self.selectedIndex];
-        if (selectedLocation) {
-            [self.delegate searchLocationViewController:self didSelectLocation:selectedLocation];
-        }
+        [[Utils instance]showProgressWithMessage:nil];
+        GMSAutocompletePrediction *selectedPlace = self.arrLocation[self.selectedIndex];
+        GMSPlacesClient *placesClient = [GMSPlacesClient sharedClient];
+        [placesClient lookUpPlaceID:selectedPlace.placeID callback:^(GMSPlace *result, NSError *error) {
+            if (error) {
+                NSLog(@"selectedIndex has error %@", error.localizedDescription);
+                [[Utils instance]hideProgess];
+            } else {
+                
+                //create location
+                [[APIService shareAPIService]createLocationWithCoordinate:result.coordinate params:[NSMutableDictionary dictionaryWithDictionary:@{@"name":result.name, @"address":result.formattedAddress}] completion:^(id data, NSString *error) {
+                    [[Utils instance]hideProgess];
+                    if (data == nil) {
+                        [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                        }];
+                    } else {
+                        [self.delegate searchLocationViewController:self didSelectLocation:(LocationDataModel *)data];
+                    }
+                }];
+
+                
+//                LocationDataModel *selectedLocation = self.arrLocation[self.selectedIndex];
+//                if (selectedLocation) {
+//                    [self.delegate searchLocationViewController:self didSelectLocation:selectedLocation];
+//                }
+            }
+            [super goBack:sender];
+        }];
     }
-    [super goBack:sender];
+
 }
 
 
@@ -86,7 +119,8 @@
     }
     
     LocationService *service = [LocationService new];
-    [service searchLocationWithName:text completion:^(NSArray *data, NSString *error) {
+    
+    [service getPlacesWithKeyword:text completion:^(NSArray *data, NSString *error){
         if (self.tfSearchName.text.length == 0) {
             [self clearLocationList];
             return;
@@ -95,6 +129,16 @@
         self.selectedIndex = NSNotFound;
         [self.tblLocation reloadData];
     }];
+    
+//    [service searchLocationWithName:text completion:^(NSArray *data, NSString *error) {
+//        if (self.tfSearchName.text.length == 0) {
+//            [self clearLocationList];
+//            return;
+//        }
+//        self.arrLocation = data;
+//        self.selectedIndex = NSNotFound;
+//        [self.tblLocation reloadData];
+//    }];
 }
 
 - (void)clearLocationList {
@@ -117,13 +161,15 @@
     } else {
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
-    cell.location = self.arrLocation[indexPath.row];
+//    cell.location = self.arrLocation[indexPath.row];
+    [cell setSuggestedPlaces:self.arrLocation[indexPath.row]];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     self.selectedIndex = indexPath.row;
-    [tableView reloadData];
+//    [tableView reloadData];
     [self goBack:nil];
 }
 
@@ -135,6 +181,10 @@
     [self updateTitleOfAddLocationWithText:text];
     [self searchLocationWithText:text];
     return YES;
+}
+
+- (IBAction)searchTextFieldDidChangeValue:(id)sender {
+    
 }
 
 @end
