@@ -21,6 +21,7 @@
 		0ACD9E261B6A89FD004140EE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACD9E251B6A89FD004140EE /* SystemConfiguration.framework */; };
 		8C269C1E1B7060D200E6835E /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C269C1D1B7060D200E6835E /* Social.framework */; };
 		8C269C201B7060D800E6835E /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C269C1F1B7060D800E6835E /* Accounts.framework */; };
+		A86F016DB6CDC49AE7118FC3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB29B4191027FD51B71307A1 /* libPods.a */; };
 		B40986801BC6C4FF00BC0678 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B409867F1BC6C4FF00BC0678 /* OpenSans-Bold.ttf */; };
 		B409868A1BC6C74A00BC0678 /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B40986831BC6C74A00BC0678 /* TPKeyboardAvoidingCollectionView.m */; };
 		B409868B1BC6C74A00BC0678 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B40986851BC6C74A00BC0678 /* TPKeyboardAvoidingScrollView.m */; };
@@ -247,6 +248,7 @@
 		0ACD9E231B6A89D9004140EE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		0ACD9E251B6A89FD004140EE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0ACD9E271B6A8A05004140EE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		1B2562B50472BD05B64B44F9 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8C269C1D1B7060D200E6835E /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		8C269C1F1B7060D800E6835E /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		B409867F1BC6C4FF00BC0678 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
@@ -561,6 +563,8 @@
 		BA0874B51B6FC35000FBFF74 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		BA62840D1B70F0B300399368 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BA62842D1B71153400399368 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		D36AEDFD790D8C5E7C3E709C /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		DB29B4191027FD51B71307A1 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -589,6 +593,7 @@
 				B4D09F551BC5801E008B180A /* Bolts.framework in Frameworks */,
 				0ACD9E1A1B6A8988004140EE /* CFNetwork.framework in Frameworks */,
 				0ACD9E181B6A897C004140EE /* AudioToolbox.framework in Frameworks */,
+				A86F016DB6CDC49AE7118FC3 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -608,6 +613,8 @@
 				0ACD9D651B68B767004140EE /* ZpotDrop */,
 				0ACD9D7F1B68B767004140EE /* ZpotDropTests */,
 				0ACD9D641B68B767004140EE /* Products */,
+				5C03A0F447299AB30E419F39 /* Pods */,
+				170825AA131B9A52369D9821 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -663,6 +670,23 @@
 				0ACD9D811B68B767004140EE /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		170825AA131B9A52369D9821 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DB29B4191027FD51B71307A1 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5C03A0F447299AB30E419F39 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1B2562B50472BD05B64B44F9 /* Pods.debug.xcconfig */,
+				D36AEDFD790D8C5E7C3E709C /* Pods.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		B40986811BC6C74A00BC0678 /* TPKeyboardAvoiding */ = {
@@ -1354,9 +1378,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0ACD9D861B68B767004140EE /* Build configuration list for PBXNativeTarget "ZpotDrop" */;
 			buildPhases = (
+				65E36705C1D531E55D55753E /* Check Pods Manifest.lock */,
 				0ACD9D5F1B68B767004140EE /* Sources */,
 				0ACD9D601B68B767004140EE /* Frameworks */,
 				0ACD9D611B68B767004140EE /* Resources */,
+				B4B9AA22CC55B264463B0B26 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1512,6 +1538,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		65E36705C1D531E55D55753E /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B4B9AA22CC55B264463B0B26 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0ACD9D5F1B68B767004140EE /* Sources */ = {
@@ -1759,6 +1818,7 @@
 		};
 		0ACD9D871B68B767004140EE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B2562B50472BD05B64B44F9 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
@@ -1773,7 +1833,7 @@
 				INFOPLIST_FILE = ZpotDrop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zpotdrop.testing;
 				PRODUCT_NAME = Zpotdrop;
 				PROVISIONING_PROFILE = "130cfd79-06f6-449b-bf94-14b09a166fb5";
@@ -1782,6 +1842,7 @@
 		};
 		0ACD9D881B68B767004140EE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D36AEDFD790D8C5E7C3E709C /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
@@ -1796,7 +1857,7 @@
 				INFOPLIST_FILE = ZpotDrop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zpotdrop.testing;
 				PRODUCT_NAME = Zpotdrop;
 				PROVISIONING_PROFILE = "130cfd79-06f6-449b-bf94-14b09a166fb5";
