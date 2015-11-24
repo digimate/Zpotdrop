@@ -161,12 +161,12 @@
 }
 
 -(void)changeViewToClass:(NSString*)clsString{
-    if ([clsString isEqualToString:NSStringFromClass([PostZpotViewController class])]) {
+    if ([clsString isEqualToString:NSStringFromClass([FeedZpotViewController class])]) {
         currentSelectedRow = 1;
-        [self.delegate leftmenuChangeViewToClass:NSStringFromClass([PostZpotViewController class])];
-    }else if ([clsString isEqualToString:NSStringFromClass([FeedZpotViewController class])]) {
-        currentSelectedRow = 2;
         [self.delegate leftmenuChangeViewToClass:NSStringFromClass([FeedZpotViewController class])];
+    }else if ([clsString isEqualToString:NSStringFromClass([PostZpotViewController class])]) {
+        currentSelectedRow = 2;
+        [self.delegate leftmenuChangeViewToClass:NSStringFromClass([PostZpotViewController class])];
     }else if ([clsString isEqualToString:NSStringFromClass([FindZpotViewController class])]) {
         currentSelectedRow = 3;
         [self.delegate leftmenuChangeViewToClass:NSStringFromClass([FindZpotViewController class])];
@@ -216,15 +216,15 @@
         }
     }else if (indexPath.row == 1) {
         BOOL selected = indexPath.row == currentSelectedRow;
-        param = @{@"title":@"post".localized.uppercaseString,@"icon":@"icon",@"selected":[NSNumber numberWithBool:selected]};
+        param = @{@"title":@"feed".localized.uppercaseString,@"icon":@"ic_feed",@"selected":[NSNumber numberWithBool:selected]};
         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 2){
         BOOL selected = indexPath.row == currentSelectedRow;
-        param = @{@"title":@"feed".localized.uppercaseString,@"icon":@"ic_feed",@"selected":[NSNumber numberWithBool:selected]};
+        param = @{@"title":@"post".localized.uppercaseString,@"icon":@"icon",@"selected":[NSNumber numberWithBool:selected]};
         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 3){
         BOOL selected = indexPath.row == currentSelectedRow;
-        param = @{@"title":@"find".localized.uppercaseString,@"icon":@"ic_find",@"selected":[NSNumber numberWithBool:selected]};
+        param = @{@"title":@"find".localized.uppercaseString,@"icon":@"ic_find_menu",@"selected":[NSNumber numberWithBool:selected]};
         borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
     }else if (indexPath.row == 4){
         BOOL selected = indexPath.row == currentSelectedRow;
