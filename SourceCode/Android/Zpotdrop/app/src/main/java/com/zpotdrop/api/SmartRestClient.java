@@ -1,6 +1,11 @@
+/*
+ * Copyright (c) 2015 Zpotdrop. All rights reserved.
+ */
+
 package com.zpotdrop.api;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Base64;
 
 import org.apache.http.HttpEntity;
@@ -88,11 +93,15 @@ public class SmartRestClient {
     }
 
     public void addHeader(String name, String value) {
-        headers.add(new BasicNameValuePair(name, value));
+        if (!TextUtils.isEmpty(value)) {
+            headers.add(new BasicNameValuePair(name, value));
+        }
     }
 
     public void addParam(String name, String value) {
-        params.add(new BasicNameValuePair(name, value));
+        if (!TextUtils.isEmpty(value)) {
+            params.add(new BasicNameValuePair(name, value));
+        }
     }
 
     public void execute(RequestMethod method, Context ctx) throws Exception {

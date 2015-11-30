@@ -14,8 +14,11 @@ import android.widget.TextView;
 
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.zpotdrop.R;
+import com.zpotdrop.api.RegisterTask;
 import com.zpotdrop.app.ZpotdropApp;
 import com.zpotdrop.utils.DeviceManager;
+import com.zpotdrop.utils.DialogManager;
+import com.zpotdrop.utils.ViewUtils;
 import com.zpotdrop.view.MultiStateToggleButton;
 
 import java.text.ParseException;
@@ -30,7 +33,9 @@ import butterknife.OnClick;
 /**
  * @author phuc.tran
  */
-public class RegisterMoreInfoActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class RegisterMoreInfoActivity extends AppCompatActivity
+        implements DatePickerDialog.OnDateSetListener,
+        RegisterTask.RegisterListener {
     public static final String DATEPICKER_TAG = "datepicker";
     private final int LOGO_WIDTH = 155;
     private final int LOGO_HEIGHT = 199;
@@ -121,21 +126,26 @@ public class RegisterMoreInfoActivity extends AppCompatActivity implements DateP
     }
 
     @OnClick(R.id.tv_sign_up)
-    void openRegisterMoreInfoPage() {
-        openNewPage(MainActivity.class);
-    }
+    void signUp() {
+        /**
+         * Validate fields
+         */
+        if (!ViewUtils.isValidEditText(this, edtFirstName, getResources().getString(R.string.msg_please_enter_first_name))) {
+            return;
+        }
+        if (!ViewUtils.isValidEditText(this, edtLastName, getResources().getString(R.string.msg_please_enter_last_name))) {
+            return;
+        }
+        if (!ViewUtils.isValidEditText(this, edtPhoneNumber, getResources().getString(R.string.msg_please_enter_phone_number))) {
+            return;
+        }
 
-    /**
-     * Open new activity
-     *
-     * @param activityClass The class of activity that will be opened
-     */
-    private void openNewPage(Class activityClass) {
-        Intent intent = new Intent(this, activityClass);
-        startActivity(intent);
-
-        // Animation when transforming screens
-        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+        /**
+         * Sign up
+         */
+        RegisterTask registerTask = new RegisterTask(this, getResources().getString(R.string.signing_up), true);
+        registerTask.setRegisterListener(this);
+        registerTask.execute();
     }
 
     @OnClick(R.id.edt_dob)
@@ -184,5 +194,19 @@ public class RegisterMoreInfoActivity extends AppCompatActivity implements DateP
         //SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ZpotdropApp.DATE_FORMAT);
         //simpleDateFormat.
         edtDOB.setText(strDate);
+    }
+
+    @Override
+    public void onSuccess() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
+        // Animation when transforming screens
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+    }
+
+    @Override
+    public void onFailed(String errorMessage) {
+        DialogManager.showErrorDialog(this, getResources().getString(R.string.register_error), errorMessage);
     }
 }

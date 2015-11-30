@@ -12,8 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zpotdrop.R;
+import com.zpotdrop.api.ApiConst;
+import com.zpotdrop.api.SmartRestClient;
 import com.zpotdrop.app.ZpotdropApp;
 import com.zpotdrop.utils.DeviceManager;
+import com.zpotdrop.utils.SmartLog;
+import com.zpotdrop.utils.SmartTaskUtilsWithProgressDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -103,29 +107,30 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.tv_continue)
     void openMainPage() {
-        openNewPage(MainActivity.class);
-//        SmartTaskUtilsWithProgressDialog taskUtilsWithProgressDialog = new SmartTaskUtilsWithProgressDialog(this, "Logging in...", true) {
-//            @Override
-//            protected Void doInBackground(Void... params) {
-//                SmartRestClient restClient = new SmartRestClient(ApiConst.URL_LOGIN);
-//                try {
-//                    restClient.execute(SmartRestClient.RequestMethod.POST, LoginActivity.this);
-//                    String response = restClient.getResponse();
-//                    SmartLog.error(LoginActivity.class, "Response: " + response);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    SmartLog.error(LoginActivity.class, "openMainPage() " + e.getMessage());
-//                }
-//
-//                return super.doInBackground(params);
-//            }
-//
-//            @Override
-//            protected void onPostExecute(Void result) {
-//                super.onPostExecute(result);
-//            }
-//        };
-//        taskUtilsWithProgressDialog.execute();
+        SmartTaskUtilsWithProgressDialog taskUtilsWithProgressDialog = new SmartTaskUtilsWithProgressDialog(this, "Logging in...", true) {
+            @Override
+            protected Void doInBackground(Void... params) {
+                SmartRestClient restClient = new SmartRestClient(ApiConst.URL_LOGIN);
+                try {
+                    restClient.execute(SmartRestClient.RequestMethod.POST, LoginActivity.this);
+                    String response = restClient.getResponse();
+                    SmartLog.error(LoginActivity.class, "Response: " + response);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    SmartLog.error(LoginActivity.class, "openMainPage() " + e.getMessage());
+                }
+
+                return super.doInBackground(params);
+            }
+
+            @Override
+            protected void onPostExecute(Void result) {
+                super.onPostExecute(result);
+
+                openNewPage(MainActivity.class);
+            }
+        };
+        taskUtilsWithProgressDialog.execute();
     }
 
     /**

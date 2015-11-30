@@ -32,6 +32,17 @@
         <item>Private</item>
         <item>Female</item>
     </string-array>
+    <string name="msg_please_enter_your_email">Please enter your email</string>
+    <string name="msg_please_enter_your_password">Please enter your password</string>
+    <string name="msg_please_confirm_your_password">Please confirm your password</string>
+    <string name="msg_please_enter_first_name">Please enter first name</string>
+    <string name="msg_please_enter_last_name">Please enter last name</string>
+    <string name="msg_please_enter_phone_number">Please enter phone number</string>
+    <string name="msg_please_enter_your_birthday">Plese enter your birthday</string>
+    <string name="msg_invalid_email_address">Invalid email address</string>
+    <string name="close">Close</string>
+    <string name="register_error">Register Error</string>
+    <string name="signing_up">Signing up...</string>
 
     <!--FORGOT PASSWORD-->
     <string name="forgot_password_bold">Forgot password</string>

@@ -11,9 +11,9 @@ import com.zpotdrop.view.ZProgressHUD;
 
 public class SmartTaskUtilsWithProgressDialog extends AsyncTask<Void, Void, Void> {
 
-    ZProgressHUD progressDialog;// = ZProgressHUD.getInstance(context);
     //private ProgressDialog progressDialog;
-    private Context context;
+    protected Context context;
+    ZProgressHUD progressDialog;// = ZProgressHUD.getInstance(context);
     private String message;
     private boolean isShowProgressDialog = true;
 

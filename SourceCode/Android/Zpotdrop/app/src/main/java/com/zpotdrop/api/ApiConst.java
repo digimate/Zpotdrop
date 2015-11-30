@@ -32,6 +32,7 @@ public class ApiConst {
     public static final String DEVICE_TYPE_ANDROID = "1";
     public static final String LATITUDE = "lat";
     public static final String LONGITUDE = "long";
+    public static final String PHONE_NUMBER = "phone_number";
 
     /**
      * REGISTER

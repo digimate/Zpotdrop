@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2015 Zpotdrop. All rights reserved.
+ */
+
 package com.zpotdrop.utils;
 
 import android.content.Context;
@@ -57,5 +61,26 @@ public class ViewUtils {
         }
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
         return false;
+    }
+
+    /**
+     * Validate 2 password fields
+     *
+     * @param context
+     * @param edtPassword
+     * @param edtPasswordAgain
+     * @param errorMessage
+     * @return True if 2 passwords match
+     */
+    public static boolean isPasswordsMatch(Context context, EditText edtPassword, EditText edtPasswordAgain, String errorMessage) {
+        String password = edtPassword.getText().toString();
+        String passwordAgain = edtPasswordAgain.getText().toString();
+
+        if (!password.equals(passwordAgain)) {
+            Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
     }
 }

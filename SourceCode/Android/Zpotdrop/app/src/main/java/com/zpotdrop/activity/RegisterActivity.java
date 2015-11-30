@@ -12,7 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zpotdrop.R;
+import com.zpotdrop.consts.Const;
 import com.zpotdrop.utils.DeviceManager;
+import com.zpotdrop.utils.EmailValidationUtils;
+import com.zpotdrop.utils.ViewUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -83,16 +86,37 @@ public class RegisterActivity extends AppCompatActivity {
 
     @OnClick(R.id.tv_continue)
     void openRegisterMoreInfoPage() {
-        openNewPage(RegisterMoreInfoActivity.class);
-    }
+        /**
+         * Validate email
+         */
+        if (!ViewUtils.isValidEditText(this, edtEmail, getResources().getString(R.string.msg_please_enter_your_email))) {
+            return;
+        }
+        String email = edtEmail.getText().toString();
+        if (!EmailValidationUtils.isValidEmail(this, email, getResources().getString(R.string.msg_invalid_email_address))) {
+            return;
+        }
 
-    /**
-     * Open new activity
-     *
-     * @param activityClass The class of activity that will be opened
-     */
-    private void openNewPage(Class activityClass) {
-        Intent intent = new Intent(this, activityClass);
+        /**
+         * Validate password
+         */
+        if (!ViewUtils.isValidEditText(this, edtPassword, getResources().getString(R.string.msg_please_enter_your_password))) {
+            return;
+        }
+        if (!ViewUtils.isValidEditText(this, edtPasswordAgain, getResources().getString(R.string.msg_please_confirm_your_password))) {
+            return;
+        }
+        if (!ViewUtils.isPasswordsMatch(this, edtPassword, edtPasswordAgain, getResources().getString(R.string.msg_please_enter_your_email))) {
+            return;
+        }
+
+        /**
+         * All basic info is valid, open new page for more info
+         */
+        Intent intent = new Intent(this, RegisterMoreInfoActivity.class);
+        intent.putExtra(Const.KEY_EMAIL, email);
+        String password = edtPassword.getText().toString();
+        intent.putExtra(Const.KEY_PASSWORD, password);
         startActivity(intent);
 
         // Animation when transforming screens
