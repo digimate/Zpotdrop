@@ -5,6 +5,7 @@
 package com.zpotdrop.activity;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -14,10 +15,15 @@ import android.widget.TextView;
 
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.zpotdrop.R;
+import com.zpotdrop.api.ApiConst;
 import com.zpotdrop.api.RegisterTask;
 import com.zpotdrop.app.ZpotdropApp;
+import com.zpotdrop.consts.Const;
+import com.zpotdrop.model.MyLocation;
 import com.zpotdrop.utils.DeviceManager;
 import com.zpotdrop.utils.DialogManager;
+import com.zpotdrop.utils.SmartLog;
+import com.zpotdrop.utils.SmartSharedPreferences;
 import com.zpotdrop.utils.ViewUtils;
 import com.zpotdrop.view.MultiStateToggleButton;
 
@@ -75,6 +81,9 @@ public class RegisterMoreInfoActivity extends AppCompatActivity
 
     private DatePickerDialog datePickerDialog;
 
+    private String latitude;
+    private String longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +92,9 @@ public class RegisterMoreInfoActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         setupUI();
+
+        // Get latitude, longitude
+        getLocationInfo();
     }
 
     private void setupUI() {
@@ -144,6 +156,38 @@ public class RegisterMoreInfoActivity extends AppCompatActivity
          * Sign up
          */
         RegisterTask registerTask = new RegisterTask(this, getResources().getString(R.string.signing_up), true);
+        /**
+         * Setup parameters
+         */
+        String email = null;
+        String password = null;
+        Intent intent = getIntent();
+        if (intent != null) {
+            email = intent.getStringExtra(Const.KEY_EMAIL);
+            password = intent.getStringExtra(Const.KEY_PASSWORD);
+        }
+        String firstName = edtFirstName.getText().toString();
+        String lastName = edtLastName.getText().toString();
+        String birthday = edtDOB.getText().toString();
+        String phoneNumber = edtPhoneNumber.getText().toString();
+        int gender = toggleGenders.getSelectedPosition();
+        String strGender;
+        if (gender == 0) {
+            strGender = ApiConst.GENDER_MALE;
+        } else if (gender == 1) {
+            strGender = ApiConst.GENDER_FEMALE;
+        } else {
+            strGender = ApiConst.GENDER_OTHERS;
+        }
+        String gcmToken = SmartSharedPreferences.getGCMToken(this);
+        registerTask.addParams(ApiConst.GRANT_TYPE_PASSWORD,
+                ApiConst.CLIENT_ID_VALUE,
+                ApiConst.CLIENT_SECRET_VALUE,
+                email, password, firstName, lastName,
+                birthday, phoneNumber, strGender, gcmToken,
+                ApiConst.DEVICE_TYPE_ANDROID, latitude, longitude);
+
+        // Add listener
         registerTask.setRegisterListener(this);
         registerTask.execute();
     }
@@ -203,10 +247,36 @@ public class RegisterMoreInfoActivity extends AppCompatActivity
 
         // Animation when transforming screens
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
+        /**
+         * Finish this activity and RegisterActivity
+         */
+        this.finish();
+        RegisterActivity.terminate();
     }
 
     @Override
     public void onFailed(String errorMessage) {
         DialogManager.showErrorDialog(this, getResources().getString(R.string.register_error), errorMessage);
+    }
+
+    /**
+     * Get current location info
+     */
+    private void getLocationInfo() {
+        MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
+            @Override
+            public void gotLocation(Location location) {
+                if (location == null) {
+                    SmartLog.error(RegisterMoreInfoActivity.class, "gotLocation null");
+                    return;
+                }
+                SmartLog.error(RegisterMoreInfoActivity.class, "gotLocation");
+                latitude = Double.toString(location.getLatitude());
+                longitude = Double.toString(location.getLatitude());
+            }
+        };
+        MyLocation myLocation = new MyLocation();
+        myLocation.getLocation(this, locationResult);
     }
 }

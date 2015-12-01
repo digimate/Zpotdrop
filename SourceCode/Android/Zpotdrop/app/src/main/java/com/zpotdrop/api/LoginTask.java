@@ -15,16 +15,16 @@ import com.zpotdrop.utils.SmartTaskUtilsWithProgressDialog;
 /**
  * @author phuc.tran
  */
-public class RegisterTask extends SmartTaskUtilsWithProgressDialog {
+public class LoginTask extends SmartTaskUtilsWithProgressDialog {
 
     SmartRestClient restClient;
-    private RegisterListener registerListener;
+    private LoginListener registerListener;
     private boolean isError = true;
     private String errorMessage;
 
-    public RegisterTask(Context context, String message, boolean isShowProgressDialog) {
+    public LoginTask(Context context, String message, boolean isShowProgressDialog) {
         super(context, message, isShowProgressDialog);
-        restClient = new SmartRestClient(ApiConst.URL_REGISTER);
+        restClient = new SmartRestClient(ApiConst.URL_LOGIN);
     }
 
     /**
@@ -33,33 +33,21 @@ public class RegisterTask extends SmartTaskUtilsWithProgressDialog {
      * @param grantType
      * @param clientId
      * @param clientSecret
-     * @param email
+     * @param username
      * @param password
-     * @param firstName
-     * @param lastName
-     * @param birthDay
-     * @param phoneNumber
-     * @param gender
      * @param deviceId
      * @param deviceType
      * @param latitude
      * @param longitude
      */
     public void addParams(String grantType, String clientId, String clientSecret,
-                          String email, String password, String firstName,
-                          String lastName, String birthDay, String phoneNumber,
-                          String gender, String deviceId, String deviceType,
-                          String latitude, String longitude) {
+                          String username, String password, String deviceId,
+                          String deviceType, String latitude, String longitude) {
         restClient.addParam(ApiConst.GRANT_TYPE, grantType);
         restClient.addParam(ApiConst.CLIENT_ID, clientId);
         restClient.addParam(ApiConst.CLIENT_SECRET, clientSecret);
-        restClient.addParam(ApiConst.EMAIL, email);
+        restClient.addParam(ApiConst.USERNAME, username);
         restClient.addParam(ApiConst.PASSWORD, password);
-        restClient.addParam(ApiConst.FIRST_NAME, firstName);
-        restClient.addParam(ApiConst.LAST_NAME, lastName);
-        restClient.addParam(ApiConst.BIRTHDAY, birthDay);
-        restClient.addParam(ApiConst.PHONE_NUMBER, phoneNumber);
-        restClient.addParam(ApiConst.GENDER, gender);
         restClient.addParam(ApiConst.DEVICE_ID, deviceId);
         restClient.addParam(ApiConst.DEVICE_TYPE, deviceType);
         restClient.addParam(ApiConst.LATITUDE, latitude);
@@ -115,14 +103,14 @@ public class RegisterTask extends SmartTaskUtilsWithProgressDialog {
         }
     }
 
-    public void setRegisterListener(RegisterListener registerListener) {
+    public void setRegisterListener(LoginListener registerListener) {
         this.registerListener = registerListener;
     }
 
     /**
      * Interface for sign up result
      */
-    public interface RegisterListener {
+    public interface LoginListener {
         void onSuccess();
 
         void onFailed(String errorMessage);

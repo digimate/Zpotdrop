@@ -15,6 +15,8 @@
     <string name="login_with_facebook">Login with Facebook</string>
     <string name="not_yet_on_zpotdrop">Not yet on zpotdrop?</string>
     <string name="forgot_password">Forgot password?</string>
+    <string name="logging_in">Logging in...</string>
+    <string name="login_error">Login Error</string>
 
     <!--REGISTER-->
     <string name="password_again">Password again</string>

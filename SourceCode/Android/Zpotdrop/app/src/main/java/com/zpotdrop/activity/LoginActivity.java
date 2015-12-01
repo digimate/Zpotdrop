@@ -4,26 +4,41 @@
 
 package com.zpotdrop.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.zpotdrop.R;
 import com.zpotdrop.api.ApiConst;
-import com.zpotdrop.api.SmartRestClient;
+import com.zpotdrop.api.LoginTask;
 import com.zpotdrop.app.ZpotdropApp;
+import com.zpotdrop.consts.Const;
+import com.zpotdrop.model.MyLocation;
+import com.zpotdrop.service.RegistrationIntentService;
 import com.zpotdrop.utils.DeviceManager;
+import com.zpotdrop.utils.DialogManager;
+import com.zpotdrop.utils.EmailValidationUtils;
 import com.zpotdrop.utils.SmartLog;
-import com.zpotdrop.utils.SmartTaskUtilsWithProgressDialog;
+import com.zpotdrop.utils.SmartSharedPreferences;
+import com.zpotdrop.utils.ViewUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginTask.LoginListener {
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
     private final int LOGO_WIDTH = 155;
     private final int LOGO_HEIGHT = 199;
     private final int TEXT_LOGO_WIDTH = 322;
@@ -59,6 +74,12 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.tv_forgot_password)
     TextView tvForgotPassword;
 
+    // Receiver for GCM register
+    private BroadcastReceiver gcmRegisterReceiver;
+
+    private String latitude;
+    private String longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +88,33 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setupUI();
+
+        initRegisterReceiver();
+
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
+
+        // Get latitude, longitude
+        getLocationInfo();
+    }
+
+    private void initRegisterReceiver() {
+        gcmRegisterReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                boolean sentToken = SmartSharedPreferences.getSentTokenToServer(context);
+                if (sentToken) {
+                    // mInformationTextView.setText(getString(R.string.gcm_send_message));
+                    SmartLog.error(LoginActivity.class, "GMC send message");
+                } else {
+                    // mInformationTextView.setText(getString(R.string.token_error_message));
+                    SmartLog.error(LoginActivity.class, "Token error");
+                }
+            }
+        };
     }
 
     /**
@@ -106,31 +154,41 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.tv_continue)
-    void openMainPage() {
-        SmartTaskUtilsWithProgressDialog taskUtilsWithProgressDialog = new SmartTaskUtilsWithProgressDialog(this, "Logging in...", true) {
-            @Override
-            protected Void doInBackground(Void... params) {
-                SmartRestClient restClient = new SmartRestClient(ApiConst.URL_LOGIN);
-                try {
-                    restClient.execute(SmartRestClient.RequestMethod.POST, LoginActivity.this);
-                    String response = restClient.getResponse();
-                    SmartLog.error(LoginActivity.class, "Response: " + response);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    SmartLog.error(LoginActivity.class, "openMainPage() " + e.getMessage());
-                }
+    void login() {
+        /**
+         * Validate email
+         */
+        if (!ViewUtils.isValidEditText(this, edtEmail, getResources().getString(R.string.msg_please_enter_your_email))) {
+            return;
+        }
+        String email = edtEmail.getText().toString();
+        if (!EmailValidationUtils.isValidEmail(this, email, getResources().getString(R.string.msg_invalid_email_address))) {
+            return;
+        }
 
-                return super.doInBackground(params);
-            }
+        /**
+         * Validate password
+         */
+        if (!ViewUtils.isValidEditText(this, edtPassword, getResources().getString(R.string.msg_please_enter_your_password))) {
+            return;
+        }
 
-            @Override
-            protected void onPostExecute(Void result) {
-                super.onPostExecute(result);
+        /**
+         * Try to login
+         */
+        LoginTask loginTask = new LoginTask(this, getResources().getString(R.string.logging_in), true);
+        String password = edtPassword.getText().toString();
+        String gcmToken = SmartSharedPreferences.getGCMToken(this);
 
-                openNewPage(MainActivity.class);
-            }
-        };
-        taskUtilsWithProgressDialog.execute();
+        loginTask.addParams(ApiConst.GRANT_TYPE_PASSWORD,
+                ApiConst.CLIENT_ID_VALUE,
+                ApiConst.CLIENT_SECRET_VALUE,
+                email, password, gcmToken,
+                ApiConst.DEVICE_TYPE_ANDROID, latitude, longitude);
+
+        // Add listener
+        loginTask.setRegisterListener(this);
+        loginTask.execute();
     }
 
     /**
@@ -144,6 +202,87 @@ public class LoginActivity extends AppCompatActivity {
 
         // Animation when transforming screens
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+    }
+
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                SmartLog.error(LoginActivity.class, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Get current location info
+     */
+    private void getLocationInfo() {
+        MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
+            @Override
+            public void gotLocation(Location location) {
+                if (location == null) {
+                    SmartLog.error(RegisterMoreInfoActivity.class, "gotLocation null");
+                    return;
+                }
+                SmartLog.error(RegisterMoreInfoActivity.class, "gotLocation");
+                latitude = Double.toString(location.getLatitude());
+                longitude = Double.toString(location.getLatitude());
+            }
+        };
+        MyLocation myLocation = new MyLocation();
+        myLocation.getLocation(this, locationResult);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(gcmRegisterReceiver,
+                new IntentFilter(Const.REGISTRATION_COMPLETE));
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(gcmRegisterReceiver);
+        super.onPause();
+    }
+
+    /**
+     * Login success
+     */
+    @Override
+    public void onSuccess() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
+        // Animation when transforming screens
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
+        /**
+         * Finish this activity and RegisterActivity
+         */
+        this.finish();
+    }
+
+    /**
+     * Login failed
+     *
+     * @param errorMessage
+     */
+    @Override
+    public void onFailed(String errorMessage) {
+        DialogManager.showErrorDialog(this, getResources().getString(R.string.logging_in), errorMessage);
     }
 }
 

@@ -25,6 +25,9 @@ import butterknife.OnClick;
  * @author phuc.tran
  */
 public class RegisterActivity extends AppCompatActivity {
+
+    private static RegisterActivity instance;
+
     private final int LOGO_WIDTH = 155;
     private final int LOGO_HEIGHT = 199;
 
@@ -46,6 +49,15 @@ public class RegisterActivity extends AppCompatActivity {
     @Bind(R.id.tv_back)
     TextView tvBack;
 
+    /**
+     * Finish this activity
+     */
+    public static void terminate() {
+        if (RegisterActivity.instance != null) {
+            RegisterActivity.instance.finish();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +66,8 @@ public class RegisterActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setupUI();
+
+        RegisterActivity.instance = this;
     }
 
     /**

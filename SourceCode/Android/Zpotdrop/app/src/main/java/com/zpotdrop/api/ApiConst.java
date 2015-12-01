@@ -22,8 +22,11 @@ public class ApiConst {
      */
     public static final String URL_LOGIN = BASE_URL + "/oauth/login";
     public static final String GRANT_TYPE = "grant_type";
+    public static final String GRANT_TYPE_PASSWORD = "password";
     public static final String CLIENT_ID = "client_id";
+    public static final String CLIENT_ID_VALUE = "s6BhdRkqt3";
     public static final String CLIENT_SECRET = "client_secret";
+    public static final String CLIENT_SECRET_VALUE = "7Fjfp0ZBr1KtDRbnfVdmIw";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String DEVICE_ID = "device_id";
@@ -43,9 +46,9 @@ public class ApiConst {
     public static final String LAST_NAME = "last_name";
     public static final String BIRTHDAY = "birthday";
     public static final String GENDER = "gender";
-    public static final int GENDER_MALE = 0;
-    public static final int GENDER_FEMALE = 1;
-    public static final int GENDER_OTHERS = 2;
+    public static final String GENDER_MALE = "0";
+    public static final String GENDER_FEMALE = "1";
+    public static final String GENDER_OTHERS = "2";
 
     /**
      * LOGOUT
