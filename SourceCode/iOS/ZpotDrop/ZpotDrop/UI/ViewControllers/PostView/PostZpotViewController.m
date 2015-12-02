@@ -457,9 +457,14 @@
 }
 
 - (void)updateFriends:(NSArray *)users {
+    
+    UIFont *textFont;
+    //    btnAddFriends.titleLabel.font = textFont;
     if (users == nil || users.count == 0) {
         withFriends = nil;
         [self hideViewWith];
+        textFont = [UIFont fontWithName:@"OpenSans-Light" size:13];
+        btnAddFriends.titleLabel.font = textFont;
         return;
     }
     
@@ -487,6 +492,8 @@
     [string appendAttributedString:strWith];
     [string appendAttributedString:strFriends];
     lbWith.attributedText = string;
+    textFont = [UIFont fontWithName:@"OpenSans-Bold" size:13];
+    btnAddFriends.titleLabel.font = textFont;
     
     [self showViewWith];
 }
@@ -629,7 +636,7 @@
         textFont = [UIFont fontWithName:@"OpenSans-Light" size:13];
     }
     btnAddText.titleLabel.font = textFont;
-    btnAddFriends.titleLabel.font = textFont;
+//    btnAddFriends.titleLabel.font = textFont;
 }
 
 #pragma mark - CLLocationDelegate
