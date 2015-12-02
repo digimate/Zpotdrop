@@ -278,9 +278,9 @@
     if (currentSelectedRow != indexPath.row) {
         currentSelectedRow = indexPath.row;
         if (currentSelectedRow == 1) {
-            [self.delegate leftmenuChangeViewToClass:NSStringFromClass([PostZpotViewController class])];
+            [self.delegate leftmenuChangeViewToClass:NSStringFromClass([FeedZpotViewController class])];            
         }else if (currentSelectedRow == 2) {
-            [self.delegate leftmenuChangeViewToClass:NSStringFromClass([FeedZpotViewController class])];
+            [self.delegate leftmenuChangeViewToClass:NSStringFromClass([PostZpotViewController class])];
         }else if (currentSelectedRow == 3) {
             [self.delegate leftmenuChangeViewToClass:NSStringFromClass([FindZpotViewController class])];
         }else if (currentSelectedRow == 4) {
