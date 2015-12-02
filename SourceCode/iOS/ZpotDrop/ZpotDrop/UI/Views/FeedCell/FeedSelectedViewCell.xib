@@ -35,7 +35,7 @@
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alex Stone" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1E-mi-KOo">
                         <rect key="frame" x="10" y="62" width="301" height="19"/>
-                        <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="12"/>
+                        <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -148,7 +148,7 @@
                             <constraint firstAttribute="height" constant="18" id="iqE-U5-xcb"/>
                             <constraint firstAttribute="width" constant="10" id="jym-I2-Lzv"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="9"/>
+                        <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="11"/>
                         <color key="textColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.66274509800000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -168,7 +168,7 @@
                             <constraint firstAttribute="width" constant="10" id="L0O-Fb-g6L"/>
                             <constraint firstAttribute="height" constant="18" id="vnm-5s-aZy"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="9"/>
+                        <fontDescription key="fontDescription" name="PTSans-Regular" family="PT Sans" pointSize="11"/>
                         <color key="textColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.66274509800000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>

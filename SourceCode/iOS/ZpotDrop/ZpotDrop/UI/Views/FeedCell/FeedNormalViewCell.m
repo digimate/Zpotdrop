@@ -172,9 +172,10 @@
         }else{
             commentString = [NSString stringWithFormat:@"%@ %@",feedData.comment_count.description,@"comment".localized];
         }
-        NSMutableAttributedString* commentAttString = [[NSMutableAttributedString alloc]initWithString:commentString];
-        [commentAttString addAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]} range:NSMakeRange(0, feedData.comment_count.description.length)];
-        _lblNumberComments.attributedText = commentAttString;
+//        NSMutableAttributedString* commentAttString = [[NSMutableAttributedString alloc]initWithString:commentString];
+//        [commentAttString addAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]} range:NSMakeRange(0, feedData.comment_count.description.length)];
+//        _lblNumberComments.attributedText = commentAttString;
+        _lblNumberComments.text = commentString;
         
         //setup like number
         NSString* likeString;
@@ -183,9 +184,10 @@
         }else{
             likeString = [NSString stringWithFormat:@"%@ %@",feedData.like_count.description,@"like".localized];
         }
-        NSMutableAttributedString* likeAttString = [[NSMutableAttributedString alloc]initWithString:likeString];
-        [likeAttString addAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]} range:NSMakeRange(0, feedData.like_count.description.length)];
-        _lblNumberLikes.attributedText = likeAttString;
+//        NSMutableAttributedString* likeAttString = [[NSMutableAttributedString alloc]initWithString:likeString];
+//        [likeAttString addAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]} range:NSMakeRange(0, feedData.like_count.description.length)];
+//        _lblNumberLikes.attributedText = likeAttString;
+        _lblNumberLikes.text = likeString;
         
         CGSize s = [_lblNumberComments sizeThatFits:CGSizeMake(MAXFLOAT, _lblNumberComments.height)];
         _lblNumberCommentsWidth.constant = ceilf(s.width);
