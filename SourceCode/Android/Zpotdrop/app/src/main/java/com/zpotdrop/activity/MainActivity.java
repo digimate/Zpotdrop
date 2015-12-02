@@ -59,12 +59,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected Void doInBackground(Void... params) {
                 ProfileFragment.getInstance();
-                //SmartRestClient restClient = new SmartRestClient(ApiConst.URL_LOGIN);
-                //try {
-                //restClient.execute(SmartRestClient.RequestMethod.POST, MainActivity.this);
-                //} catch (Exception e) {
-                //  e.printStackTrace();
-                //}
 
                 return super.doInBackground(params);
             }

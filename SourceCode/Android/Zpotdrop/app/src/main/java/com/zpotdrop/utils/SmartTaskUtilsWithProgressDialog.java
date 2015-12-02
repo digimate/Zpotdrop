@@ -26,14 +26,17 @@ public class SmartTaskUtilsWithProgressDialog extends AsyncTask<Void, Void, Void
         this.context = context;
         this.isShowProgressDialog = isShowProgressDialog;
         this.message = message;
+
+        if (isShowProgressDialog) {
+            progressDialog = ZProgressHUD.getInstance(context);
+            progressDialog.setSpinnerType(ZProgressHUD.SIMPLE_ROUND_SPINNER);
+            progressDialog.setMessage(message);
+        }
     }
 
     protected void onPreExecute() {
         super.onPreExecute();
         if (isShowProgressDialog) {
-            progressDialog = ZProgressHUD.getInstance(context);
-            progressDialog.setSpinnerType(ZProgressHUD.SIMPLE_ROUND_SPINNER);
-            progressDialog.setMessage(message);
             progressDialog.show();
         }
     }

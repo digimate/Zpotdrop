@@ -36,6 +36,7 @@ public class ApiConst {
     public static final String LATITUDE = "lat";
     public static final String LONGITUDE = "long";
     public static final String PHONE_NUMBER = "phone_number";
+    public static final String DATA = "data";
 
     /**
      * REGISTER

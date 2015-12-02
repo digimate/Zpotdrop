@@ -12,6 +12,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import com.zpotdrop.api.LoginTask;
 import com.zpotdrop.app.ZpotdropApp;
 import com.zpotdrop.consts.Const;
 import com.zpotdrop.model.MyLocation;
+import com.zpotdrop.model.User;
 import com.zpotdrop.service.RegistrationIntentService;
 import com.zpotdrop.utils.DeviceManager;
 import com.zpotdrop.utils.DialogManager;
@@ -99,8 +101,25 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.LoginL
 
         // Get latitude, longitude
         getLocationInfo();
+
+        checkAuthentication();
     }
 
+    /**
+     * Check if user logged in or not. If logged in, go to main page
+     */
+    private void checkAuthentication() {
+        if (User.currentUser != null && !TextUtils.isEmpty(User.currentUser.getAccessToken())) {
+            /**
+             * Open main page
+             */
+            onSuccess();
+        }
+    }
+
+    /**
+     * Initialize GCM register receiver
+     */
     private void initRegisterReceiver() {
         gcmRegisterReceiver = new BroadcastReceiver() {
             @Override
@@ -236,7 +255,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.LoginL
                     SmartLog.error(RegisterMoreInfoActivity.class, "gotLocation null");
                     return;
                 }
-                SmartLog.error(RegisterMoreInfoActivity.class, "gotLocation");
+                SmartLog.error(LoginActivity.class, "gotLocation");
                 latitude = Double.toString(location.getLatitude());
                 longitude = Double.toString(location.getLatitude());
             }
@@ -282,7 +301,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.LoginL
      */
     @Override
     public void onFailed(String errorMessage) {
-        DialogManager.showErrorDialog(this, getResources().getString(R.string.logging_in), errorMessage);
+        DialogManager.showErrorDialog(this, getResources().getString(R.string.login_error), errorMessage);
     }
 }
 

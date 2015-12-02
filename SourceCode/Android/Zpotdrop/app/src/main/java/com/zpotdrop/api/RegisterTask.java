@@ -9,8 +9,11 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.zpotdrop.model.User;
 import com.zpotdrop.utils.SmartLog;
 import com.zpotdrop.utils.SmartTaskUtilsWithProgressDialog;
+
+import org.json.JSONObject;
 
 /**
  * @author phuc.tran
@@ -53,6 +56,7 @@ public class RegisterTask extends SmartTaskUtilsWithProgressDialog {
         restClient.addParam(ApiConst.GRANT_TYPE, grantType);
         restClient.addParam(ApiConst.CLIENT_ID, clientId);
         restClient.addParam(ApiConst.CLIENT_SECRET, clientSecret);
+        restClient.addParam(ApiConst.USERNAME, email);
         restClient.addParam(ApiConst.EMAIL, email);
         restClient.addParam(ApiConst.PASSWORD, password);
         restClient.addParam(ApiConst.FIRST_NAME, firstName);
@@ -84,6 +88,15 @@ public class RegisterTask extends SmartTaskUtilsWithProgressDialog {
                 // Register success
                 if (apiResponse != null && apiResponse.code == ApiConst.RESPONSE_CODE_SUCCESS) {
                     isError = false;
+
+                    /**
+                     * Parse user info
+                     */
+                    JSONObject responseObject = new JSONObject(response);
+                    if (responseObject != null) {
+                        String data = responseObject.getString(ApiConst.DATA);
+                        User.currentUser = gson.fromJson(data, User.class);
+                    }
                 } else {
                     isError = true;
                     if (apiResponse != null) {

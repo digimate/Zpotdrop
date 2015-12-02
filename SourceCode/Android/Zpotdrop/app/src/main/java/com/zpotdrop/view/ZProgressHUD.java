@@ -4,6 +4,7 @@
 
 package com.zpotdrop.view;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -46,7 +47,6 @@ public class ZProgressHUD extends Dialog {
         this.context = context;
         view = getLayoutInflater().inflate(R.layout.dialog_progress, null);
         tvMessage = (TextView) view.findViewById(R.id.textview_message);
-        //tvMessage.setTypeface(ZpotdropApp.openSansLight);
         ivSuccess = (ImageView) view.findViewById(R.id.imageview_success);
         ivFailure = (ImageView) view.findViewById(R.id.imageview_failure);
         ivProgressSpinner = (ImageView) view
@@ -107,11 +107,11 @@ public class ZProgressHUD extends Dialog {
 
     @Override
     public void show() {
-        //if (!((Activity) context).isFinishing()) {
+        if (!((Activity) context).isFinishing()) {
             super.show();
-        //} else {
-        //   instance = null;
-        // }
+        } else {
+            instance = null;
+        }
     }
 
     public void dismissWithSuccess() {
