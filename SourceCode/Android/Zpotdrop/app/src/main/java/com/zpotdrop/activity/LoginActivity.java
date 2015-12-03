@@ -25,7 +25,6 @@ import com.zpotdrop.api.LoginTask;
 import com.zpotdrop.app.ZpotdropApp;
 import com.zpotdrop.consts.Const;
 import com.zpotdrop.model.MyLocation;
-import com.zpotdrop.model.User;
 import com.zpotdrop.service.RegistrationIntentService;
 import com.zpotdrop.utils.DeviceManager;
 import com.zpotdrop.utils.DialogManager;
@@ -109,7 +108,8 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.LoginL
      * Check if user logged in or not. If logged in, go to main page
      */
     private void checkAuthentication() {
-        if (User.currentUser != null && !TextUtils.isEmpty(User.currentUser.getAccessToken())) {
+        SmartLog.error(LoginActivity.class, SmartSharedPreferences.getAccessToken(this));
+        if (!TextUtils.isEmpty(SmartSharedPreferences.getAccessToken(this))) {
             /**
              * Open main page
              */
@@ -206,7 +206,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.LoginL
                 ApiConst.DEVICE_TYPE_ANDROID, latitude, longitude);
 
         // Add listener
-        loginTask.setRegisterListener(this);
+        loginTask.setLoginListener(this);
         loginTask.execute();
     }
 
@@ -289,7 +289,7 @@ public class LoginActivity extends AppCompatActivity implements LoginTask.LoginL
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
         /**
-         * Finish this activity and RegisterActivity
+         * Finish this activity
          */
         this.finish();
     }

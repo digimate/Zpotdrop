@@ -9,9 +9,7 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.zpotdrop.model.User;
 import com.zpotdrop.utils.SmartLog;
-import com.zpotdrop.utils.SmartSharedPreferences;
 import com.zpotdrop.utils.SmartTaskUtilsWithProgressDialog;
 
 import org.json.JSONObject;
@@ -19,16 +17,17 @@ import org.json.JSONObject;
 /**
  * @author phuc.tran
  */
-public class RegisterTask extends SmartTaskUtilsWithProgressDialog {
+public class ForgotPasswordTask extends SmartTaskUtilsWithProgressDialog {
 
     SmartRestClient restClient;
-    private RegisterListener registerListener;
+    private ForgotPasswordListener forgotPasswordListener;
     private boolean isError = true;
     private String errorMessage;
+    private String successMessage;
 
-    public RegisterTask(Context context, String message, boolean isShowProgressDialog) {
+    public ForgotPasswordTask(Context context, String message, boolean isShowProgressDialog) {
         super(context, message, isShowProgressDialog);
-        restClient = new SmartRestClient(ApiConst.URL_REGISTER);
+        restClient = new SmartRestClient(ApiConst.URL_REMIND);
     }
 
     /**
@@ -38,37 +37,13 @@ public class RegisterTask extends SmartTaskUtilsWithProgressDialog {
      * @param clientId
      * @param clientSecret
      * @param email
-     * @param password
-     * @param firstName
-     * @param lastName
-     * @param birthDay
-     * @param phoneNumber
-     * @param gender
-     * @param deviceId
-     * @param deviceType
-     * @param latitude
-     * @param longitude
      */
     public void addParams(String grantType, String clientId, String clientSecret,
-                          String email, String password, String firstName,
-                          String lastName, String birthDay, String phoneNumber,
-                          String gender, String deviceId, String deviceType,
-                          String latitude, String longitude) {
+                          String email) {
         restClient.addParam(ApiConst.GRANT_TYPE, grantType);
         restClient.addParam(ApiConst.CLIENT_ID, clientId);
         restClient.addParam(ApiConst.CLIENT_SECRET, clientSecret);
-        restClient.addParam(ApiConst.USERNAME, email);
         restClient.addParam(ApiConst.EMAIL, email);
-        restClient.addParam(ApiConst.PASSWORD, password);
-        restClient.addParam(ApiConst.FIRST_NAME, firstName);
-        restClient.addParam(ApiConst.LAST_NAME, lastName);
-        restClient.addParam(ApiConst.BIRTHDAY, birthDay);
-        restClient.addParam(ApiConst.PHONE_NUMBER, phoneNumber);
-        restClient.addParam(ApiConst.GENDER, gender);
-        restClient.addParam(ApiConst.DEVICE_ID, deviceId);
-        restClient.addParam(ApiConst.DEVICE_TYPE, deviceType);
-        restClient.addParam(ApiConst.LATITUDE, latitude);
-        restClient.addParam(ApiConst.LONGITUDE, longitude);
     }
 
     @Override
@@ -78,7 +53,7 @@ public class RegisterTask extends SmartTaskUtilsWithProgressDialog {
             String response = restClient.getResponse();
 
             if (!TextUtils.isEmpty(response)) {
-                SmartLog.error(RegisterTask.class, response);
+                SmartLog.error(LoginTask.class, response);
                 /**
                  * Get response json
                  */
@@ -86,22 +61,18 @@ public class RegisterTask extends SmartTaskUtilsWithProgressDialog {
                 Gson gson = builder.create();
                 ApiResponse apiResponse = gson.fromJson(response, ApiResponse.class);
 
-                // Register success
+                // Request success
                 if (apiResponse != null && apiResponse.code == ApiConst.RESPONSE_CODE_SUCCESS) {
                     isError = false;
 
                     /**
-                     * Parse user info
+                     * Parse response info
                      */
                     JSONObject responseObject = new JSONObject(response);
                     if (responseObject != null) {
                         String data = responseObject.getString(ApiConst.DATA);
-                        User.currentUser = gson.fromJson(data, User.class);
-
-                        // Save access token
-                        if (User.currentUser != null) {
-                            SmartSharedPreferences.setAccessToken(context, User.currentUser.getAccessToken());
-                        }
+                        SmartLog.error(ForgotPasswordTask.class, data);
+                        successMessage = data;
                     }
                 } else {
                     isError = true;
@@ -109,6 +80,8 @@ public class RegisterTask extends SmartTaskUtilsWithProgressDialog {
                         errorMessage = apiResponse.message;
                     }
                 }
+            } else {
+                SmartLog.error(LoginTask.class, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -124,25 +97,25 @@ public class RegisterTask extends SmartTaskUtilsWithProgressDialog {
         super.onPostExecute(result);
 
         if (isError) {
-            if (registerListener != null) {
-                registerListener.onFailed(errorMessage);
+            if (forgotPasswordListener != null) {
+                forgotPasswordListener.onFailed(errorMessage);
             }
         } else {
-            if (registerListener != null) {
-                registerListener.onSuccess();
+            if (forgotPasswordListener != null) {
+                forgotPasswordListener.onSuccess(successMessage);
             }
         }
     }
 
-    public void setRegisterListener(RegisterListener registerListener) {
-        this.registerListener = registerListener;
+    public void setForgotPasswordListener(ForgotPasswordListener listener) {
+        this.forgotPasswordListener = listener;
     }
 
     /**
      * Interface for sign up result
      */
-    public interface RegisterListener {
-        void onSuccess();
+    public interface ForgotPasswordListener {
+        void onSuccess(String message);
 
         void onFailed(String errorMessage);
     }

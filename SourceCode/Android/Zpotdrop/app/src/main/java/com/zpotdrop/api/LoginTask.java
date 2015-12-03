@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zpotdrop.model.User;
 import com.zpotdrop.utils.SmartLog;
+import com.zpotdrop.utils.SmartSharedPreferences;
 import com.zpotdrop.utils.SmartTaskUtilsWithProgressDialog;
 
 import org.json.JSONObject;
@@ -21,7 +22,7 @@ import org.json.JSONObject;
 public class LoginTask extends SmartTaskUtilsWithProgressDialog {
 
     SmartRestClient restClient;
-    private LoginListener registerListener;
+    private LoginListener loginListener;
     private boolean isError = true;
     private String errorMessage;
 
@@ -83,6 +84,11 @@ public class LoginTask extends SmartTaskUtilsWithProgressDialog {
                     if (responseObject != null) {
                         String data = responseObject.getString(ApiConst.DATA);
                         User.currentUser = gson.fromJson(data, User.class);
+
+                        // Save access token
+                        if (User.currentUser != null) {
+                            SmartSharedPreferences.setAccessToken(context, User.currentUser.getAccessToken());
+                        }
                     }
                 } else {
                     isError = true;
@@ -107,22 +113,22 @@ public class LoginTask extends SmartTaskUtilsWithProgressDialog {
         super.onPostExecute(result);
 
         if (isError) {
-            if (registerListener != null) {
-                registerListener.onFailed(errorMessage);
+            if (loginListener != null) {
+                loginListener.onFailed(errorMessage);
             }
         } else {
-            if (registerListener != null) {
-                registerListener.onSuccess();
+            if (loginListener != null) {
+                loginListener.onSuccess();
             }
         }
     }
 
-    public void setRegisterListener(LoginListener registerListener) {
-        this.registerListener = registerListener;
+    public void setLoginListener(LoginListener loginListener) {
+        this.loginListener = loginListener;
     }
 
     /**
-     * Interface for sign up result
+     * Interface for log in result
      */
     public interface LoginListener {
         void onSuccess();

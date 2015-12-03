@@ -11,7 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zpotdrop.R;
+import com.zpotdrop.api.ApiConst;
+import com.zpotdrop.api.ForgotPasswordTask;
 import com.zpotdrop.utils.DeviceManager;
+import com.zpotdrop.utils.DialogManager;
+import com.zpotdrop.utils.EmailValidationUtils;
+import com.zpotdrop.utils.ViewUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,7 +25,7 @@ import butterknife.OnClick;
 /**
  * @author phuc.tran
  */
-public class ForgotPasswordActivity extends AppCompatActivity {
+public class ForgotPasswordActivity extends AppCompatActivity implements ForgotPasswordTask.ForgotPasswordListener {
     private final int LOGO_WIDTH = 155;
     private final int LOGO_HEIGHT = 199;
 
@@ -70,10 +75,44 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         onBackPressed();
     }
 
+    @OnClick(R.id.tv_send)
+    void sendForgotPasswordRequest() {
+        /**
+         * Validate email
+         */
+        if (!ViewUtils.isValidEditText(this, edtEmail, getResources().getString(R.string.msg_please_enter_your_email))) {
+            return;
+        }
+        String email = edtEmail.getText().toString();
+        if (!EmailValidationUtils.isValidEmail(this, email, getResources().getString(R.string.msg_invalid_email_address))) {
+            return;
+        }
+
+        ForgotPasswordTask forgotPasswordTask = new ForgotPasswordTask(this, getResources().getString(R.string.sending), true);
+        forgotPasswordTask.addParams(ApiConst.GRANT_TYPE_PASSWORD,
+                ApiConst.CLIENT_ID_VALUE,
+                ApiConst.CLIENT_SECRET_VALUE,
+                email);
+
+        // Add listener
+        forgotPasswordTask.setForgotPasswordListener(this);
+        forgotPasswordTask.execute();
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
 
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
+
+    @Override
+    public void onSuccess(String successMessage) {
+        DialogManager.showSuccessDialog(this, getResources().getString(R.string.success), successMessage, true);
+    }
+
+    @Override
+    public void onFailed(String errorMessage) {
+        DialogManager.showErrorDialog(this, getResources().getString(R.string.error), errorMessage);
     }
 }

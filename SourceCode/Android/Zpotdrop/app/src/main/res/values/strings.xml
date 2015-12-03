@@ -17,6 +17,8 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="logging_in">Logging in...</string>
     <string name="login_error">Login Error</string>
+    <string name="error">Error</string>
+    <string name="success">Success</string>
 
     <!--REGISTER-->
     <string name="password_again">Password again</string>
@@ -49,6 +51,7 @@
     <!--FORGOT PASSWORD-->
     <string name="forgot_password_bold">Forgot password</string>
     <string name="send">Send</string>
+    <string name="sending">Sending...</string>
 
     <!--LEFT MENU-->
     <string name="settings">SETTINGS</string>

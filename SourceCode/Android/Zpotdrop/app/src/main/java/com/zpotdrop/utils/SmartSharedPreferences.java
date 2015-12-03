@@ -54,4 +54,26 @@ public class SmartSharedPreferences {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putString(Const.GCM_TOKEN, gcmToken).commit();
     }
+
+    /**
+     * Get access token
+     *
+     * @param context
+     * @return
+     */
+    public static String getAccessToken(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String accessToken = sharedPreferences.getString(Const.ACCESS_TOKEN, null);
+        return accessToken;
+    }
+
+    /**
+     * Save access token
+     *
+     * @param context
+     */
+    public static void setAccessToken(Context context, String accessToken) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences.edit().putString(Const.ACCESS_TOKEN, accessToken).commit();
+    }
 }
