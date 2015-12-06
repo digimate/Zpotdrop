@@ -27,6 +27,7 @@
     [Parse setApplicationId:@"ppZUHCYYoJNe1V6ZpAdJfOzJ6vL6mWKKll3V8MM4" clientKey:@"sBpKO7QEP3jLS73hSoMAB8NyObATl7vlo4e0qLfC"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     [[CoreDataService instance] setDatabaseName:@"zpotdrop"];
+    [Utils instance].locationManager.delegate = self;
     
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexString:MAIN_COLOR]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{
@@ -169,7 +170,7 @@
     [manager stopUpdatingLocation];
 }
 -(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
-    if (status == kCLAuthorizationStatusAuthorized || status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+    if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
         [manager startUpdatingLocation];
     }else{
         [manager stopUpdatingLocation];

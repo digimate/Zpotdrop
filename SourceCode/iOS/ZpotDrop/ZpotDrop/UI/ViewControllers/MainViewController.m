@@ -135,7 +135,7 @@
     searchViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
 }
 
--(void)showSettingView{
+-(void)showSettingView {
     [self.navigationController popToRootViewControllerAnimated:NO];
     UserSettingViewController* postViewController = [[UserSettingViewController alloc]init];
     [self.navigationController pushViewController:postViewController animated:NO];
@@ -269,7 +269,9 @@
         [self showFindView];
     }else if ([clsString isEqualToString:NSStringFromClass([SearchViewController class])]){
         [self showSearchView];
-    }else if ([clsString isEqualToString:NSStringFromClass([UserProfileViewController class])]){
+    }else if ([clsString isEqualToString:NSStringFromClass([UserSettingViewController class])]){
+        [self showSettingView];
+    } else if([clsString isEqualToString:NSStringFromClass([UserProfileViewController class])]) {
         [self showUserProfile];
     }
 }

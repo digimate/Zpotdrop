@@ -19,6 +19,7 @@
     _api = [APIService shareAPIService];
     _rule = [RuleService shareRuleService];
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithHexString:MAIN_COLOR]];
+    self.navigationItem.hidesBackButton = YES;
 }
 
 - (void)didReceiveMemoryWarning {
