@@ -143,6 +143,17 @@
     postViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
 }
 
+- (void)showUserProfile {
+    [self.navigationController popToRootViewControllerAnimated:NO];
+    UserProfileViewController* userProfileVC = [[UserProfileViewController alloc]init];
+    AccountModel* currentAccount = [AccountModel currentAccountModel];
+    UserDataModel* currentUser = (UserDataModel*)[UserDataModel fetchObjectWithID:currentAccount.user_id];
+    userProfileVC.userModel = currentUser;
+    [self.navigationController pushViewController:userProfileVC animated:YES];
+    userProfileVC.navigationItem.leftBarButtonItem = self.navigationItem.leftBarButtonItem;
+    userProfileVC.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+}
+
 -(void)handleSwipeLeft{
     [self openNotification];
 }
@@ -258,8 +269,8 @@
         [self showFindView];
     }else if ([clsString isEqualToString:NSStringFromClass([SearchViewController class])]){
         [self showSearchView];
-    }else if ([clsString isEqualToString:NSStringFromClass([UserSettingViewController class])]){
-        [self showSettingView];
+    }else if ([clsString isEqualToString:NSStringFromClass([UserProfileViewController class])]){
+        [self showUserProfile];
     }
 }
 

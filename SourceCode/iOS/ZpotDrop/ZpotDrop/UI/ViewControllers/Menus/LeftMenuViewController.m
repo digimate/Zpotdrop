@@ -19,6 +19,7 @@
 #import "UserProfileViewController.h"
 #import "SearchViewController.h"
 #import "UserSettingViewController.h"
+#import "UserProfileViewController.h"
 
 @interface LeftMenuViewController ()<UITableViewDataSource,UITableViewDelegate>{
     CircleProgressView* progressView;
@@ -112,10 +113,10 @@
     [self.delegate leftmenuZpotAll];
 }
 
--(void)showUserSettings{
+- (void)showUserProfile {
     if (currentSelectedRow != 5) {
         currentSelectedRow = 5;
-        [self.delegate leftmenuChangeViewToClass:NSStringFromClass([UserSettingViewController class])];
+        [self.delegate leftmenuChangeViewToClass:NSStringFromClass([UserProfileViewController class])];
         [_tableView reloadData];
         [self.delegate closeLeftMenu];
     }
@@ -173,9 +174,9 @@
     }else if ([clsString isEqualToString:NSStringFromClass([SearchViewController class])]) {
         currentSelectedRow = 4;
         [self.delegate leftmenuChangeViewToClass:NSStringFromClass([SearchViewController class])];
-    }else if ([clsString isEqualToString:NSStringFromClass([UserSettingViewController class])]) {
+    }else if ([clsString isEqualToString:NSStringFromClass([UserProfileViewController class])]) {
         currentSelectedRow = 5;
-        [self.delegate leftmenuChangeViewToClass:NSStringFromClass([UserSettingViewController class])];
+        [self.delegate leftmenuChangeViewToClass:NSStringFromClass([UserProfileViewController class])];
     }
 }
 #pragma mark - Table view data source
@@ -206,10 +207,10 @@
             [btnSetting setTitleColor:COLOR_DARK_GREEN forState:UIControlStateNormal];
             [[btnSetting titleLabel]setFont:[UIFont fontWithName:@"PTSans-Regular" size:14]];
             [btnSetting setTag:69];
-            [btnSetting addTarget:self action:@selector(showUserSettings) forControlEvents:UIControlEventTouchUpInside];
+            [btnSetting addTarget:self action:@selector(showUserProfile) forControlEvents:UIControlEventTouchUpInside];
             [cell addSubview:btnSetting];
             
-            UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showUserSettings)];
+            UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showUserProfile)];
             [tap setNumberOfTapsRequired:1];
             [tap setNumberOfTouchesRequired:1];
             [cell addGestureRecognizer:tap];
@@ -286,7 +287,7 @@
         }else if (currentSelectedRow == 4) {
             [self.delegate leftmenuChangeViewToClass:NSStringFromClass([SearchViewController class])];
         }else if (currentSelectedRow == 5) {
-            [self.delegate leftmenuChangeViewToClass:NSStringFromClass([UserSettingViewController class])];
+            [self.delegate leftmenuChangeViewToClass:NSStringFromClass([UserProfileViewController class])];
         }
         [tableView reloadData];
         [self.delegate closeLeftMenu];
