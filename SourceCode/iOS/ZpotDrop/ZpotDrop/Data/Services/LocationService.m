@@ -17,6 +17,14 @@
                             coor2:(CLLocationCoordinate2D)botRight
                        completion:(void(^)(NSArray * data,NSString* error))completion
 {
+    __block NSMutableArray *parseLocations = [[NSMutableArray alloc] init];
+    __block NSMutableArray *googleLocations = [[NSMutableArray alloc] init];
+    __block NSError *parseError = nil;
+    __block NSError *googleError = nil;
+    dispatch_group_t serviceGroup = dispatch_group_create();
+    
+    // Get locations from Parse
+    dispatch_group_enter(serviceGroup);
     PFQuery* query = [PFQuery queryWithClassName:@"Location" predicate:[NSPredicate predicateWithFormat:@"%@ <= latitude AND latitude <= %@ AND %@ <= longitude AND longitude <= %@", [NSNumber numberWithDouble:botRight.latitude],[NSNumber numberWithDouble:topLeft.latitude],[NSNumber numberWithDouble:topLeft.longitude],[NSNumber numberWithDouble:botRight.longitude]]];
     [query setLimit:API_PAGE_SIZE];
     [query findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
@@ -28,9 +36,50 @@
             model.latitude = location[@"latitude"];
             model.longitude = location[@"longitude"];
             [arrLocation addObject:model];
+            [parseLocations addObject:model];
         }
-        completion(arrLocation, error.description);
+        parseError = [error copy];
+        dispatch_group_leave(serviceGroup);
     }];
+    
+    // Get from Google Map API
+    dispatch_group_enter(serviceGroup);
+    GMSPlacesClient *_placesClient = [GMSPlacesClient sharedClient];
+    [_placesClient currentPlaceWithCallback:^(GMSPlaceLikelihoodList *likelihoodList, NSError *error) {
+        if (error != nil) {
+            NSLog(@"Current Place error %@", [error localizedDescription]);
+            googleError = [error copy];
+            dispatch_group_leave(serviceGroup);
+            return;
+        }
+        
+        for (GMSPlaceLikelihood *likelihood in likelihoodList.likelihoods) {
+            GMSPlace* place = likelihood.place;
+//            NSLog(@"Current Place name %@ at likelihood %g", place.name, likelihood.likelihood);
+//            NSLog(@"Current Place address %@", place.formattedAddress);
+//            NSLog(@"Current Place attributions %@", place.attributions);
+//            NSLog(@"Current PlaceID %@", place.placeID);
+            
+            LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:[NSString stringWithFormat:@"%f,%f",place.coordinate.latitude,place.coordinate.longitude]];
+            model.name = place.name;
+            model.address = place.formattedAddress;
+            model.latitude = [NSNumber numberWithDouble:place.coordinate.latitude];
+            model.longitude = [NSNumber numberWithDouble:place.coordinate.longitude];
+            [googleLocations addObject:model];
+        }
+        dispatch_group_leave(serviceGroup);
+    }];
+    
+    dispatch_group_notify(serviceGroup, dispatch_get_main_queue(), ^{
+        // Should combine 2 results and return responses
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NONE %@.mid == mid", parseLocations];
+        NSArray *results = [googleLocations filteredArrayUsingPredicate:predicate];
+        [parseLocations addObjectsFromArray:results];
+//        NSLog(@"parseLocations: %@", parseLocations);
+//        NSLog(@"googleLocations: %@", googleLocations);
+        
+        completion(parseLocations, parseError.description);
+    });
 }
 
 
