@@ -230,63 +230,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/Data/Services/LocationService.m"
-            timestampString = "471250851.733728"
+            timestampString = "471265127.718774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
-            landmarkName = "-searchLocationWithinCoord:coor2:completion:"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__62-[LocationService searchLocationWithinCoord:coor2:completion:]_block_invoke83"
-                  moduleName = "Zpotdrop"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vutiet/Zpotdrop/SourceCode/iOS/ZpotDrop/ZpotDrop/Data/Services/LocationService.m"
-                  timestampString = "471250852.126228"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "288">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__62-[LocationService searchLocationWithinCoord:coor2:completion:]_block_invoke83"
-                  moduleName = "Zpotdrop"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vutiet/Zpotdrop/SourceCode/iOS/ZpotDrop/ZpotDrop/Data/Services/LocationService.m"
-                  timestampString = "471250852.126588"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "304">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ZpotDrop/Data/Services/LocationService.m"
-            timestampString = "471250788.598467"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
             landmarkName = "-searchLocationWithinCoord:coor2:completion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -294,31 +246,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/Data/Services/LocationService.m"
-            timestampString = "471250826.751144"
+            timestampString = "471265127.718774"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "-searchLocationWithinCoord:coor2:completion:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ZpotDrop/Data/Services/LocationService.m"
-            timestampString = "471252046.704517"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "-searchLocationWithinCoord:coor2:completion:"
             landmarkType = "5">
          </BreakpointContent>

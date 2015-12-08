@@ -70,8 +70,8 @@
     location[@"address"] = [params objectForKey:@"address"];
     [location saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         if (succeeded) {
-            //LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:location.objectId];
-            LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:[NSString stringWithFormat:@"%f,%f",coor.latitude,coor.longitude]];
+            LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:location.objectId];
+//            LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:[NSString stringWithFormat:@"%f,%f",coor.latitude,coor.longitude]];
             model.name = location[@"name"];
             model.address = location[@"address"];
             model.latitude = location[@"latitude"];

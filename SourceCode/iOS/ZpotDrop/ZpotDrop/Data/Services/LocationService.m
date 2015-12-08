@@ -54,12 +54,7 @@
         }
         
         for (GMSPlaceLikelihood *likelihood in likelihoodList.likelihoods) {
-            GMSPlace* place = likelihood.place;
-//            NSLog(@"Current Place name %@ at likelihood %g", place.name, likelihood.likelihood);
-//            NSLog(@"Current Place address %@", place.formattedAddress);
-//            NSLog(@"Current Place attributions %@", place.attributions);
-//            NSLog(@"Current PlaceID %@", place.placeID);
-            
+            GMSPlace* place = likelihood.place;            
             LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:[NSString stringWithFormat:@"%f,%f",place.coordinate.latitude,place.coordinate.longitude]];
             model.name = place.name;
             model.address = place.formattedAddress;
@@ -72,12 +67,19 @@
     
     dispatch_group_notify(serviceGroup, dispatch_get_main_queue(), ^{
         // Should combine 2 results and return responses
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NONE %@.mid == mid", parseLocations];
-        NSArray *results = [googleLocations filteredArrayUsingPredicate:predicate];
-        [parseLocations addObjectsFromArray:results];
-//        NSLog(@"parseLocations: %@", parseLocations);
-//        NSLog(@"googleLocations: %@", googleLocations);
+        NSMutableArray *removedLocations = [[NSMutableArray alloc] init];
         
+        for (LocationDataModel *googlePlace in googleLocations) {
+            for (LocationDataModel *parsePlace in parseLocations) {
+                if (googlePlace.longitude.doubleValue == parsePlace.longitude.doubleValue && googlePlace.latitude.doubleValue == parsePlace.latitude.doubleValue) {
+                    [removedLocations addObject:googlePlace];
+                    break;
+                }
+            }
+        }
+        
+        [googleLocations removeObjectsInArray:removedLocations];
+        [parseLocations addObjectsFromArray:googleLocations];
         completion(parseLocations, parseError.description);
     });
 }
