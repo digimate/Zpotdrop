@@ -411,8 +411,25 @@
 
 - (void)didTouchLocation:(id)sender {
     NSInteger index = [(UIButton *)sender tag];
-    selectedLocation = arrLocation[index];
-    [self updateUIFollowSelectedLocation];
+    LocationDataModel *location = arrLocation[index];
+    if ([NSString stringWithFormat:@"%f,%f",location.latitude.doubleValue,location.longitude.doubleValue] == location.mid) {
+        // Need to add location to parse
+        CLLocationCoordinate2D addedCoordinate = CLLocationCoordinate2DMake(location.latitude.doubleValue, location.longitude.doubleValue);
+        //create location
+        [[Utils instance]showProgressWithMessage:nil];
+        [[APIService shareAPIService]createLocationWithCoordinate:addedCoordinate params:[NSMutableDictionary dictionaryWithDictionary:@{@"name":location.name, @"address":location.address}] completion:^(id data, NSString *error) {
+            [[Utils instance]hideProgess];
+            if (data != nil) {
+                selectedLocation = (LocationDataModel *)data;
+                [self updateUIFollowSelectedLocation];
+            } else {
+                // Show error
+            }
+        }];
+    } else {
+        selectedLocation = arrLocation[index];
+        [self updateUIFollowSelectedLocation];
+    }
 }
 
 
