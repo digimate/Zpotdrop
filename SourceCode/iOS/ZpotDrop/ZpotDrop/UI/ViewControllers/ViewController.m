@@ -47,10 +47,12 @@
 
 -(void)registerDeviceToken{
 #ifdef __IPHONE_8_0
-    //Right, that is the point
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIRemoteNotificationTypeBadge
-                                                                                         |UIRemoteNotificationTypeSound
-                                                                                         |UIRemoteNotificationTypeAlert) categories:nil];
+    // Register for Push Notification
+    UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
+                                                    UIUserNotificationTypeBadge |
+                                                    UIUserNotificationTypeSound);
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
+                                                                             categories:nil];
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
 #else
     //register to receive notifications

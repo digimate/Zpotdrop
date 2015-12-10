@@ -1836,7 +1836,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zpotdrop.testing;
 				PRODUCT_NAME = Zpotdrop;
-				PROVISIONING_PROFILE = "5ffdf597-ba77-4082-ac97-bd3f3e9a1204";
+				PROVISIONING_PROFILE = "f870cba1-1895-410e-816f-1335e54e22da";
 			};
 			name = Debug;
 		};
@@ -1860,7 +1860,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zpotdrop.testing;
 				PRODUCT_NAME = Zpotdrop;
-				PROVISIONING_PROFILE = "5ffdf597-ba77-4082-ac97-bd3f3e9a1204";
+				PROVISIONING_PROFILE = "f870cba1-1895-410e-816f-1335e54e22da";
 			};
 			name = Release;
 		};
