@@ -162,7 +162,7 @@
         PFQuery *pushQuery = [PFInstallation query];
         [pushQuery whereKey:@"user_id" equalTo:friendID];
         
-        NSString * alert = [NSString stringWithFormat:@"%@ want to request your current location", meModel.name];
+        NSString * alert = [NSString stringWithFormat:@"%@ wants to request your current location", meModel.name];
         NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
                               alert, @"alert",
                               meModel.mid, @"user_id",

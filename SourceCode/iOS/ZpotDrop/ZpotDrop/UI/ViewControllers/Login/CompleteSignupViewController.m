@@ -59,6 +59,13 @@
             return;
         }
         
+        if (!_dob.getDate) {
+            [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_dob".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                [_dob becomeFirstResponder];
+            }];
+            return;
+        }
+        
         [_data setObject:_firstName.text forKey:@"firstName"];
         [_data setObject:_lastName.text forKey:@"lastName"];
         [_data setObject:_dob.getDate forKey:@"dob"];
