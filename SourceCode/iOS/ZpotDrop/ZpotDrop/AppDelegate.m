@@ -43,7 +43,7 @@
         NSLog(@"Notification : %@",notification);
         
         if ([AccountModel currentAccountModel].isLoggedIn) {
-            [self handleRequestLocation:[notification objectForKey:@"aps"]];
+            [self handleRequestLocation:notification];
         }
     }
     
@@ -66,7 +66,7 @@
      
      */
     if ([AccountModel currentAccountModel].isLoggedIn) {
-        [self handleRequestLocation:[userInfo objectForKey:@"aps"]];
+        [self handleRequestLocation:userInfo];
     }
 }
 
@@ -142,7 +142,8 @@
 }
 
 -(void)handleRequestLocation:(NSDictionary*)dict{
-    [[Utils instance]showAlertWithTitle:@"ZpotDrop" message:[dict objectForKey:@"alert"] yesTitle:@"OK" noTitle:@"NO" handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+    NSDictionary *alertDict = [dict objectForKey:@"aps"];
+    [[Utils instance]showAlertWithTitle:@"ZpotDrop" message:[alertDict objectForKey:@"alert"] yesTitle:@"OK" noTitle:@"NO" handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
         if (buttonIndex != [alertView cancelButtonIndex]) {
             
             if ([[Utils instance] isGPS]){
@@ -152,6 +153,14 @@
                 [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_no_gps".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
                 }];
             }
+            
+            // Push notification back
+            [[APIService shareAPIService] notifyLocationToUserID:[dict objectForKey:@"user_id"] completion:^(BOOL successful, NSString *error) {
+                if (error) {
+                    [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    }];
+                }
+            }];
         }
     }];
 }

@@ -173,6 +173,27 @@
     }];
 }
 
+// Notify current location of current user to friend
+-(void)notifyLocationToUserID:(NSString*)friendID completion:(void(^)(BOOL successful,NSString* error))completion {
+    UserDataModel* friendModel = (UserDataModel*)[UserDataModel fetchObjectWithID:friendID];
+    UserDataModel* meModel = (UserDataModel*)[UserDataModel fetchObjectWithID:[AccountModel currentAccountModel].user_id];
+    
+    [friendModel updateObjectForUse:^{
+        PFQuery *pushQuery = [PFInstallation query];
+        [pushQuery whereKey:@"user_id" equalTo:friendID];
+        
+        NSString * alert = [NSString stringWithFormat:@"%@ share location with you", meModel.name];
+        NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                              alert, @"alert",
+                              meModel.mid, @"user_id",
+                              nil];
+        [PFPush sendPushDataToQueryInBackground:pushQuery withData:data block:^(BOOL succeeded, NSError *error) {
+            completion(succeeded,error.localizedDescription);
+        }];
+    }];
+}
+
+
 //
 -(LocationDataModel*)locationModelFromParse:(PFObject*)location{
     LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:location.objectId];
