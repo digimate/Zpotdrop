@@ -11,4 +11,9 @@
 
 #define API_PAGE_SIZE   20
 
+static NSString *const kAPNTypeRequest = @"request";
+static NSString *const kAPNTypeNotify = @"notify";
+static NSString *const kAPNTypeBroadcast = @"broadcast";
+
+
 #endif /* ZDConstant_h */

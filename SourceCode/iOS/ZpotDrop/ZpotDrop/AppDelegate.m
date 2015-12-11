@@ -43,7 +43,12 @@
         NSLog(@"Notification : %@",notification);
         
         if ([AccountModel currentAccountModel].isLoggedIn) {
-            [self handleRequestLocation:notification];
+            if ([[notification objectForKey:@"type"] isEqualToString:kAPNTypeRequest]) {
+                [self handleRequestLocation:notification];
+            } else if ([[notification objectForKey:@"type"] isEqualToString:kAPNTypeNotify]) {
+                // go to right screen
+            }
+            
         }
     }
     
@@ -66,7 +71,11 @@
      
      */
     if ([AccountModel currentAccountModel].isLoggedIn) {
-        [self handleRequestLocation:userInfo];
+        if ([[userInfo objectForKey:@"type"] isEqualToString:kAPNTypeRequest]) {
+            [self handleRequestLocation:userInfo];
+        } else if ([[userInfo objectForKey:@"type"] isEqualToString:kAPNTypeNotify]) {
+            // go to right screen
+        }
     }
 }
 

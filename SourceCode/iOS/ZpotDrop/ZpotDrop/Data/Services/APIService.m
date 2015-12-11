@@ -166,6 +166,7 @@
         NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
                               alert, @"alert",
                               meModel.mid, @"user_id",
+                              kAPNTypeRequest, @"type",
                               nil];
         [PFPush sendPushDataToQueryInBackground:pushQuery withData:data block:^(BOOL succeeded, NSError *error) {
             completion(succeeded,error.localizedDescription);
@@ -186,6 +187,7 @@
         NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
                               alert, @"alert",
                               meModel.mid, @"user_id",
+                              kAPNTypeNotify, @"type",
                               nil];
         [PFPush sendPushDataToQueryInBackground:pushQuery withData:data block:^(BOOL succeeded, NSError *error) {
             completion(succeeded,error.localizedDescription);
