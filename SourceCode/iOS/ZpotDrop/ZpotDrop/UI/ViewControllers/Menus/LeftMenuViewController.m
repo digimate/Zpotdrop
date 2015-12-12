@@ -182,6 +182,7 @@
         currentSelectedRow = 5;
         [self.delegate leftmenuChangeViewToClass:NSStringFromClass([UserSettingViewController class])];
     }
+    [self.tableView reloadData];
 }
 #pragma mark - Table view data source
 
@@ -293,8 +294,8 @@
         }else if (currentSelectedRow == 5) {
             [self.delegate leftmenuChangeViewToClass:NSStringFromClass([UserSettingViewController class])];
         }
-        [tableView reloadData];
         [self.delegate closeLeftMenu];
+        [tableView reloadData];
     }else{
         [self.delegate leftmenuChangeViewToClass:nil];
         [self.delegate closeLeftMenu];
