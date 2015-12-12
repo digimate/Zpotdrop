@@ -134,7 +134,7 @@
 
 - (void)showPostFromViewController:(UIViewController *)viewController {
     if (viewController.navigationController) {
-        [viewController.navigationController popToRootViewControllerAnimated:NO];
+//        [viewController.navigationController popToRootViewControllerAnimated:NO];
         UIStoryboard *postSB = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
         PostZpotViewController* postViewController = [postSB instantiateViewControllerWithIdentifier:@"PostZpotViewController"];//[[PostZpotViewController alloc]init];
         [viewController.navigationController pushViewController:postViewController animated:NO];

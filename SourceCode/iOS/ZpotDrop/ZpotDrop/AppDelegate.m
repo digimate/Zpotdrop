@@ -39,12 +39,9 @@
     [FBSDKProfile enableUpdatesOnAccessTokenChange:YES];
     
     NSDictionary *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-    NSLog(@"didFinishLaunchingWithOptions notification %@", notification);
+//    NSLog(@"didFinishLaunchingWithOptions notification %@", notification);
     if (notification) {
         // Launched from push notification
-//        NSDictionary *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-        NSLog(@"didFinishLaunchingWithOptions Notification : %@",notification);
-        
         if ([AccountModel currentAccountModel].isLoggedIn) {
             if ([[notification objectForKey:@"type"] isEqualToString:kAPNTypeRequest]) {
                 [self handleRequestLocation:notification];
@@ -65,15 +62,6 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     NSLog(@"didReceiveRemoteNotification Notification : %@",userInfo);
-    /*
-     {
-     aps =     {
-     alert = "Tune in for the World Series, tonight at 8pm EDT";
-     };
-     "user_id" = Increment;
-     }
-     
-     */
     if ([AccountModel currentAccountModel].isLoggedIn) {
         if ([[userInfo objectForKey:@"type"] isEqualToString:kAPNTypeRequest]) {
             [self handleRequestLocation:userInfo];

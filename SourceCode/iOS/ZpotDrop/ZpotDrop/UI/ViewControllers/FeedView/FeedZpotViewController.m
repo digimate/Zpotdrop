@@ -298,7 +298,8 @@
 }
 
 - (IBAction)postButtonDidTouch:(id)sender {
-    [[Utils instance] showPostFromViewController:self];
+    // TODO: Need to implement better router here
+    [[NSNotificationCenter defaultCenter] postNotificationName:kFeedViewControllerWillPostNotification object:nil];
     NSLog(@"should post new drop here :)");
 }
 

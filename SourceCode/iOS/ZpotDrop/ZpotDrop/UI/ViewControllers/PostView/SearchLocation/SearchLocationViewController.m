@@ -89,6 +89,8 @@
             }
             [super goBack:sender];
         }];
+    } else {
+        [super goBack:sender];
     }
 
 }

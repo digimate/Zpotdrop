@@ -42,7 +42,7 @@
         [[NSNotificationCenter defaultCenter]removeObserver:self];
         [self registerDeviceToken];
         MainViewController* mainViewC = [[MainViewController alloc]init];
-        [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:mainViewC] animated:YES completion:nil];
+        [self presentViewController:[[BaseNavigationController alloc] initWithRootViewController:mainViewC] animated:NO completion:nil];
     }else{
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginSucceed) name:KEY_LOGIN_SUCCEED object:nil];
         

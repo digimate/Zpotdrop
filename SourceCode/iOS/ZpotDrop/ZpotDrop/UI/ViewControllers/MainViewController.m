@@ -96,18 +96,10 @@
     [_leftMenuViewController setupData];
     [_rightMenuViewController setupData];
    
-    ///add PostZpot as Intital View of MainView
+    ///add FeedZpot as Intital View of MainView
     [_leftMenuViewController changeViewToClass:NSStringFromClass([FeedZpotViewController class])];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    NSLog(@"MainViewController ViewWillAppear");
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    NSLog(@"MainViewController viewWillDisappear");
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(feedViewControllerDidReceiveNavigationSignal:) name:kFeedViewControllerWillPostNotification object:nil];
 }
 
 -(void)showPostView{
@@ -312,6 +304,12 @@
 
 -(void)didPressedOnNotificationWithData:(id)data{
 
+}
+
+#pragma mark - NSNotification Handler
+
+- (void)feedViewControllerDidReceiveNavigationSignal:(NSNotification *)notification {
+    [_leftMenuViewController changeViewToClass:NSStringFromClass([PostZpotViewController class])];
 }
 
 @end

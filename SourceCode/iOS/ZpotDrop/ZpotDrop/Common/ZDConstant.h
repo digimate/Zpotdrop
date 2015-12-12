@@ -19,5 +19,7 @@ static NSString *const kAPNTypeRequest = @"request";
 static NSString *const kAPNTypeNotify = @"notify";
 static NSString *const kAPNTypeBroadcast = @"broadcast";
 
+// Feed View
+static NSString *const kFeedViewControllerWillPostNotification = @"FeedViewControllerWillPostNotification";
 
 #endif /* ZDConstant_h */
