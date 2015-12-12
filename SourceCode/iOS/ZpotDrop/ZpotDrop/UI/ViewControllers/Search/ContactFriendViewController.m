@@ -25,6 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self createBackButton];
     self.view.backgroundColor  = [UIColor whiteColor];
     _searchResult = [NSMutableArray array];
     _contactsFriends = [NSMutableArray array];
