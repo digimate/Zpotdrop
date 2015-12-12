@@ -10,6 +10,7 @@
 #import "FeedNormalViewCell.h"
 #import "FeedSelectedViewCell.h"
 #import "FeedCommentViewController.h"
+#import "Utils.h"
 
 @interface FeedZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate, UIScrollViewDelegate>{
     UITableView* _feedTableView;
@@ -297,6 +298,7 @@
 }
 
 - (IBAction)postButtonDidTouch:(id)sender {
+    [[Utils instance] showPostFromViewController:self];
     NSLog(@"should post new drop here :)");
 }
 

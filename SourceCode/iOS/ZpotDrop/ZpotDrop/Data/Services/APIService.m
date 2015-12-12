@@ -100,36 +100,36 @@
 
 -(void)scanAreaForUserID:(NSString*)userID topLeftCoord:(CLLocationCoordinate2D)topLeft botRightCoord:(CLLocationCoordinate2D)botRight completion:(void(^)(NSArray * data,NSString* error))completion{
 
-    PFQuery* query = [PFQuery queryWithClassName:@"Post"];
-    [query whereKey:@"latitude" greaterThanOrEqualTo:[NSNumber numberWithDouble:botRight.latitude]];
-    [query whereKey:@"latitude" lessThanOrEqualTo:[NSNumber numberWithDouble:topLeft.latitude]];
-    [query whereKey:@"longitude" greaterThanOrEqualTo:[NSNumber numberWithDouble:topLeft.longitude]];
-    [query whereKey:@"longitude" lessThanOrEqualTo:[NSNumber numberWithDouble:botRight.longitude]];
-    [query whereKey:@"user_id" notEqualTo:userID];
-    NSMutableArray* friendID = [NSMutableArray array];
-    [friendID addObjectsFromArray:[[AccountModel currentAccountModel].follower_ids componentsSeparatedByString:@","]];
-    [friendID addObjectsFromArray:[[AccountModel currentAccountModel].following_ids componentsSeparatedByString:@","]];
-    [query whereKey:@"user_id" containedIn:friendID];
-    NSDate* date = [NSDate dateWithTimeIntervalSinceNow:-(60*60)];
-    [query whereKey:@"createdAt" greaterThanOrEqualTo:date];
-    //shoud query User table to find Friend Location
-    //[query setLimit:API_PAGE];
-    NSMutableArray* returnArray = [NSMutableArray array];
-    __block int count = 2;
-    [query findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
-        count--;
-        if (data) {
-            for (PFObject* feedParse in data) {
-                FeedDataModel* feedModel = [self updateFeedFromParse:feedParse];
-                [returnArray addObject:feedModel];
-            }
-            if (count == 0) {
-                completion(returnArray,nil);
-            }
-        }else if(count == 0){
-            completion([NSMutableArray array],error.description);
-        }
-    }];
+//    PFQuery* query = [PFQuery queryWithClassName:@"Post"];
+//    [query whereKey:@"latitude" greaterThanOrEqualTo:[NSNumber numberWithDouble:botRight.latitude]];
+//    [query whereKey:@"latitude" lessThanOrEqualTo:[NSNumber numberWithDouble:topLeft.latitude]];
+//    [query whereKey:@"longitude" greaterThanOrEqualTo:[NSNumber numberWithDouble:topLeft.longitude]];
+//    [query whereKey:@"longitude" lessThanOrEqualTo:[NSNumber numberWithDouble:botRight.longitude]];
+//    [query whereKey:@"user_id" notEqualTo:userID];
+//    NSMutableArray* friendID = [NSMutableArray array];
+//    [friendID addObjectsFromArray:[[AccountModel currentAccountModel].follower_ids componentsSeparatedByString:@","]];
+//    [friendID addObjectsFromArray:[[AccountModel currentAccountModel].following_ids componentsSeparatedByString:@","]];
+//    [query whereKey:@"user_id" containedIn:friendID];
+//    NSDate* date = [NSDate dateWithTimeIntervalSinceNow:-(60*60)];
+//    [query whereKey:@"createdAt" greaterThanOrEqualTo:date];
+//    //shoud query User table to find Friend Location
+//    //[query setLimit:API_PAGE];
+//    NSMutableArray* returnArray = [NSMutableArray array];
+//    __block int count = 2;
+//    [query findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
+//        count--;
+//        if (data) {
+//            for (PFObject* feedParse in data) {
+//                FeedDataModel* feedModel = [self updateFeedFromParse:feedParse];
+//                [returnArray addObject:feedModel];
+//            }
+//            if (count == 0) {
+//                completion(returnArray,nil);
+//            }
+//        }else if(count == 0){
+//            completion([NSMutableArray array],error.description);
+//        }
+//    }];
     
     PFQuery* queryUser = [PFUser query];
     [queryUser whereKey:@"latitude" greaterThanOrEqualTo:[NSNumber numberWithDouble:botRight.latitude]];
@@ -138,16 +138,17 @@
     [queryUser whereKey:@"longitude" lessThanOrEqualTo:[NSNumber numberWithDouble:botRight.longitude]];
     [queryUser whereKey:@"objectId" notEqualTo:userID];
     [queryUser findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
-        count--;
+//        count--;
         if (data) {
+            NSMutableArray* returnArray = [[NSMutableArray alloc] init];
             for (PFUser* userParse in data) {
                 UserDataModel* feedModel = [self updateUserModel:userParse.objectId withParse:userParse];
                 [returnArray addObject:feedModel];
             }
-            if (count == 0) {
+//            if (count == 0) {
                 completion(returnArray,nil);
-            }
-        }else if(count == 0){
+//            }
+        } else {
             completion([NSMutableArray array],error.description);
         }
     }];

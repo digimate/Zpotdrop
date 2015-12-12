@@ -8,6 +8,7 @@
 
 #import "Utils.h"
 #import "UserProfileViewController.h"
+#import "PostZpotViewController.h"
 #import "UserDataModel.h"
 
 @implementation Utils
@@ -127,6 +128,17 @@
         UserProfileViewController* userProfileVC = [[UserProfileViewController alloc]init];
         userProfileVC.userModel = userDataModel;
         [viewController.navigationController pushViewController:userProfileVC animated:YES];
+    }
+}
+
+- (void)showPostFromViewController:(UIViewController *)viewController {
+    if (viewController.navigationController) {
+        [viewController.navigationController popToRootViewControllerAnimated:NO];
+        UIStoryboard *postSB = [UIStoryboard storyboardWithName:@"Post" bundle:nil];
+        PostZpotViewController* postViewController = [postSB instantiateViewControllerWithIdentifier:@"PostZpotViewController"];//[[PostZpotViewController alloc]init];
+        [viewController.navigationController pushViewController:postViewController animated:NO];
+        postViewController.navigationItem.leftBarButtonItem = viewController.navigationItem.leftBarButtonItem;
+        postViewController.navigationItem.rightBarButtonItem = viewController.navigationItem.rightBarButtonItem;
     }
 }
 

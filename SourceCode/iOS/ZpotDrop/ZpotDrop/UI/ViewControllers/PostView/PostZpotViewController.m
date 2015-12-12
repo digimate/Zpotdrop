@@ -28,7 +28,7 @@
     CreateLocationCell* createLocationCell;
     
     NSMutableArray *buttonsLocation;
-    NSArray *arrLocation;
+    NSMutableArray *arrLocation;
     LocationDataModel *selectedLocation;
     
     //Add Friends
@@ -42,6 +42,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"post".localized.uppercaseString;
+    arrLocation = [[NSMutableArray alloc] init];
     [self setupUI];
 }
 
@@ -293,7 +294,8 @@
         LocationService *service = [LocationService new];
         [service searchLocationAroundLocation:[Utils instance].locationManager.location completion:^(NSArray *data, NSString *error) {
 //        [service searchLocationWithinCoord:mapView.topLeft coor2:mapView.bottomRight completion:^(NSArray *data, NSString *error) {
-            arrLocation = [data copy];
+            [arrLocation removeAllObjects];
+            [arrLocation addObjectsFromArray:data];
             [self addLocationButtons];
         }];
 //    } else {
@@ -412,7 +414,8 @@
 - (void)didTouchLocation:(id)sender {
     NSInteger index = [(UIButton *)sender tag];
     LocationDataModel *location = arrLocation[index];
-    if ([NSString stringWithFormat:@"%f,%f",location.latitude.doubleValue,location.longitude.doubleValue] == location.mid) {
+    NSString *localMID = [NSString stringWithFormat:@"%@,%@",location.latitude,location.longitude];
+    if ([localMID isEqualToString:location.mid]) {
         // Need to add location to parse
         CLLocationCoordinate2D addedCoordinate = CLLocationCoordinate2DMake(location.latitude.doubleValue, location.longitude.doubleValue);
         //create location
@@ -421,6 +424,7 @@
             [[Utils instance]hideProgess];
             if (data != nil) {
                 selectedLocation = (LocationDataModel *)data;
+                [arrLocation replaceObjectAtIndex:index withObject:selectedLocation];
                 [self updateUIFollowSelectedLocation];
             } else {
                 // Show error

@@ -64,6 +64,7 @@
 -(void)loginSucceed{
     [AccountModel currentAccountModel].access_token = @"1";
     [[CoreDataService instance] saveContext];
+    [[[Utils instance] locationManager] startUpdatingLocation];
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 @end

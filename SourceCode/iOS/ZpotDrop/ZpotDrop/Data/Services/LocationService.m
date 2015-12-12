@@ -54,12 +54,14 @@
         }
         
         for (GMSPlaceLikelihood *likelihood in likelihoodList.likelihoods) {
-            GMSPlace* place = likelihood.place;            
-            LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:[NSString stringWithFormat:@"%f,%f",place.coordinate.latitude,place.coordinate.longitude]];
+            GMSPlace* place = likelihood.place;
+            NSNumber *numberLat = [NSNumber numberWithDouble:place.coordinate.latitude];
+            NSNumber *numberLong = [NSNumber numberWithDouble:place.coordinate.longitude];
+            LocationDataModel* model = (LocationDataModel*)[LocationDataModel fetchObjectWithID:[NSString stringWithFormat:@"%@,%@",numberLat,numberLong]];
             model.name = place.name;
             model.address = place.formattedAddress;
-            model.latitude = [NSNumber numberWithDouble:place.coordinate.latitude];
-            model.longitude = [NSNumber numberWithDouble:place.coordinate.longitude];
+            model.latitude = numberLat;
+            model.longitude = numberLong;
             [googleLocations addObject:model];
         }
         dispatch_group_leave(serviceGroup);

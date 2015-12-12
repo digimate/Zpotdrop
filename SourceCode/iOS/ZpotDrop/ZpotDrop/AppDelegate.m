@@ -53,8 +53,7 @@
     }
     
     [GMSServices provideAPIKey:@"AIzaSyDQYtsThC5qIgZUZdKoTWjVQafhFlzJCWw"];
-    
-
+        
     return [[FBSDKApplicationDelegate sharedInstance]application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
@@ -152,7 +151,7 @@
 
 -(void)handleRequestLocation:(NSDictionary*)dict{
     NSDictionary *alertDict = [dict objectForKey:@"aps"];
-    [[Utils instance]showAlertWithTitle:@"ZpotDrop" message:[alertDict objectForKey:@"alert"] yesTitle:@"OK" noTitle:@"NO" handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+    [[Utils instance]showAlertWithTitle:@"ZpotDrop" message:[alertDict objectForKey:@"alert"] yesTitle:@"YES" noTitle:@"NO" handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
         if (buttonIndex != [alertView cancelButtonIndex]) {
             
             if ([[Utils instance] isGPS]){
@@ -178,7 +177,9 @@
     if (locations.count > 0) {
         CLLocation* loc = [locations lastObject];
         [[APIService shareAPIService]updateUserInfoToServerWithID:[AccountModel currentAccountModel].user_id params:@{@"latitude":@(loc.coordinate.latitude),@"longitude" : @(loc.coordinate.longitude),@"updated_loc":[NSDate date]} completion:^(BOOL success, NSString *error) {
-            
+            if (!error) {
+                NSLog(@"updated location for user: %@ - %f/%f", [AccountModel currentAccountModel].user_id, loc.coordinate.latitude, loc.coordinate.longitude);
+            }
         }];
     }
     [manager stopUpdatingLocation];
