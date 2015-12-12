@@ -9,6 +9,7 @@
 #import "Utils.h"
 #import "UserProfileViewController.h"
 #import "PostZpotViewController.h"
+#import "FindZpotViewController.h"
 #import "UserDataModel.h"
 
 @implementation Utils
@@ -140,6 +141,14 @@
         postViewController.navigationItem.leftBarButtonItem = viewController.navigationItem.leftBarButtonItem;
         postViewController.navigationItem.rightBarButtonItem = viewController.navigationItem.rightBarButtonItem;
     }
+}
+
+- (void)showFindViewFromViewController:(UIViewController *)viewController {
+    [viewController.navigationController popToRootViewControllerAnimated:NO];
+    FindZpotViewController* postViewController = [[FindZpotViewController alloc]init];
+    [viewController.navigationController pushViewController:postViewController animated:NO];
+    postViewController.navigationItem.leftBarButtonItem = viewController.navigationItem.leftBarButtonItem;
+    postViewController.navigationItem.rightBarButtonItem = viewController.navigationItem.rightBarButtonItem;
 }
 
 #pragma mark - Converter

@@ -37,16 +37,21 @@
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
 
     [FBSDKProfile enableUpdatesOnAccessTokenChange:YES];
-    if (launchOptions != nil) {
+    
+    NSDictionary *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    NSLog(@"didFinishLaunchingWithOptions notification %@", notification);
+    if (notification) {
         // Launched from push notification
-        NSDictionary *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-        NSLog(@"Notification : %@",notification);
+//        NSDictionary *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        NSLog(@"didFinishLaunchingWithOptions Notification : %@",notification);
         
         if ([AccountModel currentAccountModel].isLoggedIn) {
             if ([[notification objectForKey:@"type"] isEqualToString:kAPNTypeRequest]) {
                 [self handleRequestLocation:notification];
             } else if ([[notification objectForKey:@"type"] isEqualToString:kAPNTypeNotify]) {
-                // go to right screen
+                NSLog(@"post notfication to go to find screen");
+                // go to Find screen
+//                [[Utils instance] showFindViewFromViewController:self.window.rootViewController];
             }
             
         }
@@ -59,7 +64,7 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    NSLog(@"Notification : %@",userInfo);
+    NSLog(@"didReceiveRemoteNotification Notification : %@",userInfo);
     /*
      {
      aps =     {
@@ -73,7 +78,8 @@
         if ([[userInfo objectForKey:@"type"] isEqualToString:kAPNTypeRequest]) {
             [self handleRequestLocation:userInfo];
         } else if ([[userInfo objectForKey:@"type"] isEqualToString:kAPNTypeNotify]) {
-            // go to right screen
+            // broadcast notification
+            [[NSNotificationCenter defaultCenter] postNotificationName:kAppDelegateDidReceivePushNotification object:nil userInfo:userInfo];
         }
     }
 }
@@ -178,7 +184,7 @@
         CLLocation* loc = [locations lastObject];
         [[APIService shareAPIService]updateUserInfoToServerWithID:[AccountModel currentAccountModel].user_id params:@{@"latitude":@(loc.coordinate.latitude),@"longitude" : @(loc.coordinate.longitude),@"updated_loc":[NSDate date]} completion:^(BOOL success, NSString *error) {
             if (!error) {
-                NSLog(@"updated location for user: %@ - %f/%f", [AccountModel currentAccountModel].user_id, loc.coordinate.latitude, loc.coordinate.longitude);
+//                NSLog(@"updated location for user: %@ - %f/%f", [AccountModel currentAccountModel].user_id, loc.coordinate.latitude, loc.coordinate.longitude);
             }
         }];
     }

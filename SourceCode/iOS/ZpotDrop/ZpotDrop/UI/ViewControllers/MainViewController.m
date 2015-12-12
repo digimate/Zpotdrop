@@ -100,6 +100,16 @@
     [_leftMenuViewController changeViewToClass:NSStringFromClass([FeedZpotViewController class])];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSLog(@"MainViewController ViewWillAppear");
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    NSLog(@"MainViewController viewWillDisappear");
+}
+
 -(void)showPostView{
     [self.navigationController popToRootViewControllerAnimated:NO];
     

@@ -69,6 +69,7 @@
 -(void)convertCommingIDsToInfo:(NSArray*)likes completion:(void(^)(NSString* txt,NSArray * rangeArray))completion;
 -(NSString*)convertBirthdayToAge:(NSDate*)birthday;
 - (void)showPostFromViewController:(UIViewController *)viewController;
+- (void)showFindViewFromViewController:(UIViewController *)viewController;
 
 // Font
 + (CGSize)getStringBoundingSize:(NSString*)string forWidth:(CGFloat)width withFont:(UIFont*)font;

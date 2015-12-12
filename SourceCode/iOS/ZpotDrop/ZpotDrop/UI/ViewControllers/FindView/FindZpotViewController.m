@@ -171,6 +171,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNotificationDidReceive:) name:kAppDelegateDidReceivePushNotification object:nil];
     [self registerOpenLeftMenuNotification];
     [self registerOpenRightMenuNotification];
     if ([Utils instance].mapView.superview == nil || ![[Utils instance].mapView.superview isEqual:self.view]) {
@@ -184,6 +185,7 @@
     [self updateMapView];
     
     [self addAnnotationScannedUsers];
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -191,6 +193,7 @@
     [self removeOpenLeftMenuNotification];
     [self removeOpenRightMenuNotification];
     [Utils instance].locationManager.delegate = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kAppDelegateDidReceivePushNotification object:nil];
 }
 
 -(void)scanArea:(UIButton*)sender{
@@ -207,7 +210,11 @@
             }else{
                 [scannedUsersData removeAllObjects];
                 [scannedUsersData addObjectsFromArray:data];
-                [self addAnnotationScannedUsers];
+                for (UserDataModel *user in scannedUsersData) {
+                    [[APIService shareAPIService]requestLocationOfUserID:user.mid completion:^(BOOL successful, NSString *error) {
+                    }];
+                }
+//                [self addAnnotationScannedUsers];
                 [usersCollectionView reloadData];
             }
             
@@ -284,7 +291,26 @@
     }
     [[Utils instance].mapView addAnnotations:annotationArray];
 }
+
+- (void)pushNotificationDidReceive:(NSNotification *)notification {
+//    NSLog(@"notification %@", notification);
+    NSDictionary *userInfo = notification.userInfo;
+    UserDataModel* friendModel = (UserDataModel*)[UserDataModel fetchObjectWithID:[userInfo objectForKey:@"user_id"]];
+    
+    [friendModel updateObjectForUse:^{
+        CLLocationCoordinate2D friendCoordinate = CLLocationCoordinate2DMake([friendModel.latitude doubleValue], [friendModel.longitude doubleValue]);
+        if(MKMapRectContainsPoint([Utils instance].mapView.visibleMapRect, MKMapPointForCoordinate(friendCoordinate)))
+        {
+            [scannedUsersData addObject:friendModel];
+            [self addAnnotationScannedUsers];
+            [usersCollectionView reloadData];
+        }
+        
+    }];
+}
+
 #pragma mark - MKMapViewDelegate
+
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     if (shoudMoveToUserLocation) {
         shoudMoveToUserLocation = NO;
