@@ -60,8 +60,6 @@
 		<string>PTC75F.ttf</string>
 		<string>PTC55F.ttf</string>
 	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
