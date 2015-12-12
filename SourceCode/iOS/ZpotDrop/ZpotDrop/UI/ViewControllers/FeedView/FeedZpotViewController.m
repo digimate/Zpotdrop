@@ -27,6 +27,7 @@
     BOOL canLoadMore;
     UIButton *_newDropButton;
     UIButton *_postButton;
+    NSTimer *autoUpdatedTimer;
 }
 
 @end
@@ -80,6 +81,7 @@
     [_newDropButton setTitleColor:[UIColor colorWithRed:85.0f/255.0f green:85.0f/255.0f blue:85.0f/255.0f alpha:1.0f] forState:UIControlStateNormal];
     _newDropButton.titleLabel.font = [UIFont fontWithName:@"OpenSans-Bold" size:10];
     [_newDropButton addTarget:self action:@selector(newDropButtonDidTouch:) forControlEvents:UIControlEventTouchUpInside];
+    _newDropButton.hidden = YES;
     [self.view addSubview:_newDropButton];
     
     // Post Button
@@ -111,6 +113,7 @@
             [_feedData removeAllObjects];
             [_feedData addObjectsFromArray:returnArray];
             [_feedTableView reloadData];
+            [_feedTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
         }
     }];
 }
@@ -158,10 +161,15 @@
         }];
     }
     [_feedTableView reloadData];
+
+    [self setupAutoUpdatedTimer];
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self removeAppBecomActiveNotification];
+    [autoUpdatedTimer invalidate];
+    autoUpdatedTimer = nil;
+
 }
 -(void)insertNewFeedInTable:(id)data{
     [insertDataHandler insertData:data];
@@ -185,6 +193,16 @@
     FeedCommentViewController* commentVC = [[FeedCommentViewController alloc]init];
     commentVC.feedData = feedModel;
     [self.navigationController pushViewController:commentVC animated:YES];
+}
+
+- (void)setupAutoUpdatedTimer {
+    if (!autoUpdatedTimer) {
+        autoUpdatedTimer = [NSTimer scheduledTimerWithTimeInterval:5.0f
+                                                            target:self
+                                                          selector:@selector(autoUpdatedTimerDidFire:)
+                                                          userInfo:nil
+                                                           repeats:YES];
+    }
 }
 
 #pragma mark - UITableViewDelegate & UITableViewDatasource
@@ -294,13 +312,33 @@
 #pragma mark - Event Handler
 
 - (IBAction)newDropButtonDidTouch:(id)sender {
-    NSLog(@"should load new posts here");
+//    NSLog(@"should load new posts here");
+    _newDropButton.hidden = YES;
+    [self getFeedsFromServer];
+    [self setupAutoUpdatedTimer];
 }
 
 - (IBAction)postButtonDidTouch:(id)sender {
     // TODO: Need to implement better router here
     [[NSNotificationCenter defaultCenter] postNotificationName:kFeedViewControllerWillPostNotification object:nil];
-    NSLog(@"should post new drop here :)");
+//    NSLog(@"should post new drop here :)");
+}
+
+- (IBAction)autoUpdatedTimerDidFire:(id)sender {
+    if (_newDropButton.hidden) {
+        [[APIService shareAPIService]getFeedsFromServer:^(NSMutableArray *returnArray, NSString *error) {
+            if (!error) {
+                FeedDataModel *latestFeed = [returnArray firstObject];
+                FeedDataModel *currentFirstFeed = [_feedData firstObject];
+                if (![latestFeed.mid isEqualToString:currentFirstFeed.mid]) {
+                    // There is new feed
+                    _newDropButton.hidden = NO;
+                    [autoUpdatedTimer invalidate];
+                    autoUpdatedTimer = nil;
+                }
+            }
+        }];
+    }
 }
 
 @end
