@@ -12,6 +12,8 @@
 #import "ZpotAnnotationView.h"
 #import "FriendRequestZpotCell.h"
 #import "MyAnnotation.h"
+#import "AnimatedOverlay.h"
+
 @interface FindZpotViewController ()<MKMapViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate>{
     UISearchBar* searchZpotBar;
     UICollectionView* usersCollectionView;
@@ -22,6 +24,7 @@
     NSMutableArray* searchUsersData;
     UIButton* btnHere;
     UIButton* btnThere;
+    AnimatedOverlay *animatedOverlay;
 }
 
 @end
@@ -137,12 +140,18 @@
         [Utils instance].mapView.scrollEnabled = NO;
         [Utils instance].mapView.zoomEnabled = NO;
         [[Utils instance].mapView removeOverlays:[Utils instance].mapView.overlays];
+        [self removeAnimatedOverlay];
+        MKAnnotationView* annotationView = [[Utils instance].mapView viewForAnnotation:[Utils instance].mapView.userLocation];
+        [self addAnimatedOverlayToAnnotation:annotationView.annotation];
+        
     }else{
         btnHere.selected = NO;
         [Utils instance].mapView.showsUserLocation = YES;
         [[Utils instance].mapView setUserTrackingMode:MKUserTrackingModeNone];
         [Utils instance].mapView.scrollEnabled = YES;
         [Utils instance].mapView.zoomEnabled = YES;
+        [self removeAnimatedOverlay];
+        [[Utils instance].mapView removeOverlays:[Utils instance].mapView.overlays];
         MKCircle *circle = [MKCircle circleWithCenterCoordinate:[Utils instance].mapView.centerCoordinate radius:500];
         [[Utils instance].mapView addOverlay:circle];
     }
@@ -192,9 +201,11 @@
     [super viewWillDisappear:animated];
     [self removeOpenLeftMenuNotification];
     [self removeOpenRightMenuNotification];
+    [self removeAnimatedOverlay];
     [Utils instance].locationManager.delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kAppDelegateDidReceivePushNotification object:nil];
 }
+
 
 -(void)scanArea:(UIButton*)sender{
     if ([[Utils instance] isGPS]) {
@@ -325,9 +336,10 @@
 }
 
 -(void)changeUserLocationColor{
-    MKAnnotationView* annotationView = [[Utils instance].mapView viewForAnnotation:[Utils instance].mapView .userLocation];
+    MKAnnotationView* annotationView = [[Utils instance].mapView viewForAnnotation:[Utils instance].mapView.userLocation];
     if (annotationView) {
         annotationView.tintColor = COLOR_DARK_GREEN;
+        [self updateMapView];
     }else{
         [self performSelector:@selector(changeUserLocationColor) withObject:nil afterDelay:0.3];
     }
@@ -364,6 +376,7 @@
         MKCircle *circle = [MKCircle circleWithCenterCoordinate:[Utils instance].mapView.centerCoordinate radius:500];
         [mapView addOverlay:circle];
     }
+    [self updateMapView];
 }
 
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view{
@@ -498,4 +511,31 @@
     }];
     [manager stopUpdatingLocation];
 }
+
+#pragma mark - Animated Overlay
+-(void)addAnimatedOverlayToAnnotation:(id<MKAnnotation>)annotation{
+    //get a frame around the annotation
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, OVERLAYMETERS, OVERLAYMETERS);
+    CGRect rect = [[Utils instance].mapView convertRegion:region toRectToView:[Utils instance].mapView];
+    //set up the animated overlay
+    if(!animatedOverlay){
+        animatedOverlay = [[AnimatedOverlay alloc] initWithFrame:rect];
+    }
+    else{
+        [animatedOverlay setFrame:rect];
+    }
+    //add to the map and start the animation
+    [[Utils instance].mapView addSubview:animatedOverlay];
+    [animatedOverlay startAnimatingWithColor:COLOR_DARK_GREEN andFrame:rect];
+    
+}
+
+-(void)removeAnimatedOverlay{
+    if(animatedOverlay){
+        [animatedOverlay stopAnimating];
+        [animatedOverlay removeFromSuperview];
+    }
+}
+
+
 @end

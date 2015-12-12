@@ -214,6 +214,7 @@
 		B4D09FE51BC5801E008B180A /* UserProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4D09F361BC5801E008B180A /* UserProfileCell.xib */; };
 		B4D09FE61BC5801E008B180A /* ZpotAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D09F381BC5801E008B180A /* ZpotAnnotationView.m */; };
 		B9C91F041C04C6810025E463 /* ic_find_menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9C91F031C04C6810025E463 /* ic_find_menu@2x.png */; };
+		B9D8CD591C1C5A8700940D29 /* AnimatedOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = B9D8CD581C1C5A8700940D29 /* AnimatedOverlay.m */; };
 		BA0874B41B6FC31300FBFF74 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0874B31B6FC31300FBFF74 /* CoreData.framework */; };
 		BA62840E1B70F0B300399368 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BA62840C1B70F0B300399368 /* Localizable.strings */; };
 		BA62842E1B71153400399368 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA62842D1B71153400399368 /* MapKit.framework */; };
@@ -559,6 +560,8 @@
 		B4D09F371BC5801E008B180A /* ZpotAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZpotAnnotationView.h; sourceTree = "<group>"; };
 		B4D09F381BC5801E008B180A /* ZpotAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZpotAnnotationView.m; sourceTree = "<group>"; };
 		B9C91F031C04C6810025E463 /* ic_find_menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_find_menu@2x.png"; sourceTree = "<group>"; };
+		B9D8CD571C1C5A8700940D29 /* AnimatedOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedOverlay.h; sourceTree = "<group>"; };
+		B9D8CD581C1C5A8700940D29 /* AnimatedOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimatedOverlay.m; sourceTree = "<group>"; };
 		BA0874B31B6FC31300FBFF74 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		BA0874B51B6FC35000FBFF74 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		BA62840D1B70F0B300399368 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -799,6 +802,7 @@
 		B4D09E131BC5801D008B180A /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				B9D8CD561C1C5A8700940D29 /* AnimatedMapOverlay */,
 				B4408FFA1BCFF05500E3639D /* Realm */,
 				B40986811BC6C74A00BC0678 /* TPKeyboardAvoiding */,
 				B4D09E141BC5801D008B180A /* AFNetworking */,
@@ -1371,6 +1375,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B9D8CD561C1C5A8700940D29 /* AnimatedMapOverlay */ = {
+			isa = PBXGroup;
+			children = (
+				B9D8CD571C1C5A8700940D29 /* AnimatedOverlay.h */,
+				B9D8CD581C1C5A8700940D29 /* AnimatedOverlay.m */,
+			);
+			path = AnimatedMapOverlay;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1683,6 +1696,7 @@
 				B4D09F401BC5801E008B180A /* UserModel.m in Sources */,
 				B4D09F3E1BC5801E008B180A /* NotificationModel.m in Sources */,
 				B4D09FBF1BC5801E008B180A /* ScannedUserAnnotation.m in Sources */,
+				B9D8CD591C1C5A8700940D29 /* AnimatedOverlay.m in Sources */,
 				B4D09FD91BC5801E008B180A /* ContactCell.m in Sources */,
 				B4D09F4D1BC5801E008B180A /* CircleProgressView.m in Sources */,
 				B4D09FE01BC5801E008B180A /* SettingDisclosureViewCell.m in Sources */,
