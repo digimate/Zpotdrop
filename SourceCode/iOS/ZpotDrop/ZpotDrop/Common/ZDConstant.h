@@ -6,6 +6,7 @@
 //  Copyright © 2015 zpotdrop. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #ifndef ZDConstant_h
 #define ZDConstant_h
 
@@ -26,3 +27,13 @@ static NSString *const kAPNTypeBroadcast = @"broadcast";
 static NSString *const kFeedViewControllerWillPostNotification = @"FeedViewControllerWillPostNotification";
 
 #endif /* ZDConstant_h */
+
+extern const struct CellHeights{
+    float Close;
+    float Profile;
+}CellHeights;
+
+extern const struct OriginBorder{
+    float xBottom;
+    float height;
+}OriginBorder;

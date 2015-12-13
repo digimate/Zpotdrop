@@ -14,11 +14,13 @@
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
+    _imgvAvatar.layer.borderColor  = ZD_ALERT_TITLE_COLOR.CGColor;
+    _imgvAvatar.layer.borderWidth  = 3;
     _imgvAvatar.layer.cornerRadius = _imgvAvatar.frame.size.width/2;
     _imgvAvatar.layer.masksToBounds = YES;
     
     [_lblName setText:@""];
-    [_lblName setFont:[UIFont fontWithName:@"PTSans-Bold" size:18]];
+//    [_lblName setFont:[UIFont fontWithName:@"PTSans-Bold" size:18]];
     //_lblName.textColor = COLOR_DARK_GREEN;
     
 }

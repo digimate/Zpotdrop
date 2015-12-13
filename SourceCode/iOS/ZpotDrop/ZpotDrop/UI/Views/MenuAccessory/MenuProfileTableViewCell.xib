@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -11,23 +12,24 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NLC-Du-YLE" id="5sk-y1-jiB">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="199.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="asdasas" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dxo-Zj-Vbf">
-                        <rect key="frame" x="55" y="105" width="210" height="23"/>
+                        <rect key="frame" x="55" y="120" width="210" height="23"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="23" id="PRb-cT-aYg"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="0.52156862745098043" green="0.52156862745098043" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eS9-qh-b1M">
-                        <rect key="frame" x="115" y="10" width="90" height="90"/>
+                        <rect key="frame" x="107.5" y="10" width="105" height="105"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="90" id="YSP-YP-z1l"/>
-                            <constraint firstAttribute="width" constant="90" id="diu-fh-PTI"/>
+                            <constraint firstAttribute="height" constant="105" id="YSP-YP-z1l"/>
+                            <constraint firstAttribute="width" secondItem="eS9-qh-b1M" secondAttribute="height" multiplier="1:1" id="hms-Me-sR5"/>
                         </constraints>
                     </imageView>
                 </subviews>

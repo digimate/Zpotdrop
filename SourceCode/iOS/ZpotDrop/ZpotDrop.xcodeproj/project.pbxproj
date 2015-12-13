@@ -19,6 +19,9 @@
 		0ACD9E221B6A89D1004140EE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACD9E211B6A89D1004140EE /* Security.framework */; };
 		0ACD9E241B6A89D9004140EE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACD9E231B6A89D9004140EE /* StoreKit.framework */; };
 		0ACD9E261B6A89FD004140EE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACD9E251B6A89FD004140EE /* SystemConfiguration.framework */; };
+		6F78F8A41C1D03950053629B /* CloseButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F78F8A21C1D03950053629B /* CloseButtonCell.m */; };
+		6F78F8A51C1D03950053629B /* CloseButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F78F8A31C1D03950053629B /* CloseButtonCell.xib */; };
+		6F78F8A91C1D11F30053629B /* ZDConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F78F8A81C1D11F30053629B /* ZDConstant.m */; };
 		8C269C1E1B7060D200E6835E /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C269C1D1B7060D200E6835E /* Social.framework */; };
 		8C269C201B7060D800E6835E /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C269C1F1B7060D800E6835E /* Accounts.framework */; };
 		A86F016DB6CDC49AE7118FC3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB29B4191027FD51B71307A1 /* libPods.a */; };
@@ -250,6 +253,10 @@
 		0ACD9E251B6A89FD004140EE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		0ACD9E271B6A8A05004140EE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		1B2562B50472BD05B64B44F9 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		6F78F8A11C1D03950053629B /* CloseButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloseButtonCell.h; sourceTree = "<group>"; };
+		6F78F8A21C1D03950053629B /* CloseButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloseButtonCell.m; sourceTree = "<group>"; };
+		6F78F8A31C1D03950053629B /* CloseButtonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CloseButtonCell.xib; sourceTree = "<group>"; };
+		6F78F8A81C1D11F30053629B /* ZDConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZDConstant.m; sourceTree = "<group>"; };
 		8C269C1D1B7060D200E6835E /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		8C269C1F1B7060D800E6835E /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		B409867F1BC6C4FF00BC0678 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
@@ -746,6 +753,7 @@
 			isa = PBXGroup;
 			children = (
 				B41C8D361BC6BDBF002685FA /* ZDConstant.h */,
+				6F78F8A81C1D11F30053629B /* ZDConstant.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1312,6 +1320,9 @@
 				B4D09F1B1BC5801E008B180A /* MenuZpotAllTableViewCell.h */,
 				B4D09F1C1BC5801E008B180A /* MenuZpotAllTableViewCell.m */,
 				B4D09F1D1BC5801E008B180A /* MenuZpotAllTableViewCell.xib */,
+				6F78F8A11C1D03950053629B /* CloseButtonCell.h */,
+				6F78F8A21C1D03950053629B /* CloseButtonCell.m */,
+				6F78F8A31C1D03950053629B /* CloseButtonCell.xib */,
 			);
 			path = MenuAccessory;
 			sourceTree = "<group>";
@@ -1505,6 +1516,7 @@
 				B4D09FD11BC5801E008B180A /* MenuFeatureTableViewCell.xib in Resources */,
 				B4D09F951BC5801E008B180A /* ic_heart_grey@2x.png in Resources */,
 				B4D09F9F1BC5801E008B180A /* ic_settings@2x.png in Resources */,
+				6F78F8A51C1D03950053629B /* CloseButtonCell.xib in Resources */,
 				B4D09F911BC5801E008B180A /* ic_follow@2x.png in Resources */,
 				B4D09FA11BC5801E008B180A /* Images.xcassets in Resources */,
 				B4D09F771BC5801E008B180A /* OpenSans-Light.ttf in Resources */,
@@ -1624,6 +1636,7 @@
 				B4D09FBB1BC5801E008B180A /* ChangePasswordViewController.m in Sources */,
 				B4D09FDA1BC5801E008B180A /* friendCell.m in Sources */,
 				B4D09FC31BC5801E008B180A /* ScannedUserCell.m in Sources */,
+				6F78F8A41C1D03950053629B /* CloseButtonCell.m in Sources */,
 				B4D09F5C1BC5801E008B180A /* SDWebImageCompat.m in Sources */,
 				B4D09F3C1BC5801E008B180A /* FeedDataModel.m in Sources */,
 				B4D09FDB1BC5801E008B180A /* listModeCell.m in Sources */,
@@ -1674,6 +1687,7 @@
 				B4D09FB21BC5801E008B180A /* LeftMenuViewController.m in Sources */,
 				B4D09F6B1BC5801E008B180A /* SVProgressHUD.m in Sources */,
 				B409868B1BC6C74A00BC0678 /* TPKeyboardAvoidingScrollView.m in Sources */,
+				6F78F8A91C1D11F30053629B /* ZDConstant.m in Sources */,
 				B4D09FBC1BC5801E008B180A /* UserSettingViewController.m in Sources */,
 				B4D09F731BC5801E008B180A /* UIView+Circle.m in Sources */,
 				B4D09FB01BC5801E008B180A /* SignupViewController.m in Sources */,

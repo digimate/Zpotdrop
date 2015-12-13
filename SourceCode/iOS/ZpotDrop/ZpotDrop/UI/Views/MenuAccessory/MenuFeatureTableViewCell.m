@@ -36,8 +36,10 @@
     
     if (param != nil && [param objectForKey:@"selected"] != nil && [[param objectForKey:@"selected"] boolValue] == YES) {
         _lblTitle.textColor = COLOR_DARK_GREEN;
+        _vSelected.backgroundColor = COLOR_DARK_GREEN;
     }else{
-        _lblTitle.textColor = [UIColor blackColor];
+        _lblTitle.textColor = ZD_ALERT_TEXT_COLOR;
+        _vSelected.backgroundColor = [UIColor clearColor];
     }
 }
 

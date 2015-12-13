@@ -19,8 +19,9 @@
 #import "UserProfileViewController.h"
 #import "SearchViewController.h"
 #import "UserSettingViewController.h"
+#import "CloseButtonCell.h"
 
-@interface LeftMenuViewController ()<UITableViewDataSource,UITableViewDelegate>{
+@interface LeftMenuViewController ()<UITableViewDataSource,UITableViewDelegate,CloseButtonCellDelegate>{
     CircleProgressView* progressView;
     UIButton* zpotdropAllButton;
     UILabel* lblZpotAll;
@@ -64,11 +65,11 @@
     // ZPOT ALL VIEW
     UIView* zpotdropAllView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _tableView.width, 150)];
     zpotdropAllView.backgroundColor = [UIColor whiteColor];
-    progressView = [[CircleProgressView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
+    progressView = [[CircleProgressView alloc]initWithFrame:CGRectMake(0, 0, 85, 85)];
     progressView.backgroundColor = [UIColor clearColor];
     progressView.trackBackgroundColor = [UIColor colorWithRed:229 green:229 blue:229];
     progressView.trackFillColor = COLOR_DARK_GREEN;
-    progressView.trackWidth = 4;
+    progressView.trackWidth = 2;
     progressView.center = CGPointMake(zpotdropAllView.width/2, zpotdropAllView.height/2 - 10);
     [zpotdropAllView addSubview:progressView];
     
@@ -201,44 +202,60 @@
     [cell setWidth:tableView.width];
     NSDictionary* param = nil;
     CGRect borderRect = CGRectZero;
-    if (indexPath.row == 0) {
-         borderRect = CGRectMake(15, [MenuProfileTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        UIButton* btnSetting = (UIButton*)[cell viewWithTag:69];
-        if (!btnSetting) {
-            btnSetting = [UIButton buttonWithType:UIButtonTypeCustom];
-            [btnSetting setFrame:CGRectMake(cell.width/2 - 50, cell.height - 25, 100, 20)];
-            [btnSetting setTitle:@"settings".localized forState:UIControlStateNormal];
-            [btnSetting setTitleColor:COLOR_DARK_GREEN forState:UIControlStateNormal];
-            [[btnSetting titleLabel]setFont:[UIFont fontWithName:@"PTSans-Regular" size:14]];
-            [btnSetting setTag:69];
-            [btnSetting addTarget:self action:@selector(showSettingsView) forControlEvents:UIControlEventTouchUpInside];
-            [cell addSubview:btnSetting];
-            
-            UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showUserProfile)];
-            [tap setNumberOfTapsRequired:1];
-            [tap setNumberOfTouchesRequired:1];
-            [cell addGestureRecognizer:tap];
+    switch (indexPath.row) {
+        case 0:{
+            borderRect = CGRectMake(OriginBorder.xBottom, cell.height-1.0, tableView.width - 15, OriginBorder.height);
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            UIButton* btnSetting = (UIButton*)[cell viewWithTag:69];
+            if (!btnSetting) {
+                btnSetting = [UIButton buttonWithType:UIButtonTypeCustom];
+                [btnSetting setFrame:CGRectMake(cell.width/2 - 50, cell.height - 40, 100, 20)];
+                [btnSetting setTitle:@"settings".localized forState:UIControlStateNormal];
+                [btnSetting setTitleColor:COLOR_DARK_GREEN forState:UIControlStateNormal];
+                [[btnSetting titleLabel]setFont:[UIFont fontWithName:@"PTSans-Regular" size:10]];
+                [btnSetting setTag:69];
+                [btnSetting addTarget:self action:@selector(showSettingsView) forControlEvents:UIControlEventTouchUpInside];
+                [cell addSubview:btnSetting];
+                
+                UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showUserProfile)];
+                [tap setNumberOfTapsRequired:1];
+                [tap setNumberOfTouchesRequired:1];
+                [cell addGestureRecognizer:tap];
+            }
         }
-    }else if (indexPath.row == 1) {
-        BOOL selected = indexPath.row == currentSelectedRow;
-        param = @{@"title":@"feed".localized.uppercaseString,@"icon":@"ic_feed",@"selected":[NSNumber numberWithBool:selected]};
-        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
-    }else if (indexPath.row == 2){
-        BOOL selected = indexPath.row == currentSelectedRow;
-        param = @{@"title":@"post".localized.uppercaseString,@"icon":@"icon",@"selected":[NSNumber numberWithBool:selected]};
-        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
-    }else if (indexPath.row == 3){
-        BOOL selected = indexPath.row == currentSelectedRow;
-        param = @{@"title":@"find".localized.uppercaseString,@"icon":@"ic_find_menu",@"selected":[NSNumber numberWithBool:selected]};
-        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
-    }else if (indexPath.row == 4){
-        BOOL selected = indexPath.row == currentSelectedRow;
-        param = @{@"title":@"search".localized.uppercaseString,@"icon":@"ic_search",@"selected":[NSNumber numberWithBool:selected]};
-        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
-    }else if (indexPath.row == 5){
-        param = @{@"title":@"settings".localized.uppercaseString};
-        borderRect = CGRectMake(15, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, 1.0);
+            break;
+        case 1:{
+            BOOL selected = indexPath.row == currentSelectedRow;
+            param = @{@"title":@"feed".localized.uppercaseString,@"icon":@"ic_feed",@"selected":[NSNumber numberWithBool:selected]};
+            borderRect = CGRectMake(OriginBorder.xBottom, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, OriginBorder.height);
+        }
+            break;
+        case 2:{
+            BOOL selected = indexPath.row == currentSelectedRow;
+            param = @{@"title":@"post".localized.uppercaseString,@"icon":@"icon",@"selected":[NSNumber numberWithBool:selected]};
+            borderRect = CGRectMake(OriginBorder.xBottom, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, OriginBorder.height);
+        }
+            break;
+        case 3:{
+            BOOL selected = indexPath.row == currentSelectedRow;
+            param = @{@"title":@"find".localized.uppercaseString,@"icon":@"ic_find_menu",@"selected":[NSNumber numberWithBool:selected]};
+            borderRect = CGRectMake(OriginBorder.xBottom, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, OriginBorder.height);
+        }
+            break;
+        case 4:{
+            BOOL selected = indexPath.row == currentSelectedRow;
+            param = @{@"title":@"search".localized.uppercaseString,@"icon":@"ic_search",@"selected":[NSNumber numberWithBool:selected]};
+            borderRect = CGRectMake(OriginBorder.xBottom, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, OriginBorder.height);
+        }
+            break;
+        case 5:{
+            param = @{@"title":@"settings".localized.uppercaseString};
+            borderRect = CGRectMake(OriginBorder.xBottom, [MenuFeatureTableViewCell cellHeightWithData:nil]-1.0, tableView.width - 15, OriginBorder.height);
+        }
+            break;
+
+        default:
+            break;
     }
     [cell setupCellWithData:nil andOptions:param];
     if (!CGRectEqualToRect(borderRect, CGRectZero)) {
@@ -261,7 +278,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0){
-        return [MenuProfileTableViewCell cellHeightWithData:nil];
+        return CellHeights.Profile;
     }else if (indexPath.row == 1 || indexPath.row == 2 || indexPath.row == 4 || indexPath.row == 3){
         return [MenuFeatureTableViewCell cellHeightWithData:nil];
     }else if (indexPath.row == 5){
@@ -270,10 +287,16 @@
     return 0;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 0.0;
+    return CellHeights.Close;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 0.0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    CloseButtonCell *cell = (CloseButtonCell *)[[NSBundle mainBundle] loadNibNamed:@"CloseButtonCell" owner:self options:nil][0];
+    cell.delegate = self;
+    return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -301,4 +324,9 @@
         [self.delegate closeLeftMenu];
     }
 }
+
+- (void)closeButtonClicked:(id)sender{
+    [self.delegate closeLeftMenu];
+}
+
 @end

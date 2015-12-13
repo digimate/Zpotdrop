@@ -11,6 +11,7 @@
 @interface MenuFeatureTableViewCell : BaseTableViewCell{
     IBOutlet UIImageView* _imgvIcon;
     IBOutlet UILabel* _lblTitle;
+    __weak IBOutlet UIView *_vSelected;
 }
 
 @end
