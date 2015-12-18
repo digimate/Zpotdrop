@@ -25,6 +25,13 @@
     [_btnDelete addTarget:self action:@selector(deleteComment:) forControlEvents:UIControlEventTouchUpInside];
     [_btnRetry setTitle:@"retry".localized forState:UIControlStateNormal];
     [_btnRetry addTarget:self action:@selector(retryComment:) forControlEvents:UIControlEventTouchUpInside];
+
+    UITapGestureRecognizer *imgTapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgvAvatarDidTouch:)];
+    [_imgvAvatar addGestureRecognizer:imgTapper];
+    
+    UITapGestureRecognizer *nameTapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lblNameDidTouch:)];
+    [_lblName addGestureRecognizer:nameTapper];
+
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -130,4 +137,17 @@
     });
     return _sharedInstance;
 }
+
+#pragma mark - Event Handlers
+
+- (IBAction)imgvAvatarDidTouch:(id)sender {
+    FeedCommentDataModel* feedComment = (FeedCommentDataModel*)self.dataModel;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AvatarDidTouchNotification" object:nil userInfo:[NSDictionary dictionaryWithObject:feedComment.user_id forKey:@"UserId"]];
+}
+
+- (IBAction)lblNameDidTouch:(id)sender {
+    FeedCommentDataModel* feedComment = (FeedCommentDataModel*)self.dataModel;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NameDidTouchNotification" object:nil userInfo:[NSDictionary dictionaryWithObject:feedComment.user_id forKey:@"UserId"]];
+}
+
 @end

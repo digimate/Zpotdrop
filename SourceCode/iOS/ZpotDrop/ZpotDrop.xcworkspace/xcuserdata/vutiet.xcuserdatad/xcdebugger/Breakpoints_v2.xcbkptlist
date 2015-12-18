@@ -47,7 +47,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "281"
             endingLineNumber = "281"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkName = "-tableView:heightForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -330,12 +330,12 @@
                   moduleName = "Zpotdrop"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vutiet/Zpotdrop/SourceCode/iOS/ZpotDrop/ZpotDrop/Data/Services/APIService.m"
-                  timestampString = "471624268.39657"
+                  timestampString = "472154614.952804"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "183"
                   endingLineNumber = "183"
-                  offsetFromSymbolStart = "308">
+                  offsetFromSymbolStart = "300">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -345,12 +345,12 @@
                   moduleName = "Zpotdrop"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vutiet/Zpotdrop/SourceCode/iOS/ZpotDrop/ZpotDrop/Data/Services/APIService.m"
-                  timestampString = "471624268.396706"
+                  timestampString = "472154614.953008"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "183"
                   endingLineNumber = "183"
-                  offsetFromSymbolStart = "32">
+                  offsetFromSymbolStart = "24">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -544,38 +544,6 @@
             startingLineNumber = "373"
             endingLineNumber = "373"
             landmarkName = "-mapView:regionDidChangeAnimated:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ZpotDrop/UI/ViewControllers/FeedView/FeedZpotViewController.m"
-            timestampString = "471624457.605621"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "330"
-            endingLineNumber = "330"
-            landmarkName = "-autoUpdatedTimerDidFire:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ZpotDrop/UI/ViewControllers/FeedView/FeedZpotViewController.m"
-            timestampString = "471624457.605621"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "327"
-            endingLineNumber = "327"
-            landmarkName = "-autoUpdatedTimerDidFire:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

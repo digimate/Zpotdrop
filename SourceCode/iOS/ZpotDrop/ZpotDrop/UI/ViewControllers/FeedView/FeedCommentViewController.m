@@ -42,7 +42,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"feed".localized.uppercaseString;
+    [self createBackButton];
+    self.title = @"";
     self.view.backgroundColor = [UIColor whiteColor];
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
@@ -158,7 +159,7 @@
     //headerView
     _tableViewComment.tableHeaderView = nil;
     UIView* viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _tableViewComment.width, 50)];
-    _lblLikeInfo = [[UILabel alloc]initWithFrame:CGRectMake(10, 0,viewHeader.width-10, viewHeader.height/2)];
+    _lblLikeInfo = [[UILabel alloc]initWithFrame:CGRectMake(10, 0,viewHeader.width-10, viewHeader.height/2 + 5)];
     _lblLikeInfo.textColor = [UIColor colorWithRed:192 green:192 blue:192];
     _lblLikeInfo.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
     _lblLikeInfo.text = nil;
@@ -170,7 +171,6 @@
     _lblCommingInfo.text = nil;
     [viewHeader addSubview:_lblCommingInfo];
     
-    _tableViewComment.tableHeaderView = viewHeader;
     //show Like Info
     NSArray* arrayLikeUserID;
     if (feedData.like_userIds.length > 0) {
@@ -206,12 +206,30 @@
             }
         }
         _lblCommingInfo.attributedText = attStr;
+        if ([txt isEqualToString:@"no_coming_user".localized]) {
+            _lblCommingInfo.hidden = YES;
+            CGRect viewHeaderFrame = viewHeader.frame;
+            viewHeaderFrame.size.height = 30;
+            viewHeader.frame = viewHeaderFrame;
+            _tableViewComment.tableHeaderView = viewHeader;
+
+        } else {
+            _lblCommingInfo.hidden = NO;
+            CGRect viewHeaderFrame = viewHeader.frame;
+            viewHeaderFrame.size.height = 50;
+            viewHeader.frame = viewHeaderFrame;
+            _tableViewComment.tableHeaderView = viewHeader;
+        }
     }];
+
 
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(avatarDidTouch:) name:@"AvatarDidTouchNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(nameDidTouch:) name:@"NameDidTouchNotification" object:nil];
+
     [self registerKeyboardNotification];
     if (_commentsData.count == 0) {
         [self loadComments];
@@ -220,6 +238,9 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"AvatarDidTouchNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NameDidTouchNotification" object:nil];
+
     [self removeKeyboardNotification];
 }
 
@@ -427,4 +448,19 @@
     }
     return nil;
 }
+
+- (void)avatarDidTouch:(NSNotification *)notification {
+    NSDictionary *userInfo = notification.userInfo;
+    NSString *userId = [userInfo objectForKey:@"UserId"];
+    // show profile
+    [[Utils instance]showUserProfile:[UserDataModel fetchObjectWithID:userId] fromViewController:self];
+}
+
+- (void)nameDidTouch:(NSNotification *)notification {
+    NSDictionary *userInfo = notification.userInfo;
+    NSString *userId = [userInfo objectForKey:@"UserId"];
+    // show profile
+    [[Utils instance]showUserProfile:[UserDataModel fetchObjectWithID:userId] fromViewController:self];
+}
+
 @end

@@ -23,6 +23,7 @@
 @synthesize userModel;
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self createBackButton];
     self.title = @"profile".localized.uppercaseString;
     self.view.backgroundColor = [UIColor whiteColor];
     [self setAutomaticallyAdjustsScrollViewInsets:NO];

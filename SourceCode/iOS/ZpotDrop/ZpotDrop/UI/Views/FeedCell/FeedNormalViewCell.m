@@ -53,6 +53,13 @@
     _btnComming.selected = NO;
     [_btnLike addTarget:self action:@selector(likeFeed:) forControlEvents:UIControlEventTouchUpInside];
     [self addBorderWithFrame:CGRectMake(0, [FeedNormalViewCell cellHeightWithData:nil]-5.0, self.width, 5.0) color:[UIColor colorWithRed:242 green:242 blue:242]];
+    
+    UITapGestureRecognizer *imgTapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgvAvatarDidTouch:)];
+    [_imgvAvatar addGestureRecognizer:imgTapper];
+    
+    UITapGestureRecognizer *nameTapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lblNameDidTouch:)];
+    [_lblName addGestureRecognizer:nameTapper];
+
 }
 
 -(void)showCommentView{
@@ -208,4 +215,17 @@
 +(CGFloat)cellHeightWithData:(BaseDataModel *)data{
     return 141;
 }
+
+#pragma mark - Event Handlers
+
+- (IBAction)imgvAvatarDidTouch:(id)sender {
+    FeedDataModel* feedData = (FeedDataModel*)self.dataModel;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AvatarDidTouchNotification" object:nil userInfo:[NSDictionary dictionaryWithObject:feedData.user_id forKey:@"UserId"]];
+}
+
+- (IBAction)lblNameDidTouch:(id)sender {
+    FeedDataModel* feedData = (FeedDataModel*)self.dataModel;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NameDidTouchNotification" object:nil userInfo:[NSDictionary dictionaryWithObject:feedData.user_id forKey:@"UserId"]];
+}
+
 @end

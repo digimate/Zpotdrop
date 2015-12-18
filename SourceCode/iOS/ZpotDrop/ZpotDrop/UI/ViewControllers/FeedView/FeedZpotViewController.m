@@ -149,6 +149,10 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(avatarDidTouch:) name:@"AvatarDidTouchNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(nameDidTouch:) name:@"NameDidTouchNotification" object:nil];
+    
     if (!insertDataHandler) {
         insertDataHandler = [[TableViewDataHandler alloc]init];
         [insertDataHandler handleData:_feedData ofTableView:_feedTableView];
@@ -169,7 +173,8 @@
     [self removeAppBecomActiveNotification];
     [autoUpdatedTimer invalidate];
     autoUpdatedTimer = nil;
-
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"AvatarDidTouchNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NameDidTouchNotification" object:nil];
 }
 -(void)insertNewFeedInTable:(id)data{
     [insertDataHandler insertData:data];
@@ -339,6 +344,20 @@
             }
         }];
     }
+}
+
+- (void)avatarDidTouch:(NSNotification *)notification {
+    NSDictionary *userInfo = notification.userInfo;
+    NSString *userId = [userInfo objectForKey:@"UserId"];
+    // show profile
+    [[Utils instance]showUserProfile:[UserDataModel fetchObjectWithID:userId] fromViewController:self];
+}
+
+- (void)nameDidTouch:(NSNotification *)notification {
+    NSDictionary *userInfo = notification.userInfo;
+    NSString *userId = [userInfo objectForKey:@"UserId"];
+    // show profile
+    [[Utils instance]showUserProfile:[UserDataModel fetchObjectWithID:userId] fromViewController:self];
 }
 
 @end

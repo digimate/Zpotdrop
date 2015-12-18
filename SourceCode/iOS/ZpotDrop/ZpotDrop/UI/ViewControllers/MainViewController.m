@@ -146,14 +146,14 @@
 }
 
 - (void)showUserProfile {
-    [self.navigationController popToRootViewControllerAnimated:NO];
+//    [self.navigationController popToRootViewControllerAnimated:NO];
     UserProfileViewController* userProfileVC = [[UserProfileViewController alloc]init];
     AccountModel* currentAccount = [AccountModel currentAccountModel];
     UserDataModel* currentUser = (UserDataModel*)[UserDataModel fetchObjectWithID:currentAccount.user_id];
     userProfileVC.userModel = currentUser;
     [self.navigationController pushViewController:userProfileVC animated:YES];
-    userProfileVC.navigationItem.leftBarButtonItem = self.navigationItem.leftBarButtonItem;
-    userProfileVC.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+//    userProfileVC.navigationItem.leftBarButtonItem = self.navigationItem.leftBarButtonItem;
+//    userProfileVC.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
 }
 
 -(void)handleSwipeLeft{

@@ -63,6 +63,12 @@
     
     [_btnComming addTarget:self action:@selector(sendCommingNotify:) forControlEvents:UIControlEventTouchUpInside];
     [_btnLike addTarget:self action:@selector(likeFeed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UITapGestureRecognizer *imgTapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgvAvatarDidTouch:)];
+    [_imgvAvatar addGestureRecognizer:imgTapper];
+    
+    UITapGestureRecognizer *nameTapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lblNameDidTouch:)];
+    [_lblName addGestureRecognizer:nameTapper];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -527,6 +533,18 @@
         return viewHeader;
     }
     return nil;
+}
+
+#pragma mark - Event Handlers
+
+- (IBAction)imgvAvatarDidTouch:(id)sender {
+    FeedDataModel* feedData = (FeedDataModel*)self.dataModel;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AvatarDidTouchNotification" object:nil userInfo:[NSDictionary dictionaryWithObject:feedData.user_id forKey:@"UserId"]];
+}
+
+- (IBAction)lblNameDidTouch:(id)sender {
+    FeedDataModel* feedData = (FeedDataModel*)self.dataModel;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"NameDidTouchNotification" object:nil userInfo:[NSDictionary dictionaryWithObject:feedData.user_id forKey:@"UserId"]];
 }
 
 @end
