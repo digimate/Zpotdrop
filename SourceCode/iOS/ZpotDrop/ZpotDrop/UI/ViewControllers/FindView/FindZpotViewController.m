@@ -138,7 +138,7 @@
         [Utils instance].mapView.showsUserLocation = YES;
         [[Utils instance].mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
         [Utils instance].mapView.scrollEnabled = NO;
-        [Utils instance].mapView.zoomEnabled = NO;
+        [Utils instance].mapView.zoomEnabled = YES;
         [[Utils instance].mapView removeOverlays:[Utils instance].mapView.overlays];
         [self removeAnimatedOverlay];
         MKAnnotationView* annotationView = [[Utils instance].mapView viewForAnnotation:[Utils instance].mapView.userLocation];
@@ -463,6 +463,8 @@
     
     //reload MapView
     [self addAnnotationScannedUsers];
+    CLLocationCoordinate2D userCoordinate = CLLocationCoordinate2DMake([[(UserDataModel *)selectedScannedUser latitude] doubleValue], [[(UserDataModel *)selectedScannedUser longitude] doubleValue]);
+    [[Utils instance].mapView setCenterCoordinate:userCoordinate];
 }
 #pragma mark - UISearchBarDelegate
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{

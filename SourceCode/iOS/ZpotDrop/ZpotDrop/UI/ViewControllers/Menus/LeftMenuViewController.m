@@ -101,7 +101,7 @@
     [self.view addGestureRecognizer:closeSwipe];
 }
 
--(void)zpotAllPressed{
+-(void)zpotAllPressed {
     AccountModel* currentAccount = [AccountModel currentAccountModel];
     UserDataModel* currentUser = (UserDataModel*)[UserDataModel fetchObjectWithID:currentAccount.user_id];
     currentUser.zpot_all_time = [NSDate date];
@@ -164,6 +164,11 @@
         zpotdropAllButton.enabled = NO;
         lblZpotAll.hidden = YES;
     }
+    
+    [zpotdropAllButton setTitle:@"zpot_all".localized.uppercaseString forState:UIControlStateNormal];
+    zpotdropAllButton.enabled = YES;
+    lblZpotAll.hidden = NO;
+    
 }
 
 -(void)changeViewToClass:(NSString*)clsString{

@@ -117,7 +117,7 @@
 		B4D09F801BC5801E008B180A /* avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D09E8B1BC5801E008B180A /* avatar@2x.png */; };
 		B4D09F811BC5801E008B180A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D09E8C1BC5801E008B180A /* Default-568h@2x.png */; };
 		B4D09F821BC5801E008B180A /* ic_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D09E8D1BC5801E008B180A /* ic_add@2x.png */; };
-		B4D09F831BC5801E008B180A /* ic_add_friend@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D09E8E1BC5801E008B180A /* ic_add_friend@2x.png */; };
+		B4D09F831BC5801E008B180A /* ic_add_friend_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D09E8E1BC5801E008B180A /* ic_add_friend_green@2x.png */; };
 		B4D09F841BC5801E008B180A /* ic_annotation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D09E8F1BC5801E008B180A /* ic_annotation@2x.png */; };
 		B4D09F851BC5801E008B180A /* ic_comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D09E901BC5801E008B180A /* ic_comment@2x.png */; };
 		B4D09F861BC5801E008B180A /* ic_comment_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D09E911BC5801E008B180A /* ic_comment_green@2x.png */; };
@@ -419,7 +419,7 @@
 		B4D09E8B1BC5801E008B180A /* avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar@2x.png"; sourceTree = "<group>"; };
 		B4D09E8C1BC5801E008B180A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B4D09E8D1BC5801E008B180A /* ic_add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_add@2x.png"; sourceTree = "<group>"; };
-		B4D09E8E1BC5801E008B180A /* ic_add_friend@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_add_friend@2x.png"; sourceTree = "<group>"; };
+		B4D09E8E1BC5801E008B180A /* ic_add_friend_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_add_friend_green@2x.png"; sourceTree = "<group>"; };
 		B4D09E8F1BC5801E008B180A /* ic_annotation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_annotation@2x.png"; sourceTree = "<group>"; };
 		B4D09E901BC5801E008B180A /* ic_comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_comment@2x.png"; sourceTree = "<group>"; };
 		B4D09E911BC5801E008B180A /* ic_comment_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_comment_green@2x.png"; sourceTree = "<group>"; };
@@ -1023,7 +1023,7 @@
 				B4D09E8B1BC5801E008B180A /* avatar@2x.png */,
 				B4D09E8C1BC5801E008B180A /* Default-568h@2x.png */,
 				B4D09E8D1BC5801E008B180A /* ic_add@2x.png */,
-				B4D09E8E1BC5801E008B180A /* ic_add_friend@2x.png */,
+				B4D09E8E1BC5801E008B180A /* ic_add_friend_green@2x.png */,
 				B4D09E8F1BC5801E008B180A /* ic_annotation@2x.png */,
 				B4D09E901BC5801E008B180A /* ic_comment@2x.png */,
 				B4D09E911BC5801E008B180A /* ic_comment_green@2x.png */,
@@ -1503,7 +1503,7 @@
 				B4D09F991BC5801E008B180A /* ic_location_white@2x.png in Resources */,
 				B4D09FA71BC5801E008B180A /* Main.storyboard in Resources */,
 				B4D09FA21BC5801E008B180A /* item_menu@2x.png in Resources */,
-				B4D09F831BC5801E008B180A /* ic_add_friend@2x.png in Resources */,
+				B4D09F831BC5801E008B180A /* ic_add_friend_green@2x.png in Resources */,
 				B4D09F881BC5801E008B180A /* ic_comment_s@2x.png in Resources */,
 				B469DFDF1BCAB5DE007CD700 /* MyriadPro-Regular.otf in Resources */,
 				B4D09FCE1BC5801E008B180A /* FriendRequestZpotCell.xib in Resources */,
@@ -1850,8 +1850,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Vu Tiet (7ZXKW2SX3Y)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vu Tiet (7ZXKW2SX3Y)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1865,7 +1865,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zpotdrop.testing;
 				PRODUCT_NAME = Zpotdrop;
-				PROVISIONING_PROFILE = "e3885c7a-feaf-4cd3-8e5a-c23f01ba4899";
+				PROVISIONING_PROFILE = "f870cba1-1895-410e-816f-1335e54e22da";
 			};
 			name = Debug;
 		};
@@ -1875,8 +1875,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Vu Tiet (7ZXKW2SX3Y)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vu Tiet (7ZXKW2SX3Y)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1890,7 +1890,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zpotdrop.testing;
 				PRODUCT_NAME = Zpotdrop;
-				PROVISIONING_PROFILE = "e3885c7a-feaf-4cd3-8e5a-c23f01ba4899";
+				PROVISIONING_PROFILE = "f870cba1-1895-410e-816f-1335e54e22da";
 			};
 			name = Release;
 		};

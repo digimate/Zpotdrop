@@ -74,7 +74,7 @@
     UIButton* btnFollow = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnFollow setFrame:CGRectMake(0, 0, 34, 34)];
     [btnFollow setCenter:CGPointMake(imgvAvatar.center.x + 25, imgvAvatar.centerY + imgvAvatar.height/2)];
-    [btnFollow setImage:[UIImage imageNamed:@"ic_add_friend"] forState:UIControlStateNormal];
+    [btnFollow setImage:[UIImage imageNamed:@"ic_add_friend_green"] forState:UIControlStateNormal];
     [btnFollow setImage:[UIImage imageNamed:@"ic_friended"] forState:UIControlStateSelected];
     [btnFollow addTarget:self action:@selector(followUser:) forControlEvents:UIControlEventTouchUpInside];
     [viewHeader addSubview:btnFollow];

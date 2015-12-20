@@ -106,7 +106,7 @@
                                             <constraint firstAttribute="height" constant="1" id="fsp-pj-tkr"/>
                                         </constraints>
                                     </imageView>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ic2-6m-6FR">
+                                    <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ic2-6m-6FR">
                                         <rect key="frame" x="0.0" y="200" width="320" height="44"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add text" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NQl-Dx-zSM">
@@ -139,22 +139,16 @@
                                             <constraint firstItem="NQl-Dx-zSM" firstAttribute="top" secondItem="Ic2-6m-6FR" secondAttribute="top" constant="7" id="w0m-hI-EhI"/>
                                         </constraints>
                                     </view>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Vo-R9-SkR">
+                                    <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Vo-R9-SkR">
                                         <rect key="frame" x="0.0" y="244" width="320" height="34"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="llK-Ti-lPm">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="llK-Ti-lPm">
                                                 <rect key="frame" x="15" y="3" width="290" height="28"/>
                                                 <attributedString key="attributedText">
-                                                    <fragment content="With - ">
+                                                    <fragment content="With - Oscar Rundqvist, Oscar Rundqvist, Oscar Rundqvist, Oscar Rundqvist, Oscar Rundqvist, Oscar Rundqvist">
                                                         <attributes>
                                                             <color key="NSColor" red="0.078431372549019607" green="0.12549019607843137" blue="0.16078431372549018" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <font key="NSFont" size="10" name="OpenSans-Light"/>
-                                                        </attributes>
-                                                    </fragment>
-                                                    <fragment content="Oscar Rundqvist, Oscar Rundqvist, Oscar Rundqvist, Oscar Rundqvist, Oscar Rundqvist, Oscar Rundqvist">
-                                                        <attributes>
-                                                            <color key="NSColor" red="0.078431372549019607" green="0.12549019607843137" blue="0.16078431372549018" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <font key="NSFont" size="10" name="OpenSans-Bold"/>
+                                                            <font key="NSFont" metaFont="system" size="10"/>
                                                         </attributes>
                                                     </fragment>
                                                 </attributedString>
