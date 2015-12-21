@@ -132,14 +132,16 @@
 //}
 
 -(void)postNewZpot:(UIButton*)sender{
+    NSString *postString = [tfAddText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if (![Utils instance].mapView.userLocationVisible ||  !CLLocationCoordinate2DIsValid([Utils instance].mapView.userLocation.coordinate)) {
         [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_no_gps".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
         }];
     }
-    else if ([tfAddText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0) {
-        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_empty_zpot_title".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
-        }];
-    }else if (selectedLocation == nil){
+/*    else if (postString.length == 0) {
+//        [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_empty_zpot_title".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+//        }];
+        postString = @"";
+    }*/else if (selectedLocation == nil){
         [[Utils instance]showAlertWithTitle:@"error_title".localized message:@"error_empty_zpot_location".localized yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
         }];
     }else{
@@ -148,7 +150,7 @@
         
         NSString *withUserIds = [UserService getUserIdListFromUsers:withFriends];
         NSMutableDictionary* params = [NSMutableDictionary dictionaryWithDictionary:@{
-                                                                                      @"title":[tfAddText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]],
+                                                                                      @"title":postString,
                                                                                       @"location":[selectedLocation mid],
                                                                                       @"with_userIds": withUserIds
                                                                                       }];

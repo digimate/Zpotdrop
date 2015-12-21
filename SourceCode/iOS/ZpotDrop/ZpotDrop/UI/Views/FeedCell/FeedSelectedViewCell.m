@@ -14,11 +14,23 @@
 #import "LocationDataModel.h"
 #import "APIService.h"
 
+@interface FeedSelectedViewCell() {
+    
+}
+
+//@property (copy, nonatomic) NSMutableAttributedString *attrString;
+//@property (strong, nonatomic) NSMutableArray *likedUsernames;
+//@property (copy, nonatomic) NSAttributedString *moreString;
+//@property (assign, nonatomic) NSRange moreStringRange;
+
+@end
+
 @implementation FeedSelectedViewCell
 
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
+//    self.likedUsernames = [[NSMutableArray alloc] init];
     _viewButtons.width = self.width;
     [_viewButtons addBorderWithFrame:CGRectMake(0, 0, _viewButtons.width, 1.0) color:COLOR_SEPEARATE_LINE];
     [_btnComment addBorderWithFrame:CGRectMake(0, 0, 1.0, _btnComment.height) color:COLOR_SEPEARATE_LINE];
@@ -146,6 +158,10 @@
         _lblLikeInfo.textColor = [UIColor colorWithRed:192 green:192 blue:192];
         _lblLikeInfo.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
         _lblLikeInfo.text = nil;
+        _lblLikeInfo.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lblLikeInfoDidTouch:)];
+        [_lblLikeInfo addGestureRecognizer:tapRecognizer];
+
         [viewHeader addSubview:_lblLikeInfo];
         
         _lblCommingInfo = [[UILabel alloc]initWithFrame:CGRectMake(10, viewHeader.height/2,viewHeader.width-10, viewHeader.height/2)];
@@ -162,6 +178,17 @@
         }else{
             arrayLikeUserID = @[];
         }
+        
+//        [self.likedUsernames removeAllObjects];
+//        for (int i = 0; i < 3; i++) {
+//            if (i < arrayLikeUserID.count) {
+//                UserDataModel* user = (UserDataModel*) [UserDataModel fetchObjectWithID:arrayLikeUserID[i]];
+//                [user updateObjectForUse:^{
+//                    [self.likedUsernames addObject:user.name];
+//                }];
+//            }
+//        }
+        
         [[Utils instance]convertLikeIDsToInfo:arrayLikeUserID completion:^(NSString *txt,NSArray* rangeArray) {
             NSMutableAttributedString* attStr = [[NSMutableAttributedString alloc]initWithString:txt];
             NSDictionary* dict = @{NSForegroundColorAttributeName : [UIColor colorWithRed:125 green:125 blue:125]};
@@ -171,7 +198,9 @@
                     [attStr addAttributes:dict range:range];
                 }
             }
+//            self.attrString = attStr;
             _lblLikeInfo.attributedText = attStr;
+                        
         }];
         //show Comming Info
         NSArray* arrayCommingUserID;
@@ -245,6 +274,16 @@
         }else{
             arrayLikeUserID = @[];
         }
+//        [self.likedUsernames removeAllObjects];
+//        for (int i = 0; i < 3; i++) {
+//            if (i < arrayLikeUserID.count) {
+//                UserDataModel* user = (UserDataModel*) [UserDataModel fetchObjectWithID:arrayLikeUserID[i]];
+//                [user updateObjectForUse:^{
+//                    [self.likedUsernames addObject:user.name];
+//                }];
+//            }
+//        }
+        
         [[Utils instance]convertLikeIDsToInfo:arrayLikeUserID completion:^(NSString *txt,NSArray* rangeArray) {
             NSMutableAttributedString* attStr = [[NSMutableAttributedString alloc]initWithString:txt];
             NSDictionary* dict = @{NSForegroundColorAttributeName : [UIColor colorWithRed:125 green:125 blue:125]};
@@ -254,8 +293,11 @@
                     [attStr addAttributes:dict range:range];
                 }
             }
+//            self.attrString = attStr;
             _lblLikeInfo.attributedText = attStr;
         }];
+        
+        
         
         //show Comming Info
         NSArray* arrayCommingUserID;
@@ -545,6 +587,64 @@
 - (IBAction)lblNameDidTouch:(id)sender {
     FeedDataModel* feedData = (FeedDataModel*)self.dataModel;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NameDidTouchNotification" object:nil userInfo:[NSDictionary dictionaryWithObject:feedData.user_id forKey:@"UserId"]];
+}
+
+- (void)lblLikeInfoDidTouch: (UITapGestureRecognizer *)gesture {
+    // Storage class stores the string, obviously
+//    NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:self.attrString];
+//    
+//    // The storage class owns a layout manager
+//    NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
+//    [textStorage addLayoutManager:layoutManager];
+//    
+//    // Layout manager owns a container which basically
+//    // defines the bounds the text should be contained in
+//    NSTextContainer *textContainer = [[NSTextContainer alloc] initWithSize:_lblLikeInfo.frame.size];
+//    
+//    // For labels the fragment padding should be 0
+//    textContainer.lineFragmentPadding = 0;
+//    
+//    // Begin computation of actual frame
+//    // Glyph is the final display representation
+//    // Eg: Ligatures have 2 characters but only 1 glyph.
+//    NSRange glyphRange;
+//    
+//    // Extract the glyph range
+//    [layoutManager characterRangeForGlyphRange:self.moreStringRange actualGlyphRange:&glyphRange];
+//    
+//    // Compute the rect of glyph in the text container
+//    CGRect glyphRect = [layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:textContainer];
+//    
+//    // Final rect relative to the textLabel.
+//    NSLog( @"%@", glyphRect );
+//    
+//    // Now figure out if the touch point is inside our rect
+//    CGPoint touchPoint = [gesture locationOfTouch:0 inView:self.textLabel];
+//    
+//    if( CGRectContainsPoint(glyphRect, touchPoint) ) {
+//        NSLog( @"User tapped on Read More. So show something more");
+//    }
+    
+//    for (int i = 0; i < self.likedUsernames.count; i++) {
+//        NSRange iRange = [self.attrString.string rangeOfString:self.likedUsernames[i]];
+//        // Extract the glyph range
+//        [layoutManager characterRangeForGlyphRange:iRange actualGlyphRange:&glyphRange];
+//        
+//        // Compute the rect of glyph in the text container
+//        CGRect glyphRect = [layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:textContainer];
+//        
+//        // Final rect relative to the textLabel.
+//        NSLog( @"%@", glyphRect );
+//        
+//        // Now figure out if the touch point is inside our rect
+//        CGPoint touchPoint = [gesture locationOfTouch:0 inView:_lblLikeInfo];
+//        
+//        if( CGRectContainsPoint(glyphRect, touchPoint) ) {
+//            NSLog(@"touch %@", self.likedUsernames[i]);
+//            NSLog( @"User tapped on Read More. So show something more");
+//        }
+//    }
+    
 }
 
 @end

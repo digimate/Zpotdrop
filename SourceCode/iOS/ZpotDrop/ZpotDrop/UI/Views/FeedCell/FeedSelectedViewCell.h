@@ -39,4 +39,5 @@
 }
 -(void)addComment:(BaseDataModel*)data;
 @property(nonatomic, copy)void(^onShowComment)();
+
 @end
