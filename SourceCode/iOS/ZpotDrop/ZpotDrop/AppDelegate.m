@@ -11,6 +11,9 @@
 #import "CoreDataService.h"
 #import "Utils.h"
 #import "APIService.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 @import GoogleMaps;
 
 @interface AppDelegate ()<CLLocationManagerDelegate>
@@ -55,6 +58,8 @@
     }
     
     [GMSServices provideAPIKey:@"AIzaSyDQYtsThC5qIgZUZdKoTWjVQafhFlzJCWw"];
+    
+    [Fabric with:@[[Crashlytics class]]];
         
     return [[FBSDKApplicationDelegate sharedInstance]application:application didFinishLaunchingWithOptions:launchOptions];
 }

@@ -12,7 +12,7 @@
 #import "FeedCommentViewController.h"
 #import "Utils.h"
 
-@interface FeedZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate, UIScrollViewDelegate>{
+@interface FeedZpotViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate, UIScrollViewDelegate, FeedSelectedViewCellDelegate>{
     UITableView* _feedTableView;
     //UIView* _commentPostView;
     //UITextView* _tvComment;
@@ -243,6 +243,7 @@
         [cell setupCellWithData:model andOptions:nil];
         
         feedSelectedCell = (FeedSelectedViewCell*)cell;
+        feedSelectedCell.delegate = self;
         FeedZpotViewController* weak = weakObject(self);
         FeedSelectedViewCell* weakCell = weakObject(feedSelectedCell);
         feedSelectedCell.onShowComment = ^{
@@ -358,6 +359,15 @@
     NSString *userId = [userInfo objectForKey:@"UserId"];
     // show profile
     [[Utils instance]showUserProfile:[UserDataModel fetchObjectWithID:userId] fromViewController:self];
+}
+
+#pragma mark - FeedSelectedViewCellDelegate
+
+- (void)userDidTouch:(UserDataModel *)userModel {
+    NSLog(@"userDidTouch: %@", userModel.name);
+    
+    // show profile
+    [[Utils instance]showUserProfile:userModel fromViewController:self];
 }
 
 @end

@@ -19,7 +19,7 @@
 }
 
 //@property (copy, nonatomic) NSMutableAttributedString *attrString;
-//@property (strong, nonatomic) NSMutableArray *likedUsernames;
+@property (strong, nonatomic) NSMutableArray *likedUsers;
 //@property (copy, nonatomic) NSAttributedString *moreString;
 //@property (assign, nonatomic) NSRange moreStringRange;
 
@@ -30,7 +30,7 @@
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
-//    self.likedUsernames = [[NSMutableArray alloc] init];
+    _likedUsers = [[NSMutableArray alloc] init];
     _viewButtons.width = self.width;
     [_viewButtons addBorderWithFrame:CGRectMake(0, 0, _viewButtons.width, 1.0) color:COLOR_SEPEARATE_LINE];
     [_btnComment addBorderWithFrame:CGRectMake(0, 0, 1.0, _btnComment.height) color:COLOR_SEPEARATE_LINE];
@@ -154,13 +154,13 @@
         //headerView
         _tableViewComments.tableHeaderView = nil;
         UIView* viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _tableViewComments.width, 50)];
-        _lblLikeInfo = [[UILabel alloc]initWithFrame:CGRectMake(10, 0,viewHeader.width-10, viewHeader.height/2)];
+        _lblLikeInfo = [[FRHyperLabel alloc]initWithFrame:CGRectMake(10, 0,viewHeader.width-10, viewHeader.height/2)];
         _lblLikeInfo.textColor = [UIColor colorWithRed:192 green:192 blue:192];
         _lblLikeInfo.font = [UIFont fontWithName:@"PTSans-Regular" size:14];
         _lblLikeInfo.text = nil;
-        _lblLikeInfo.userInteractionEnabled = YES;
-        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lblLikeInfoDidTouch:)];
-        [_lblLikeInfo addGestureRecognizer:tapRecognizer];
+//        _lblLikeInfo.userInteractionEnabled = YES;
+//        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lblLikeInfoDidTouch:)];
+//        [_lblLikeInfo addGestureRecognizer:tapRecognizer];
 
         [viewHeader addSubview:_lblLikeInfo];
         
@@ -179,15 +179,15 @@
             arrayLikeUserID = @[];
         }
         
-//        [self.likedUsernames removeAllObjects];
-//        for (int i = 0; i < 3; i++) {
-//            if (i < arrayLikeUserID.count) {
-//                UserDataModel* user = (UserDataModel*) [UserDataModel fetchObjectWithID:arrayLikeUserID[i]];
-//                [user updateObjectForUse:^{
-//                    [self.likedUsernames addObject:user.name];
-//                }];
-//            }
-//        }
+        [self.likedUsers removeAllObjects];
+        for (int i = 0; i < 3; i++) {
+            if (i < arrayLikeUserID.count) {
+                UserDataModel* user = (UserDataModel*) [UserDataModel fetchObjectWithID:arrayLikeUserID[i]];
+                [user updateObjectForUse:^{
+                    [self.likedUsers addObject:user];
+                }];
+            }
+        }
         
         [[Utils instance]convertLikeIDsToInfo:arrayLikeUserID completion:^(NSString *txt,NSArray* rangeArray) {
             NSMutableAttributedString* attStr = [[NSMutableAttributedString alloc]initWithString:txt];
@@ -200,6 +200,25 @@
             }
 //            self.attrString = attStr;
             _lblLikeInfo.attributedText = attStr;
+            
+            void(^handler)(FRHyperLabel *label, NSString *substring) = ^(FRHyperLabel *label, NSString *substring){
+                NSLog(@"subString %@", substring);
+                for (UserDataModel *userModel in self.likedUsers) {
+                    if ([substring isEqualToString:userModel.name]) {
+                        if ([self.delegate respondsToSelector:@selector(userDidTouch:)]) {
+                            [self.delegate userDidTouch:userModel];
+                            break;
+                        }
+                    }
+                }
+            };
+            
+            NSMutableArray *usernames = [[NSMutableArray alloc] init];
+            for (UserDataModel *userModel in self.likedUsers) {
+                [usernames addObject: userModel.name];
+                NSLog(@"usernames added: %@", userModel.name);
+            }
+            [_lblLikeInfo setLinksForSubstrings:usernames withLinkHandler:handler];
                         
         }];
         //show Comming Info
@@ -274,15 +293,15 @@
         }else{
             arrayLikeUserID = @[];
         }
-//        [self.likedUsernames removeAllObjects];
-//        for (int i = 0; i < 3; i++) {
-//            if (i < arrayLikeUserID.count) {
-//                UserDataModel* user = (UserDataModel*) [UserDataModel fetchObjectWithID:arrayLikeUserID[i]];
-//                [user updateObjectForUse:^{
-//                    [self.likedUsernames addObject:user.name];
-//                }];
-//            }
-//        }
+        [self.likedUsers removeAllObjects];
+        for (int i = 0; i < 3; i++) {
+            if (i < arrayLikeUserID.count) {
+                UserDataModel* user = (UserDataModel*) [UserDataModel fetchObjectWithID:arrayLikeUserID[i]];
+                [user updateObjectForUse:^{
+                    [self.likedUsers addObject:user];
+                }];
+            }
+        }
         
         [[Utils instance]convertLikeIDsToInfo:arrayLikeUserID completion:^(NSString *txt,NSArray* rangeArray) {
             NSMutableAttributedString* attStr = [[NSMutableAttributedString alloc]initWithString:txt];
@@ -295,6 +314,24 @@
             }
 //            self.attrString = attStr;
             _lblLikeInfo.attributedText = attStr;
+            void(^handler)(FRHyperLabel *label, NSString *substring) = ^(FRHyperLabel *label, NSString *substring){
+                NSLog(@"subString %@", substring);
+                for (UserDataModel *userModel in self.likedUsers) {
+                    if ([substring isEqualToString:userModel.name]) {
+                        if ([self.delegate respondsToSelector:@selector(userDidTouch:)]) {
+                            [self.delegate userDidTouch:userModel];
+                            break;
+                        }
+                    }
+                }
+            };
+
+            NSMutableArray *usernames = [[NSMutableArray alloc] init];
+            for (UserDataModel *userModel in self.likedUsers) {
+                [usernames addObject: userModel.name];
+                NSLog(@"usernames added: %@", userModel.name);
+            }
+            [_lblLikeInfo setLinksForSubstrings:usernames withLinkHandler:handler];
         }];
         
         

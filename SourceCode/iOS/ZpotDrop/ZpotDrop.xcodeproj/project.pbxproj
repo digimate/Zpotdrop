@@ -216,6 +216,9 @@
 		B4D09FE41BC5801E008B180A /* UserProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D09F351BC5801E008B180A /* UserProfileCell.m */; };
 		B4D09FE51BC5801E008B180A /* UserProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4D09F361BC5801E008B180A /* UserProfileCell.xib */; };
 		B4D09FE61BC5801E008B180A /* ZpotAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D09F381BC5801E008B180A /* ZpotAnnotationView.m */; };
+		B932F6971C2AFC6400ABE850 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B932F6951C2AFC6400ABE850 /* Fabric.framework */; };
+		B932F6981C2AFC6400ABE850 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B932F6961C2AFC6400ABE850 /* Crashlytics.framework */; };
+		B932F69C1C2B006600ABE850 /* FRHyperLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B932F69B1C2B006600ABE850 /* FRHyperLabel.m */; };
 		B9C91F041C04C6810025E463 /* ic_find_menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9C91F031C04C6810025E463 /* ic_find_menu@2x.png */; };
 		B9D8CD591C1C5A8700940D29 /* AnimatedOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = B9D8CD581C1C5A8700940D29 /* AnimatedOverlay.m */; };
 		BA0874B41B6FC31300FBFF74 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0874B31B6FC31300FBFF74 /* CoreData.framework */; };
@@ -566,6 +569,10 @@
 		B4D09F361BC5801E008B180A /* UserProfileCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserProfileCell.xib; sourceTree = "<group>"; };
 		B4D09F371BC5801E008B180A /* ZpotAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZpotAnnotationView.h; sourceTree = "<group>"; };
 		B4D09F381BC5801E008B180A /* ZpotAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZpotAnnotationView.m; sourceTree = "<group>"; };
+		B932F6951C2AFC6400ABE850 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
+		B932F6961C2AFC6400ABE850 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
+		B932F69A1C2B006600ABE850 /* FRHyperLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRHyperLabel.h; sourceTree = "<group>"; };
+		B932F69B1C2B006600ABE850 /* FRHyperLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRHyperLabel.m; sourceTree = "<group>"; };
 		B9C91F031C04C6810025E463 /* ic_find_menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_find_menu@2x.png"; sourceTree = "<group>"; };
 		B9D8CD571C1C5A8700940D29 /* AnimatedOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedOverlay.h; sourceTree = "<group>"; };
 		B9D8CD581C1C5A8700940D29 /* AnimatedOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimatedOverlay.m; sourceTree = "<group>"; };
@@ -582,6 +589,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B932F6971C2AFC6400ABE850 /* Fabric.framework in Frameworks */,
 				B44090021BCFF11000E3639D /* libz.tbd in Frameworks */,
 				B44090001BCFF10800E3639D /* libsqlite3.tbd in Frameworks */,
 				B4408FFE1BCFF0D500E3639D /* libc++.tbd in Frameworks */,
@@ -591,6 +599,7 @@
 				8C269C201B7060D800E6835E /* Accounts.framework in Frameworks */,
 				B4408FFC1BCFF05500E3639D /* Realm.framework in Frameworks */,
 				8C269C1E1B7060D200E6835E /* Social.framework in Frameworks */,
+				B932F6981C2AFC6400ABE850 /* Crashlytics.framework in Frameworks */,
 				BA0874B41B6FC31300FBFF74 /* CoreData.framework in Frameworks */,
 				0ACD9E261B6A89FD004140EE /* SystemConfiguration.framework in Frameworks */,
 				0ACD9E241B6A89D9004140EE /* StoreKit.framework in Frameworks */,
@@ -810,6 +819,7 @@
 		B4D09E131BC5801D008B180A /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				B932F6991C2B006600ABE850 /* FRHyperLabel */,
 				B9D8CD561C1C5A8700940D29 /* AnimatedMapOverlay */,
 				B4408FFA1BCFF05500E3639D /* Realm */,
 				B40986811BC6C74A00BC0678 /* TPKeyboardAvoiding */,
@@ -1365,6 +1375,8 @@
 		B4D09FE71BC58023008B180A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B932F6951C2AFC6400ABE850 /* Fabric.framework */,
+				B932F6961C2AFC6400ABE850 /* Crashlytics.framework */,
 				B44090011BCFF11000E3639D /* libz.tbd */,
 				B4408FFF1BCFF10800E3639D /* libsqlite3.tbd */,
 				B4408FFD1BCFF0D500E3639D /* libc++.tbd */,
@@ -1384,6 +1396,15 @@
 				0ACD9E171B6A897C004140EE /* AudioToolbox.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B932F6991C2B006600ABE850 /* FRHyperLabel */ = {
+			isa = PBXGroup;
+			children = (
+				B932F69A1C2B006600ABE850 /* FRHyperLabel.h */,
+				B932F69B1C2B006600ABE850 /* FRHyperLabel.m */,
+			);
+			path = FRHyperLabel;
 			sourceTree = "<group>";
 		};
 		B9D8CD561C1C5A8700940D29 /* AnimatedMapOverlay */ = {
@@ -1407,6 +1428,7 @@
 				0ACD9D601B68B767004140EE /* Frameworks */,
 				0ACD9D611B68B767004140EE /* Resources */,
 				B4B9AA22CC55B264463B0B26 /* Copy Pods Resources */,
+				B932F6941C2AFC1500ABE850 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1595,6 +1617,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B932F6941C2AFC1500ABE850 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run fefaf07fa6ce63d33f0beec685433fe9cea4ab92 3a1f3553a3103d3cbf872a23c6806a8083e8538f83c08a9ad90e612dfae7fb4e";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1661,6 +1696,7 @@
 				B4D09F441BC5801E008B180A /* AFHTTPRequestOperation.m in Sources */,
 				B4D09F391BC5801E008B180A /* AccountModel.m in Sources */,
 				B4D09FE41BC5801E008B180A /* UserProfileCell.m in Sources */,
+				B932F69C1C2B006600ABE850 /* FRHyperLabel.m in Sources */,
 				B4D09FDC1BC5801E008B180A /* ChangePasswordViewCell.m in Sources */,
 				B4D09F671BC5801E008B180A /* UIImageView+WebCache.m in Sources */,
 				B4D09FD81BC5801E008B180A /* ScannedUserAnnoView.m in Sources */,
@@ -1858,6 +1894,7 @@
 					"$(PROJECT_DIR)/ZpotDrop/Libraries/Facebook",
 					"$(PROJECT_DIR)/ZpotDrop/Libraries/Parse",
 					"$(PROJECT_DIR)/ZpotDrop/Libraries/Realm",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ZpotDrop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1883,6 +1920,7 @@
 					"$(PROJECT_DIR)/ZpotDrop/Libraries/Facebook",
 					"$(PROJECT_DIR)/ZpotDrop/Libraries/Parse",
 					"$(PROJECT_DIR)/ZpotDrop/Libraries/Realm",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ZpotDrop/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

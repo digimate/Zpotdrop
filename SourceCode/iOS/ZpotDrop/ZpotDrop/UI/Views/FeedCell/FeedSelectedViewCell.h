@@ -11,6 +11,12 @@
 #import <MapKit/MapKit.h>
 #import "TableViewDataHandler.h"
 #import "LoadingView.h"
+#import "FRHyperLabel.h"
+#import "UserDataModel.h"
+
+@protocol FeedSelectedViewCellDelegate <NSObject>
+-(void)userDidTouch:(UserDataModel *)userModel;
+@end
 
 @interface FeedSelectedViewCell : BaseTableViewCell<MKMapViewDelegate,UITableViewDataSource,UITableViewDelegate>{
     IBOutlet UIImageView* _imgvAvatar;
@@ -30,7 +36,7 @@
     IBOutlet NSLayoutConstraint* _lblNumberCommentsWidth;
     IBOutlet UILabel* _lblNumberLikes;
     IBOutlet UILabel* _lblNumberComments;
-    UILabel* _lblLikeInfo;
+    FRHyperLabel* _lblLikeInfo;
     UILabel* _lblCommingInfo;
     NSMutableArray* _commentsData;
     TableViewDataHandler* tableDataHandler;
@@ -39,5 +45,7 @@
 }
 -(void)addComment:(BaseDataModel*)data;
 @property(nonatomic, copy)void(^onShowComment)();
+
+@property (assign, nonatomic) id<FeedSelectedViewCellDelegate> delegate;
 
 @end
