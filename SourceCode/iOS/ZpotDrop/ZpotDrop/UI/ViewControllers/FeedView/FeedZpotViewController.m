@@ -202,7 +202,7 @@
 
 - (void)setupAutoUpdatedTimer {
     if (!autoUpdatedTimer) {
-        autoUpdatedTimer = [NSTimer scheduledTimerWithTimeInterval:120.0f
+        autoUpdatedTimer = [NSTimer scheduledTimerWithTimeInterval:60.0f
                                                             target:self
                                                           selector:@selector(autoUpdatedTimerDidFire:)
                                                           userInfo:nil

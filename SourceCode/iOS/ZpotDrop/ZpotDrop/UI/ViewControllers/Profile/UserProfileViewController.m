@@ -9,6 +9,8 @@
 #import "UserProfileViewController.h"
 #import "FeedNormalViewCell.h"
 #import "FeedCommentViewController.h"
+#import "UserListViewController.h"
+
 
 @interface UserProfileViewController ()<UITableViewDataSource,UITableViewDelegate>{
     UIView* viewHeader;
@@ -16,6 +18,8 @@
     NSMutableArray* userZpotsData;
     UIView* blockView;
 }
+
+@property (nonatomic, copy) NSArray *followedUserIds;
 
 @end
 
@@ -122,12 +126,18 @@
     lblNumberFollower.font = [UIFont fontWithName:@"PTSans-Bold" size:20];
     lblNumberFollower.textColor = [UIColor whiteColor];
     lblNumberFollower.textAlignment = NSTextAlignmentCenter;
+    lblNumberFollower.userInteractionEnabled = YES;
+    UITapGestureRecognizer *followerGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(followerDidTouch)];
+    [lblNumberFollower addGestureRecognizer:followerGesture];
     [viewStatics addSubview:lblNumberFollower];
     
     UILabel* lblNumberFollowing = [[UILabel alloc]initWithFrame:CGRectMake(lblFollowingTitle.x, lblFollowingTitle.y - lblNumberFollower.height, lblFollowingTitle.width, lblNumberFollower.height)];
     lblNumberFollowing.font = [UIFont fontWithName:@"PTSans-Bold" size:20];
     lblNumberFollowing.textColor = [UIColor whiteColor];
     lblNumberFollowing.textAlignment = NSTextAlignmentCenter;
+    lblNumberFollowing.userInteractionEnabled = YES;
+    UITapGestureRecognizer *followingGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(followingDidTouch)];
+    [lblNumberFollowing addGestureRecognizer:followingGesture];
     [viewStatics addSubview:lblNumberFollowing];
     
     UILabel* lblNumberDrop = [[UILabel alloc]initWithFrame:CGRectMake(lblDropTitle.x, lblDropTitle.y - lblNumberFollower.height, lblDropTitle.width, lblNumberFollower.height)];
@@ -314,5 +324,33 @@
 -(NSString*)cellIdentiferForIndexPath:(NSIndexPath*)indexPath{
     return NSStringFromClass([FeedNormalViewCell class]);
 }
+
+#pragma mark - Follower & Following handling
+
+- (void)followingDidTouch {
+    [[APIService shareAPIService]  getFollowingListOfUser:userModel.mid completion:^(NSArray *result, NSString *error) {
+        if (result) {
+            self.followedUserIds = result;
+            [self gotoUserListViewWithTitle:@"Following"];
+        }
+    }];
+}
+
+- (void)followerDidTouch {
+    [[APIService shareAPIService] getFollowerListOfUser:userModel.mid completion:^(NSArray *result, NSString *error) {
+        if (result) {
+            self.followedUserIds = result;
+            [self gotoUserListViewWithTitle:@"Follower"];
+        }
+    }];
+}
+
+- (void)gotoUserListViewWithTitle:(NSString *)title {
+    UserListViewController *viewController = [[UserListViewController alloc] initWithNibName:@"UserListViewController" bundle:nil];
+    viewController.userIds = self.followedUserIds;
+    [self.navigationController pushViewController:viewController animated:YES];
+    viewController.title = title;
+}
+
 
 @end

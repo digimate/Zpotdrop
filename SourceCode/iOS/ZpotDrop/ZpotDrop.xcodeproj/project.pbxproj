@@ -219,6 +219,10 @@
 		B932F6971C2AFC6400ABE850 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B932F6951C2AFC6400ABE850 /* Fabric.framework */; };
 		B932F6981C2AFC6400ABE850 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B932F6961C2AFC6400ABE850 /* Crashlytics.framework */; };
 		B932F69C1C2B006600ABE850 /* FRHyperLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B932F69B1C2B006600ABE850 /* FRHyperLabel.m */; };
+		B9638F031C2D1F280002F47A /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9638F011C2D1F280002F47A /* UserListViewController.m */; };
+		B9638F041C2D1F280002F47A /* UserListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B9638F021C2D1F280002F47A /* UserListViewController.xib */; };
+		B9638F081C2D25330002F47A /* UserListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9638F071C2D25330002F47A /* UserListCell.m */; };
+		B9638F0A1C2D25620002F47A /* UserListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B9638F091C2D25620002F47A /* UserListCell.xib */; };
 		B9C91F041C04C6810025E463 /* ic_find_menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9C91F031C04C6810025E463 /* ic_find_menu@2x.png */; };
 		B9D8CD591C1C5A8700940D29 /* AnimatedOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = B9D8CD581C1C5A8700940D29 /* AnimatedOverlay.m */; };
 		BA0874B41B6FC31300FBFF74 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0874B31B6FC31300FBFF74 /* CoreData.framework */; };
@@ -573,6 +577,12 @@
 		B932F6961C2AFC6400ABE850 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
 		B932F69A1C2B006600ABE850 /* FRHyperLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRHyperLabel.h; sourceTree = "<group>"; };
 		B932F69B1C2B006600ABE850 /* FRHyperLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRHyperLabel.m; sourceTree = "<group>"; };
+		B9638F001C2D1F280002F47A /* UserListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserListViewController.h; path = UserList/UserListViewController.h; sourceTree = "<group>"; };
+		B9638F011C2D1F280002F47A /* UserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListViewController.m; path = UserList/UserListViewController.m; sourceTree = "<group>"; };
+		B9638F021C2D1F280002F47A /* UserListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UserListViewController.xib; path = UserList/UserListViewController.xib; sourceTree = "<group>"; };
+		B9638F061C2D25330002F47A /* UserListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserListCell.h; path = UserListCell/UserListCell.h; sourceTree = "<group>"; };
+		B9638F071C2D25330002F47A /* UserListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListCell.m; path = UserListCell/UserListCell.m; sourceTree = "<group>"; };
+		B9638F091C2D25620002F47A /* UserListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UserListCell.xib; path = UserListCell/UserListCell.xib; sourceTree = "<group>"; };
 		B9C91F031C04C6810025E463 /* ic_find_menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_find_menu@2x.png"; sourceTree = "<group>"; };
 		B9D8CD571C1C5A8700940D29 /* AnimatedOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedOverlay.h; sourceTree = "<group>"; };
 		B9D8CD581C1C5A8700940D29 /* AnimatedOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimatedOverlay.m; sourceTree = "<group>"; };
@@ -1101,6 +1111,7 @@
 		B4D09EB61BC5801E008B180A /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				B9638EFF1C2D1EEE0002F47A /* UserList */,
 				B4D09EB71BC5801E008B180A /* BaseViewController */,
 				B4D09EC41BC5801E008B180A /* Login */,
 				B4D09EBC1BC5801E008B180A /* FeedView */,
@@ -1256,6 +1267,7 @@
 		B4D09EF51BC5801E008B180A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B9638F051C2D25030002F47A /* UserListCell */,
 				B4D09EF61BC5801E008B180A /* BaseCollectionViewCell.h */,
 				B4D09EF71BC5801E008B180A /* BaseCollectionViewCell.m */,
 				B4D09EF81BC5801E008B180A /* BaseTableViewCell.h */,
@@ -1407,6 +1419,26 @@
 			path = FRHyperLabel;
 			sourceTree = "<group>";
 		};
+		B9638EFF1C2D1EEE0002F47A /* UserList */ = {
+			isa = PBXGroup;
+			children = (
+				B9638F001C2D1F280002F47A /* UserListViewController.h */,
+				B9638F011C2D1F280002F47A /* UserListViewController.m */,
+				B9638F021C2D1F280002F47A /* UserListViewController.xib */,
+			);
+			name = UserList;
+			sourceTree = "<group>";
+		};
+		B9638F051C2D25030002F47A /* UserListCell */ = {
+			isa = PBXGroup;
+			children = (
+				B9638F061C2D25330002F47A /* UserListCell.h */,
+				B9638F071C2D25330002F47A /* UserListCell.m */,
+				B9638F091C2D25620002F47A /* UserListCell.xib */,
+			);
+			name = UserListCell;
+			sourceTree = "<group>";
+		};
 		B9D8CD561C1C5A8700940D29 /* AnimatedMapOverlay */ = {
 			isa = PBXGroup;
 			children = (
@@ -1512,6 +1544,7 @@
 				B4D09F7C1BC5801E008B180A /* PTS55F.ttf in Resources */,
 				B4D09F8A1BC5801E008B180A /* ic_contact@2x.png in Resources */,
 				B4D09FC61BC5801E008B180A /* FeedCommentCell.xib in Resources */,
+				B9638F0A1C2D25620002F47A /* UserListCell.xib in Resources */,
 				B4D09FA01BC5801E008B180A /* icon@2x.png in Resources */,
 				B4D09F7D1BC5801E008B180A /* PTS56F.ttf in Resources */,
 				B40986801BC6C4FF00BC0678 /* OpenSans-Bold.ttf in Resources */,
@@ -1534,6 +1567,7 @@
 				B4D09FE31BC5801E008B180A /* SettingSwitchCell.xib in Resources */,
 				B4D09F781BC5801E008B180A /* PTC55F.ttf in Resources */,
 				B4D09F811BC5801E008B180A /* Default-568h@2x.png in Resources */,
+				B9638F041C2D1F280002F47A /* UserListViewController.xib in Resources */,
 				B4D09FDF1BC5801E008B180A /* CreateLocationCell.xib in Resources */,
 				B4D09FD11BC5801E008B180A /* MenuFeatureTableViewCell.xib in Resources */,
 				B4D09F951BC5801E008B180A /* ic_heart_grey@2x.png in Resources */,
@@ -1697,6 +1731,7 @@
 				B4D09F391BC5801E008B180A /* AccountModel.m in Sources */,
 				B4D09FE41BC5801E008B180A /* UserProfileCell.m in Sources */,
 				B932F69C1C2B006600ABE850 /* FRHyperLabel.m in Sources */,
+				B9638F081C2D25330002F47A /* UserListCell.m in Sources */,
 				B4D09FDC1BC5801E008B180A /* ChangePasswordViewCell.m in Sources */,
 				B4D09F671BC5801E008B180A /* UIImageView+WebCache.m in Sources */,
 				B4D09FD81BC5801E008B180A /* ScannedUserAnnoView.m in Sources */,
@@ -1720,6 +1755,7 @@
 				B4D09F591BC5801E008B180A /* MKAnnotationView+WebCache.m in Sources */,
 				B4D09F711BC5801E008B180A /* UINavigationController+Block.m in Sources */,
 				B4D09FD61BC5801E008B180A /* MenuZpotAllTableViewCell.m in Sources */,
+				B9638F031C2D1F280002F47A /* UserListViewController.m in Sources */,
 				B4D09FB21BC5801E008B180A /* LeftMenuViewController.m in Sources */,
 				B4D09F6B1BC5801E008B180A /* SVProgressHUD.m in Sources */,
 				B409868B1BC6C74A00BC0678 /* TPKeyboardAvoidingScrollView.m in Sources */,
