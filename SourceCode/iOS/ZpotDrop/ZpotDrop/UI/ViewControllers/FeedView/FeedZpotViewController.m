@@ -28,6 +28,7 @@
     UIButton *_newDropButton;
     UIButton *_postButton;
     NSTimer *autoUpdatedTimer;
+    BOOL shouldHidePostButton;
 }
 
 @end
@@ -302,20 +303,29 @@
 #pragma mark - ScrollView Delegate
 
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+    shouldHidePostButton = YES;
     [UIView animateWithDuration:0.3f animations:^{
         _newDropButton.alpha = 0.0f;
         _postButton.alpha = 0.0f;
+        _postButton.hidden = shouldHidePostButton;
     }];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    shouldHidePostButton = NO;
     [UIView animateWithDuration:0.3f animations:^{
         _newDropButton.alpha = 1.0f;
         _postButton.alpha = 1.0f;
+    } completion:^(BOOL complete) {
+        [self performSelector:@selector(showPostButton) withObject:nil afterDelay:3.0f];
     }];
 }
 
 #pragma mark - Event Handler
+
+- (void)showPostButton {
+    _postButton.hidden = shouldHidePostButton;
+}
 
 - (IBAction)newDropButtonDidTouch:(id)sender {
 //    NSLog(@"should load new posts here");
