@@ -9,7 +9,8 @@
 #import "AnimatedOverlay.h"
 
 #define MAX_RATIO 1.7
-#define MIN_RATIO 0.01
+//#define MIN_RATIO 0.01
+#define MIN_RATIO 1.0
 #define STEP_RATIO 0.1
 
 #define ANIMATION_DURATION 7

@@ -270,7 +270,29 @@
 }
 
 -(void)getFeedsFromServer:(void(^)(NSMutableArray* returnArray,NSString*error))completion{
-    [self getOldFeedsFromServer:nil completion:completion];
+    [self getFollowingListOfUser:[AccountModel currentAccountModel].user_id completion:^(NSArray *results, NSString *errorString){
+        if (results) {
+            NSMutableArray *userIds = [[NSMutableArray alloc] initWithArray:results];
+            [userIds addObject:[AccountModel currentAccountModel].user_id];
+            PFQuery* query = [PFQuery queryWithClassName:@"Post"];
+            [query setLimit:API_PAGE_SIZE];
+            [query orderBySortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]];
+            [query whereKey:@"user_id" containedIn:userIds];
+            [query findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
+                if (data) {
+                    NSMutableArray* returnArray = [NSMutableArray array];
+                    for (PFObject* feedParse in data) {
+                        FeedDataModel* feedModel = [self updateFeedFromParse:feedParse];
+                        [returnArray addObject:feedModel];
+                    }
+                    completion(returnArray,nil);
+                }else{
+                    completion([NSMutableArray array],error.description);
+                }
+            }];
+        }
+    }];
+//    [self getOldFeedsFromServer:nil completion:completion];
 }
 
 -(void)getOldFeedsFromServer:(NSDate*)time completion:(void(^)(NSMutableArray* returnArray,NSString*error))completion{

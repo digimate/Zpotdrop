@@ -20,11 +20,13 @@
 #import "SearchViewController.h"
 #import "UserSettingViewController.h"
 #import "CloseButtonCell.h"
+#import "AnimatedOverlay.h"
 
 @interface LeftMenuViewController ()<UITableViewDataSource,UITableViewDelegate,CloseButtonCellDelegate>{
     CircleProgressView* progressView;
     UIButton* zpotdropAllButton;
     UILabel* lblZpotAll;
+    AnimatedOverlay *animatedOverlay;
 }
 
 @end
@@ -63,7 +65,7 @@
     [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([MenuSettingViewCell class]) bundle:nil] forCellReuseIdentifier:NSStringFromClass([MenuSettingViewCell class])];
     
     // ZPOT ALL VIEW
-    UIView* zpotdropAllView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _tableView.width, 150)];
+    UIView* zpotdropAllView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _tableView.width, 180)];
     zpotdropAllView.backgroundColor = [UIColor whiteColor];
     progressView = [[CircleProgressView alloc]initWithFrame:CGRectMake(0, 0, 85, 85)];
     progressView.backgroundColor = [UIColor clearColor];
@@ -85,7 +87,7 @@
     [zpotdropAllButton addTarget:self action:@selector(zpotAllPressed) forControlEvents:UIControlEventTouchUpInside];
     [zpotdropAllView addSubview:zpotdropAllButton];
     
-    lblZpotAll = [[UILabel alloc]initWithFrame:CGRectMake(0, progressView.y + progressView.height, zpotdropAllView.width, 16)];
+    lblZpotAll = [[UILabel alloc]initWithFrame:CGRectMake(0, progressView.y + progressView.height + 10, zpotdropAllView.width, 16)];
     lblZpotAll.textColor = COLOR_DARK_GREEN;
     lblZpotAll.textAlignment = NSTextAlignmentCenter;
     lblZpotAll.font = [UIFont fontWithName:@"PTSans-Regular" size:12];
@@ -142,6 +144,17 @@
     [self updateZpotAll];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self removeAnimatedOverlay];
+}
+
+
 -(void)updateZpotAll{
     AccountModel* currentAccount = [AccountModel currentAccountModel];
     UserDataModel* currentUser = (UserDataModel*)[UserDataModel fetchObjectWithID:currentAccount.user_id];
@@ -159,10 +172,12 @@
         [zpotdropAllButton setTitle:@"zpot_all".localized.uppercaseString forState:UIControlStateNormal];
         zpotdropAllButton.enabled = YES;
         lblZpotAll.hidden = NO;
+        [self addAnimatedOverlay];
     }else{
         [zpotdropAllButton setTitle:[NSString stringWithFormat:@"%d%@",percent,@"%"] forState:UIControlStateNormal];
         zpotdropAllButton.enabled = NO;
         lblZpotAll.hidden = YES;
+        [self removeAnimatedOverlay];
     }
     
     [zpotdropAllButton setTitle:@"zpot_all".localized.uppercaseString forState:UIControlStateNormal];
@@ -333,5 +348,31 @@
 - (void)closeButtonClicked:(id)sender{
     [self.delegate closeLeftMenu];
 }
+
+#pragma mark - Animated Overlay
+-(void)addAnimatedOverlay {
+    CGRect rect = zpotdropAllButton.frame;
+    rect.size.width += 20;
+    rect.size.height += 20;
+    //set up the animated overlay
+    if(!animatedOverlay){
+        animatedOverlay = [[AnimatedOverlay alloc] initWithFrame:rect];
+    }
+    else{
+        [animatedOverlay setFrame:rect];
+    }
+    animatedOverlay.center = progressView.center;
+    [_tableView.tableFooterView addSubview:animatedOverlay];
+    [animatedOverlay startAnimatingWithColor:COLOR_DARK_GREEN andFrame:rect];
+    
+}
+
+-(void)removeAnimatedOverlay{
+    if(animatedOverlay){
+        [animatedOverlay stopAnimating];
+        [animatedOverlay removeFromSuperview];
+    }
+}
+
 
 @end
