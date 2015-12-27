@@ -67,6 +67,7 @@
 -(NSString*)distanceWithMoveTimeBetweenCoor:(CLLocationCoordinate2D)c1 andCoor:(CLLocationCoordinate2D)c2;
 -(void)convertLikeIDsToInfo:(NSArray*)likes completion:(void(^)(NSString* txt,NSArray * rangeArray))completion;
 -(void)convertCommingIDsToInfo:(NSArray*)likes completion:(void(^)(NSString* txt,NSArray * rangeArray))completion;
+-(void)convertWithIDsToInfo:(NSArray*)withIds completion:(void(^)(NSString* txt,NSArray * rangeArray))completion;
 -(NSString*)convertBirthdayToAge:(NSDate*)birthday;
 - (void)showPostFromViewController:(UIViewController *)viewController;
 - (void)showFindViewFromViewController:(UIViewController *)viewController;

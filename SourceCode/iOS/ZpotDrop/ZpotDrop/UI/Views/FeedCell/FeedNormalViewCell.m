@@ -166,7 +166,13 @@
                 _lblZpotAddress.text = [NSString stringWithFormat:@"%@-%@",location.name,location.address];
             }];
         }
-        _lblZpotTitle.text = feedData.title;
+        
+        NSString *withIDString = feedData.with_userIds;
+        NSArray *arrayWithIDs = [withIDString componentsSeparatedByString:@","];
+        [[Utils instance]convertWithIDsToInfo:arrayWithIDs completion:^(NSString *txt,NSArray* rangeArray) {
+
+            _lblZpotTitle.text = [NSString stringWithFormat:@"%@ %@", feedData.title, txt];
+        }];
         _lblZpotTime.text = [[Utils instance]convertDateToRecent:feedData.time];
         if ([Utils instance].isGPS) {
             _lblSpotDistance.text = [[Utils instance] distanceBetweenCoor:CLLocationCoordinate2DMake([feedData.latitude doubleValue], [feedData.longitude doubleValue]) andCoor:[Utils instance].locationManager.location.coordinate];
@@ -216,15 +222,29 @@
 +(CGFloat)cellHeightWithData:(BaseDataModel *)data{
     if ([data isKindOfClass:[FeedDataModel class]]) {
         FeedDataModel* feedData = (FeedDataModel*)data;
+        NSString *withIDString = feedData.with_userIds;
+        NSArray *arrayWithIDs = [withIDString componentsSeparatedByString:@","];
+        NSString *tempString = @"";
+        if (arrayWithIDs.count > 0) {
+            if (arrayWithIDs.count > 3) {
+                tempString = @"with user name 1, user name 2 and 123 others";
+            } else if (arrayWithIDs.count > 2) {
+                tempString = @"with user name 1 and user name 2";
+            } else {
+                tempString = @"with user name 1";
+            }
+            
+        }
+        NSString *text = [NSString stringWithFormat:@"%@ %@", feedData.title, tempString];
         CGFloat labelHeight = 20;
         CGFloat remainingHeight = 121;
         UILabel *tempLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 20)];
-        CGSize expectedSize = [feedData.title boundingRectWithSize:CGSizeMake(tempLabel.frame.size.width, MAXFLOAT)
-                                options:NSStringDrawingUsesLineFragmentOrigin
-                             attributes:@{
-                                          NSFontAttributeName : [UIFont fontWithName:@"PTSans-Regular" size:14.0f]
-                                          }
-                                context:nil].size;
+        CGSize expectedSize = [text boundingRectWithSize:CGSizeMake(tempLabel.frame.size.width, MAXFLOAT)
+                                                 options:NSStringDrawingUsesLineFragmentOrigin
+                                              attributes:@{
+                                                           NSFontAttributeName : [UIFont fontWithName:@"PTSans-Regular" size:14.0f]
+                                                           }
+                                                 context:nil].size;
         labelHeight = expectedSize.height > labelHeight ? expectedSize.height + 10 : labelHeight;
         return labelHeight + remainingHeight;
     }

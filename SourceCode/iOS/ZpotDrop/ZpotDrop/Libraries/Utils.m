@@ -360,6 +360,73 @@
     }
 }
 
+-(void)convertWithIDsToInfo:(NSArray*)withIds completion:(void(^)(NSString* txt,NSArray * rangeArray))completion{
+    __block NSMutableArray* muWithIds = [NSMutableArray arrayWithArray:withIds];
+    __block NSString* returnString = @"";
+    __block NSMutableArray* rangeArray = [NSMutableArray array];
+    void(^voidBlock)() = ^{
+        if (muWithIds.count > 0) {
+            NSString* user_id = [muWithIds firstObject];
+            [muWithIds removeObjectAtIndex:0];
+            UserDataModel* user = (UserDataModel*) [UserDataModel fetchObjectWithID:user_id];
+            [user updateObjectForUse:^{
+                if (muWithIds.count > 0) {
+                    returnString = [NSString stringWithFormat:@"%@, %@ %@",returnString,user.name,@"and".localized.lowercaseString];
+                    [rangeArray addObject:[NSValue valueWithRange:[returnString rangeOfString:user.name]]];
+                    if (muWithIds.count == 1) {
+                        //3 users
+                        NSString* user_id = [muWithIds firstObject];
+                        UserDataModel* user = (UserDataModel*) [UserDataModel fetchObjectWithID:user_id];
+                        [user updateObjectForUse:^{
+                            returnString = [NSString stringWithFormat:@"with %@ %@",returnString,user.name];
+                            [rangeArray addObject:[NSValue valueWithRange:[returnString rangeOfString:user.name]]];
+                            
+                            completion(returnString,rangeArray);
+                        }];
+                    }else{
+                        //> 3 users
+                        returnString = [NSString stringWithFormat:@"%@ %lu %@",returnString,muWithIds.count,@"other".localized.lowercaseString];
+                        [rangeArray addObject:[NSValue valueWithRange:[returnString rangeOfString:[NSString stringWithFormat:@"%lu",muWithIds.count]]]];
+                        completion(returnString,rangeArray);
+                    }
+                }else{
+                    //2 users
+                    returnString = [NSString stringWithFormat:@"with %@ %@ %@",returnString,@"and".localized.lowercaseString,user.name];
+                    [rangeArray addObject:[NSValue valueWithRange:[returnString rangeOfString:user.name]]];
+                    completion(returnString,rangeArray);
+                    
+                }
+            }];
+        }else{
+            //1 user
+            if (returnString.length > 3) {
+                completion([NSString stringWithFormat:@"with %@",returnString],rangeArray);
+            } else {
+                completion([NSString stringWithFormat:@"%@",returnString],rangeArray);
+            }
+            
+        }
+    };
+    
+    if ([muWithIds containsObject:[AccountModel currentAccountModel].user_id]) {
+        returnString = @"you".localized;
+        [rangeArray addObject:[NSValue valueWithRange:NSMakeRange(0, returnString.length)]];
+        [muWithIds removeObject:[AccountModel currentAccountModel].user_id];
+        voidBlock();
+    }else if (muWithIds.count>0){
+        NSString* user_id = [muWithIds firstObject];
+        [muWithIds removeObjectAtIndex:0];
+        UserDataModel* user = (UserDataModel*) [UserDataModel fetchObjectWithID:user_id];
+        [user updateObjectForUse:^{
+            returnString = user.name;
+            [rangeArray addObject:[NSValue valueWithRange:NSMakeRange(0, returnString.length)]];
+            voidBlock();
+        }];
+    }else{
+        completion(@"",@[]);
+    }
+}
+
 -(NSString*)convertBirthdayToAge:(NSDate*)birthday{
     NSDate* now = [NSDate date];
     NSDateComponents* ageComponents = [[NSCalendar currentCalendar]
