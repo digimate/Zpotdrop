@@ -52,7 +52,7 @@
     _btnLike.userInteractionEnabled = YES;
     _btnComming.selected = NO;
     [_btnLike addTarget:self action:@selector(likeFeed:) forControlEvents:UIControlEventTouchUpInside];
-    [self addBorderWithFrame:CGRectMake(0, [FeedNormalViewCell cellHeightWithData:nil]-5.0, self.width, 5.0) color:[UIColor colorWithRed:242 green:242 blue:242]];
+//    [self addBorderWithFrame:CGRectMake(0, [FeedNormalViewCell cellHeightWithData:nil]-5.0, self.width, 5.0) color:[UIColor colorWithRed:242 green:242 blue:242]];
     
     UITapGestureRecognizer *imgTapper = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgvAvatarDidTouch:)];
     [_imgvAvatar addGestureRecognizer:imgTapper];
@@ -206,6 +206,7 @@
         _btnComming.selected = (feedData.comming_userIds && [feedData.comming_userIds rangeOfString:[AccountModel currentAccountModel].user_id].location != NSNotFound);
         _btnComming.enabled = ![feedData.user_id isEqualToString:[AccountModel currentAccountModel].user_id];
     }
+    [self addBorderWithFrame:CGRectMake(0, [FeedNormalViewCell cellHeightWithData:self.dataModel]-5.0, self.width, 5.0) color:[UIColor colorWithRed:242 green:242 blue:242]];
 }
 
 -(void)updateUIForDataModel:(BaseDataModel *)model options:(NSDictionary*)params{
@@ -213,6 +214,20 @@
 }
 
 +(CGFloat)cellHeightWithData:(BaseDataModel *)data{
+    if ([data isKindOfClass:[FeedDataModel class]]) {
+        FeedDataModel* feedData = (FeedDataModel*)data;
+        CGFloat labelHeight = 20;
+        CGFloat remainingHeight = 121;
+        UILabel *tempLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 20)];
+        CGSize expectedSize = [feedData.title boundingRectWithSize:CGSizeMake(tempLabel.frame.size.width, MAXFLOAT)
+                                options:NSStringDrawingUsesLineFragmentOrigin
+                             attributes:@{
+                                          NSFontAttributeName : [UIFont fontWithName:@"PTSans-Regular" size:14.0f]
+                                          }
+                                context:nil].size;
+        labelHeight = expectedSize.height > labelHeight ? expectedSize.height + 10 : labelHeight;
+        return labelHeight + remainingHeight;
+    }
     return 141;
 }
 
