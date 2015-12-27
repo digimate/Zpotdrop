@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/UI/ViewControllers/FindView/FindZpotViewController.m"
-            timestampString = "471622738.340807"
+            timestampString = "472919313.975606"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
             landmarkName = "-scanArea:"
             landmarkType = "5">
          </BreakpointContent>
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/UI/ViewControllers/FindView/FindZpotViewController.m"
-            timestampString = "471622738.340807"
+            timestampString = "472919313.975606"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
+            startingLineNumber = "246"
+            endingLineNumber = "246"
             landmarkName = "-scanArea:"
             landmarkType = "5">
          </BreakpointContent>
@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/UI/ViewControllers/FindView/FindZpotViewController.m"
-            timestampString = "471622902.807242"
+            timestampString = "472920638.705354"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "454"
-            endingLineNumber = "454"
+            startingLineNumber = "483"
+            endingLineNumber = "483"
             landmarkName = "-collectionView:didSelectItemAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -282,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/Data/Services/APIService.m"
-            timestampString = "472824128.90078"
+            timestampString = "472919130.95045"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "553"
-            endingLineNumber = "553"
+            startingLineNumber = "579"
+            endingLineNumber = "579"
             landmarkName = "-createAccountWithData::"
             landmarkType = "5">
          </BreakpointContent>
@@ -330,12 +330,12 @@
                   moduleName = "Zpotdrop"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vutiet/Zpotdrop/SourceCode/iOS/ZpotDrop/ZpotDrop/Data/Services/APIService.m"
-                  timestampString = "472824351.909289"
+                  timestampString = "472922104.440015"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "183"
                   endingLineNumber = "183"
-                  offsetFromSymbolStart = "275">
+                  offsetFromSymbolStart = "308">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -345,12 +345,12 @@
                   moduleName = "Zpotdrop"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/vutiet/Zpotdrop/SourceCode/iOS/ZpotDrop/ZpotDrop/Data/Services/APIService.m"
-                  timestampString = "472824351.909423"
+                  timestampString = "472922104.440161"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "183"
                   endingLineNumber = "183"
-                  offsetFromSymbolStart = "18">
+                  offsetFromSymbolStart = "32">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -538,11 +538,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/UI/ViewControllers/FindView/FindZpotViewController.m"
-            timestampString = "471622902.807242"
+            timestampString = "472919313.975606"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "373"
-            endingLineNumber = "373"
+            startingLineNumber = "401"
+            endingLineNumber = "401"
             landmarkName = "-mapView:regionDidChangeAnimated:"
             landmarkType = "5">
          </BreakpointContent>
@@ -570,11 +570,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/Data/Services/APIService.m"
-            timestampString = "472824128.90078"
+            timestampString = "472919130.95045"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "690"
-            endingLineNumber = "690"
+            startingLineNumber = "716"
+            endingLineNumber = "716"
             landmarkName = "-loginWithData::"
             landmarkType = "5">
          </BreakpointContent>
@@ -586,11 +586,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/Data/Services/APIService.m"
-            timestampString = "472824128.90078"
+            timestampString = "472919130.95045"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "700"
-            endingLineNumber = "700"
+            startingLineNumber = "726"
+            endingLineNumber = "726"
             landmarkName = "-loginWithData::"
             landmarkType = "5">
          </BreakpointContent>
@@ -752,6 +752,70 @@
             startingLineNumber = "353"
             endingLineNumber = "353"
             landmarkName = "-addAnimatedOverlay"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZpotDrop/UI/Views/CollectionView/ScannedUserCell.m"
+            timestampString = "472921801.349606"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "-setupCellWithData:andOptions:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZpotDrop/UI/Views/CollectionView/ScannedUserCell.m"
+            timestampString = "472921801.349606"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "-setupCellWithData:andOptions:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZpotDrop/UI/Views/CollectionView/ScannedUserCell.m"
+            timestampString = "472921303.403102"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "-awakeFromNib"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZpotDrop/UI/Views/CollectionView/ScannedUserCell.m"
+            timestampString = "472921801.349606"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "-updateMask"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

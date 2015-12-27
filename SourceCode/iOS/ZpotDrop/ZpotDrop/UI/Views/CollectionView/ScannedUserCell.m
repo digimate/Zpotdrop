@@ -17,7 +17,10 @@
     _imgvAvatar.layer.masksToBounds = YES;
     _viewAvatar.layer.masksToBounds = YES;
     _viewAvatar.backgroundColor = COLOR_DARK_GREEN;
-    _topConstraint.constant = _leftConstraint.constant = _rightConstraint.constant = _botConstraint.constant = 10;
+    _topConstraint.constant = 8;
+    _leftConstraint.constant = _rightConstraint.constant = 20;
+    _botConstraint.constant = 32;
+//    _topConstraint.constant = _leftConstraint.constant = _rightConstraint.constant = _botConstraint.constant = 10;
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeUp:)];
     swipeRight.numberOfTouchesRequired = 1;
     [swipeRight setDirection:UISwipeGestureRecognizerDirectionUp];
@@ -85,6 +88,7 @@
     if ([data isKindOfClass:[FeedDataModel class]]) {
         FeedDataModel* feedModel = (FeedDataModel*)data;
         UserDataModel* userModel = (UserDataModel*)[UserDataModel fetchObjectWithID:feedModel.user_id];
+        _nameLabel.text = userModel.first_name;
         _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
         [userModel updateObjectForUse:^{
             if (userModel.avatar.length > 0) {
@@ -94,6 +98,7 @@
         [self updateMask];
     }else if ([data isKindOfClass:[UserDataModel class]]){
         UserDataModel* userModel = (UserDataModel*)data;
+        _nameLabel.text = userModel.first_name;
         _imgvAvatar.image = [UIImage imageNamed:@"avatar"];
         [userModel updateObjectForUse:^{
             if (userModel.avatar.length > 0) {
@@ -112,9 +117,9 @@
 }
 -(void)setSelectedUser:(BOOL)isSel withAnimated:(BOOL)flag{
     if (isSel) {
-        _topConstraint.constant = _leftConstraint.constant = _rightConstraint.constant = _botConstraint.constant = 2;
+        _topConstraint.constant = _leftConstraint.constant = _rightConstraint.constant = _botConstraint.constant = 20;
     }else{
-        _topConstraint.constant = _leftConstraint.constant = _rightConstraint.constant = _botConstraint.constant = 10;
+        _topConstraint.constant = _leftConstraint.constant = _rightConstraint.constant = _botConstraint.constant = 25;
     }
     [self updateMask];
 //    if (flag) {

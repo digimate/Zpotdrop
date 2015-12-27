@@ -89,4 +89,6 @@ typedef void(^dataResponse)(id data, NSString* error);
 
 -(void)getSuggestionNameFromCoordinate:(CLLocationCoordinate2D)location completion:(void(^)(NSArray* locations))completion;
 -(void)getZpotAllFriendListOfUser:(NSString*)data completion:(void(^)(NSArray* result,NSString* error))completion;
+
+-(void)getNearbyPeopleForUserID:(NSString*)userID topLeftCoord:(CLLocationCoordinate2D)topLeft botRightCoord:(CLLocationCoordinate2D)botRight completion:(void(^)(NSArray * data,NSString* error))completion;
 @end

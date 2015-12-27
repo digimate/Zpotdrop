@@ -11,6 +11,7 @@
 @interface ScannedUserCell : BaseCollectionViewCell{
     IBOutlet UIImageView* _imgvAvatar;
     IBOutlet UIView* _viewAvatar;
+    IBOutlet UILabel *_nameLabel;
     IBOutlet NSLayoutConstraint* _topConstraint;
     IBOutlet NSLayoutConstraint* _botConstraint;
     IBOutlet NSLayoutConstraint* _leftConstraint;

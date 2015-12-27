@@ -104,7 +104,7 @@
     /*======================Users Collection=======================*/
     UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
     [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-    usersCollectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(0, btnHere.y - 60, frame.size.width, 60) collectionViewLayout:layout];
+    usersCollectionView=[[UICollectionView alloc] initWithFrame:CGRectMake(0, btnHere.y - 100, frame.size.width, 100) collectionViewLayout:layout];
     [usersCollectionView setBackgroundColor:[UIColor whiteColor]];
     [usersCollectionView setDataSource:self];
     [usersCollectionView setDelegate:self];
@@ -206,6 +206,34 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kAppDelegateDidReceivePushNotification object:nil];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self getNearbyPeople];
+}
+
+- (void)getNearbyPeople {
+    if ([[Utils instance] isGPS]) {
+        MKMapView* mapView = [[Utils instance] mapView];
+        CLLocationCoordinate2D topLeft = MKCoordinateForMapPoint(mapView.visibleMapRect.origin);
+        CLLocationCoordinate2D botRight = MKCoordinateForMapPoint(MKMapPointMake(mapView.visibleMapRect.origin.x + mapView.visibleMapRect.size.width, mapView.visibleMapRect.origin.y + mapView.visibleMapRect.size.height));
+        [[Utils instance]showProgressWithMessage:nil];
+        [[APIService shareAPIService] getNearbyPeopleForUserID:[AccountModel currentAccountModel].user_id topLeftCoord:topLeft botRightCoord:botRight completion:^(NSArray *data, NSString *error) {
+            [[Utils instance]hideProgess];
+            if (error) {
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                }];
+            }else{
+                [scannedUsersData removeAllObjects];
+                for (NSString *userId in data) {
+                    UserDataModel *userModel = (UserDataModel *)[UserDataModel fetchObjectWithID:userId];
+                    [scannedUsersData addObject:userModel];
+                }
+                [self addAnnotationScannedUsers];
+                [usersCollectionView reloadData];
+            }
+        }];
+    }
+}
 
 -(void)scanArea:(UIButton*)sender{
     if ([[Utils instance] isGPS]) {
@@ -423,7 +451,8 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     id data = [scannedUsersData objectAtIndex:indexPath.row];
     ScannedUserCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ScannedUserCell class]) forIndexPath:indexPath];
-    [cell setSize:CGSizeMake(60, 60)];
+//    [cell setSize:CGSizeMake(60, 60)];
+    [cell setSize:CGSizeMake(100, 100)];
     if ([data isEqual:selectedScannedUser]) {
         [cell setupCellWithData:data andOptions:@{@"isSelected":[NSNumber numberWithBool:YES]}];
     }else{

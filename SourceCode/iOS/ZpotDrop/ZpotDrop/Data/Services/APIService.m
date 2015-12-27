@@ -207,6 +207,32 @@
     return model;
 }
 
+-(void)getNearbyPeopleForUserID:(NSString*)userID topLeftCoord:(CLLocationCoordinate2D)topLeft botRightCoord:(CLLocationCoordinate2D)botRight completion:(void(^)(NSArray * data,NSString* error))completion{
+    
+    PFQuery *postQuery = [PFQuery queryWithClassName:@"Post"];
+    [postQuery whereKey:@"latitude" greaterThanOrEqualTo:[NSNumber numberWithDouble:botRight.latitude]];
+    [postQuery whereKey:@"latitude" lessThanOrEqualTo:[NSNumber numberWithDouble:topLeft.latitude]];
+    [postQuery whereKey:@"longitude" greaterThanOrEqualTo:[NSNumber numberWithDouble:topLeft.longitude]];
+    [postQuery whereKey:@"longitude" lessThanOrEqualTo:[NSNumber numberWithDouble:botRight.longitude]];
+    NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10800]; // 3 hours
+    [postQuery whereKey:@"updateAt" greaterThanOrEqualTo:then];
+
+    [postQuery findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
+        if (data) {
+            NSMutableArray* returnArray = [[NSMutableArray alloc] init];
+            for (PFObject* objectParse in data) {
+                [returnArray addObject:objectParse[@"user_id"]];
+            }
+            NSOrderedSet *orderSet = [NSOrderedSet orderedSetWithArray:returnArray];
+            NSArray *results = [orderSet array];
+            completion(results,nil);
+        } else {
+            completion([NSMutableArray array],error.description);
+        }
+    }];
+    
+}
+
 #pragma mark - POST
 -(void)getFeedWithID:(NSString*)fid completion:(void(^)(BOOL successful,NSString* error))completion{
     PFQuery *query = [PFQuery queryWithClassName:@"Post"];
