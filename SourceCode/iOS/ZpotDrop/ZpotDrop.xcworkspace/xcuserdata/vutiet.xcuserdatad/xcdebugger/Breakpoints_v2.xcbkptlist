@@ -602,11 +602,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/UI/ViewControllers/Profile/UserProfileViewController.m"
-            timestampString = "472722844.122723"
+            timestampString = "473102672.628687"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "342"
-            endingLineNumber = "342"
+            startingLineNumber = "394"
+            endingLineNumber = "394"
             landmarkName = "-followerDidTouch"
             landmarkType = "5">
          </BreakpointContent>
@@ -618,11 +618,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/UI/ViewControllers/Profile/UserProfileViewController.m"
-            timestampString = "472722844.122723"
+            timestampString = "473102672.628687"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "339"
-            endingLineNumber = "339"
+            startingLineNumber = "391"
+            endingLineNumber = "391"
             landmarkName = "-followerDidTouch"
             landmarkType = "5">
          </BreakpointContent>

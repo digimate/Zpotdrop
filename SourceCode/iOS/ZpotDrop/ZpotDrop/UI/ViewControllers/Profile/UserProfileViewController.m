@@ -17,6 +17,7 @@
     UITableView* userZpotsTableView;
     NSMutableArray* userZpotsData;
     UIView* blockView;
+    UIButton *_btnHometown;
 }
 
 @property (nonatomic, copy) NSArray *followedUserIds;
@@ -68,12 +69,12 @@
     lblName.textColor = [UIColor whiteColor];
     [viewHeader addSubview:lblName];
     
-    UIButton* btnHometown = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnHometown.userInteractionEnabled = NO;
-    [[btnHometown titleLabel]setFont:[UIFont fontWithName:@"PTSans-Regular" size:14]];
-    [btnHometown setFrame:CGRectMake(20, 35, viewHeader.width - 40, 16)];
-    [btnHometown setImage:[UIImage imageNamed:@"ic_location_white"] forState:UIControlStateNormal];
-    [viewHeader addSubview:btnHometown];
+    _btnHometown = [UIButton buttonWithType:UIButtonTypeCustom];
+    _btnHometown.userInteractionEnabled = NO;
+    [[_btnHometown titleLabel]setFont:[UIFont fontWithName:@"PTSans-Regular" size:14]];
+    [_btnHometown setFrame:CGRectMake(20, 35, viewHeader.width - 40, 16)];
+    [_btnHometown setImage:[UIImage imageNamed:@"ic_location_white"] forState:UIControlStateNormal];
+    [viewHeader addSubview:_btnHometown];
     
     UIButton* btnFollow = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnFollow setFrame:CGRectMake(0, 0, 34, 34)];
@@ -170,7 +171,7 @@
     
     [userModel updateObjectForUse:^{
         lblName.text = userModel.name;
-        [btnHometown setTitle:[NSString stringWithFormat:@"%@,%@",userModel.hometown,[[Utils instance]convertBirthdayToAge:userModel.birthday]] forState:UIControlStateNormal];
+        [_btnHometown setTitle:[NSString stringWithFormat:@"%@,%@",userModel.hometown,[[Utils instance]convertBirthdayToAge:userModel.birthday]] forState:UIControlStateNormal];
         if (userModel.avatar.length > 0) {
             imgvAvatar.image = [userModel.avatar stringToUIImage];
         }
@@ -280,6 +281,7 @@
             [self loadFeedsFromLocal:^(NSMutableArray *returnArray) {
                 [userZpotsData addObjectsFromArray:returnArray];
                 [userZpotsTableView reloadData];
+                [self updateHometown];
             }];
         }
     }];
@@ -290,6 +292,50 @@
     commentVC.feedData = feedModel;
     [self.navigationController pushViewController:commentVC animated:YES];
 }
+
+-(void)updateHometown {
+    if (userModel.hometown.length > 0) {
+        [_btnHometown setTitle:[NSString stringWithFormat:@"%@,%@",userModel.hometown,[[Utils instance]convertBirthdayToAge:userModel.birthday]] forState:UIControlStateNormal];
+    } else {
+        NSMutableArray *locationIds = [[NSMutableArray alloc] init];
+        for (FeedDataModel *feedModel in userZpotsData) {
+            [locationIds addObject:feedModel.location_id];
+        }
+        NSCountedSet *countedSet = [[NSCountedSet alloc] initWithArray:locationIds];
+        id maxCountItem = locationIds.firstObject;
+        for (id item in countedSet)
+        {
+            if ([countedSet countForObject:item] >= [countedSet countForObject:maxCountItem]) {
+                maxCountItem = item;
+            }
+        }
+        PFQuery *locationQuery = [PFQuery queryWithClassName:@"Location"];
+        [locationQuery whereKey:@"objectId" equalTo:maxCountItem];
+        [locationQuery findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
+            if (data) {
+                PFObject *location = data.firstObject;
+                NSNumber *latNumber = location[@"latitude"];
+                NSNumber *longNumber = location[@"longitude"];
+                CLLocation *cityLocation = [[CLLocation alloc] initWithLatitude:latNumber.doubleValue longitude:longNumber.doubleValue];
+                CLGeocoder *geocoder = [[CLGeocoder alloc] init] ;
+                [geocoder reverseGeocodeLocation:cityLocation
+                               completionHandler:^(NSArray *placemarks, NSError *error)
+                 {
+                     if (error){
+                         NSLog(@"Geocode failed with error: %@", error);
+                         return;
+                     }
+                     CLPlacemark *placemark = [placemarks objectAtIndex:0];
+                     [_btnHometown setTitle:[NSString stringWithFormat:@"%@,%@",placemark.locality,[[Utils instance]convertBirthdayToAge:userModel.birthday]] forState:UIControlStateNormal];
+                 }];
+            }
+        }];
+
+    }
+    
+
+}
+
 #pragma mark - UITableViewDatasource & UITableViewDelegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
