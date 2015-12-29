@@ -1922,8 +1922,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Vu Tiet (7ZXKW2SX3Y)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vu Tiet (7ZXKW2SX3Y)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1938,7 +1938,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zpotdrop.testing;
 				PRODUCT_NAME = Zpotdrop;
-				PROVISIONING_PROFILE = "f870cba1-1895-410e-816f-1335e54e22da";
+				PROVISIONING_PROFILE = "e3885c7a-feaf-4cd3-8e5a-c23f01ba4899";
 			};
 			name = Debug;
 		};
@@ -1948,8 +1948,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Vu Tiet (7ZXKW2SX3Y)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vu Tiet (7ZXKW2SX3Y)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Gulo Gulo AB (78FHA7KFE7)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1964,7 +1964,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zpotdrop.testing;
 				PRODUCT_NAME = Zpotdrop;
-				PROVISIONING_PROFILE = "f870cba1-1895-410e-816f-1335e54e22da";
+				PROVISIONING_PROFILE = "e3885c7a-feaf-4cd3-8e5a-c23f01ba4899";
 			};
 			name = Release;
 		};

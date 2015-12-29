@@ -172,7 +172,16 @@
         [PFPush sendPushDataToQueryInBackground:pushQuery withData:data block:^(BOOL succeeded, NSError *error) {
             completion(succeeded,error.localizedDescription);
         }];
+        NotificationModel* model  = (NotificationModel*)[NotificationModel fetchObjectWithID:[NSDate date].description];
+        model.type = NOTIFICATION_REQUEST_LOCATION;
+        model.sender_id = [AccountModel currentAccountModel].user_id;
+        model.receiver_id = friendModel.mid;
+        model.time = [NSDate date];
+        [self sendNotification:model completion:^(BOOL successful, NSString *error) {
+        }];
     }];
+    
+    
 }
 
 // Notify current location of current user to friend
@@ -193,6 +202,15 @@
         [PFPush sendPushDataToQueryInBackground:pushQuery withData:data block:^(BOOL succeeded, NSError *error) {
             completion(succeeded,error.localizedDescription);
         }];
+        
+        NotificationModel* model  = (NotificationModel*)[NotificationModel fetchObjectWithID:[NSDate date].description];
+        model.type = NOTIFICATION_SHARE_LOCATION;
+        model.sender_id = friendModel.mid;
+        model.receiver_id = [AccountModel currentAccountModel].user_id;
+        model.time = [NSDate date];
+        [self sendNotification:model completion:^(BOOL successful, NSString *error) {
+        }];
+        
     }];
 }
 
@@ -1208,7 +1226,29 @@
             }
         }];
 
-    }else{
+    } else if ([model.type isEqualToString:NOTIFICATION_REQUEST_LOCATION] || [model.type isEqualToString:NOTIFICATION_SHARE_LOCATION]) {
+        PFQuery* query = [PFQuery queryWithClassName:@"Notification"];
+        [query whereKey:@"type" equalTo:model.type];
+        [query whereKey:@"sender_id" equalTo:[AccountModel currentAccountModel].user_id];
+        [query whereKey:@"receiver_id" equalTo:model.receiver_id];
+        [query findObjectsInBackgroundWithBlock:^(NSArray* objects, NSError* error){
+            if (error) {
+                completion(NO,error.description);
+            }else if(objects && objects.count == 1){
+                completion(YES,nil);
+            }else{
+                PFObject* notification = [PFObject objectWithClassName:@"Notification"];
+                notification[@"sender_id"] = model.sender_id;
+                notification[@"type"] = model.type;
+                notification[@"receiver_id"] = model.receiver_id;
+                [notification saveInBackgroundWithBlock:^(BOOL successful,NSError* error){
+                    model.mid = notification.objectId;
+                    [self notificationModelFromParse:notification];
+                    completion(successful,error.description);
+                }];
+            }
+        }];
+    } else{
         //like and comment have many
         PFObject* notification = [PFObject objectWithClassName:@"Notification"];
         notification[@"comment"] = model.comment;

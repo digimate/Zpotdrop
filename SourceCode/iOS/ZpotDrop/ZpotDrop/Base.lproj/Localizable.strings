@@ -98,6 +98,8 @@
 "notification_like_format" = "%@ Liked your zpotdrop. %@";
 "notification_follow_format" = "%@ Started following you. %@";
 "notification_facebook_format" = "Your facebook friend %@ is on Zpotdrop. %@";
+"notification_request_location_format" = "%@ requested your location";
+"notification_share_location_format" = "%@ shared location with you";
 //MARK: - ***** O *****
 "ok" = "OK";
 "other" = "Other";

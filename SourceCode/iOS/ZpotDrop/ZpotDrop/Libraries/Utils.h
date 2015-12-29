@@ -46,6 +46,8 @@
 #define NOTIFICATION_COMMENT  @"3"
 #define NOTIFICATION_LIKE  @"4"
 #define NOTIFICATION_FB_Friend  @"5"
+#define NOTIFICATION_REQUEST_LOCATION @"6"
+#define NOTIFICATION_SHARE_LOCATION @"7"
 
 @interface Utils : NSObject<UINavigationControllerDelegate,UIImagePickerControllerDelegate>{
     void (^imageCompletion)(UIImage* image);

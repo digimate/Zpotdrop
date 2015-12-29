@@ -188,6 +188,22 @@
             NSRange rangeDate = [attStr.string rangeOfString:date];
             [attStr addAttributes:dictDate range:rangeDate];
             [attStr addAttributes:dictName range:rangeName];
+        } else if ([notifModel.type isEqualToString:NOTIFICATION_REQUEST_LOCATION]) {
+            attStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"notification_request_location_format".localized,name]];
+            NSDictionary* dictName = @{NSForegroundColorAttributeName : [UIColor blackColor],
+                                       NSFontAttributeName : [UIFont fontWithName:@"PTSans-Bold" size:14]};
+            NSRange rangeName = [attStr.string rangeOfString:name];
+            NSRange rangeDate = [attStr.string rangeOfString:date];
+            [attStr addAttributes:dictDate range:rangeDate];
+            [attStr addAttributes:dictName range:rangeName];
+        } else if ([notifModel.type isEqualToString:NOTIFICATION_SHARE_LOCATION]) {
+            attStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"notification_share_location_format".localized,name]];
+            NSDictionary* dictName = @{NSForegroundColorAttributeName : [UIColor blackColor],
+                                       NSFontAttributeName : [UIFont fontWithName:@"PTSans-Bold" size:14]};
+            NSRange rangeName = [attStr.string rangeOfString:name];
+            NSRange rangeDate = [attStr.string rangeOfString:date];
+            [attStr addAttributes:dictDate range:rangeDate];
+            [attStr addAttributes:dictName range:rangeName];
         }
         
         CGRect frame = viewButtons.frame;
