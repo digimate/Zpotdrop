@@ -37,6 +37,7 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [_tableView registerClass:[NotificationTableViewCell class] forCellReuseIdentifier:@"notificationCell"];
+    [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"tableviewcell"];
     [self.view addSubview:_tableView];
     
     _refresh = [[UIRefreshControl alloc]init];
@@ -202,6 +203,22 @@
             // call for update UI after change Data
             [model.dataDelegate updateUIForDataModel:model options:nil];
         }];
+    };
+    cell.onShareLocation = ^(NotificationModel *model) {
+        // Push notification back
+        [[APIService shareAPIService] notifyLocationToUserID:model.sender_id completion:^(BOOL successful, NSString *error) {
+            if (error) {
+                [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                }];
+            } else {
+                [[Utils instance]showAlertWithTitle:nil message:@"You have been shared your location!" yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                }];
+            }
+            
+        }];
+    };
+    cell.onShowLocation = ^(NotificationModel *model) {
+        [self.delegate showFindViewFromNotification];
     };
     return cell;
 }

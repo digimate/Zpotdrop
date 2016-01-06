@@ -46,6 +46,18 @@
     }
 }
 
+-(void)shareLocation {
+    if (self.onShareLocation) {
+        self.onShareLocation((NotificationModel *)self.dataModel);
+    }
+}
+
+-(void)showLocation {
+    if (self.onShowLocation) {
+        self.onShowLocation((NotificationModel *)self.dataModel);
+    }
+}
+
 -(void)updateUIForDataModel:(BaseDataModel *)model options:(NSDictionary *)params{
     [self setupCellWithData:model andOptions:params];
 }
@@ -196,6 +208,14 @@
             NSRange rangeDate = [attStr.string rangeOfString:date];
             [attStr addAttributes:dictDate range:rangeDate];
             [attStr addAttributes:dictName range:rangeName];
+            UIButton* btnComming = [UIButton buttonWithType:UIButtonTypeCustom];
+            [btnComming setBackgroundColor:COLOR_DARK_GREEN];
+            [btnComming setFrame:CGRectMake(0, 0, size.height, size.height)];
+            [btnComming setImage:[UIImage imageNamed:@"ic_location_white"] forState:UIControlStateNormal];
+            [btnComming addTarget:self action:@selector(shareLocation) forControlEvents:UIControlEventTouchUpInside];
+            [viewButtons addSubview:btnComming];
+            buttonWidth = size.height;
+
         } else if ([notifModel.type isEqualToString:NOTIFICATION_SHARE_LOCATION]) {
             attStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"notification_share_location_format".localized,name]];
             NSDictionary* dictName = @{NSForegroundColorAttributeName : [UIColor blackColor],
@@ -204,18 +224,27 @@
             NSRange rangeDate = [attStr.string rangeOfString:date];
             [attStr addAttributes:dictDate range:rangeDate];
             [attStr addAttributes:dictName range:rangeName];
+            UIButton* btnComming = [UIButton buttonWithType:UIButtonTypeCustom];
+            [btnComming setBackgroundColor:COLOR_DARK_GREEN];
+            [btnComming setFrame:CGRectMake(0, 0, size.height, size.height)];
+            [btnComming setImage:[UIImage imageNamed:@"ic_location_white"] forState:UIControlStateNormal];
+            [btnComming addTarget:self action:@selector(showLocation) forControlEvents:UIControlEventTouchUpInside];
+            [viewButtons addSubview:btnComming];
+            buttonWidth = size.height;
         }
         
         CGRect frame = viewButtons.frame;
         frame.size.width = buttonWidth;
         frame.origin.x = size.width - frame.size.width;
         viewButtons.frame = frame;
+        viewButtons.backgroundColor = [UIColor greenColor];
         
         [_content setAttributedText:attStr];
         [_background addSubview:_content];
         
         [_mScrollView setContentSize:CGSizeMake(size.width + buttonWidth,0)];
         [self addBorderWithFrame:CGRectMake(_content.x, size.height - 1, size.width - _content.x, 1.0) color:COLOR_SEPEARATE_LINE];
+    
     }];
     
 }
@@ -247,4 +276,6 @@
 {
     [_mScrollView setContentOffset:CGPointMake(0, 0) animated:NO];
 }
+
+
 @end

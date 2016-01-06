@@ -12,6 +12,7 @@
 
 -(void)didPressedOnNotificationWithData:(id)data;
 -(void)closeRightNotification;
+-(void)showFindViewFromNotification;
 
 @end
 

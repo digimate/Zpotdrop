@@ -302,6 +302,11 @@
     [self openNotification];
 }
 
+-(void)showFindViewFromNotification {
+    [self openNotification];
+    [self showFindView];
+}
+
 -(void)didPressedOnNotificationWithData:(id)data{
 
 }
