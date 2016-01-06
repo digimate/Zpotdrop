@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>C308B8BC-6F73-4A58-9CE2-C243F7F9F05A</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>ZpotDrop</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>D2553E3121CE75456F15F8CA89DCA892FC05D199</key>
 		<string>https://github.com/digimate/Zpotdrop.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>SourceCode/iOS/ZpotDrop/ZpotDrop.xcodeproj/project.xcworkspace</string>
+	<string>SourceCode/iOS/ZpotDrop/ZpotDrop.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>D2553E3121CE75456F15F8CA89DCA892FC05D199</key>
@@ -34,7 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>D2553E3121CE75456F15F8CA89DCA892FC05D199</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Zpotdrop</string>
+			<string>zpotdrop</string>
 		</dict>
 	</array>
 </dict>
