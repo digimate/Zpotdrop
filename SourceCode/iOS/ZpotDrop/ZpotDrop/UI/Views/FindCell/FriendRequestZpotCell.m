@@ -63,6 +63,10 @@
             if (error) {
                 [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
                 }];
+            } else {
+                NSString *zpotMessage = [NSString stringWithFormat:@"You have been requested zpot to %@", user.name];
+                [[Utils instance]showAlertWithTitle:nil message:zpotMessage yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                }];
             }
         }];
     }
