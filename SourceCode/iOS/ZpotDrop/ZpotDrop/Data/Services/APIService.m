@@ -313,7 +313,7 @@
     }];
 }
 
--(void)getFeedsFromServer:(void(^)(NSMutableArray* returnArray,NSString*error))completion{
+-(void)getFeedsFromServer:(NSDate*)time completion:(void(^)(NSMutableArray* returnArray,NSString*error))completion{
     [self getFollowingListOfUser:[AccountModel currentAccountModel].user_id completion:^(NSArray *results, NSString *errorString){
         if (results) {
             NSMutableArray *userIds = [[NSMutableArray alloc] initWithArray:results];
@@ -321,6 +321,9 @@
             PFQuery* query = [PFQuery queryWithClassName:@"Post"];
             [query setLimit:API_PAGE_SIZE];
             [query orderBySortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO]];
+            if (time) {
+                [query whereKey:@"createdAt" lessThan:time];
+            }
             [query whereKey:@"user_id" containedIn:userIds];
             [query findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
                 if (data) {

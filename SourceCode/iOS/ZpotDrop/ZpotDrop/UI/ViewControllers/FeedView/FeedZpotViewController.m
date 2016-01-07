@@ -105,7 +105,7 @@
 
 -(void)getFeedsFromServer {
     [[Utils instance]showProgressWithMessage:nil];
-    [[APIService shareAPIService]getFeedsFromServer:^(NSMutableArray *returnArray, NSString *error) {
+    [[APIService shareAPIService]getFeedsFromServer:nil completion:^(NSMutableArray *returnArray, NSString *error) {
         [[Utils instance]hideProgess];
         if (error) {
             [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
@@ -121,7 +121,7 @@
 
 -(void)loadMoreFeeds{
     FeedDataModel* oldFeed = [_feedData lastObject];
-    [[APIService shareAPIService]getOldFeedsFromServer:oldFeed.time completion:^(NSMutableArray *returnArray, NSString *error) {
+    [[APIService shareAPIService]getFeedsFromServer:oldFeed.time completion:^(NSMutableArray *returnArray, NSString *error) {
         if (returnArray && returnArray.count > 0) {
             NSSortDescriptor* sortByTime = [NSSortDescriptor sortDescriptorWithKey:@"time" ascending:NO];
             [returnArray sortUsingDescriptors:@[sortByTime]];
@@ -342,7 +342,7 @@
 
 - (IBAction)autoUpdatedTimerDidFire:(id)sender {
     if (_newDropButton.hidden) {
-        [[APIService shareAPIService]getFeedsFromServer:^(NSMutableArray *returnArray, NSString *error) {
+        [[APIService shareAPIService]getFeedsFromServer:nil completion:^(NSMutableArray *returnArray, NSString *error) {
             if (!error) {
                 FeedDataModel *latestFeed = [returnArray firstObject];
                 FeedDataModel *currentFirstFeed = [_feedData firstObject];
