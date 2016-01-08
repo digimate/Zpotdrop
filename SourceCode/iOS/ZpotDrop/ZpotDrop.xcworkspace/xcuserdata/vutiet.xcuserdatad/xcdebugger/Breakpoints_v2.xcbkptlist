@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/UI/ViewControllers/MainViewController.m"
-            timestampString = "471602753.54759"
+            timestampString = "473965280.848654"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
             landmarkName = "-showSettingView"
             landmarkType = "5">
          </BreakpointContent>
@@ -128,22 +128,6 @@
             startingLineNumber = "144"
             endingLineNumber = "144"
             landmarkName = "-closeAction:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ZpotDrop/UI/ViewControllers/MainViewController.m"
-            timestampString = "471602753.54759"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "265"
-            endingLineNumber = "265"
-            landmarkName = "-leftmenuChangeViewToClass:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -266,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/Data/Services/APIService.m"
-            timestampString = "473954294.432475"
+            timestampString = "473965041.81192"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "657"
-            endingLineNumber = "657"
+            startingLineNumber = "661"
+            endingLineNumber = "661"
             landmarkName = "-createAccountWithData::"
             landmarkType = "5">
          </BreakpointContent>
@@ -474,11 +458,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/Data/Services/APIService.m"
-            timestampString = "473954294.432475"
+            timestampString = "473965041.81192"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "794"
-            endingLineNumber = "794"
+            startingLineNumber = "798"
+            endingLineNumber = "798"
             landmarkName = "-loginWithData::"
             landmarkType = "5">
          </BreakpointContent>
@@ -490,11 +474,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/Data/Services/APIService.m"
-            timestampString = "473954294.432475"
+            timestampString = "473965041.81192"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "804"
-            endingLineNumber = "804"
+            startingLineNumber = "808"
+            endingLineNumber = "808"
             landmarkName = "-loginWithData::"
             landmarkType = "5">
          </BreakpointContent>
@@ -810,11 +794,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ZpotDrop/Data/Services/APIService.m"
-            timestampString = "473954294.432475"
+            timestampString = "473965041.81192"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "375"
-            endingLineNumber = "375"
+            startingLineNumber = "377"
+            endingLineNumber = "377"
             landmarkName = "-getFeedsFromServer:completion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -881,6 +865,246 @@
             endingLineNumber = "244"
             landmarkName = "-followUser:"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZpotDrop/UI/ViewControllers/MainViewController.m"
+            timestampString = "473965280.848654"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "325"
+            endingLineNumber = "325"
+            landmarkName = "-getNotificationFromServer"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZpotDrop/UI/ViewControllers/MainViewController.m"
+            timestampString = "473965280.848654"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "323"
+            endingLineNumber = "323"
+            landmarkName = "-getNotificationFromServer"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZpotDrop/UI/ViewControllers/MainViewController.m"
+            timestampString = "473965280.848654"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "322"
+            endingLineNumber = "322"
+            landmarkName = "-getNotificationFromServer"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MainViewController getNotificationFromServer]"
+                  moduleName = "Zpotdrop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vutiet/Zpotdrop/SourceCode/iOS/ZpotDrop/ZpotDrop/UI/ViewControllers/MainViewController.m"
+                  timestampString = "473967035.9443"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "322"
+                  endingLineNumber = "322"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__47-[MainViewController getNotificationFromServer]_block_invoke"
+                  moduleName = "Zpotdrop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vutiet/Zpotdrop/SourceCode/iOS/ZpotDrop/ZpotDrop/UI/ViewControllers/MainViewController.m"
+                  timestampString = "473967035.944572"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "322"
+                  endingLineNumber = "322"
+                  offsetFromSymbolStart = "72">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZpotDrop/UI/ViewControllers/MainViewController.m"
+            timestampString = "473965252.16319"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZpotDrop/UI/ViewControllers/MainViewController.m"
+            timestampString = "473965327.279748"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "332"
+            endingLineNumber = "332"
+            landmarkName = "-getNotificationFromServer"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__47-[MainViewController getNotificationFromServer]_block_invoke_2"
+                  moduleName = "Zpotdrop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vutiet/Zpotdrop/SourceCode/iOS/ZpotDrop/ZpotDrop/UI/ViewControllers/MainViewController.m"
+                  timestampString = "473965327.293207"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "332"
+                  endingLineNumber = "332"
+                  offsetFromSymbolStart = "276">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__47-[MainViewController getNotificationFromServer]_block_invoke_3"
+                  moduleName = "Zpotdrop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vutiet/Zpotdrop/SourceCode/iOS/ZpotDrop/ZpotDrop/UI/ViewControllers/MainViewController.m"
+                  timestampString = "473965327.293585"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "332"
+                  endingLineNumber = "332"
+                  offsetFromSymbolStart = "56">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZpotDrop/UI/ViewControllers/MainViewController.m"
+            timestampString = "473965745.52345"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "338"
+            endingLineNumber = "338"
+            landmarkName = "-getNotificationFromServer"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__47-[MainViewController getNotificationFromServer]_block_invoke_2"
+                  moduleName = "Zpotdrop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vutiet/Zpotdrop/SourceCode/iOS/ZpotDrop/ZpotDrop/UI/ViewControllers/MainViewController.m"
+                  timestampString = "473965898.837694"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "338"
+                  endingLineNumber = "338"
+                  offsetFromSymbolStart = "540">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__47-[MainViewController getNotificationFromServer]_block_invoke_4"
+                  moduleName = "Zpotdrop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vutiet/Zpotdrop/SourceCode/iOS/ZpotDrop/ZpotDrop/UI/ViewControllers/MainViewController.m"
+                  timestampString = "473965898.837953"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "338"
+                  endingLineNumber = "338"
+                  offsetFromSymbolStart = "56">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ZpotDrop/Data/Services/APIService.m"
+            timestampString = "473965946.753231"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1304"
+            endingLineNumber = "1304"
+            landmarkName = "-sendNotification:completion:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__42-[APIService sendNotification:completion:]_block_invoke786"
+                  moduleName = "Zpotdrop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vutiet/Zpotdrop/SourceCode/iOS/ZpotDrop/ZpotDrop/Data/Services/APIService.m"
+                  timestampString = "473965946.760788"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1304"
+                  endingLineNumber = "1304"
+                  offsetFromSymbolStart = "780">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__42-[APIService sendNotification:completion:]_block_invoke_2791"
+                  moduleName = "Zpotdrop"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/vutiet/Zpotdrop/SourceCode/iOS/ZpotDrop/ZpotDrop/Data/Services/APIService.m"
+                  timestampString = "473965946.76117"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1304"
+                  endingLineNumber = "1304"
+                  offsetFromSymbolStart = "56">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

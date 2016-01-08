@@ -229,6 +229,7 @@
         model.sender_id = [AccountModel currentAccountModel].user_id;
         model.receiver_id = friendModel.mid;
         model.time = [NSDate date];
+        model.read = [NSNumber numberWithBool:NO];
         [self sendNotification:model completion:^(BOOL successful, NSString *error) {
         }];
     }];
@@ -260,6 +261,7 @@
         model.sender_id = friendModel.mid;
         model.receiver_id = [AccountModel currentAccountModel].user_id;
         model.time = [NSDate date];
+        model.read = [NSNumber numberWithBool:NO];
         [self sendNotification:model completion:^(BOOL successful, NSString *error) {
         }];
         
@@ -465,6 +467,7 @@
                 model.receiver_id = parseObject[@"user_id"];
                 model.feed_id = feedID;
                 model.time = [NSDate date];
+                model.read = [NSNumber numberWithBool:NO];
                 [self sendNotification:model completion:^(BOOL successful, NSString *error) {
                     
                 }];
@@ -556,6 +559,7 @@
                 model.sender_id = [AccountModel currentAccountModel].user_id;
                 model.receiver_id = parseObject[@"user_id"];
                 model.feed_id = fid;
+                model.read = [NSNumber numberWithBool:NO];
                 [self sendNotification:model completion:^(BOOL successful, NSString *error) {
                     
                 }];
@@ -995,6 +999,7 @@
         model.receiver_id = commentModel.user_id;
         model.feed_id = commentModel.feed_id;
         model.time = [NSDate date];
+        model.read = [NSNumber numberWithBool:NO];
         [self sendNotification:model completion:^(BOOL successful, NSString *error) {
             
         }];
@@ -1168,6 +1173,7 @@
     model.type = NOTIFICATION_FOLLOW;
     model.sender_id = [AccountModel currentAccountModel].user_id;
     model.receiver_id = data;
+    model.read = [NSNumber numberWithBool:NO];
     [self sendNotification:model completion:^(BOOL successful, NSString *error) {
         
     }];
@@ -1271,6 +1277,7 @@
                 notification[@"sender_id"] = model.sender_id;
                 notification[@"type"] = model.type;
                 notification[@"receiver_id"] = model.receiver_id;
+                notification[@"read"] = model.read;
                 [notification saveInBackgroundWithBlock:^(BOOL successful,NSError* error){
                     model.mid = notification.objectId;
                     [self notificationModelFromParse:notification];
@@ -1294,6 +1301,7 @@
                 notification[@"sender_id"] = model.sender_id;
                 notification[@"type"] = model.type;
                 notification[@"receiver_id"] = model.receiver_id;
+                notification[@"read"] = model.read;
                 [notification saveInBackgroundWithBlock:^(BOOL successful,NSError* error){
                     model.mid = notification.objectId;
                     [self notificationModelFromParse:notification];
@@ -1309,6 +1317,7 @@
         notification[@"sender_id"] = model.sender_id;
         notification[@"type"] = model.type;
         notification[@"receiver_id"] = model.receiver_id;
+        notification[@"read"] = model.read;
         [notification saveInBackgroundWithBlock:^(BOOL successful,NSError* error){
             model.mid = notification.objectId;
             [self notificationModelFromParse:notification];
@@ -1400,6 +1409,7 @@
     model.receiver_id = parse[@"receiver_id"];
     model.type = parse[@"type"];
     model.time = parse.updatedAt;
+    model.read = parse[@"read"];
     return model;
 }
 

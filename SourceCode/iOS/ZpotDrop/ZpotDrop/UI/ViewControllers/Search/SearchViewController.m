@@ -42,6 +42,7 @@
     _searchZpotBar.enablesReturnKeyAutomatically = NO;
     _searchZpotBar.delegate = self;
     _searchZpotBar.placeholder = @"search_for_people".localized;
+    [_searchZpotBar setShowsCancelButton:YES];
     [_searchZpotBar setImage:[UIImage imageNamed:@"ic_search"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     [_searchZpotBar addBorderWithFrame:CGRectMake(0, _searchZpotBar.height - 1.0, _searchZpotBar.width, 1) color:COLOR_SEPEARATE_LINE];
     NSDictionary *placeholderAttributes = @{
@@ -143,6 +144,11 @@
     [searchBar resignFirstResponder];
 }
 
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+}
+
+
 #pragma mark - UITablViewDatasource and Delegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -173,5 +179,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    UserDataModel* user = [_searchResult objectAtIndex:indexPath.row];
+    [[Utils instance]showUserProfile:user fromViewController:self];
 }
 @end

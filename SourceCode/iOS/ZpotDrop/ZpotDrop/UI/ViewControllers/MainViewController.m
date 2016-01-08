@@ -100,6 +100,13 @@
     [_leftMenuViewController changeViewToClass:NSStringFromClass([FeedZpotViewController class])];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(feedViewControllerDidReceiveNavigationSignal:) name:kFeedViewControllerWillPostNotification object:nil];
+    
+    [self getNotificationFromServer];
+
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 }
 
 -(void)showPostView{
@@ -309,6 +316,31 @@
 
 -(void)didPressedOnNotificationWithData:(id)data{
 
+}
+
+-(void)getNotificationFromServer{
+    [[APIService shareAPIService]getNotificationFromServerForUser:[AccountModel currentAccountModel].user_id completion:^(NSArray *returnArray, NSString *error) {
+        for (int i = 0; i < returnArray.count; i++) {
+            NotificationModel* model = [returnArray objectAtIndex:i];
+            if ([model.type isEqualToString:NOTIFICATION_REQUEST_LOCATION] && [model.read boolValue] == NO) {
+                UserDataModel* friendModel = (UserDataModel*)[UserDataModel fetchObjectWithID:model.sender_id];
+                NSString *alertMessage = [NSString stringWithFormat:@"%@ wants to request your current location", friendModel.name];
+                [[Utils instance]showAlertWithTitle:@"" message:alertMessage yesTitle:@"yes".localized noTitle:@"no".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    if (buttonIndex != [alertView cancelButtonIndex]) {
+                        NSString* title = [alertView buttonTitleAtIndex:buttonIndex];
+                        if ([title isEqualToString:@"yes".localized]) {
+                            [[APIService shareAPIService] notifyLocationToUserID:model.sender_id completion:^(BOOL successful, NSString *error) {
+                            }];
+                        }
+                    }
+                    // update notification
+                    model.read = [NSNumber numberWithBool:YES];
+                    [[APIService shareAPIService] sendNotification:model completion:^(BOOL successful, NSString *error) {
+                    }];
+                }];
+            }
+        }
+    }];
 }
 
 #pragma mark - NSNotification Handler

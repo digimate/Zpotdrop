@@ -72,6 +72,7 @@ typedef void(^dataResponse)(id data, NSString* error);
 -(void)searchFriendWithName:(NSString*)userName completion:(void(^)(NSMutableArray* returnArray,NSString*error))completion;
 -(void)requestLocationOfUserID:(NSString*)friendID completion:(void(^)(BOOL successful,NSString* error))completion;
 -(void)notifyLocationToUserID:(NSString*)friendID completion:(void(^)(BOOL successful,NSString* error))completion;
+-(void)sendNotification:(NotificationModel*)model completion:(void(^)(BOOL successful,NSString* error))completion;
 -(void)checkFriendWithUserID:(NSString*)friendID completion:(void(^)(BOOL isFriend,NSString* error))completion;
 -(void)getFeedsFromServerForUserID:(NSString*)userID completion:(void(^)(NSMutableArray* returnArray,NSString*error))completion;
 -(void)countFeedsForUserID:(NSString*)userID completion:(void(^)(NSInteger count,NSString*error))completion;
