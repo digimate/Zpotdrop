@@ -288,7 +288,7 @@
         }
     }else if (indexPath.section == 1){
         if (indexPath.row == 0) {
-            dict = @{@"title":@"private_profile".localized,@"switch":[NSNumber numberWithBool:enableAllZpot],@"subtitle":@"private_profile_usage".localized};
+            dict = @{@"title":@"private_profile".localized,@"switch":[NSNumber numberWithBool:privateProfile],@"subtitle":@"private_profile_usage".localized};
             
             //dict = @{@"title":@"private_profile".localized,@"switch":[NSNumber numberWithBool:privateProfile]};
             [(SettingSwitchCell*)cell setOnSwitchChanged:^(BOOL flag) {

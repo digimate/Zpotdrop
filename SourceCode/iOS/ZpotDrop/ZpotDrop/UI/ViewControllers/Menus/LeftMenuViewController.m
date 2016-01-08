@@ -106,13 +106,26 @@
 -(void)zpotAllPressed {
     AccountModel* currentAccount = [AccountModel currentAccountModel];
     UserDataModel* currentUser = (UserDataModel*)[UserDataModel fetchObjectWithID:currentAccount.user_id];
-    currentUser.zpot_all_time = [NSDate date];
-    [[APIService shareAPIService]updateUserInfoToServerWithID:currentUser.mid params:@{@"zpot_all_time":currentUser.zpot_all_time} completion:^(BOOL success, NSString *error) {
-        
-    }];
-    [self updateZpotAll];
-    currentSelectedRow = 3;
-    [self.delegate leftmenuZpotAll];
+    
+    if ([currentUser.enableAllZpot boolValue] == NO) {
+        [[Utils instance]showAlertWithTitle:@"".localized message:@"Please enable all zpot in settings" yesTitle:@"yes".localized noTitle:@"no".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            if (buttonIndex != [alertView cancelButtonIndex]) {
+                NSString* title = [alertView buttonTitleAtIndex:buttonIndex];
+                if ([title isEqualToString:@"yes".localized]) {
+                    // Go to settings view
+                    [self showSettingsView];
+                }
+            }
+        }];
+    } else {
+        currentUser.zpot_all_time = [NSDate date];
+        [[APIService shareAPIService]updateUserInfoToServerWithID:currentUser.mid params:@{@"zpot_all_time":currentUser.zpot_all_time} completion:^(BOOL success, NSString *error) {
+            
+        }];
+        [self updateZpotAll];
+        currentSelectedRow = 3;
+        [self.delegate leftmenuZpotAll];
+    }
 }
 
 - (void)showUserProfile {

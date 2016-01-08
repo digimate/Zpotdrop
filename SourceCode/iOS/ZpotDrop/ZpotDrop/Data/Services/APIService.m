@@ -131,6 +131,15 @@
 //        }
 //    }];
     
+    
+    __block NSMutableArray *userLocationIds = [[NSMutableArray alloc] init];
+    __block NSMutableArray *postLocationIds = [[NSMutableArray alloc] init];
+    __block NSError *userError = nil;
+    __block NSError *postError = nil;
+
+    dispatch_group_t serviceGroup = dispatch_group_create();
+    // Get users by location
+    dispatch_group_enter(serviceGroup);
     PFQuery* queryUser = [PFUser query];
     [queryUser whereKey:@"latitude" greaterThanOrEqualTo:[NSNumber numberWithDouble:botRight.latitude]];
     [queryUser whereKey:@"latitude" lessThanOrEqualTo:[NSNumber numberWithDouble:topLeft.latitude]];
@@ -140,18 +149,61 @@
     [queryUser findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
 //        count--;
         if (data) {
-            NSMutableArray* returnArray = [[NSMutableArray alloc] init];
+//            NSMutableArray* returnArray = [[NSMutableArray alloc] init];
             for (PFUser* userParse in data) {
-                UserDataModel* feedModel = [self updateUserModel:userParse.objectId withParse:userParse];
-                [returnArray addObject:feedModel];
+//                UserDataModel* feedModel = [self updateUserModel:userParse.objectId withParse:userParse];
+//                [returnArray addObject:feedModel];
+                [userLocationIds addObject:userParse.objectId];
             }
-//            if (count == 0) {
-                completion(returnArray,nil);
-//            }
+//                completion(returnArray,nil);
         } else {
-            completion([NSMutableArray array],error.description);
+//            completion([NSMutableArray array],error.description);
+            userError = [error copy];
         }
+        dispatch_group_leave(serviceGroup);
     }];
+    
+    // Get posts by location
+    dispatch_group_enter(serviceGroup);
+    PFQuery *postQuery = [PFQuery queryWithClassName:@"Post"];
+    [postQuery whereKey:@"latitude" greaterThanOrEqualTo:[NSNumber numberWithDouble:botRight.latitude]];
+    [postQuery whereKey:@"latitude" lessThanOrEqualTo:[NSNumber numberWithDouble:topLeft.latitude]];
+    [postQuery whereKey:@"longitude" greaterThanOrEqualTo:[NSNumber numberWithDouble:topLeft.longitude]];
+    [postQuery whereKey:@"longitude" lessThanOrEqualTo:[NSNumber numberWithDouble:botRight.longitude]];
+    NSDate *then = [NSDate dateWithTimeIntervalSinceNow:-10800]; // 3 hours
+    [postQuery whereKey:@"updateAt" greaterThanOrEqualTo:then];
+    
+    [postQuery findObjectsInBackgroundWithBlock:^(NSArray * data,NSError* error){
+        if (data) {
+//            NSMutableArray* returnArray = [[NSMutableArray alloc] init];
+            for (PFObject* objectParse in data) {
+                [postLocationIds addObject:objectParse[@"user_id"]];
+            }
+//            NSOrderedSet *orderSet = [NSOrderedSet orderedSetWithArray:returnArray];
+//            NSArray *results = [orderSet array];
+//            completion(results,nil);
+        } else {
+//            completion([NSMutableArray array],error.description);
+            postError = [error copy];
+        }
+        dispatch_group_leave(serviceGroup);
+    }];
+
+    
+    dispatch_group_notify(serviceGroup, dispatch_get_main_queue(), ^{
+        // Should combine 2 results and return responses
+        NSMutableArray *combineIds = [[NSMutableArray alloc] init];
+        [combineIds addObjectsFromArray:userLocationIds];
+        [combineIds addObjectsFromArray:postLocationIds];
+        NSOrderedSet *orderSet = [NSOrderedSet orderedSetWithArray:combineIds];
+        NSArray *results = [orderSet array];
+        NSMutableArray *userModels = [[NSMutableArray alloc] init];
+        for (NSString *userID in results) {
+            UserDataModel *userModel = (UserDataModel *)[UserDataModel fetchObjectWithID:userID];
+            [userModels addObject:userModel];
+        }
+        completion(userModels, nil);
+    });
 
 }
 //send request to get Current Location of this user

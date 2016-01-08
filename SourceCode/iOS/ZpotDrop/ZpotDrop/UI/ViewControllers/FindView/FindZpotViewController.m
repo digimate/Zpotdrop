@@ -208,7 +208,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self getNearbyPeople];
+//    [self getNearbyPeople];
 }
 
 - (void)getNearbyPeople {
@@ -254,7 +254,7 @@
                     }];
                 }
 //                [self addAnnotationScannedUsers];
-                [usersCollectionView reloadData];
+//                [usersCollectionView reloadData];
             }
             
         }];
