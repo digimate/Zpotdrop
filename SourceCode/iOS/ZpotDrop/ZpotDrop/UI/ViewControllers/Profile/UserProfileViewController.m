@@ -18,6 +18,7 @@
     NSMutableArray* userZpotsData;
     UIView* blockView;
     UIButton *_btnHometown;
+    UIButton *_btnFollow;
 }
 
 @property (nonatomic, copy) NSArray *followedUserIds;
@@ -76,19 +77,36 @@
     [_btnHometown setImage:[UIImage imageNamed:@"ic_location_white"] forState:UIControlStateNormal];
     [viewHeader addSubview:_btnHometown];
     
-    UIButton* btnFollow = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btnFollow setFrame:CGRectMake(0, 0, 34, 34)];
-    [btnFollow setCenter:CGPointMake(imgvAvatar.center.x + 25, imgvAvatar.centerY + imgvAvatar.height/2)];
-    [btnFollow setImage:[UIImage imageNamed:@"ic_add_friend_green"] forState:UIControlStateNormal];
-    [btnFollow setImage:[UIImage imageNamed:@"ic_friended"] forState:UIControlStateSelected];
-    [btnFollow addTarget:self action:@selector(followUser:) forControlEvents:UIControlEventTouchUpInside];
-    [viewHeader addSubview:btnFollow];
+    _btnFollow = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_btnFollow setFrame:CGRectMake(0, 0, 34, 34)];
+    [_btnFollow setCenter:CGPointMake(imgvAvatar.center.x + 25, imgvAvatar.centerY + imgvAvatar.height/2)];
+    [_btnFollow setImage:[UIImage imageNamed:@"ic_add_friend_green"] forState:UIControlStateNormal];
+    [_btnFollow setImage:[UIImage imageNamed:@"ic_friended"] forState:UIControlStateSelected];
+    [_btnFollow addTarget:self action:@selector(followUser:) forControlEvents:UIControlEventTouchUpInside];
+    _btnFollow.hidden = YES;
+    [viewHeader addSubview:_btnFollow];
+    
+    [[APIService shareAPIService] getFollowingListOfUser:userModel.mid completion:^(NSArray *result, NSString *error) {
+        if (result) {
+            if ([result containsObject:[AccountModel currentAccountModel].user_id]) {
+                _btnFollow.selected = YES;
+                _btnFollow.hidden = NO;
+            } else if (![userModel.mid isEqualToString:[AccountModel currentAccountModel].user_id]) {
+                _btnFollow.selected = NO;
+                _btnFollow.hidden = NO;
+            }
+        }
+    }];
+    
     
     UIButton* btnRequestLocation = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnRequestLocation setFrame:CGRectMake(0, 0, 34, 34)];
     [btnRequestLocation setCenter:CGPointMake(imgvAvatar.center.x - 25, imgvAvatar.centerY + imgvAvatar.height/2)];
     [btnRequestLocation setImage:[UIImage imageNamed:@"ic_request_spot"] forState:UIControlStateNormal];
     [btnRequestLocation addTarget:self action:@selector(requestLocation:) forControlEvents:UIControlEventTouchUpInside];
+    if ([userModel.mid isEqualToString:[AccountModel currentAccountModel].user_id]) {
+        btnRequestLocation.hidden = YES;
+    }
     [viewHeader addSubview:btnRequestLocation];
 
     [[APIService shareAPIService]checkFriendWithUserID:userModel.mid completion:^(BOOL isFriend, NSString *error) {
@@ -231,6 +249,7 @@
             if (successful) {
                 sender.selected = NO;
                 [self checkPrivate];
+//                [_btnFollow setImage:[UIImage imageNamed:@"ic_add_friend_green"] forState:UIControlStateNormal];
             }else{
                 [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
                 }];
@@ -242,6 +261,7 @@
             if (successful) {
                 sender.selected = YES;
                 [self checkPrivate];
+//                [_btnFollow setImage:[UIImage imageNamed:@"ic_friended"] forState:UIControlStateNormal];
             }else{
                 [[Utils instance]showAlertWithTitle:@"error_title".localized message:error yesTitle:nil noTitle:@"ok".localized handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
                 }];
@@ -374,7 +394,7 @@
 #pragma mark - Follower & Following handling
 
 - (void)followingDidTouch {
-    [[APIService shareAPIService]  getFollowingListOfUser:userModel.mid completion:^(NSArray *result, NSString *error) {
+    [[APIService shareAPIService] getFollowingListOfUser:userModel.mid completion:^(NSArray *result, NSString *error) {
         if (result) {
             self.followedUserIds = result;
             [self gotoUserListViewWithTitle:@"Following"];

@@ -251,6 +251,7 @@
             [weak showCommentView:(FeedDataModel*)weakCell.dataModel];
         };
     }else{
+        [cell resetCell];
         cell.dataModel.dataDelegate = nil;
         cell.dataModel = nil;
         [cell setupCellWithData:model andOptions:nil];

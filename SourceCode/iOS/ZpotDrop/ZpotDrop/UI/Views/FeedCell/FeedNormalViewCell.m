@@ -251,6 +251,17 @@
     return 141;
 }
 
+-(void)resetCell {
+    _imgvAvatar.image = nil;
+    _lblName.text = @"";
+    _lblZpotAddress.text = @"";
+    _lblZpotTitle.text = @"";
+    _lblZpotTime.text = @"";
+    _lblSpotDistance.text = @"";
+    _lblNumberLikes.text = @"";
+    _lblNumberComments.text = @"";
+}
+
 #pragma mark - Event Handlers
 
 - (IBAction)imgvAvatarDidTouch:(id)sender {

@@ -36,4 +36,8 @@
 -(void)updateUIForDataModel:(BaseDataModel *)model options:(NSDictionary*)params{
 
 }
+
+-(void)resetCell {
+    
+}
 @end

@@ -12,6 +12,7 @@
 @property(nonatomic,weak)UIViewController* handler;
 @property(nonatomic,retain)BaseDataModel* dataModel;
 -(void)setupCellWithData:(BaseDataModel*)data andOptions:(NSDictionary*)param;
+-(void)resetCell;
 +(CGFloat)cellHeightWithData:(BaseDataModel*)data;
 +(id)instance;
 @end
