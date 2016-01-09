@@ -26,6 +26,9 @@ static NSString *const kAPNTypeBroadcast = @"broadcast";
 // Feed View
 static NSString *const kFeedViewControllerWillPostNotification = @"FeedViewControllerWillPostNotification";
 
+// Find
+static NSString *const kSharedUserLocations = @"sharedUserLocations";
+
 #endif /* ZDConstant_h */
 
 extern const struct CellHeights{

@@ -37,7 +37,46 @@
     scannedUsersData = [NSMutableArray array];
     searchUsersData = [NSMutableArray array];
     if (extendData) {
-        [scannedUsersData addObjectsFromArray:extendData];
+        // Update array of should-be-shown users
+        NSMutableArray *savedLocationDicts = [[NSMutableArray alloc] init];
+        NSArray *currentIdDicts = [[NSUserDefaults standardUserDefaults] objectForKey:kSharedUserLocations];
+        if (currentIdDicts.count == 0) {
+            for (UserDataModel *userModel in extendData) {
+                NSDictionary *savedDict = [NSDictionary dictionaryWithObjectsAndKeys:userModel.mid, @"id", [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]], @"time", nil];
+                [savedLocationDicts addObject:savedDict];
+            }
+        } else {
+            BOOL shouldSaveFromNotification = NO;
+            for (NSDictionary *dict in currentIdDicts) {
+                shouldSaveFromNotification = NO;
+                for (UserDataModel *userModel in extendData) {
+                    if ([userModel.mid isEqualToString:[dict objectForKey:@"id"]]) {
+                        shouldSaveFromNotification = YES;
+                    }
+                    
+                    BOOL shouldAdd = YES;
+                    for (NSDictionary *savingDict in savedLocationDicts) {
+                        if ([[savingDict objectForKey:@"id"] isEqualToString:userModel.mid]) {
+                            shouldAdd = NO;
+                        }
+                    }
+                    if (shouldAdd) {
+                        NSDictionary *savedDict = [NSDictionary dictionaryWithObjectsAndKeys:userModel.mid, @"id", [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]], @"time", nil];
+                        [savedLocationDicts addObject:savedDict];
+                    }
+                }
+                if (shouldSaveFromNotification == NO) {
+                    NSNumber *numberTime = [dict objectForKey:@"time"];
+                    double threeHours = 60 * 60 * 3;
+                    NSTimeInterval currentTime = [[NSDate date] timeIntervalSince1970];
+                    if ((currentTime - [numberTime doubleValue]) < threeHours) {
+                        [savedLocationDicts addObject:dict];
+                    }
+                }
+            }
+        }
+        [[NSUserDefaults standardUserDefaults] setObject:savedLocationDicts forKey:kSharedUserLocations];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
     self.title = @"find".localized.uppercaseString;
     self.view.backgroundColor = [UIColor whiteColor];
@@ -119,6 +158,97 @@
     friendsSearchTableView.delegate = self;
     friendsSearchTableView.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.5];
 }
+
+-(void)getLocationsFromNotifications {
+    [[APIService shareAPIService]getNotificationFromServerForUser:[AccountModel currentAccountModel].user_id completion:^(NSArray *returnArray, NSString *error) {
+        NSMutableArray *sharedLocationUserIds = [[NSMutableArray alloc] init];
+        for (int i = 0; i < returnArray.count; i++) {
+            NotificationModel* model = [returnArray objectAtIndex:i];
+            if ([model.type isEqualToString:NOTIFICATION_SHARE_LOCATION] && [model.read boolValue] == NO) {
+                // update notification
+                model.read = [NSNumber numberWithBool:YES];
+                [[APIService shareAPIService] updateNotification:model completion:^(BOOL successful, NSString *error) {
+                }];
+                
+                // add to current user locations
+                [sharedLocationUserIds addObject:model.sender_id];
+            }
+        }
+        NSOrderedSet *orderSet = [NSOrderedSet orderedSetWithArray:sharedLocationUserIds];
+        sharedLocationUserIds = [NSMutableArray arrayWithArray:[orderSet array]];
+        
+        // Update array of should-be-shown users
+        NSMutableArray *savedLocationDicts = [[NSMutableArray alloc] init];
+        NSArray *currentIdDicts = [[NSUserDefaults standardUserDefaults] objectForKey:kSharedUserLocations];
+        
+        if (currentIdDicts.count == 0) {
+            for (NSString *userId in sharedLocationUserIds) {
+                NSDictionary *savedDict = [NSDictionary dictionaryWithObjectsAndKeys:userId, @"id", [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]], @"time", nil];
+                [savedLocationDicts addObject:savedDict];
+            }
+        } else {
+            BOOL shouldSaveFromNotification = NO;
+            for (NSDictionary *dict in currentIdDicts) {
+                shouldSaveFromNotification = NO;
+                for (NSString *userId in sharedLocationUserIds) {
+                    if ([userId isEqualToString:[dict objectForKey:@"id"]]) {
+                        shouldSaveFromNotification = YES;
+                    }
+                    BOOL shouldAdd = YES;
+                    for (NSDictionary *savingDict in savedLocationDicts) {
+                        if ([[savingDict objectForKey:@"id"] isEqualToString:userId]) {
+                            shouldAdd = NO;
+                        }
+                    }
+                    if (shouldAdd) {
+                        NSDictionary *savedDict = [NSDictionary dictionaryWithObjectsAndKeys:userId, @"id", [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]], @"time", nil];
+                        [savedLocationDicts addObject:savedDict];
+                    }
+                }
+                if (shouldSaveFromNotification == NO) {
+                    NSNumber *numberTime = [dict objectForKey:@"time"];
+                    double threeHours = 60 * 60 * 3;
+                    NSTimeInterval currentTime = [[NSDate date] timeIntervalSince1970];
+                    if ((currentTime - [numberTime doubleValue]) < threeHours) {
+                        [savedLocationDicts addObject:dict];
+                    }
+                }
+            }
+        }
+        
+        [[NSUserDefaults standardUserDefaults] setObject:savedLocationDicts forKey:kSharedUserLocations];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self loadUserLocations];
+    }];
+}
+
+- (void)loadUserLocations {
+    [scannedUsersData removeAllObjects];
+    NSArray *locationDicts = [[NSUserDefaults standardUserDefaults] objectForKey:kSharedUserLocations];
+    double threeHours = 60 * 60 * 3;
+    for (NSDictionary *dict in locationDicts) {
+        NSNumber *numberTime = [dict objectForKey:@"time"];
+        NSTimeInterval currentTime = [[NSDate date] timeIntervalSince1970];
+        if ((currentTime - [numberTime doubleValue]) < threeHours) {
+            UserDataModel *userModel = (UserDataModel *)[UserDataModel fetchObjectWithID:[dict objectForKey:@"id"]];
+//            [userModel updateObjectForUse:^{
+//                CLLocationCoordinate2D friendCoordinate = CLLocationCoordinate2DMake([userModel.latitude doubleValue], [userModel.longitude doubleValue]);
+//                if(MKMapRectContainsPoint([Utils instance].mapView.visibleMapRect, MKMapPointForCoordinate(friendCoordinate)))
+//                {
+//                    [scannedUsersData addObject:userModel];
+//                }
+                
+//            }];
+            
+            if (![userModel.mid isEqualToString:[AccountModel currentAccountModel].user_id]) {
+                [scannedUsersData addObject:userModel];
+            }
+        }
+    }
+    [self addAnnotationScannedUsers];
+    [usersCollectionView reloadData];
+}
+
 
 -(void)changeHereThere:(UIButton*)sender{
     if (!sender.isSelected) {
@@ -209,6 +339,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 //    [self getNearbyPeople];
+    [self getLocationsFromNotifications];
 }
 
 - (void)getNearbyPeople {
@@ -333,19 +464,20 @@
 
 - (void)pushNotificationDidReceive:(NSNotification *)notification {
 //    NSLog(@"notification %@", notification);
-    NSDictionary *userInfo = notification.userInfo;
-    UserDataModel* friendModel = (UserDataModel*)[UserDataModel fetchObjectWithID:[userInfo objectForKey:@"user_id"]];
-    
-    [friendModel updateObjectForUse:^{
-        CLLocationCoordinate2D friendCoordinate = CLLocationCoordinate2DMake([friendModel.latitude doubleValue], [friendModel.longitude doubleValue]);
-        if(MKMapRectContainsPoint([Utils instance].mapView.visibleMapRect, MKMapPointForCoordinate(friendCoordinate)))
-        {
-            [scannedUsersData addObject:friendModel];
-            [self addAnnotationScannedUsers];
-            [usersCollectionView reloadData];
-        }
-        
-    }];
+//    NSDictionary *userInfo = notification.userInfo;
+//    UserDataModel* friendModel = (UserDataModel*)[UserDataModel fetchObjectWithID:[userInfo objectForKey:@"user_id"]];
+//    
+//    [friendModel updateObjectForUse:^{
+//        CLLocationCoordinate2D friendCoordinate = CLLocationCoordinate2DMake([friendModel.latitude doubleValue], [friendModel.longitude doubleValue]);
+//        if(MKMapRectContainsPoint([Utils instance].mapView.visibleMapRect, MKMapPointForCoordinate(friendCoordinate)))
+//        {
+//            [scannedUsersData addObject:friendModel];
+//            [self addAnnotationScannedUsers];
+//            [usersCollectionView reloadData];
+//        }
+//        
+//    }];
+    [self getLocationsFromNotifications];
 }
 
 #pragma mark - MKMapViewDelegate

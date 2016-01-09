@@ -335,7 +335,7 @@
                     }
                     // update notification
                     model.read = [NSNumber numberWithBool:YES];
-                    [[APIService shareAPIService] sendNotification:model completion:^(BOOL successful, NSString *error) {
+                    [[APIService shareAPIService] updateNotification:model completion:^(BOOL successful, NSString *error) {
                     }];
                 }];
             }

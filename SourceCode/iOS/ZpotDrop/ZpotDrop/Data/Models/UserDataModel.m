@@ -56,7 +56,7 @@
 }
 
 -(void)updateObjectForUse:(void(^)())completion{
-    if (self.username == nil || self.username.length == 0) {
+    if (self.username == nil || self.username.length == 0 || self.avatar.length == 0) {
         [[APIService shareAPIService] updateUserModelWithID:self.mid completion:^{
             completion();
         }];

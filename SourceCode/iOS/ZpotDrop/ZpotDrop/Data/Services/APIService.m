@@ -258,8 +258,8 @@
         
         NotificationModel* model  = (NotificationModel*)[NotificationModel fetchObjectWithID:[NSDate date].description];
         model.type = NOTIFICATION_SHARE_LOCATION;
-        model.sender_id = friendModel.mid;
-        model.receiver_id = [AccountModel currentAccountModel].user_id;
+        model.sender_id = meModel.mid;
+        model.receiver_id = friendModel.mid;
         model.time = [NSDate date];
         model.read = [NSNumber numberWithBool:NO];
         [self sendNotification:model completion:^(BOOL successful, NSString *error) {
@@ -1269,6 +1269,28 @@
         }
     }];
 }
+
+-(void)updateNotification:(NotificationModel*)model completion:(void(^)(BOOL successful,NSString* error))completion {
+    PFQuery* query = [PFQuery queryWithClassName:@"Notification"];
+    [query whereKey:@"objectId" equalTo:model.mid];
+    [query findObjectsInBackgroundWithBlock:^(NSArray* objects, NSError* error){
+        if (error) {
+            completion(NO,error.description);
+        } else {
+            PFObject* notification = [objects firstObject];
+//            notification[@"comment"] = model.comment;
+//            notification[@"post_id"] = model.feed_id;
+            notification[@"sender_id"] = model.sender_id;
+            notification[@"type"] = model.type;
+            notification[@"receiver_id"] = model.receiver_id;
+            notification[@"read"] = model.read;
+            [notification saveInBackgroundWithBlock:^(BOOL successful,NSError* error){
+                completion(successful,error.description);
+            }];
+        }
+    }];
+}
+
 -(void)sendNotification:(NotificationModel*)model completion:(void(^)(BOOL successful,NSString* error))completion{
     if ([model.type isEqualToString:NOTIFICATION_COMMING] || [model.type isEqualToString:NOTIFICATION_FB_Friend]
         || [model.type isEqualToString:NOTIFICATION_FOLLOW] || [model.type isEqualToString:NOTIFICATION_LIKE]) {
@@ -1302,7 +1324,7 @@
     } else if ([model.type isEqualToString:NOTIFICATION_REQUEST_LOCATION] || [model.type isEqualToString:NOTIFICATION_SHARE_LOCATION]) {
         PFQuery* query = [PFQuery queryWithClassName:@"Notification"];
         [query whereKey:@"type" equalTo:model.type];
-        [query whereKey:@"sender_id" equalTo:[AccountModel currentAccountModel].user_id];
+        [query whereKey:@"sender_id" equalTo:model.sender_id];
         [query whereKey:@"receiver_id" equalTo:model.receiver_id];
         [query findObjectsInBackgroundWithBlock:^(NSArray* objects, NSError* error){
             if (error) {

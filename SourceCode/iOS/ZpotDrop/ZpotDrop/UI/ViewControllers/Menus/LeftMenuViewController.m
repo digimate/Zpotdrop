@@ -192,11 +192,7 @@
         lblZpotAll.hidden = YES;
         [self removeAnimatedOverlay];
     }
-    
-    [zpotdropAllButton setTitle:@"zpot_all".localized.uppercaseString forState:UIControlStateNormal];
-    zpotdropAllButton.enabled = YES;
-    lblZpotAll.hidden = NO;
-    
+        
 }
 
 -(void)changeViewToClass:(NSString*)clsString{
