@@ -67,7 +67,7 @@
 -(void)getContactFriends{
     [loadingView showViewInView:_mTableView];
     [self getContactList:^(NSArray *data) {
-        __block int count = data.count;
+        __block long count = data.count;
         if (count == 0) {
             [loadingView hideView];
         }
@@ -80,6 +80,7 @@
                 if (count == 0) {
                     [_searchResult addObjectsFromArray:_contactsFriends];
                     [_mTableView reloadData];
+                    [loadingView hideView];
                 }
             }];
         }
@@ -89,15 +90,49 @@
 -(void)getContactList:(void(^)(NSArray* data))completion{
     CFErrorRef *error = nil;
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
-    ABRecordRef source = ABAddressBookCopyDefaultSource(addressBook);
-    CFArrayRef allPeople = (ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering(addressBook, source, kABPersonSortByFirstName));
-    //CFIndex nPeople = ABAddressBookGetPersonCount(addressBook);
-    CFIndex nPeople = CFArrayGetCount(allPeople); // bugfix who synced contacts with facebook
-    NSMutableArray* items = [NSMutableArray arrayWithCapacity:nPeople];
-    
-    if (!allPeople || !nPeople) {
-        NSLog(@"people nil");
+    NSMutableArray* items = [[NSMutableArray alloc] init];
+    __block ABRecordRef source = nil;
+    __block CFArrayRef allPeople = nil;
+    __block CFIndex nPeople = 0;
+    if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusNotDetermined) {
+        ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+            // First time access has been granted, add the contact
+            source = ABAddressBookCopyDefaultSource(addressBook);
+            allPeople = (ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering(addressBook, source, kABPersonSortByFirstName));
+            //CFIndex nPeople = ABAddressBookGetPersonCount(addressBook);
+            nPeople = CFArrayGetCount(allPeople); // bugfix who synced contacts with facebook
+//            items = [NSMutableArray arrayWithCapacity:nPeople];
+            if (!allPeople || !nPeople) {
+                NSLog(@"people nil");
+            }
+        });
     }
+    else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized) {
+        // The user has previously given access, add the contact
+        source = ABAddressBookCopyDefaultSource(addressBook);
+        allPeople = (ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering(addressBook, source, kABPersonSortByFirstName));
+        //CFIndex nPeople = ABAddressBookGetPersonCount(addressBook);
+        nPeople = CFArrayGetCount(allPeople); // bugfix who synced contacts with facebook
+//        items = [NSMutableArray arrayWithCapacity:nPeople];
+        
+        if (!allPeople || !nPeople) {
+            NSLog(@"people nil");
+        }
+    }
+    else {
+        // The user has previously denied access
+        // Send an alert telling user to change privacy setting in settings app
+    }
+    
+//    ABRecordRef source = ABAddressBookCopyDefaultSource(addressBook);
+//    CFArrayRef allPeople = (ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering(addressBook, source, kABPersonSortByFirstName));
+//    //CFIndex nPeople = ABAddressBookGetPersonCount(addressBook);
+//    CFIndex nPeople = CFArrayGetCount(allPeople); // bugfix who synced contacts with facebook
+//    NSMutableArray* items = [NSMutableArray arrayWithCapacity:nPeople];
+    
+//    if (!allPeople || !nPeople) {
+//        NSLog(@"people nil");
+//    }
     
     
     for (int i = 0; i < nPeople; i++) {
@@ -186,9 +221,9 @@
             
         }
     } //autoreleasepool
-    CFRelease(allPeople);
-    CFRelease(addressBook);
-    CFRelease(source);
+//    CFRelease(allPeople);
+//    CFRelease(addressBook);
+//    CFRelease(source);
     completion(items);
 }
 
