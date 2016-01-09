@@ -1009,10 +1009,23 @@
 #pragma mark SEARCH USER
 -(void)searchUserWithData:(NSString*)data completion:(void(^)(BOOL successful,NSArray* result))completion
 {
-    PFQuery* cond1 = [PFUser query]; [cond1 whereKey:@"username" containsString:data];
-    PFQuery* cond2 = [PFUser query]; [cond1 whereKey:@"firstName" containsString:data];
-    PFQuery* cond3 = [PFUser query]; [cond1 whereKey:@"lastName" containsString:data];
-    PFQuery* userQuery = [PFQuery orQueryWithSubqueries:@[cond1,cond2,cond3]];
+    NSArray *searchTerms = [data componentsSeparatedByString:@" "];
+    NSMutableArray *conditions = [[NSMutableArray alloc] init];
+    for (NSString *stringTerm in searchTerms) {
+        PFQuery *firstNameQuery = [PFUser query];
+        [firstNameQuery whereKey:@"firstName" matchesRegex:stringTerm modifiers:@"i"];
+        PFQuery* lastNameQuery = [PFUser query];
+        [lastNameQuery whereKey:@"lastName" matchesRegex:stringTerm modifiers:@"i"];
+        [conditions addObject:firstNameQuery];
+        [conditions addObject:lastNameQuery];
+    }
+    
+//    PFQuery* cond1 = [PFUser query]; [cond1 whereKey:@"username" containsString:data];
+//    PFQuery* cond2 = [PFUser query];// [cond2 whereKey:@"firstName" containsString:data];
+//    [cond2 whereKey:@"firstName" matchesRegex:data modifiers:@"i"];
+//    PFQuery* cond3 = [PFUser query];// [cond3 whereKey:@"lastName" containsString:data];
+//    [cond3 whereKey:@"lastName" matchesRegex:data modifiers:@"i"];
+    PFQuery* userQuery = [PFQuery orQueryWithSubqueries:conditions];
     
     [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
     {

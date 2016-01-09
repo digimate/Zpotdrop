@@ -38,7 +38,7 @@
     _searchZpotBar.backgroundColor = [UIColor clearColor];
     _searchZpotBar.barTintColor = [UIColor clearColor];
     _searchZpotBar.backgroundImage = [[UIImage alloc]init];
-    _searchZpotBar.returnKeyType = UIReturnKeyDone;
+    _searchZpotBar.returnKeyType = UIReturnKeySearch;
     _searchZpotBar.enablesReturnKeyAutomatically = NO;
     _searchZpotBar.delegate = self;
     _searchZpotBar.placeholder = @"search_for_people".localized;
@@ -130,10 +130,12 @@
 #pragma mark - UISearchBarDelegate
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     if (searchBar.text.length > 0) {
+        [[Utils instance]showProgressWithMessage:nil];
         [_api searchUserWithData:searchBar.text completion:^(BOOL successful, NSArray *result) {
             [_searchResult removeAllObjects];
             [_searchResult addObjectsFromArray:result];
             [_mTableView reloadData];
+            [[Utils instance] hideProgess];
         }];
     }else{
         [_searchResult removeAllObjects];
