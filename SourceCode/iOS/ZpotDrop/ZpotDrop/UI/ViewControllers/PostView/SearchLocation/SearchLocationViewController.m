@@ -29,8 +29,13 @@
 - (void)setSuggestedPlaces:(GMSAutocompletePrediction *)place {
     NSString *placeString = [place.attributedFullText string];
     NSRange firstRange = [placeString rangeOfString:@","];
-    self.lbLocationName.text = [placeString substringWithRange:NSMakeRange(0, firstRange.location)];
-    self.lbLocationAddress.text = [placeString substringFromIndex:self.lbLocationName.text.length+firstRange.length];
+    if (firstRange.location != NSNotFound) {
+        self.lbLocationName.text = [placeString substringWithRange:NSMakeRange(0, firstRange.location)];
+        self.lbLocationAddress.text = [placeString substringFromIndex:self.lbLocationName.text.length+firstRange.length];
+    } else {
+        self.lbLocationName.text = placeString;
+        self.lbLocationAddress.text = @"";
+    }
 }
 
 @end
