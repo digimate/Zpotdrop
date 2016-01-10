@@ -71,10 +71,24 @@
         maskLayer.path = path.CGPath;
         viewMask.layer.mask = maskLayer;
     }else{
-        [viewMask setBackgroundColor:[UIColor clearColor]];
+//        [viewMask setBackgroundColor:[UIColor clearColor]];
+
+        double deltaSecond = 0;
+        NSArray *locationDicts = [[NSUserDefaults standardUserDefaults] objectForKey:kSharedUserLocations];
+        for (NSDictionary *dict in locationDicts) {
+            if ([[dict objectForKey:@"id"] isEqualToString:self.dataModel.mid]) {
+                deltaSecond = [[NSDate date] timeIntervalSince1970] - [[dict objectForKey:@"time"] doubleValue];
+                break;
+            }
+        }
+
+        float angle = (deltaSecond * 360.0) / (60*60);
+        if (angle > 360) {
+            angle = 360;
+        }
 
         [path addArcWithCenter:maskLayerCenter radius:(maskLayerWidth/2)
-                    startAngle:degreesToRadians(0) endAngle:degreesToRadians(360) clockwise:YES];
+                    startAngle:degreesToRadians(0-90) endAngle:degreesToRadians(angle-90) clockwise:YES];
         
         [path closePath];
         maskLayer.path = path.CGPath;
